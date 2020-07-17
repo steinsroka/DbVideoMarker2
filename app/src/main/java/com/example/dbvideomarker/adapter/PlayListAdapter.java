@@ -1,0 +1,69 @@
+package com.example.dbvideomarker.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.database.entitiy.Video;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
+
+public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewHolder> {
+
+    private List<PlayList> playListList;
+    private LayoutInflater nInflater;
+
+    public PlayListAdapter(Context context) {
+        nInflater = LayoutInflater.from(context);
+    }
+
+    @NonNull
+    @Override
+    public PViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = nInflater.from(parent.getContext()).inflate(R.layout.playlist_main_item, parent, false);
+        return new PViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final PViewHolder holder, int position) {
+        if(playListList != null) {
+            PlayList current = playListList.get(position);
+            holder.pId.setText(String.valueOf(current.getPid()));
+            holder.pName.setText(current.getpName());
+        }
+    }
+
+    public void setPlayLists(List<PlayList> playList) {
+        playListList = playList;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        if(playListList != null)
+            return playListList.size();
+        else return 0;
+    }
+
+    public class PViewHolder extends RecyclerView.ViewHolder {
+        private TextView pId;
+        private TextView pName;
+
+        public PViewHolder(View view) {
+            super(view);
+
+            pId = view.findViewById(R.id.pId);
+            pName = view.findViewById(R.id.pName);
+        }
+    }
+
+}
