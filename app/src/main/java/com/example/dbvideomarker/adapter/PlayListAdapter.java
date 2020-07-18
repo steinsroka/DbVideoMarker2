@@ -5,13 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.database.entitiy.PlayList;
-import com.example.dbvideomarker.database.entitiy.Video;
 
 import org.w3c.dom.Text;
 
@@ -19,11 +21,19 @@ import java.util.List;
 
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewHolder> {
 
+    public interface OnItemClickListener {
+        void clickLongItem(int pid);
+    }
+
+    private OnItemClickListener onItemClickListener;
+
     private List<PlayList> playListList;
     private LayoutInflater nInflater;
 
-    public PlayListAdapter(Context context) {
+    public PlayListAdapter(Context context, OnItemClickListener onItemClickListener) {
         nInflater = LayoutInflater.from(context);
+        this.onItemClickListener = onItemClickListener;
+
     }
 
     @NonNull
@@ -39,6 +49,14 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
             PlayList current = playListList.get(position);
             holder.pId.setText(String.valueOf(current.getPid()));
             holder.pName.setText(current.getpName());
+            holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int pid = current.getPid();
+                    onItemClickListener.clickLongItem(pid);
+                    return false;
+                }
+            });
         }
     }
 
@@ -55,15 +73,16 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
     }
 
     public class PViewHolder extends RecyclerView.ViewHolder {
+        private View view;
         private TextView pId;
         private TextView pName;
+        private PlayList playList;
 
         public PViewHolder(View view) {
             super(view);
-
+            this.view = view;
             pId = view.findViewById(R.id.pId);
             pName = view.findViewById(R.id.pName);
         }
     }
-
 }

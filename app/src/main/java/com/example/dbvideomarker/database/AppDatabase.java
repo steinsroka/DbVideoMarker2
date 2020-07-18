@@ -2,23 +2,16 @@ package com.example.dbvideomarker.database;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.dbvideomarker.database.dao.MarkDao;
 import com.example.dbvideomarker.database.dao.PlayListDao;
 import com.example.dbvideomarker.database.dao.VideoDao;
-import com.example.dbvideomarker.database.dao.MarkDao;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Database(entities = {Video.class, PlayList.class, Mark.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

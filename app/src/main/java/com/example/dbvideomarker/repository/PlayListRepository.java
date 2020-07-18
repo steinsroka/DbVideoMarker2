@@ -49,4 +49,21 @@ public class PlayListRepository {
 //            playListDao.insertPlayList(playList);
 //        });
     }
+
+    public void deletePlayList(int pid) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer... integers) {
+                if (playListDao == null)
+                    return -1;
+                return playListDao.deletePlayList(integers[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "deletePlayList : " + integer);
+            }
+        }.execute(pid);
+    }
 }

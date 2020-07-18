@@ -1,41 +1,26 @@
 package com.example.dbvideomarker.ui.notifications;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
-import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.database.entitiy.PlayList;
-import com.example.dbvideomarker.database.entitiy.Video;
-import com.example.dbvideomarker.ui.home.HomeViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class NotificationsFragment extends Fragment {
+public class NotificationsFragment extends Fragment implements PlayListAdapter.OnItemClickListener {
 
     private NotificationsViewModel notificationsViewModel;
 
@@ -44,7 +29,7 @@ public class NotificationsFragment extends Fragment {
         Context context = rv.getContext();
 
         RecyclerView recyclerView = rv.findViewById(R.id.rv_Playlist);
-        PlayListAdapter adapter = new PlayListAdapter(context);
+        PlayListAdapter adapter = new PlayListAdapter(context, this);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         notificationsViewModel = new ViewModelProvider(getActivity()).get(NotificationsViewModel.class);
@@ -85,6 +70,12 @@ public class NotificationsFragment extends Fragment {
 
             }
         });
+
         return rv;
+    }
+
+    @Override
+    public void clickLongItem(int pid) {
+        notificationsViewModel.deletePlayList(pid);
     }
 }
