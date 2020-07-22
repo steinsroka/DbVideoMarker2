@@ -22,6 +22,8 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.database.entitiy.VideoSelect;
+
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -42,9 +44,9 @@ public class HomeFragment extends Fragment {
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        homeViewModel.getAllVideo().observe(getActivity(), new Observer<List<Video>>() {
+        homeViewModel.getAllVideo().observe(getActivity(), new Observer<List<VideoSelect>>() {
             @Override
-            public void onChanged(List<Video> videos) {
+            public void onChanged(List<VideoSelect> videos) {
                 //Update the cached copy of the words in the adapter.
                 adapter.setVideos(videos);
             }

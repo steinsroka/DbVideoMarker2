@@ -22,8 +22,8 @@ public class Video {
 //    @ColumnInfo(name = "vsize")
 //    public String vSize;
 //
-//    @ColumnInfo(name = "vmime")
-//    public String vMime;
+    @ColumnInfo(name = "vmime")
+    public String vMime;
 //
 //    @ColumnInfo(name = "vadded")
 //    public String vAdded;
@@ -31,14 +31,14 @@ public class Video {
 //    @ColumnInfo(name = "vuri")
 //    public String vUri;
 
-    public Video(int vid, String vName) {
-        //, String vPath, long vDur, String vSize, String vMime, String vAdded, String vUri
+    public Video(int vid, String vName, String vMime) {
+        //, String vPath, long vDur, String vSize, String vAdded, String vUri
         this.vid = vid;
         this.vName = vName;
 //        this.vPath = vPath;
 //        this.vDur = vDur;
 //        this.vSize = vSize;
-//        this.vMime = vMime;
+        this.vMime = vMime;
 //        this.vAdded = vAdded;
 //        this.vUri = vUri;
     }
@@ -83,13 +83,13 @@ public class Video {
 //        this.vSize = vSize;
 //    }
 //
-//    public String getvMime() {
-//        return vMime;
-//    }
-//
-//    public void setvMime(String vMime) {
-//        this.vMime = vMime;
-//    }
+    public String getvMime() {
+        return vMime;
+    }
+
+    public void setvMime(String vMime) {
+        this.vMime = vMime;
+    }
 //
 //    public String getvAdded() {
 //        return vAdded;

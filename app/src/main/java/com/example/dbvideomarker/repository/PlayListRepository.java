@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.PlayListDao;
 import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.database.entitiy.PlayListSelect;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class PlayListRepository {
     private static final String TAG = PlayListRepository.class.getSimpleName();
 
     private PlayListDao playListDao;
-    private LiveData<List<PlayList>> allPlayList;
+    private LiveData<List<PlayListSelect>> allPlayList;
 
     public PlayListRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -24,7 +25,7 @@ public class PlayListRepository {
         allPlayList = playListDao.findAllPlayList();
     }
 
-    public LiveData<List<PlayList>> getAllPlayList() {
+    public LiveData<List<PlayListSelect>> getAllPlayList() {
         return allPlayList;
     }
 

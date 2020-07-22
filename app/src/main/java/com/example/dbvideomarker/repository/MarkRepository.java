@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.MarkDao;
+import com.example.dbvideomarker.database.entitiy.BookmarkSelect;
 import com.example.dbvideomarker.database.entitiy.Mark;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class MarkRepository {
 
     private MarkDao markDao;
-    private LiveData<List<Mark>> allMark;
+    private LiveData<List<BookmarkSelect>> allMark;
 
     public MarkRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -21,7 +22,7 @@ public class MarkRepository {
         allMark = markDao.findAllMark();
     }
 
-    public LiveData<List<Mark>> getAllMark() { return allMark; }
+    public LiveData<List<BookmarkSelect>> getAllMark() { return allMark; }
 
 //    public void insertMark(Mark mark) {
 //        AppDatabase.databaseWriteExecutor.execute(() -> {

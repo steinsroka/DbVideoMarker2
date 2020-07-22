@@ -14,6 +14,9 @@ public class PlayList {
     @ColumnInfo(name = "pname")
     public String pName;
 
+    @ColumnInfo(name = "vcount")
+    public int vCount;
+
 //    public PlayList(int pid, String pName) {
 //        this.pid = pid;
 //        this.pName = pName;
@@ -33,5 +36,13 @@ public class PlayList {
 
     public void setpName(String pName) {
         this.pName = pName;
+    }
+
+    public int getvCount() {
+        return vCount;
+    }
+
+    public void setvCount(int vCount) {
+        this.vCount = vCount;
     }
 }
