@@ -23,6 +23,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
 
     public interface OnItemClickListener {
         void clickLongItem(int pid);
+
         void clickItem(int pid, String pname);
     }
 
@@ -46,7 +47,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
 
     @Override
     public void onBindViewHolder(final PViewHolder holder, int position) {
-        if(playListList != null) {
+        if (playListList != null) {
             PlayList current = playListList.get(position);
             holder.pId.setText(String.valueOf(current.getPid()));
             holder.pName.setText(current.getpName());
@@ -77,7 +78,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
 
     @Override
     public int getItemCount() {
-        if(playListList != null)
+        if (playListList != null)
             return playListList.size();
         else return 0;
     }

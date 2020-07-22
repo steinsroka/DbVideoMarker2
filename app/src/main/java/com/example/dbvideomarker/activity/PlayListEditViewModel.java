@@ -6,20 +6,33 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.repository.PlayListEditRepository;
+import com.example.dbvideomarker.repository.PlayListRepository;
+
+import java.util.List;
 
 public class PlayListEditViewModel extends AndroidViewModel {
 
     private PlayListEditRepository playListEditRepository;
-    private LiveData<List<PlayListRelation>> allPlayListRelation;
+    private PlayListRepository playListRepository;
+    private LiveData<List<PlRel>> allPlayListRelation;
+    private LiveData<List<PlayList>> allPlayList;
 
     public PlayListEditViewModel(@NonNull Application application) {
         super(application);
         playListEditRepository = new PlayListEditRepository(application);
-        allPlayListRelation = playListEditRepository.getAllPlayListRelation();
+        playListRepository = new PlayListRepository(application);
+        allPlayListRelation = playListEditRepository.getAllPlRel();
+        allPlayList = playListRepository.getAllPlayList();
     }
 
-    public LiveData<List<PlayListRelation>> getAllPlayListRelation() {
+    public LiveData<List<PlRel>> getAllPlRel() {
         return allPlayListRelation;
+    }
+
+    public void update(PlayList playList) {
+        playListRepository.update(playList);
     }
 }

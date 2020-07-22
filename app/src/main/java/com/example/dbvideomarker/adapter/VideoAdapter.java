@@ -11,14 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.database.entitiy.Video;
-import com.example.dbvideomarker.database.entitiy.VideoSelect;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VViewHolder>  {
 
-    private List<VideoSelect> videoList; //cached copy of words
+    private List<Video> videoList; //cached copy of words
     private LayoutInflater mInflater;
 
     public VideoAdapter(Context context) {
@@ -35,7 +33,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VViewHolder>
     public void onBindViewHolder(@NonNull final VViewHolder holder, int position) {
 //        holder.video = videoList.get(position);
         if(videoList != null) {
-            VideoSelect current = videoList.get(position);
+            Video current = videoList.get(position);
             holder.vId.setText(String.valueOf(current.getVid()));
         } else {
             holder.vName.setText("No Data");
@@ -59,7 +57,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VViewHolder>
 //        });
     }
 
-    public void setVideos(List<VideoSelect> videos) {
+    public void setVideos(List<Video> videos) {
         videoList = videos;
         notifyDataSetChanged();
     }

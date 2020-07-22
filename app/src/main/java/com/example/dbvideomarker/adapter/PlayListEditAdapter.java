@@ -9,9 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.database.entitiy.PlRel;
+
+import java.util.List;
 
 public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapter.PLEViewHolder> {
 
+    private List<PlRel> plRelList;
     private LayoutInflater mInflater;
 
     public PlayListEditAdapter(Context context) {
@@ -32,10 +36,15 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        if(plRelList != null)
+            return plRelList.size();
+        else return 0;
     }
 
-
+    public void setPlRels(List<PlRel> plRel) {
+        plRelList = plRel;
+        notifyDataSetChanged();
+    }
 
     public class PLEViewHolder extends RecyclerView.ViewHolder {
         public PLEViewHolder(View view) {

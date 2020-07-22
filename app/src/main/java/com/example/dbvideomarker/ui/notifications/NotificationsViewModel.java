@@ -33,4 +33,8 @@ public class NotificationsViewModel extends AndroidViewModel {
     public void deletePlayList(int pid) {
         playListRepository.deletePlayList(pid);
     }
+
+    public void update(PlayList playList) {
+        playListRepository.update(playList);
+    }
 }

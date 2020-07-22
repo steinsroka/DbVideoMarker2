@@ -88,9 +88,9 @@ public class NotificationsFragment extends Fragment implements PlayListAdapter.O
 
     @Override
     public void clickItem(int pid, String pname) {
-        String pidToString = Integer.toString(pid);
+//        String pidToString = Integer.toString(pid);
         Intent intent = new Intent(getContext(), PlayListEditActivity.class);
-        intent.putExtra("재생목록 번호", pidToString);
+        intent.putExtra("재생목록 번호", pid);
         intent.putExtra("재생목록 이름", pname);
         getContext().startActivity(intent);
     }

@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.PlayListDao;
 import com.example.dbvideomarker.database.entitiy.PlayList;
-import com.example.dbvideomarker.database.entitiy.PlayListSelect;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class PlayListRepository {
     private static final String TAG = PlayListRepository.class.getSimpleName();
 
     private PlayListDao playListDao;
-    private LiveData<List<PlayListSelect>> allPlayList;
+    private LiveData<List<PlayList>> allPlayList;
 
     public PlayListRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -25,7 +24,7 @@ public class PlayListRepository {
         allPlayList = playListDao.findAllPlayList();
     }
 
-    public LiveData<List<PlayListSelect>> getAllPlayList() {
+    public LiveData<List<PlayList>> getAllPlayList() {
         return allPlayList;
     }
 
@@ -66,5 +65,22 @@ public class PlayListRepository {
                 Log.d(TAG, "deletePlayList : " + integer);
             }
         }.execute(pid);
+    }
+
+    public void update(PlayList playList) {
+        new AsyncTask<PlayList, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(PlayList...playLists) {
+                if (playListDao == null)
+                    return -1;
+                return playListDao.update(playLists[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "update : " + integer);
+            }
+        }.execute(playList);
     }
 }
