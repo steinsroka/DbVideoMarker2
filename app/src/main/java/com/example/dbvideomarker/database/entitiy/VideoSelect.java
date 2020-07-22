@@ -1,16 +1,16 @@
 package com.example.dbvideomarker.database.entitiy;
 
 public class VideoSelect {
-    private String vMime;
+    private String vDur;
     private String vName;
     private String tName;
 
     public String getvMime() {
-        return vMime;
+        return vDur;
     }
 
     public void setvMime(String vMime) {
-        this.vMime = vMime;
+        this.vDur = vDur;
     }
 
     public String getvName() {

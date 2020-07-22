@@ -1,6 +1,7 @@
 package com.example.dbvideomarker.ui.notifications;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 
@@ -29,6 +32,10 @@ public class NotificationsFragment extends Fragment implements PlayListAdapter.O
         Context context = rv.getContext();
 
         RecyclerView recyclerView = rv.findViewById(R.id.rv_Playlist);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
         PlayListAdapter adapter = new PlayListAdapter(context, this);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
@@ -77,5 +84,14 @@ public class NotificationsFragment extends Fragment implements PlayListAdapter.O
     @Override
     public void clickLongItem(int pid) {
         notificationsViewModel.deletePlayList(pid);
+    }
+
+    @Override
+    public void clickItem(int pid, String pname) {
+        String pidToString = Integer.toString(pid);
+        Intent intent = new Intent(getContext(), PlayListEditActivity.class);
+        intent.putExtra("재생목록 번호", pidToString);
+        intent.putExtra("재생목록 이름", pname);
+        getContext().startActivity(intent);
     }
 }

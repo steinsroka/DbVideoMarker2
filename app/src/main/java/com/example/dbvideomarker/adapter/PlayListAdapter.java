@@ -23,6 +23,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
 
     public interface OnItemClickListener {
         void clickLongItem(int pid);
+        void clickItem(int pid, String pname);
     }
 
     private OnItemClickListener onItemClickListener;
@@ -57,6 +58,15 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
                     return false;
                 }
             });
+
+            holder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pid = current.getPid();
+                    String pname = current.getpName();
+                    onItemClickListener.clickItem(pid, pname);
+                }
+            });
         }
     }
 
@@ -76,7 +86,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
         private View view;
         private TextView pId;
         private TextView pName;
-        private PlayList playList;
 
         public PViewHolder(View view) {
             super(view);
