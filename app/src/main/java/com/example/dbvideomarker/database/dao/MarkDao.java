@@ -17,7 +17,7 @@ import static androidx.room.OnConflictStrategy.IGNORE;
 
 @Dao
 public interface MarkDao {
-    @Query("SELECT mMemo, mStart FROM Mark ORDER BY mmemo")
+    @Query("SELECT mid, mMemo, mStart FROM Mark ORDER BY mmemo")
     LiveData<List<BookmarkSelect>> findAllMark();
 
     @Query("SELECT * FROM Mark WHERE mid = :mid")

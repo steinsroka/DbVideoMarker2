@@ -1,15 +1,24 @@
 package com.example.dbvideomarker.database.entitiy;
 
 public class VideoSelect {
+    private int vid;
     private String vDur;
     private String vName;
     private String tName;
 
-    public String getvMime() {
+    public int getVid() {
+        return vid;
+    }
+
+    public void setVid(int vid) {
+        this.vid = vid;
+    }
+
+    public String getvDur() {
         return vDur;
     }
 
-    public void setvMime(String vMime) {
+    public void setvDur(String vDur) {
         this.vDur = vDur;
     }
 
