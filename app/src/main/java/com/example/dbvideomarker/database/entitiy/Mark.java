@@ -16,8 +16,8 @@ public class Mark {
     @ColumnInfo(name = "mMemo")
     public String mMemo;
 
-//    @ColumnInfo(name = "mStart")
-//    public String mStart;
+    @ColumnInfo(name = "mStart")
+    public String mStart;
 
 //    @ColumnInfo(name = "mEnd")
 //    public String mEnd;
@@ -34,10 +34,10 @@ public class Mark {
 //    @ColumnInfo(name = "mCount")
 //    public int mCount;
 
-    public Mark(int mid, String mMemo) {
+    public Mark(int mid, String mMemo, String mStart) {
         this.mid = mid;
         this.mMemo = mMemo;
-        //this.mStart = mStart;
+        this.mStart = mStart;
         //this.mEnd = mEnd;
         //this.mAdded = mAdded;
         //this.mRecent = mRecent;
@@ -57,9 +57,9 @@ public class Mark {
 
     public void setmMemo(String mMemo) { this.mMemo = mMemo; }
 
-//    public String getmStart() { return mStart; }
+    public String getmStart() { return mStart; }
 
-//    public void setmStart(String mStart) { this.mStart = mStart; }
+    public void setmStart(String mStart) { this.mStart = mStart; }
 
 //    public String getmEnd() { return mEnd; }
 

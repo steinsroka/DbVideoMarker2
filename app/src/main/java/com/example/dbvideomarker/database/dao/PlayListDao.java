@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.database.entitiy.PlayListSelect;
 
 import java.util.List;
 
@@ -15,8 +16,8 @@ import static androidx.room.OnConflictStrategy.IGNORE;
 @Dao
 public interface PlayListDao {
 
-    @Query("SELECT * FROM playlist ORDER BY pname")
-    LiveData<List<PlayList>> findAllPlayList();
+    @Query("SELECT pname, vcount FROM playlist ORDER BY pname")
+    LiveData<List<PlayListSelect>> findAllPlayList();
 
     @Insert
     Long insertPlayList(PlayList playList);

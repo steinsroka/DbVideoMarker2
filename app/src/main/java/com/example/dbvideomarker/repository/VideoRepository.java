@@ -7,13 +7,14 @@ import androidx.lifecycle.LiveData;
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.VideoDao;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.database.entitiy.VideoSelect;
 
 import java.util.List;
 
 public class VideoRepository {
 
     private VideoDao videoDao;
-    private LiveData<List<Video>> allVideo;
+    private LiveData<List<VideoSelect>> allVideo;
 
     public VideoRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -21,7 +22,7 @@ public class VideoRepository {
         allVideo = videoDao.findAllVideo();
     }
 
-    public LiveData<List<Video>> getAllVideo() { return allVideo; }
+    public LiveData<List<VideoSelect>> getAllVideo() { return allVideo; }
 
 //    public void insertVideo(Video video) {
 //        AppDatabase.databaseWriteExecutor.execute(() -> {
