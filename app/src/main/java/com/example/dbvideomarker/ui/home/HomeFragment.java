@@ -1,10 +1,16 @@
 package com.example.dbvideomarker.ui.home;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,8 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.MainActivity;
+import com.example.dbvideomarker.activity.PlayListEditActivity;
+import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
+import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -45,8 +56,35 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+
+        FloatingActionButton fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout linear = (LinearLayout) View.inflate(getActivity(), R.layout.dialog_add_video, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(linear);
+                builder.setTitle("임시 비디오 추가");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText videoName = (EditText) linear.findViewById(R.id.videoName);
+                        EditText videoDur = (EditText) linear.findViewById(R.id.videoDur);
+                        if (videoName.getText().toString().trim().length() != 0 && videoDur.getText().toString().trim().length() != 0 ) {
+                            Video video = new Video();
+                            video.setvName(videoName.getText().toString());
+                            video.setvDur(Long.parseLong(videoDur.getText().toString()));
+
+                            homeViewModel.insertVideo(video);
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
         return v;
     }

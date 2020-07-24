@@ -24,8 +24,12 @@ public class PlayListRepository {
         allPlayList = playListDao.findAllPlayList();
     }
 
-    public LiveData<List<PlayList>> getAllPlayList() {
+    public LiveData<List<PlayList>> findAllPlayList() {
         return allPlayList;
+    }
+
+    public LiveData<PlayList> getPlayList(int pid) {
+        return playListDao.getPlayList(pid);
     }
 
     public void insertPlayList(PlayList playList) {
@@ -43,11 +47,6 @@ public class PlayListRepository {
                 Log.d(TAG, "insert : " + aLong);
             }
         }.execute(playList);
-
-
-//        AppDatabase.databaseWriteExecutor.execute(() -> {
-//            playListDao.insertPlayList(playList);
-//        });
     }
 
     public void deletePlayList(int pid) {

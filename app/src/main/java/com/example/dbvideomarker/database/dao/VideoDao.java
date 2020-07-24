@@ -40,7 +40,7 @@ public interface VideoDao {
     Video findVideo(long vid);
 
     @Insert(onConflict = IGNORE)
-    void insertVideo(Video video);
+    Long insertVideo(Video video);
 
     @Update
     int updateVideo(Video video);

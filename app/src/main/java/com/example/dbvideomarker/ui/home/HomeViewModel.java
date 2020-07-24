@@ -27,10 +27,9 @@ public class HomeViewModel extends AndroidViewModel {
         return allVideo;
     }
 
-//    public void insertVideo(Video video) {
-//
-//        videoRepository.insertVideo(video);
-//    }
+    public void insertVideo(Video video) {
+        videoRepository.insertVideo(video);
+    }
 
 
 }

@@ -19,10 +19,10 @@ public class NotificationsViewModel extends AndroidViewModel {
     public NotificationsViewModel(@NonNull Application application) {
         super(application);
         playListRepository = new PlayListRepository(application);
-        allPlayList = playListRepository.getAllPlayList();
+        allPlayList = playListRepository.findAllPlayList();
     }
 
-    public LiveData<List<PlayList>> getAllPlayList() {
+    public LiveData<List<PlayList>> findAllPlayList() {
         return allPlayList;
     }
 

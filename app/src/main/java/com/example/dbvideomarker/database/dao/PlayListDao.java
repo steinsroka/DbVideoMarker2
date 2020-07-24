@@ -16,8 +16,8 @@ public interface PlayListDao {
     @Query("SELECT * FROM playlist ORDER BY pname")
     LiveData<List<PlayList>> findAllPlayList();
 
-//    @Query("SELECT * FROM playlist WHERE pid = :pid")
-//    LiveData<List<PlayList>> getPlayList();
+    @Query("SELECT * FROM playlist WHERE pid = :pid")
+    LiveData<PlayList> getPlayList(int pid);
 
     @Insert
     Long insertPlayList(PlayList playList);

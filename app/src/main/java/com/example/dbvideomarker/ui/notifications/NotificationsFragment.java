@@ -44,7 +44,7 @@ public class NotificationsFragment extends Fragment implements PlayListAdapter.O
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        notificationsViewModel.getAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
+        notificationsViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
             @Override
             public void onChanged(List<PlayList> playList) {
                 //Update the cached copy of the words in the adapter.
@@ -91,7 +91,7 @@ public class NotificationsFragment extends Fragment implements PlayListAdapter.O
 //        String pidToString = Integer.toString(pid);
         Intent intent = new Intent(getContext(), PlayListEditActivity.class);
         intent.putExtra("재생목록 번호", pid);
-        intent.putExtra("재생목록 이름", pname);
+//        intent.putExtra("재생목록 이름", pname);
         getContext().startActivity(intent);
     }
 }

@@ -25,7 +25,7 @@ public class PlayListEditViewModel extends AndroidViewModel {
         playListEditRepository = new PlayListEditRepository(application);
         playListRepository = new PlayListRepository(application);
         allPlayListRelation = playListEditRepository.getAllPlRel();
-        allPlayList = playListRepository.getAllPlayList();
+        allPlayList = playListRepository.findAllPlayList();
     }
 
     public LiveData<List<PlRel>> getAllPlRel() {
@@ -34,5 +34,9 @@ public class PlayListEditViewModel extends AndroidViewModel {
 
     public void update(PlayList playList) {
         playListRepository.update(playList);
+    }
+
+    public LiveData<PlayList> getPlayList(int pid) {
+        return playListRepository.getPlayList(pid);
     }
 }

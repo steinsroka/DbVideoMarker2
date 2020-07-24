@@ -42,20 +42,30 @@ public class PlayListEditActivity extends AppCompatActivity {
 
         int pid = intent.getIntExtra("재생목록 번호", -1);
 //        int pid = Integer.parseInt(pidToString);
-        String pname = intent.getStringExtra("재생목록 이름");
+//        String pname = intent.getStringExtra("재생목록 이름");
 
         TextView playListName = (TextView) findViewById(R.id.playListName);
         TextView playListId = (TextView) findViewById(R.id.playListId);
         TextView playListCount = (TextView) findViewById(R.id.playListCount);
 
-        playListName.setText(pname);
+        // Get a new or existing ViewModel from the ViewModelProvider.
+        playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
+
+        playListEditViewModel.getPlayList(pid).observe(this, new Observer<PlayList>() {
+            @Override
+            public void onChanged(PlayList playList) {
+                String pname = playList.getpName();
+                playListName.setText(pname);
+            }
+        });
+
+
         playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함
 
         RecyclerView recyclerView = findViewById(R.id.rv_PlaylistEdit);
         PlayListEditAdapter adapter = new PlayListEditAdapter(this);
 
-        // Get a new or existing ViewModel from the ViewModelProvider.
-        playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
+
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
@@ -94,9 +104,9 @@ public class PlayListEditActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (et.getText().toString().trim().length() != 0) {
-                            String name = et.getText().toString().trim();
                             PlayList playList = new PlayList();
-                            playList.setpName(name);
+                            playList.setpName(et.getText().toString());
+                            playList.setPid(pid);
 
                             playListEditViewModel.update(playList);
                         }
