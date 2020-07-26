@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.List;
 
@@ -31,7 +33,12 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PLEViewHolder holder, int position) {
-
+        if(plRelList != null) {
+            PlRel current = plRelList.get(position);
+            holder.plid.setText(String.valueOf(current.getPlid()));
+            holder.pid.setText(String.valueOf(current.getPid()));
+            holder.vid.setText(String.valueOf(current.getVid()));
+        }
     }
 
     @Override
@@ -47,8 +54,18 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
     }
 
     public class PLEViewHolder extends RecyclerView.ViewHolder {
+        private View view;
+        private TextView plid;
+        private TextView pid;
+        private TextView vid;
+
         public PLEViewHolder(View view) {
             super(view);
+            this.view = view;
+            plid = view.findViewById(R.id.plrel_plid);
+            pid = view.findViewById(R.id.plrel_pid);
+            vid = view.findViewById(R.id.plrel_vid);
         }
+
     }
 }

@@ -17,11 +17,11 @@ import static androidx.room.OnConflictStrategy.IGNORE;
 @Dao
 public interface PlRelDao {
 
-    @Query("SELECT * FROM plRel ORDER BY plid")
+    @Query("SELECT * FROM plRel ORDER BY plrel_id")
     LiveData<List<PlRel>> findAllPlayListRelation();
 
-    @Insert(onConflict = IGNORE)
-    void insertPlRel(PlRel plRel);
+    @Insert
+    long insertPlRel(PlRel plRel);
 
     @Update
     int updatePlRel(PlRel plRel);

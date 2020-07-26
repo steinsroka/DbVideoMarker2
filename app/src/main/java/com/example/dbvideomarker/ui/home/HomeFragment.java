@@ -24,13 +24,15 @@ import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
+import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.adapter.util.VideoCase;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
     private HomeViewModel homeViewModel;
 
@@ -40,7 +42,7 @@ public class HomeFragment extends Fragment {
         Context context = v.getContext();
 
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
-        VideoAdapter adapter = new VideoAdapter(context);
+        VideoAdapter adapter = new VideoAdapter(context, VideoCase.NORMAL, this);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
@@ -83,5 +85,10 @@ public class HomeFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onItemSelected(View v, int vid) {
+        //Do Nothing
     }
 }

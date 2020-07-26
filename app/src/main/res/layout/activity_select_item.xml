@@ -5,20 +5,14 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/plrel_plid"
+        android:id="@+id/selectedVname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="textView" />
 
     <TextView
-        android:id="@+id/plrel_pid"
+        android:id="@+id/selectedVid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/plrel_vid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="textView" />
 </LinearLayout>

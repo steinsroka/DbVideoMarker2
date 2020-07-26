@@ -19,11 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
+import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 
 import java.util.List;
 
-public class NotificationsFragment extends Fragment implements PlayListAdapter.OnItemClickListener {
+public class NotificationsFragment extends Fragment implements OnItemClickListener {
 
     private NotificationsViewModel notificationsViewModel;
 

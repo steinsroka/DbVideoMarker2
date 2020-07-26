@@ -1,61 +1,91 @@
 package com.example.dbvideomarker.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
+import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.adapter.util.MyVideoView;
+import com.example.dbvideomarker.adapter.util.VideoCase;
+import com.example.dbvideomarker.adapter.viewholder.ViewHolderNormal;
+import com.example.dbvideomarker.adapter.viewholder.ViewHolderSelect;
 import com.example.dbvideomarker.database.entitiy.Video;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VViewHolder>  {
+public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
 
     private List<Video> videoList; //cached copy of words
     private LayoutInflater mInflater;
+    private VideoCase sel_type;
+    private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
+    private OnItemSelectedListener onItemSelectedListener;
 
-    public VideoAdapter(Context context) {
+    public VideoAdapter(Context context, VideoCase sel_type, OnItemSelectedListener onItemSelectedListener) {
         mInflater = LayoutInflater.from(context);
+        this.sel_type = sel_type;
+        this.onItemSelectedListener = onItemSelectedListener;
     }
 
     @Override
-    public VViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.from(parent.getContext()).inflate(R.layout.home_main_item, parent, false);
-        return new VViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull final VViewHolder holder, int position) {
-//        holder.video = videoList.get(position);
-        if(videoList != null) {
-            Video current = videoList.get(position);
-            holder.vId.setText(String.valueOf(current.getVid()));
-            holder.vName.setText(current.getvName());
-        } else {
-            holder.vName.setText("No Data");
+    public MyVideoView onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(sel_type == VideoCase.NORMAL) {
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.home_main_item, parent, false);
+            return new ViewHolderNormal(view);
+        } else if (sel_type == VideoCase.SELECT){
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.activity_select_item, parent, false);
+            return new ViewHolderSelect(view);
         }
-//        holder.vTag.setText(videoList.get(position).vName);
-//        holder.vDur.setText((int) videoList.get(position).vDur);
+        return null;
+    }
 
-//        holder.view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                onItemClickListener.clickItem(holder.video);
-//            }
-//        });
-//
-//        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//                onItemClickListener.clickLongItem(holder.video);
-//                return false;
-//            }
-//        });
+
+    @Override
+    public void onBindViewHolder(@NonNull final MyVideoView holder, int position) {
+        if(holder instanceof ViewHolderNormal){
+            ViewHolderNormal viewHolderNormal = (ViewHolderNormal)holder;
+            if(videoList != null) {
+                Video current = videoList.get(position);
+                viewHolderNormal.vId.setText(String.valueOf(current.getVid()));
+                viewHolderNormal.vName.setText(current.getvName());
+            } else {
+                viewHolderNormal.vName.setText("No Data");
+            }
+        } else if(holder instanceof ViewHolderSelect) {
+            //선택모드
+            ViewHolderSelect viewHolderSelect = (ViewHolderSelect)holder;
+            if(videoList != null) {
+                Video current = videoList.get(position);
+                viewHolderSelect.selectedVid.setText(String.valueOf(current.getVid()));
+                viewHolderSelect.selectedVname.setText(current.getvName());
+
+                if(mSelectedItems.get(position, false)){
+                    viewHolderSelect.view.setBackgroundColor(Color.GRAY);
+                } else {
+                    viewHolderSelect.view.setBackgroundColor(Color.WHITE);
+                }
+                viewHolderSelect.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onItemSelectedListener.onItemSelected(view, current.getVid());
+                        Log.d("test", "position = " + position + "/vid = " + current.getVid());
+                        toggleItemSelected(position);
+                    }
+                });
+            }
+        }
     }
 
     public void setVideos(List<Video> videos) {
@@ -70,19 +100,30 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VViewHolder>
         else return 0;
     }
 
-    public class VViewHolder extends RecyclerView.ViewHolder {
-        private TextView vId;
-        private TextView vName;
-//        private TextView vTag;
-//        private TextView vDur;
+    private void toggleItemSelected(int position) {
 
-        public VViewHolder(View view) {
-            super(view);
-            vId  = view.findViewById(R.id.vId);
-            vName = view.findViewById(R.id.vName);
-//            vTag = view.findViewById(R.id.vTag);
-//            vDur = view.findViewById(R.id.vDur);
+        if (mSelectedItems.get(position, false) == true) {
+            mSelectedItems.delete(position);
+            notifyItemChanged(position);
+        } else {
+            mSelectedItems.put(position, true);
+            notifyItemChanged(position);
         }
     }
 
+    private boolean isItemSelected(int position) {
+        return mSelectedItems.get(position, false);
+    }
+
+    public void clearSelectedItem() {
+        int position;
+
+        for (int i = 0; i < mSelectedItems.size(); i++) {
+            position = mSelectedItems.keyAt(i);
+            mSelectedItems.put(position, false);
+            notifyItemChanged(position);
+        }
+
+        mSelectedItems.clear();
+    }
 }

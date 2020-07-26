@@ -32,6 +32,10 @@ public class PlayListEditViewModel extends AndroidViewModel {
         return allPlayListRelation;
     }
 
+    public void insertPlRelation(PlRel plRel) {
+        playListEditRepository.insertPlRelation(plRel);
+    }
+
     public void update(PlayList playList) {
         playListRepository.update(playList);
     }

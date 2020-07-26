@@ -25,6 +25,7 @@ import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.ui.notifications.NotificationsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayListEditActivity extends AppCompatActivity {
@@ -32,6 +33,7 @@ public class PlayListEditActivity extends AppCompatActivity {
     private PlayListEditViewModel playListEditViewModel;
     TextView PlayListName, PlayListId;
     public int SELECT_REQUEST_CODE = 1001;
+    private int pid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class PlayListEditActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        int pid = intent.getIntExtra("재생목록 번호", -1);
+        pid = intent.getIntExtra("재생목록 번호", -1);
 //        int pid = Integer.parseInt(pidToString);
 //        String pname = intent.getStringExtra("재생목록 이름");
 
@@ -86,6 +88,7 @@ public class PlayListEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(PlayListEditActivity.this, SelectActivity.class);
+                intent1.putExtra("추가할 재생목록 번호", pid);
                 startActivityForResult(intent1, SELECT_REQUEST_CODE);
             }
         });
@@ -116,5 +119,20 @@ public class PlayListEditActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == SELECT_REQUEST_CODE && resultCode == RESULT_OK) {
+            ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
+            PlRel plRel = new PlRel();
+            for(int i=0; i<selectedVidList.size(); i++) {
+                plRel.setPid(pid);
+                plRel.setVid(selectedVidList.get(i));
+                playListEditViewModel.insertPlRelation(plRel);
+            }
+        }
     }
 }

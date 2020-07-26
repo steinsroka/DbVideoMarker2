@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 
 import org.w3c.dom.Text;
@@ -20,12 +21,6 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewHolder> {
-
-    public interface OnItemClickListener {
-        void clickLongItem(int pid);
-
-        void clickItem(int pid, String pname);
-    }
 
     private OnItemClickListener onItemClickListener;
 
