@@ -35,6 +35,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VViewHolder>
         if(videoList != null) {
             Video current = videoList.get(position);
             holder.vId.setText(String.valueOf(current.getVid()));
+            holder.vName.setText(current.getvName());
         } else {
             holder.vName.setText("No Data");
         }

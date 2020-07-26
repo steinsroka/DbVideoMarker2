@@ -90,7 +90,7 @@ public class PlayListEditActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: intent가 아니라 pid로 값을 찾아오기
+
         // Repository 는 테이블당 하나 뷰모델은 여러개의 repository 갖고있어도괜찮음
         Button editPlayListName = (Button) findViewById(R.id.btn_EditPlayListName);
         editPlayListName.setOnClickListener(new View.OnClickListener() {

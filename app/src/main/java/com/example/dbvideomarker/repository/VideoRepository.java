@@ -40,9 +40,7 @@ public class VideoRepository {
             @Override
             protected void onPostExecute(Long aLong) {
                 super.onPostExecute(aLong);
-                Video video1 = new Video();
-                String name = video1.getvName();
-                Log.d(TAG, "insert : " + aLong + "|||||" + name);
+                Log.d(TAG, "insert : " + aLong);
             }
         }.execute(video);
     }

@@ -16,8 +16,8 @@ public class Video {
 //    @ColumnInfo(name = "vpath")
 //    public String vPath;
 //
-    @ColumnInfo(name = "vdur")
-    public long vDur;
+//    @ColumnInfo(name = "vdur")
+//    public long vDur;
 //
 //    @ColumnInfo(name = "vsize")
 //    public String vSize;
@@ -71,13 +71,13 @@ public class Video {
 //        this.vPath = vPath;
 //    }
 //
-    public long getvDur() {
-        return vDur;
-    }
-
-    public void setvDur(long vDur) {
-        this.vDur = vDur;
-    }
+//    public long getvDur() {
+//        return vDur;
+//    }
+//
+//    public void setvDur(long vDur) {
+//        this.vDur = vDur;
+//    }
 //
 //    public String getvSize() {
 //        return vSize;

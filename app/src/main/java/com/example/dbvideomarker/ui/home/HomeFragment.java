@@ -63,20 +63,16 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LinearLayout linear = (LinearLayout) View.inflate(getActivity(), R.layout.dialog_add_video, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(linear);
+                EditText videoName = new EditText(context);
+                builder.setView(videoName);
                 builder.setTitle("임시 비디오 추가");
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        EditText videoName = (EditText) linear.findViewById(R.id.videoName);
-                        EditText videoDur = (EditText) linear.findViewById(R.id.videoDur);
-                        if (videoName.getText().toString().trim().length() != 0 && videoDur.getText().toString().trim().length() != 0 ) {
+                        if (videoName.getText().toString().trim().length() != 0) {
                             Video video = new Video();
                             video.setvName(videoName.getText().toString());
-                            video.setvDur(Long.parseLong(videoDur.getText().toString()));
-
                             homeViewModel.insertVideo(video);
                         }
                     }
