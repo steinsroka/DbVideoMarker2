@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.MainActivity;
+import com.example.dbvideomarker.activity.MarkEditActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
@@ -32,7 +33,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnItemSelectedListener {
+public class HomeFragment extends Fragment implements OnItemSelectedListener, VideoAdapter.OnItemClickListener {
 
     private HomeViewModel homeViewModel;
 
@@ -42,7 +43,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
         Context context = v.getContext();
 
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
-        VideoAdapter adapter = new VideoAdapter(context, VideoCase.NORMAL, this);
+        VideoAdapter adapter = new VideoAdapter(context, VideoCase.NORMAL, this, this);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
@@ -90,5 +91,12 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
     @Override
     public void onItemSelected(View v, int vid) {
         //Do Nothing
+    }
+
+    @Override
+    public void clickItem(int vid) {
+        Intent intent = new Intent(getContext(), MarkEditActivity.class);
+        intent.putExtra("동영상 번호", vid);
+        getContext().startActivity(intent);
     }
 }

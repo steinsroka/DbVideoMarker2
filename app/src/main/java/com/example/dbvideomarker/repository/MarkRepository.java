@@ -1,6 +1,8 @@
 package com.example.dbvideomarker.repository;
 
 import android.app.Application;
+import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -23,9 +25,20 @@ public class MarkRepository {
 
     public LiveData<List<Mark>> getAllMark() { return allMark; }
 
-//    public void insertMark(Mark mark) {
-//        AppDatabase.databaseWriteExecutor.execute(() -> {
-//            markDao.insertMark(mark);
-//        });
-//    }
+    public void insertMark(Mark mark) {
+        new AsyncTask<Mark, Void, Long>() {
+            @Override
+            protected Long doInBackground(Mark... marks) {
+                if (markDao == null)
+                    return -1L;
+                return markDao.insertMark(marks[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Long aLong) {
+                super.onPostExecute(aLong);
+                Log.d(MarkRepository.class.getSimpleName(), "insert : " + aLong);
+            }
+        }.execute(mark);
+    }
 }

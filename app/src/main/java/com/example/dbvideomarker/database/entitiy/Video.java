@@ -44,7 +44,6 @@ public class Video {
 //    }
 
     public Video() {
-
     }
 
     public int getVid() {

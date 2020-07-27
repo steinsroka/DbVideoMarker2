@@ -34,17 +34,6 @@ public class Mark {
 //    @ColumnInfo(name = "mCount")
 //    public int mCount;
 
-    public Mark(int mid, String mMemo, String mStart) {
-        this.mid = mid;
-        this.mMemo = mMemo;
-        this.mStart = mStart;
-        //this.mEnd = mEnd;
-        //this.mAdded = mAdded;
-        //this.mRecent = mRecent;
-        //this.mBookMark = mBookMark;
-        //this.mCount = 0;
-    }
-
     public int getmid() { return mid; }
 
     public void setmid(int mid) { this.mid = mid; }

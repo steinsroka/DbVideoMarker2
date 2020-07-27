@@ -27,16 +27,22 @@ import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
 
+    public interface OnItemClickListener {
+        void clickItem(int vid);
+    }
+
     private List<Video> videoList; //cached copy of words
     private LayoutInflater mInflater;
     private VideoCase sel_type;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
     private OnItemSelectedListener onItemSelectedListener;
+    private OnItemClickListener onItemClickListener;
 
-    public VideoAdapter(Context context, VideoCase sel_type, OnItemSelectedListener onItemSelectedListener) {
+    public VideoAdapter(Context context, VideoCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
         mInflater = LayoutInflater.from(context);
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -60,6 +66,13 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
                 Video current = videoList.get(position);
                 viewHolderNormal.vId.setText(String.valueOf(current.getVid()));
                 viewHolderNormal.vName.setText(current.getvName());
+                viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int vid = current.getVid();
+                        onItemClickListener.clickItem(vid);
+                    }
+                });
             } else {
                 viewHolderNormal.vName.setText("No Data");
             }

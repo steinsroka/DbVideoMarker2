@@ -21,8 +21,8 @@ public interface MarkDao {
     @Query("SELECT * FROM Mark WHERE mid = :mid")
     Mark findMark(int mid);
 
-    @Insert(onConflict = IGNORE)
-    void insertMark(Mark mark);
+    @Insert
+    long insertMark(Mark mark);
 
     @Update
     int updateMark(Mark mark);

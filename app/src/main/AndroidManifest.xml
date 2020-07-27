@@ -21,6 +21,7 @@
 
         <activity android:name=".activity.PlayListEditActivity"/>
         <activity android:name=".activity.SelectActivity"/>
+        <activity android:name=".activity.MarkEditActivity"/>
 
     </application>
 

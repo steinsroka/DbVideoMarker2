@@ -5,12 +5,8 @@ package com.example.dbvideomarker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,20 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.VideoAdapter;
-import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.VideoCase;
-import com.example.dbvideomarker.database.entitiy.PlRel;
-import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.ui.home.HomeViewModel;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener {
+public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, VideoAdapter.OnItemClickListener{
 
     private HomeViewModel homeViewModel;
     private Button btnSelection;
@@ -53,7 +44,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         //add_pid.setText(""+pid);
 
         RecyclerView recyclerView = findViewById(R.id.rv_select);
-        VideoAdapter adapter = new VideoAdapter(this, VideoCase.SELECT, this);
+        VideoAdapter adapter = new VideoAdapter(this, VideoCase.SELECT, this, this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -90,5 +81,10 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 finish();
             }
         });
+    }
+
+    @Override
+    public void clickItem(int vid) {
+        //Do Nothing
     }
 }
