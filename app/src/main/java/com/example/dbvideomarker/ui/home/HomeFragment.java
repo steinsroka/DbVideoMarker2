@@ -5,16 +5,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -84,9 +90,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-        });
-
-        return v;
+        });return v;
     }
 
     @Override
@@ -96,7 +100,44 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
     @Override
     public void clickLongItem(int id) {
-        homeViewModel.deleteVideo(id);
+        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenuOverlapAnchor);
+        PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, getView());
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        Menu menu = popupMenu.getMenu();
+        inflater.inflate(R.menu.menu_popup, menu);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.popup_edit:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        EditText et = new EditText(getActivity());
+                        builder.setView(et);
+                        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (et.getText().toString().trim().length() != 0) {
+                                    Video video = new Video();
+                                    video.setvName(et.getText().toString());
+                                    video.setVid(id);
+
+                                    homeViewModel.updateVideo(video);
+                                }
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        break;
+                    case(R.id.popup_delete):
+                        homeViewModel.deleteVideo(id);
+                        break;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+
     }
 
     @Override

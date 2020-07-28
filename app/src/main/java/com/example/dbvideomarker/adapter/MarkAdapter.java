@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 
 import java.util.ArrayList;
@@ -17,10 +18,15 @@ import java.util.List;
 
 public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.MViewHolder> {
 
+    private OnItemClickListener onItemClickListener;
+
     private List<Mark> markList;
     private LayoutInflater mInflater;
 
-    public MarkAdapter(Context context) { mInflater = LayoutInflater.from(context); }
+    public MarkAdapter(Context context, OnItemClickListener onItemClickListener) {
+        mInflater = LayoutInflater.from(context);
+        this.onItemClickListener = onItemClickListener;
+    }
 
     @NonNull
     @Override
@@ -35,6 +41,21 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.MViewHolder> {
             Mark current = markList.get(position);
             holder.mid.setText(String.valueOf(current.getmid()));
             holder.mMemo.setText(current.getmMemo());
+            holder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int mid = current.getmid();
+                    onItemClickListener.clickItem(mid);
+                }
+            });
+            holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int mid = current.getmid();
+                    onItemClickListener.clickLongItem(mid);
+                    return false;
+                }
+            });
         } else {
             holder.mid.setText("No idData");
             holder.mMemo.setText("No Data");
@@ -54,11 +75,13 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.MViewHolder> {
     }
 
     public class MViewHolder extends RecyclerView.ViewHolder {
+        private View view;
         private TextView mid;
         private TextView mMemo;
 
         public MViewHolder(View view) {
             super(view);
+            this.view = view;
             mid = view.findViewById(R.id.mid);
             mMemo = view.findViewById(R.id.mMemo);
         }

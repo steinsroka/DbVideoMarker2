@@ -27,6 +27,6 @@ public interface MarkDao {
     @Update
     int updateMark(Mark mark);
 
-    @Delete
-    void deleteMark(Mark mark);
+    @Query("DELETE FROM Mark WHERE mid = :mid")
+    int deleteMark(int mid);
 }

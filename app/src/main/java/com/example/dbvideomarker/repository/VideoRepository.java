@@ -15,7 +15,7 @@ import java.util.List;
 
 public class VideoRepository {
 
-    private static final String TAG = VideoRepository.class.getSimpleName();
+    private String TAG = VideoRepository.class.getSimpleName();
 
     private VideoDao videoDao;
     private LiveData<List<Video>> allVideo;
@@ -60,5 +60,22 @@ public class VideoRepository {
                 Log.d(TAG, "deleteVideo : " + integer);
             }
         }.execute(id);
+    }
+
+    public void updateVideo(Video video) {
+        new AsyncTask<Video, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Video...videos) {
+                if (videoDao == null)
+                    return -1;
+                return videoDao.updateVideo(videos[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "update : " + integer);
+            }
+        }.execute(video);
     }
 }

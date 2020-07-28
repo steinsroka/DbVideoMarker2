@@ -28,7 +28,7 @@ public class DashboardViewModel extends AndroidViewModel {
         return allMark;
     }
 
-//    public void insertMark(Mark mark) {
-//        markRepository.insertMark(mark);
-//    }
+    public void deleteMark(int id) {
+        markRepository.deleteMark(id);
+    }
 }

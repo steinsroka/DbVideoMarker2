@@ -14,6 +14,8 @@ import java.util.List;
 
 public class MarkRepository {
 
+    private String TAG = MarkRepository.class.getSimpleName();
+
     private MarkDao markDao;
     private LiveData<List<Mark>> allMark;
 
@@ -40,5 +42,22 @@ public class MarkRepository {
                 Log.d(MarkRepository.class.getSimpleName(), "insert : " + aLong);
             }
         }.execute(mark);
+    }
+
+    public void deleteMark(int id) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer... integers) {
+                if(markDao == null)
+                    return -1;
+                return markDao.deleteMark(integers[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "deleteVideo : " + integer);
+            }
+        }.execute(id);
     }
 }

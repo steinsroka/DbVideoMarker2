@@ -92,33 +92,6 @@ public class PlayListEditActivity extends AppCompatActivity {
                 startActivityForResult(intent1, SELECT_REQUEST_CODE);
             }
         });
-
-
-        // Repository 는 테이블당 하나 뷰모델은 여러개의 repository 갖고있어도괜찮음
-        Button editPlayListName = (Button) findViewById(R.id.btn_EditPlayListName);
-        editPlayListName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PlayListEditActivity.this);
-                EditText et = new EditText(PlayListEditActivity.this);
-                builder.setView(et);
-                builder.setTitle("재생목록 제목 수정");
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (et.getText().toString().trim().length() != 0) {
-                            PlayList playList = new PlayList();
-                            playList.setpName(et.getText().toString());
-                            playList.setPid(pid);
-
-                            playListEditViewModel.update(playList);
-                        }
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
     }
 
     @Override
