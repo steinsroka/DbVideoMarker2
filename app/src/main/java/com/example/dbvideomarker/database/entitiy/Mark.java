@@ -10,8 +10,8 @@ public class Mark {
     @PrimaryKey(autoGenerate = true)
     public int mid;
 
-//    @ColumnInfo(name = "vid")
-//    public int vid;
+    @ColumnInfo(name = "vid")
+    public int vid;
 
     @ColumnInfo(name = "mMemo")
     public String mMemo;
@@ -38,9 +38,9 @@ public class Mark {
 
     public void setmid(int mid) { this.mid = mid; }
 
-//    public int getvid() { return vid; }
+    public int getvid() { return vid; }
 
-//    public void setvid(int vid) { this.vid = vid; }
+    public void setvid(int vid) { this.vid = vid; }
 
     public String getmMemo() { return mMemo; }
 

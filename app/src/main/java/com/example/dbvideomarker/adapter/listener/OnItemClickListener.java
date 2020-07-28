@@ -1,8 +1,9 @@
 package com.example.dbvideomarker.adapter.listener;
 
 public interface OnItemClickListener {
-    void clickLongItem(int pid);
+    void clickLongItem(int id);
 
-    void clickItem(int pid, String pname);
+    void clickItem(int id);
+
 }
 

@@ -45,8 +45,8 @@ public interface VideoDao {
     @Update
     int updateVideo(Video video);
 
-    @Delete
-    void deleteVideo(Video video);
+    @Query("DELETE FROM video WHERE vid = :id")
+    int deleteVideo(int id);
 
 
 }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.VideoAdapter;
+import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.VideoCase;
 import com.example.dbvideomarker.database.entitiy.Video;
@@ -26,7 +27,7 @@ import com.example.dbvideomarker.ui.home.HomeViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, VideoAdapter.OnItemClickListener{
+public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener {
 
     private HomeViewModel homeViewModel;
     private Button btnSelection;
@@ -81,6 +82,11 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 finish();
             }
         });
+    }
+
+    @Override
+    public void clickLongItem(int id) {
+        //Do Nothing
     }
 
     @Override

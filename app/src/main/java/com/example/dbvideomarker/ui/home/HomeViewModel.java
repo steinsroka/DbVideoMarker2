@@ -31,5 +31,8 @@ public class HomeViewModel extends AndroidViewModel {
         videoRepository.insertVideo(video);
     }
 
+    public void deleteVideo(int id) {
+        videoRepository.deleteVideo(id);
+    }
 
 }

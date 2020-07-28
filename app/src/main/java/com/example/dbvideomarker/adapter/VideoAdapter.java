@@ -27,10 +27,6 @@ import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
 
-    public interface OnItemClickListener {
-        void clickItem(int vid);
-    }
-
     private List<Video> videoList; //cached copy of words
     private LayoutInflater mInflater;
     private VideoCase sel_type;
@@ -69,8 +65,16 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
                 viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int vid = current.getVid();
-                        onItemClickListener.clickItem(vid);
+                        int id = current.getVid();
+                        onItemClickListener.clickItem(id);
+                    }
+                });
+                viewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        int id = current.getVid();
+                        onItemClickListener.clickLongItem(id);
+                        return false;
                     }
                 });
             } else {

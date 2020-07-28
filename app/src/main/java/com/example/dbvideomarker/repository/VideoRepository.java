@@ -44,4 +44,21 @@ public class VideoRepository {
             }
         }.execute(video);
     }
+
+    public void deleteVideo(int id) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer... integers) {
+                if(videoDao == null)
+                    return -1;
+                return videoDao.deleteVideo(integers[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "deleteVideo : " + integer);
+            }
+        }.execute(id);
+    }
 }

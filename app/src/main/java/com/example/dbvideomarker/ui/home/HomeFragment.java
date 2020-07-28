@@ -25,6 +25,7 @@ import com.example.dbvideomarker.activity.MarkEditActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
+import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.VideoCase;
 import com.example.dbvideomarker.database.entitiy.PlayList;
@@ -33,7 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnItemSelectedListener, VideoAdapter.OnItemClickListener {
+public class HomeFragment extends Fragment implements OnItemSelectedListener, OnItemClickListener {
 
     private HomeViewModel homeViewModel;
 
@@ -94,9 +95,14 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, Vi
     }
 
     @Override
-    public void clickItem(int vid) {
+    public void clickLongItem(int id) {
+        homeViewModel.deleteVideo(id);
+    }
+
+    @Override
+    public void clickItem(int id) {
         Intent intent = new Intent(getContext(), MarkEditActivity.class);
-        intent.putExtra("동영상 번호", vid);
+        intent.putExtra("동영상 번호", id);
         getContext().startActivity(intent);
     }
 }

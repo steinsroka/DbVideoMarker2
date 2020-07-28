@@ -41,7 +41,7 @@ public class MarkEditActivity extends AppCompatActivity {
                     Mark mark = new Mark();
                     mark.setmMemo(memo);
                     mark.setmStart(start);
-
+                    mark.setvid(vid);
                     markRepository.insertMark(mark);
                     finish();
                 }

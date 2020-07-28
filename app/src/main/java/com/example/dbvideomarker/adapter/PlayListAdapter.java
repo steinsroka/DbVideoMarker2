@@ -60,7 +60,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
                 public void onClick(View view) {
                     int pid = current.getPid();
                     String pname = current.getpName();
-                    onItemClickListener.clickItem(pid, pname);
+                    onItemClickListener.clickItem(pid);
                 }
             });
         }
