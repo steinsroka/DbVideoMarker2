@@ -45,8 +45,6 @@ public class PlayListEditViewModel extends AndroidViewModel {
         playListRepository.update(playList);
     }
 
-
-
     public void deletePlRel(int vid) {
         playListEditRepository.deletePlRel(vid);
     }

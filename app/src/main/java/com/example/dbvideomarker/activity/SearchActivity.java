@@ -30,6 +30,7 @@ import com.example.dbvideomarker.adapter.util.VideoCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.Video;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener {
@@ -92,19 +93,18 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
         });
     }
 
-
     @Override
-    public void onItemSelected(View v, int vid) {
-        //Do Nothing
-    }
-
-    @Override
-    public void clickLongItem(int id) {
+    public void clickLongItem(View v, int id) {
 
     }
 
     @Override
     public void clickItem(int id) {
+
+    }
+
+    @Override
+    public void onItemSelected(View v, ArrayList<Integer> List) {
 
     }
 }
