@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 
@@ -25,7 +26,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.MarkEditActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
+import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
@@ -85,6 +88,15 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
                     notificationsViewModel.insertPlayList(playList);
                 }
 
+            }
+        });
+
+        Button buttonSearch = rv.findViewById(R.id.btn_Search);
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentSearch = new Intent(getContext(), SearchActivity.class);
+                getContext().startActivity(intentSearch);
             }
         });
 

@@ -8,12 +8,12 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.MyVideoView;
 
-public class ViewHolderSelect extends MyVideoView {
+public class VideoViewHolderSelect extends MyVideoView {
     public View view;
     public TextView selectedVid;
     public TextView selectedVname;
 
-    public ViewHolderSelect(View view) {
+    public VideoViewHolderSelect(View view) {
         super(view);
         this.view = view;
         selectedVid = view.findViewById(R.id.selectedVid);

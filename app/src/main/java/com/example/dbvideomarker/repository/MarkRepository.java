@@ -27,6 +27,10 @@ public class MarkRepository {
 
     public LiveData<List<Mark>> getAllMark() { return allMark; }
 
+    public LiveData<List<Mark>> getSearchMark(String mMemo) {
+        return markDao.searchMark(mMemo);
+    }
+
     public void insertMark(Mark mark) {
         new AsyncTask<Mark, Void, Long>() {
             @Override

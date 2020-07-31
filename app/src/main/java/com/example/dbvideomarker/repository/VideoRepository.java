@@ -28,6 +28,10 @@ public class VideoRepository {
 
     public LiveData<List<Video>> getAllVideo() { return allVideo; }
 
+    public LiveData<List<Video>> getSearchVideo(String vName) {
+        return videoDao.searchVideo(vName);
+    }
+
     public void insertVideo(Video video) {
         new AsyncTask<Video, Void, Long>() {
             @Override
