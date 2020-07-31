@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.util.MyVideoView;
 
-public class ViewHolderNormal extends MyVideoView {
+public class VideoViewHolderNormal extends MyVideoView {
     public View view;
     public TextView vId;
     public TextView vName;
 
-    public ViewHolderNormal(View view) {
+    public VideoViewHolderNormal(View view) {
         super(view);
         this.view = view;
         vId = view.findViewById(R.id.vId);

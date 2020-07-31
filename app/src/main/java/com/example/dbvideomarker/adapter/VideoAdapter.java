@@ -7,8 +7,6 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,11 +16,10 @@ import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.MyVideoView;
 import com.example.dbvideomarker.adapter.util.VideoCase;
-import com.example.dbvideomarker.adapter.viewholder.ViewHolderNormal;
-import com.example.dbvideomarker.adapter.viewholder.ViewHolderSelect;
+import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderNormal;
+import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderSelect;
 import com.example.dbvideomarker.database.entitiy.Video;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
@@ -45,10 +42,10 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
     public MyVideoView onCreateViewHolder(ViewGroup parent, int viewType) {
         if(sel_type == VideoCase.NORMAL) {
             View view = mInflater.from(parent.getContext()).inflate(R.layout.home_main_item, parent, false);
-            return new ViewHolderNormal(view);
+            return new VideoViewHolderNormal(view);
         } else if (sel_type == VideoCase.SELECT){
             View view = mInflater.from(parent.getContext()).inflate(R.layout.activity_select_item, parent, false);
-            return new ViewHolderSelect(view);
+            return new VideoViewHolderSelect(view);
         }
         return null;
     }
@@ -56,20 +53,20 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyVideoView holder, int position) {
-        if(holder instanceof ViewHolderNormal){
-            ViewHolderNormal viewHolderNormal = (ViewHolderNormal)holder;
+        if(holder instanceof VideoViewHolderNormal){
+            VideoViewHolderNormal videoViewHolderNormal = (VideoViewHolderNormal)holder;
             if(videoList != null) {
                 Video current = videoList.get(position);
-                viewHolderNormal.vId.setText(String.valueOf(current.getVid()));
-                viewHolderNormal.vName.setText(current.getvName());
-                viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
+                videoViewHolderNormal.vId.setText(String.valueOf(current.getVid()));
+                videoViewHolderNormal.vName.setText(current.getvName());
+                videoViewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int id = current.getVid();
                         onItemClickListener.clickItem(id);
                     }
                 });
-                viewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
+                videoViewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
                         int id = current.getVid();
@@ -78,22 +75,22 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
                     }
                 });
             } else {
-                viewHolderNormal.vName.setText("No Data");
+                videoViewHolderNormal.vName.setText("No Data");
             }
-        } else if(holder instanceof ViewHolderSelect) {
+        } else if(holder instanceof VideoViewHolderSelect) {
             //선택모드
-            ViewHolderSelect viewHolderSelect = (ViewHolderSelect)holder;
+            VideoViewHolderSelect videoViewHolderSelect = (VideoViewHolderSelect)holder;
             if(videoList != null) {
                 Video current = videoList.get(position);
-                viewHolderSelect.selectedVid.setText(String.valueOf(current.getVid()));
-                viewHolderSelect.selectedVname.setText(current.getvName());
+                videoViewHolderSelect.selectedVid.setText(String.valueOf(current.getVid()));
+                videoViewHolderSelect.selectedVname.setText(current.getvName());
 
                 if(mSelectedItems.get(position, false)){
-                    viewHolderSelect.view.setBackgroundColor(Color.GRAY);
+                    videoViewHolderSelect.view.setBackgroundColor(Color.GRAY);
                 } else {
-                    viewHolderSelect.view.setBackgroundColor(Color.WHITE);
+                    videoViewHolderSelect.view.setBackgroundColor(Color.WHITE);
                 }
-                viewHolderSelect.view.setOnClickListener(new View.OnClickListener() {
+                videoViewHolderSelect.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         onItemSelectedListener.onItemSelected(view, current.getVid());

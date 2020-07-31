@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -29,6 +30,7 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.activity.MarkEditActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
+import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
@@ -90,7 +92,20 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-        });return v;
+
+
+        });
+
+        Button buttonSearch = v.findViewById(R.id.btn_Search);
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentSearch = new Intent(getContext(), SearchActivity.class);
+                getContext().startActivity(intentSearch);
+            }
+        });
+
+        return v;
     }
 
     @Override

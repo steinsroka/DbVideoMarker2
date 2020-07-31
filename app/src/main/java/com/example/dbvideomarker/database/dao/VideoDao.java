@@ -36,6 +36,9 @@ public interface VideoDao {
     @Query("SELECT * FROM Video ORDER BY vName ASC")
     LiveData<List<Video>> findAllVideo ();
 
+    @Query("SELECT * FROM Video WHERE vname LIKE + '%' + :vName + '%' ORDER BY vName")
+    LiveData<List<Video>> searchVideo(String vName);
+
     @Query("SELECT * FROM Video WHERE vid=:vid")
     Video findVideo(long vid);
 
