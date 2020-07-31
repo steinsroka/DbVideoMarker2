@@ -23,7 +23,6 @@ import java.util.List;
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewHolder> {
 
     private OnItemClickListener onItemClickListener;
-
     private List<PlayList> playListList;
     private LayoutInflater nInflater;
 
@@ -50,7 +49,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
                 @Override
                 public boolean onLongClick(View view) {
                     int pid = current.getPid();
-                    onItemClickListener.clickLongItem(pid);
+                    onItemClickListener.clickLongItem(view, pid);
                     return false;
                 }
             });

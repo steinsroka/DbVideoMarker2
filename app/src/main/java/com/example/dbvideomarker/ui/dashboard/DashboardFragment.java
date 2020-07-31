@@ -63,7 +63,7 @@ public class DashboardFragment extends Fragment implements OnItemClickListener {
     }
 
     @Override
-    public void clickLongItem(int id) {
+    public void clickLongItem(View v, int id) {
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenuOverlapAnchor);
         PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, getView());
         MenuInflater inflater = popupMenu.getMenuInflater();
@@ -93,6 +93,7 @@ public class DashboardFragment extends Fragment implements OnItemClickListener {
                         });
                         AlertDialog dialog = builder.create();
                         dialog.show();*/
+                        //TODO: update구문 특정 column만 변경할 수 있도록 수정필요
                         break;
                     case(R.id.popup_delete):
                         dashboardViewModel.deleteMark(id);

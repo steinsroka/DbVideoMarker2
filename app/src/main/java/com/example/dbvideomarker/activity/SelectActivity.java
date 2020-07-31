@@ -63,21 +63,17 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 adapter.setVideos(videos);
             }
         });
-
-
     }
 
     @Override
-    public void onItemSelected(View v, int vid) {
-        ArrayList<Integer> selectedVidList = new ArrayList<>();
-        selectedVidList.add(vid);
+    public void onItemSelected(View v, ArrayList<Integer> vidList) {
 
         btnSelection = (Button) findViewById(R.id.btn_add);
         btnSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent resultIntent = new Intent();
-                resultIntent.putIntegerArrayListExtra("vidlist", selectedVidList);
+                resultIntent.putIntegerArrayListExtra("vidlist", vidList);
                 setResult(RESULT_OK, resultIntent);
                 finish();
             }
@@ -85,7 +81,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
     }
 
     @Override
-    public void clickLongItem(int id) {
+    public void clickLongItem(View v, int id) {
         //Do Nothing
     }
 

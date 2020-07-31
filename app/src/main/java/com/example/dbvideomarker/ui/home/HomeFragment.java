@@ -38,6 +38,7 @@ import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OnItemSelectedListener, OnItemClickListener {
@@ -94,12 +95,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
     @Override
-    public void onItemSelected(View v, int vid) {
-        //Do Nothing
-    }
-
-    @Override
-    public void clickLongItem(int id) {
+    public void clickLongItem(View v, int id) {
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenuOverlapAnchor);
         PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, getView());
         MenuInflater inflater = popupMenu.getMenuInflater();
@@ -145,5 +141,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         Intent intent = new Intent(getContext(), MarkEditActivity.class);
         intent.putExtra("동영상 번호", id);
         getContext().startActivity(intent);
+    }
+
+    @Override
+    public void onItemSelected(View v, ArrayList<Integer> List) {
+        //Do Nothing
     }
 }

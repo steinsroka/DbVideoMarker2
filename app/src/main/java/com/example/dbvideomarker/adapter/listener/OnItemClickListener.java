@@ -1,7 +1,9 @@
 package com.example.dbvideomarker.adapter.listener;
 
+import android.view.View;
+
 public interface OnItemClickListener {
-    void clickLongItem(int id);
+    void clickLongItem(View v, int id);
 
     void clickItem(int id);
 

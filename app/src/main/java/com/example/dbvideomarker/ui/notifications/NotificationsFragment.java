@@ -92,7 +92,7 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
     }
 
     @Override
-    public void clickLongItem(int id) {
+    public void clickLongItem(View v, int id) {
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenuOverlapAnchor);
         PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, getView());
         MenuInflater inflater = popupMenu.getMenuInflater();

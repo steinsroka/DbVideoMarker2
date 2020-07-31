@@ -52,7 +52,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.MViewHolder> {
                 @Override
                 public boolean onLongClick(View view) {
                     int mid = current.getmid();
-                    onItemClickListener.clickLongItem(mid);
+                    onItemClickListener.clickLongItem(view, mid);
                     return false;
                 }
             });

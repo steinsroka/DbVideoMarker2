@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 
 import java.util.List;
@@ -17,8 +18,15 @@ import static androidx.room.OnConflictStrategy.IGNORE;
 @Dao
 public interface PlRelDao {
 
-    @Query("SELECT * FROM plRel ORDER BY plrel_id")
+    @Query("SELECT * FROM plrel ORDER BY plrel_id")
     LiveData<List<PlRel>> findAllPlayListRelation();
+
+    @Query("SELECT video.vid as video_id, video.vname as video_name, playlist.pid as playlist_id FROM plrel " +
+            "INNER JOIN video ON video.vid = plrel.plrel_vid " +
+            "INNER JOIN playlist ON playlist.pid = plrel.plrel_pid " +
+            "WHERE plrel_pid = :pid"
+    )
+    LiveData<List<PlRelVideo>> findVideoInPlayList(int pid);
 
     @Insert
     long insertPlRel(PlRel plRel);
@@ -26,6 +34,6 @@ public interface PlRelDao {
     @Update
     int updatePlRel(PlRel plRel);
 
-    @Delete
-    void deletePlRel(PlRel plRel);
+    @Query("DELETE FROM plrel WHERE plrel_vid = :vid")
+    int deletePlRel(int vid);
 }

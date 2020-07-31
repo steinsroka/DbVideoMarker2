@@ -12,7 +12,9 @@ import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.PlRelDao;
 import com.example.dbvideomarker.database.dao.PlayListDao;
 import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,10 @@ public class PlayListEditRepository {
         return allPlRel;
     }
 
+    public LiveData<List<PlRelVideo>> findVideoInPlayList(int pid) {
+        return plRelDao.findVideoInPlayList(pid);
+    }
+
     public void insertPlRelation(PlRel plRel) {
         new AsyncTask<PlRel, Void, Long>() {
             @Override
@@ -48,5 +54,22 @@ public class PlayListEditRepository {
                 Log.d(TAG, "insert : " + aLong);
             }
         }.execute(plRel);
+    }
+
+    public void deletePlRel(int vid) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer... integers) {
+                if (plRelDao == null)
+                    return -1;
+                return plRelDao.deletePlRel(integers[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "deletePlRel : " + integer);
+            }
+        }.execute(vid);
     }
 }

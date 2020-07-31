@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
@@ -21,6 +22,7 @@ import com.example.dbvideomarker.adapter.util.VideoCase;
 import com.example.dbvideomarker.adapter.viewholder.ViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.ViewHolderSelect;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
     private OnItemSelectedListener onItemSelectedListener;
     private OnItemClickListener onItemClickListener;
+    private ArrayList<Integer> selectedVidList = new ArrayList<>();
 
     public VideoAdapter(Context context, VideoCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
         mInflater = LayoutInflater.from(context);
@@ -73,7 +76,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
                     @Override
                     public boolean onLongClick(View v) {
                         int id = current.getVid();
-                        onItemClickListener.clickLongItem(id);
+                        onItemClickListener.clickLongItem(v, id);
                         return false;
                     }
                 });
@@ -82,6 +85,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
             }
         } else if(holder instanceof ViewHolderSelect) {
             //선택모드
+
             ViewHolderSelect viewHolderSelect = (ViewHolderSelect)holder;
             if(videoList != null) {
                 Video current = videoList.get(position);
@@ -90,13 +94,14 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
 
                 if(mSelectedItems.get(position, false)){
                     viewHolderSelect.view.setBackgroundColor(Color.GRAY);
+                    selectedVidList.add(current.getVid());
                 } else {
                     viewHolderSelect.view.setBackgroundColor(Color.WHITE);
                 }
                 viewHolderSelect.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        onItemSelectedListener.onItemSelected(view, current.getVid());
+                        onItemSelectedListener.onItemSelected(view, selectedVidList);
                         Log.d("test", "position = " + position + "/vid = " + current.getVid());
                         toggleItemSelected(position);
                     }
@@ -128,19 +133,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyVideoView> {
         }
     }
 
-    private boolean isItemSelected(int position) {
-        return mSelectedItems.get(position, false);
-    }
-
-    public void clearSelectedItem() {
-        int position;
-
-        for (int i = 0; i < mSelectedItems.size(); i++) {
-            position = mSelectedItems.keyAt(i);
-            mSelectedItems.put(position, false);
-            notifyItemChanged(position);
-        }
-
-        mSelectedItems.clear();
-    }
+//    private boolean isItemSelected(int position) {
+//        return mSelectedItems.get(position, false);
+//    }
 }
