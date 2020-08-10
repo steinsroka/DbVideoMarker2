@@ -15,8 +15,10 @@ import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.MyItemView;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.adapter.viewholder.ItemViewHolderMedia;
 import com.example.dbvideomarker.adapter.viewholder.ItemViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.ItemViewHolderSelect;
+import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.Video;
 
@@ -26,7 +28,7 @@ import java.util.List;
 public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
 
     private List<Video> videoList; //cached copy of words
-    private List<PlRelVideo> plRelVideoList;
+    private List<Media> mediaList;
     private LayoutInflater mInflater;
     private ViewCase sel_type;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
@@ -46,9 +48,14 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         if(sel_type == ViewCase.NORMAL) {
             View view = mInflater.from(parent.getContext()).inflate(R.layout.home_main_item, parent, false);
             return new ItemViewHolderNormal(view);
+
         } else if (sel_type == ViewCase.SELECT){
             View view = mInflater.from(parent.getContext()).inflate(R.layout.activity_select_item, parent, false);
             return new ItemViewHolderSelect(view);
+
+        } else if (sel_type == ViewCase.MEDIA){
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.home_media_item, parent, false);
+            return new ItemViewHolderMedia(view);
         }
         return null;
     }
@@ -104,6 +111,14 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                     }
                 });
             }
+        } else if(holder instanceof ItemViewHolderMedia) {
+            ItemViewHolderMedia viewHolderMedia = (ItemViewHolderMedia)holder;
+            if(mediaList != null) {
+                Media current = mediaList.get(position);
+                viewHolderMedia.Name.setText(current.getName());
+                viewHolderMedia.ContentUri.setText(current.getContentUri());
+            }
+
         }
     }
 
@@ -112,10 +127,18 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         notifyDataSetChanged();
     }
 
+    public void setMedia(List<Media> medias) {
+        mediaList = medias;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
-        if(videoList != null)
+        if(sel_type == ViewCase.NORMAL || videoList != null) {
             return videoList.size();
+        } else if (sel_type ==ViewCase.MEDIA || mediaList != null) {
+            return mediaList.size();
+        }
         else return 0;
     }
 
