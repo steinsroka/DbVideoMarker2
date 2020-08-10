@@ -26,14 +26,9 @@ public class HomeViewModel extends AndroidViewModel {
         videoRepository = new VideoRepository(application);
         allVideo = videoRepository.getAllVideo();
     }
-
     public LiveData<List<Video>> getAllVideo() {
         return allVideo;
     }
-
-//    public LiveData<Video> videoOverlapCheck (int pid, int vid) {
-//        return playListEditRepository.videoOverlayCheck(pid, vid);
-//    }
 
     public void insertVideo(Video video) {
         videoRepository.insertVideo(video);

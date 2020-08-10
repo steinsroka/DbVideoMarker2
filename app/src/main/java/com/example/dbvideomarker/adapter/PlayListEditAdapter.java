@@ -4,60 +4,69 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
-import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.adapter.util.MyItemView;
+import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.adapter.viewholder.PlayListEditViewHolderNormal;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
-import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.List;
 
-public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapter.PLEViewHolder> {
+public class PlayListEditAdapter extends RecyclerView.Adapter<MyItemView> {
 
     private OnItemClickListener onItemClickListener;
     private List<PlRelVideo> plRelList;
     private LayoutInflater mInflater;
+    private ViewCase sel_type;
 
-    public PlayListEditAdapter(Context context, OnItemClickListener onItemClickListener) {
+    public PlayListEditAdapter(Context context, OnItemClickListener onItemClickListener, ViewCase sel_type) {
         mInflater = LayoutInflater.from(context);
         this.onItemClickListener = onItemClickListener;
+        this.sel_type = sel_type;
     }
 
     @NonNull
     @Override
-    public PLEViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.playlistedit_item, parent, false);
-        return new PLEViewHolder(view);
+    public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(sel_type == ViewCase.NORMAL) {
+            View view = mInflater.inflate(R.layout.playlistedit_item, parent, false);
+            return new PlayListEditViewHolderNormal(view);
+        }
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PLEViewHolder holder, int position) {
-        if(plRelList != null) {
-            PlRelVideo current = plRelList.get(position);
-            holder.pid.setText(String.valueOf(current.getPv_pid()));
-            holder.vname.setText(String.valueOf(current.getPv_vname()));
-            holder.vid.setText(String.valueOf(current.getPv_vid()));
-            holder.view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    int pid = current.getPv_vid();
-                    onItemClickListener.clickLongItem(view, pid);
-                    return false;
-                }
-            });
+    public void onBindViewHolder(@NonNull MyItemView holder, int position) {
+        if(holder instanceof PlayListEditViewHolderNormal) {
+            PlayListEditViewHolderNormal viewHolderNormal = (PlayListEditViewHolderNormal)holder;
+            if(plRelList != null) {
+                PlRelVideo current = plRelList.get(position);
+                viewHolderNormal.pid.setText(String.valueOf(current.getPv_pid()));
+                viewHolderNormal.vname.setText(String.valueOf(current.getPv_vname()));
+                viewHolderNormal.vid.setText(String.valueOf(current.getPv_vid()));
+                viewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        int pid = current.getPv_vid();
+                        onItemClickListener.clickLongItem(view, pid);
+                        return false;
+                    }
+                });
 
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pid = current.getPv_vid();
-                    onItemClickListener.clickItem(pid);
-                }
-            });
+                viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int pid = current.getPv_vid();
+                        onItemClickListener.clickItem(pid);
+                    }
+                });
+            }
         }
     }
 
@@ -71,21 +80,5 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
     public void setPlRels(List<PlRelVideo> plRel) {
         plRelList = plRel;
         notifyDataSetChanged();
-    }
-
-    public class PLEViewHolder extends RecyclerView.ViewHolder {
-        private View view;
-        private TextView pid;
-        private TextView vname;
-        private TextView vid;
-
-        public PLEViewHolder(View view) {
-            super(view);
-            this.view = view;
-            pid = view.findViewById(R.id.plrel_plid);
-            vname = view.findViewById(R.id.plrel_vname);
-            vid = view.findViewById(R.id.plrel_vid);
-        }
-
     }
 }

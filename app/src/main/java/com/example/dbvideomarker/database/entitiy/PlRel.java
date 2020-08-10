@@ -60,4 +60,6 @@ public class PlRel {
 //    public void setMid(int mid) {
 //        this.mid = mid;
 //    }
+
 }
+

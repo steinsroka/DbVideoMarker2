@@ -1,5 +1,5 @@
 package com.example.dbvideomarker.adapter.util;
 
-public enum VideoCase {
+public enum ViewCase {
     NORMAL, SELECT
 }

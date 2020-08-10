@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.PlayListEditAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
+import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.dao.PlayListDao;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
@@ -73,7 +74,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함
 
         RecyclerView recyclerView = findViewById(R.id.rv_PlaylistEdit);
-        PlayListEditAdapter adapter = new PlayListEditAdapter(this, this);
+        PlayListEditAdapter adapter = new PlayListEditAdapter(this, this, ViewCase.NORMAL);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
@@ -99,25 +100,25 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
             public void onClick(View view) {
                 Intent intent1 = new Intent(PlayListEditActivity.this, SelectActivity.class);
                 intent1.putExtra("추가할 재생목록 번호", pid);
-                startActivityForResult(intent1, SELECT_REQUEST_CODE);
+                startActivity(intent1);
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == SELECT_REQUEST_CODE && resultCode == RESULT_OK) {
-            ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
-            PlRel plRel = new PlRel();
-            for(int i=0; i<selectedVidList.size(); i++) {
-                plRel.setPid(pid);
-                plRel.setVid(selectedVidList.get(i));
-                playListEditViewModel.insertPlRelation(plRel);
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(requestCode == SELECT_REQUEST_CODE && resultCode == RESULT_OK) {
+//            ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
+//            PlRel plRel = new PlRel();
+//            for(int i=0; i<selectedVidList.size(); i++) {
+//                plRel.setPid(pid);
+//                plRel.setVid(selectedVidList.get(i));
+//                playListEditViewModel.insertPlRelation(plRel);
+//            }
+//        }
+//    }
 
     @Override
     public void clickLongItem(View v, int id) {

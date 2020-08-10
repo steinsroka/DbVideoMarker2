@@ -1,19 +1,17 @@
 package com.example.dbvideomarker.adapter.viewholder;
 
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.adapter.VideoAdapter;
-import com.example.dbvideomarker.adapter.util.MyVideoView;
+import com.example.dbvideomarker.adapter.util.MyItemView;
 
-public class VideoViewHolderSelect extends MyVideoView {
+public class ItemViewHolderSelect extends MyItemView {
     public View view;
     public TextView selectedVid;
     public TextView selectedVname;
 
-    public VideoViewHolderSelect(View view) {
+    public ItemViewHolderSelect(View view) {
         super(view);
         this.view = view;
         selectedVid = view.findViewById(R.id.selectedVid);

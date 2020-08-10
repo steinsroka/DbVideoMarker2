@@ -50,7 +50,4 @@ public interface VideoDao {
 
     @Query("DELETE FROM video WHERE vid = :id")
     int deleteVideo(int id);
-
-
-
 }

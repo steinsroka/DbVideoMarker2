@@ -5,9 +5,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyVideoView extends RecyclerView.ViewHolder{
+public class MyItemView extends RecyclerView.ViewHolder{
 
-    public MyVideoView(@NonNull View itemView) {
+    public MyItemView(@NonNull View itemView) {
         super(itemView);
     }
 }

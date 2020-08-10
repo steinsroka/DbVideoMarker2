@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,9 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.adapter.util.VideoCase;
+import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.ui.home.HomeViewModel;
 
@@ -29,38 +32,35 @@ import java.util.List;
 
 public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener {
 
-    private HomeViewModel homeViewModel;
+    private PlayListEditViewModel playListEditViewModel;
     private Button btnSelection;
-    //private int pid;
+    private int pid;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
 
-        //Intent intent = getIntent();
+        Intent intent = getIntent();
 
-        //pid = intent.getIntExtra("추가할 재생목록 번호", -1);
-        //TextView add_pid = (TextView)findViewById(R.id.playlist_id);
-        //add_pid.setText(""+pid);
+        pid = intent.getIntExtra("추가할 재생목록 번호", -1);
+        TextView add_pid = (TextView)findViewById(R.id.playlist_id);
+        add_pid.setText(""+pid);
 
         RecyclerView recyclerView = findViewById(R.id.rv_select);
-        VideoAdapter adapter = new VideoAdapter(this, VideoCase.SELECT, this, this);
+        VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
-        // The onChanged() method fires when the observed data changes and the activity is
-        // in the foreground.
-        homeViewModel.getAllVideo().observe(this, new Observer<List<Video>>() {
+        //중복된 데이터 제외하고 가져오기
+        playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
+        playListEditViewModel.getVideoOverlap(pid).observe(this, new Observer<List<PlRelVideo>>() {
             @Override
-            public void onChanged(List<Video> videos) {
-                //Update the cached copy of the words in the adapter.
-                adapter.setVideos(videos);
+            public void onChanged(List<PlRelVideo> plRelVideos) {
+                //adapter.setVideos(plRelVideos);
             }
         });
     }

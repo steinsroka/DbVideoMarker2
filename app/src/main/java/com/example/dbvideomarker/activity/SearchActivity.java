@@ -26,7 +26,7 @@ import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.adapter.util.VideoCase;
+import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.Video;
 
@@ -48,7 +48,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
         RecyclerView recyclerViewVideo = findViewById(R.id.rv_VideoResult);
-        videoAdapter = new VideoAdapter(this, VideoCase.NORMAL,this,this);
+        videoAdapter = new VideoAdapter(this, ViewCase.NORMAL,this,this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewVideo.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerViewVideo.addItemDecoration(dividerItemDecoration);
         recyclerViewVideo.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

@@ -10,6 +10,7 @@ import androidx.room.Update;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.List;
 
@@ -21,11 +22,9 @@ public interface PlRelDao {
     @Query("SELECT * FROM plrel ORDER BY plrel_id")
     LiveData<List<PlRel>> findAllPlayListRelation();
 
-    @Query("SELECT video.vid as video_id, video.vname as video_name, playlist.pid as playlist_id FROM plrel " +
+    @Query("SELECT video.vid as video_id, video.vname as video_name, plrel_pid as playlist_id FROM plrel " +
             "INNER JOIN video ON video.vid = plrel.plrel_vid " +
-            "INNER JOIN playlist ON playlist.pid = plrel.plrel_pid " +
-            "WHERE plrel_pid = :pid"
-    )
+            "WHERE plrel_pid = :pid")
     LiveData<List<PlRelVideo>> findVideoInPlayList(int pid);
 
     @Insert
@@ -36,4 +35,12 @@ public interface PlRelDao {
 
     @Query("DELETE FROM plrel WHERE plrel_vid = :vid")
     int deletePlRel(int vid);
+
+    @Query("SELECT * FROM Plrel WHERE plrel_pid != :pid")
+    LiveData<List<PlRel>> videoOverlapCheck(int pid);
+
+    @Query("SELECT video.vid as video_id, video.vname as video_name, plrel_pid as playlist_id FROM plrel " +
+            "INNER JOIN video ON video.vid = plrel.plrel_vid " +
+            "WHERE plrel_pid != :pid")
+    LiveData<List<PlRelVideo>> getVideoOverlap(int pid);
 }

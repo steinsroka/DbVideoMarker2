@@ -14,29 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.activity.MarkEditActivity;
-import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
-import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.adapter.util.VideoCase;
-import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -53,7 +46,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         Context context = v.getContext();
 
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
-        VideoAdapter adapter = new VideoAdapter(context, VideoCase.NORMAL, this, this);
+        VideoAdapter adapter = new VideoAdapter(context, ViewCase.NORMAL, this, this);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
@@ -93,8 +86,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-
-
         });
 
         Button buttonSearch = v.findViewById(R.id.btn_Search);
@@ -105,7 +96,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 getContext().startActivity(intentSearch);
             }
         });
-
         return v;
     }
 

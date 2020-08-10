@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.repository.PlayListEditRepository;
 import com.example.dbvideomarker.repository.PlayListRepository;
 
@@ -28,6 +29,9 @@ public class PlayListEditViewModel extends AndroidViewModel {
         allPlayListRelation = playListEditRepository.getAllPlRel();
     }
 
+    public LiveData<List<PlRelVideo>> getVideoOverlap(int pid) {
+        return playListEditRepository.getVideoOverlap(pid);
+    }
 
     public LiveData<List<PlRelVideo>> findVideoInPlayList(int pid) {
         return playListEditRepository.findVideoInPlayList(pid);

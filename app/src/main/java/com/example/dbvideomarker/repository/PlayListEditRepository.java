@@ -12,6 +12,7 @@ import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.PlRelDao;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
+import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.List;
 
@@ -31,8 +32,16 @@ public class PlayListEditRepository {
         return allPlRel;
     }
 
+    public LiveData<List<PlRelVideo>> getVideoOverlap(int pid) {
+        return plRelDao.getVideoOverlap(pid);
+    }
+
     public LiveData<List<PlRelVideo>> findVideoInPlayList(int pid) {
         return plRelDao.findVideoInPlayList(pid);
+    }
+
+    public LiveData<List<PlRel>> videoOverlapCheck(int pid) {
+        return plRelDao.videoOverlapCheck(pid);
     }
 
     public void insertPlRelation(PlRel plRel) {
