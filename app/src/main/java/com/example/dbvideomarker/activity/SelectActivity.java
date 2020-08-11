@@ -33,6 +33,7 @@ import java.util.List;
 public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener {
 
     private PlayListEditViewModel playListEditViewModel;
+    private HomeViewModel homeViewModel;
     private Button btnSelection;
     private int pid;
 
@@ -54,13 +55,26 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-
+/*
         //중복된 데이터 제외하고 가져오기
         playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
         playListEditViewModel.getVideoOverlap(pid).observe(this, new Observer<List<PlRelVideo>>() {
             @Override
             public void onChanged(List<PlRelVideo> plRelVideos) {
                 //adapter.setVideos(plRelVideos);
+            }
+        });
+*/
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
+        // Add an observer on the LiveData returned by getAlphabetizedWords.
+        // The onChanged() method fires when the observed data changes and the activity is
+        // in the foreground.
+        homeViewModel.getAllVideo().observe(this, new Observer<List<Video>>() {
+            @Override
+            public void onChanged(List<Video> videos) {
+                //Update the cached copy of the words in the adapter.
+                adapter.setVideos(videos);
             }
         });
     }

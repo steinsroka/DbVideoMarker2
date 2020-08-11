@@ -28,7 +28,6 @@ import java.util.List;
 public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
 
     private List<Video> videoList; //cached copy of words
-    private List<Media> mediaList;
     private LayoutInflater mInflater;
     private ViewCase sel_type;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
@@ -48,14 +47,9 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         if(sel_type == ViewCase.NORMAL) {
             View view = mInflater.from(parent.getContext()).inflate(R.layout.home_main_item, parent, false);
             return new ItemViewHolderNormal(view);
-
         } else if (sel_type == ViewCase.SELECT){
             View view = mInflater.from(parent.getContext()).inflate(R.layout.activity_select_item, parent, false);
             return new ItemViewHolderSelect(view);
-
-        } else if (sel_type == ViewCase.MEDIA){
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.home_media_item, parent, false);
-            return new ItemViewHolderMedia(view);
         }
         return null;
     }
@@ -90,13 +84,13 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         } else if(holder instanceof ItemViewHolderSelect) {
             //선택모드
 
-            ItemViewHolderSelect viewHolderSelect = (ItemViewHolderSelect)holder;
-            if(videoList != null) {
+            ItemViewHolderSelect viewHolderSelect = (ItemViewHolderSelect) holder;
+            if (videoList != null) {
                 Video current = videoList.get(position);
                 viewHolderSelect.selectedVid.setText(String.valueOf(current.getVid()));
                 viewHolderSelect.selectedVname.setText(current.getvName());
 
-                if(mSelectedItems.get(position, false)){
+                if (mSelectedItems.get(position, false)) {
                     viewHolderSelect.view.setBackgroundColor(Color.GRAY);
                     selectedVidList.add(current.getVid());
                 } else {
@@ -111,14 +105,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                     }
                 });
             }
-        } else if(holder instanceof ItemViewHolderMedia) {
-            ItemViewHolderMedia viewHolderMedia = (ItemViewHolderMedia)holder;
-            if(mediaList != null) {
-                Media current = mediaList.get(position);
-                viewHolderMedia.Name.setText(current.getName());
-                viewHolderMedia.ContentUri.setText(current.getContentUri());
-            }
-
         }
     }
 
@@ -127,19 +113,11 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         notifyDataSetChanged();
     }
 
-    public void setMedia(List<Media> medias) {
-        mediaList = medias;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
-        if(sel_type == ViewCase.NORMAL || videoList != null) {
+        if(videoList != null) {
             return videoList.size();
-        } else if (sel_type ==ViewCase.MEDIA || mediaList != null) {
-            return mediaList.size();
-        }
-        else return 0;
+        } else return 0;
     }
 
     private void toggleItemSelected(int position) {

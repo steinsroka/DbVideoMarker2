@@ -100,25 +100,26 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
             public void onClick(View view) {
                 Intent intent1 = new Intent(PlayListEditActivity.this, SelectActivity.class);
                 intent1.putExtra("추가할 재생목록 번호", pid);
-                startActivity(intent1);
+                startActivityForResult(intent1, SELECT_REQUEST_CODE);
             }
         });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if(requestCode == SELECT_REQUEST_CODE && resultCode == RESULT_OK) {
-//            ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
-//            PlRel plRel = new PlRel();
-//            for(int i=0; i<selectedVidList.size(); i++) {
-//                plRel.setPid(pid);
-//                plRel.setVid(selectedVidList.get(i));
-//                playListEditViewModel.insertPlRelation(plRel);
-//            }
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == SELECT_REQUEST_CODE && resultCode == RESULT_OK) {
+            ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
+
+            for(int i=0; i<selectedVidList.size(); i++) {
+                PlRel plRel = new PlRel();
+                plRel.setPid(pid);
+                plRel.setVid(selectedVidList.get(i));
+                playListEditViewModel.insertPlRelation(plRel);
+            }
+        }
+    }
 
     @Override
     public void clickLongItem(View v, int id) {

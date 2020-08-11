@@ -38,6 +38,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.MViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final MViewHolder holder, int position) {
         if(markList != null) {
+
             Mark current = markList.get(position);
             holder.mid.setText(String.valueOf(current.getmid()));
             holder.mMemo.setText(current.getmMemo());

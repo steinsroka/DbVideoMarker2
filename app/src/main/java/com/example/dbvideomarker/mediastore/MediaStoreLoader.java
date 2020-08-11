@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import androidx.fragment.app.FragmentActivity;
-
 import com.example.dbvideomarker.database.entitiy.Media;
 
 import java.text.DecimalFormat;
@@ -18,9 +16,11 @@ import java.util.concurrent.TimeUnit;
 public class MediaStoreLoader {
 
     private static int id;
+    private static ArrayList<Integer> mediaIdList = new ArrayList<>();
 
     public static List<Media> getContent(Context context) {
         List<Media> mediaList = new ArrayList<>();
+
         ContentResolver resolver = context.getContentResolver();
         MediaStoreLoader loader = new MediaStoreLoader();
 
@@ -79,6 +79,24 @@ public class MediaStoreLoader {
         }
         c.close();
         return mediaList;
+    }
+
+    public static ArrayList<Integer> getIdArray(Context context) {
+        ContentResolver resolver = context.getContentResolver();
+
+        Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        String projections[] = { MediaStore.Video.Media._ID };
+        Cursor c = resolver.query(uri, projections, null, null, null);
+
+        if (c != null) {
+            while (c.moveToNext()) {
+                int index = c.getColumnIndex(projections[0]);
+                id = c.getInt(index);
+                mediaIdList.add(id);
+            }
+        }
+        c.close();
+        return mediaIdList;
     }
 
     public String getReadableDuration(long millis) {
