@@ -31,9 +31,11 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
     private LayoutInflater mInflater;
     private ViewCase sel_type;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
+    private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
     private OnItemSelectedListener onItemSelectedListener;
     private OnItemClickListener onItemClickListener;
     private ArrayList<Integer> selectedVidList = new ArrayList<>();
+
 
     public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
         mInflater = LayoutInflater.from(context);
@@ -90,18 +92,31 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                 viewHolderSelect.selectedVid.setText(String.valueOf(current.getVid()));
                 viewHolderSelect.selectedVname.setText(current.getvName());
 
+
                 if (mSelectedItems.get(position, false)) {
                     viewHolderSelect.view.setBackgroundColor(Color.GRAY);
-                    selectedVidList.add(current.getVid());
+
                 } else {
                     viewHolderSelect.view.setBackgroundColor(Color.WHITE);
                 }
                 viewHolderSelect.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        onItemSelectedListener.onItemSelected(view, selectedVidList);
-                        Log.d("test", "position = " + position + "/vid = " + current.getVid());
-                        toggleItemSelected(position);
+//                        toggleItemSelected(position);
+                        if (mSelectedItems.get(position, false) == true) {
+                            //GRAY
+                            mSelectedItems.delete(position);
+                            mSelectedItemIds.delete(current.getVid());
+                            notifyItemChanged(position);
+                        } else {
+                            //WHITE
+                            mSelectedItems.put(position, true);
+                            mSelectedItemIds.put(current.getVid(), true);
+                            notifyItemChanged(position);
+                        }
+//                        Log.d("test", "parsed"+ mSelectedItems.size() + "/// size" + selectedVidList.size());
+
+                        onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                     }
                 });
             }
@@ -120,16 +135,18 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         } else return 0;
     }
 
-    private void toggleItemSelected(int position) {
 
-        if (mSelectedItems.get(position, false) == true) {
-            mSelectedItems.delete(position);
-            notifyItemChanged(position);
-        } else {
-            mSelectedItems.put(position, true);
-            notifyItemChanged(position);
-        }
+
+    public void parseSelectedItem() {
+
     }
+
+
+
+//    private void toggleItemSelected(int position) {
+//
+//
+//    }
 
 //    private boolean isItemSelected(int position) {
 //        return mSelectedItems.get(position, false);

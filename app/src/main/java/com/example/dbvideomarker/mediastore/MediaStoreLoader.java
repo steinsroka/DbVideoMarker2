@@ -82,12 +82,13 @@ public class MediaStoreLoader {
     }
 
     public static ArrayList<Integer> getIdArray(Context context) {
+
         ContentResolver resolver = context.getContentResolver();
 
         Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         String projections[] = { MediaStore.Video.Media._ID };
         Cursor c = resolver.query(uri, projections, null, null, null);
-
+        mediaIdList.clear();
         if (c != null) {
             while (c.moveToNext()) {
                 int index = c.getColumnIndex(projections[0]);

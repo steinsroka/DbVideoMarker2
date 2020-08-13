@@ -42,6 +42,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     private PlayListEditViewModel playListEditViewModel;
     TextView PlayListName, PlayListId;
     public int SELECT_REQUEST_CODE = 1001;
+    private List<Integer> resultList;
     private int pid;
 
     @Override
@@ -71,12 +72,16 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         });
 
 
-        playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함
+        playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함 + setText는 charsequance 자료형임
 
         RecyclerView recyclerView = findViewById(R.id.rv_PlaylistEdit);
-        PlayListEditAdapter adapter = new PlayListEditAdapter(this, this, ViewCase.NORMAL);
+        PlayListEditAdapter adapter = new PlayListEditAdapter(this, this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+
+
+
 
 
 
@@ -111,6 +116,16 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         if(requestCode == SELECT_REQUEST_CODE && resultCode == RESULT_OK) {
             ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
+
+            /*
+            //선택했던 데이터를 제거해도 데이터를 전달하는 ArrayList에서는 제거되지 않으므로, ArrayList의 중복을 제거하는 Logic
+            //중복을 제거하는 코드를 Adapter 에 추가하였으므로 주석처리
+            resultList = new ArrayList<Integer>();
+            for(int i = 0; i < selectedVidList.size(); i++) {
+                if(!resultList.contains(selectedVidList.get(i))) {
+                    resultList.add(selectedVidList.get(i));
+                }
+            }*/
 
             for(int i=0; i<selectedVidList.size(); i++) {
                 PlRel plRel = new PlRel();

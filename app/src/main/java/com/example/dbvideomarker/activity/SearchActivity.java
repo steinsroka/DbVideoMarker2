@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -73,9 +74,6 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
                 }
             }
         });
-
-
-
     }
     private void getSearchResult(String searchableText) {
         searchViewModel.getSearchVideo(searchableText).observe(this, new Observer<List<Video>>() {
@@ -103,8 +101,9 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
 
     }
 
+
     @Override
-    public void onItemSelected(View v, ArrayList<Integer> List) {
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
 
     }
 }

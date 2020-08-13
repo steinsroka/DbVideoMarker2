@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -219,7 +220,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
     @Override
-    public void onItemSelected(View v, ArrayList<Integer> List) {
-        //Do Nothing
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+
     }
 }

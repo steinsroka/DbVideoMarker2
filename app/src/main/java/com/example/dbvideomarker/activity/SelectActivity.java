@@ -5,6 +5,8 @@ package com.example.dbvideomarker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
     private PlayListEditViewModel playListEditViewModel;
     private HomeViewModel homeViewModel;
     private Button btnSelection;
+    private ArrayList<Integer> selectedVidList = new ArrayList<>();
     private int pid;
 
     @Override
@@ -77,21 +80,8 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 adapter.setVideos(videos);
             }
         });
-    }
 
-    @Override
-    public void onItemSelected(View v, ArrayList<Integer> vidList) {
 
-        btnSelection = (Button) findViewById(R.id.btn_add);
-        btnSelection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent resultIntent = new Intent();
-                resultIntent.putIntegerArrayListExtra("vidlist", vidList);
-                setResult(RESULT_OK, resultIntent);
-                finish();
-            }
-        });
     }
 
     @Override
@@ -102,5 +92,26 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
     @Override
     public void clickItem(int vid) {
         //Do Nothing
+    }
+
+
+    @Override
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+        ArrayList<Integer> idList = new ArrayList<>();
+        for(int i=0; i<sparseBooleanArray.size(); i++) {
+            idList.add(sparseBooleanArray.keyAt(i));
+            Log.d("text", "길이 : " + sparseBooleanArray);
+        }
+
+        btnSelection = (Button) findViewById(R.id.btn_add);
+        btnSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent resultIntent = new Intent();
+                resultIntent.putIntegerArrayListExtra("vidlist", idList);
+                setResult(RESULT_OK, resultIntent);
+                finish();
+            }
+        });
     }
 }

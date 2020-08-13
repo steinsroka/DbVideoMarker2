@@ -29,9 +29,9 @@ public class PlayListEditViewModel extends AndroidViewModel {
         allPlayListRelation = playListEditRepository.getAllPlRel();
     }
 
-    public LiveData<List<PlRelVideo>> getVideoOverlap(int pid) {
-        return playListEditRepository.getVideoOverlap(pid);
-    }
+//    public LiveData<List<PlRelVideo>> getVideoOverlap(int pid) {
+//        return playListEditRepository.getVideoOverlap(pid);
+//    }
 
     public LiveData<List<PlRelVideo>> findVideoInPlayList(int pid) {
         return playListEditRepository.findVideoInPlayList(pid);
