@@ -98,6 +98,7 @@ public class PlayerActivity extends AppCompatActivity {
         player.prepare(mediaSource, true, false);
         //start,stop
         player.setPlayWhenReady(playWhenReady);
+        seekToOnDoubleTap();
     }
 
 //    //현재 동영상의 시간
