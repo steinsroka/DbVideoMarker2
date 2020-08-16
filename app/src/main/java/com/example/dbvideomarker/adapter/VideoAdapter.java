@@ -34,7 +34,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
     private OnItemSelectedListener onItemSelectedListener;
     private OnItemClickListener onItemClickListener;
-    private ArrayList<Integer> selectedVidList = new ArrayList<>();
 
 
     public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
@@ -64,18 +63,18 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
             if(videoList != null) {
                 Video current = videoList.get(position);
                 viewHolderNormal.vId.setText(String.valueOf(current.getVid()));
-                viewHolderNormal.vName.setText(current.getvName());
+                viewHolderNormal.vName.setText(String.valueOf(current.getvName()));
                 viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int id = current.getVid();
+                        int id = current.getvName();
                         onItemClickListener.clickItem(id);
                     }
                 });
                 viewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        int id = current.getVid();
+                        int id = current.getvName();
                         onItemClickListener.clickLongItem(v, id);
                         return false;
                     }
@@ -90,7 +89,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
             if (videoList != null) {
                 Video current = videoList.get(position);
                 viewHolderSelect.selectedVid.setText(String.valueOf(current.getVid()));
-                viewHolderSelect.selectedVname.setText(current.getvName());
+                viewHolderSelect.selectedVname.setText(String.valueOf(current.getVid()));
 
 
                 if (mSelectedItems.get(position, false)) {

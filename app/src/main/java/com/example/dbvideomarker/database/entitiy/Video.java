@@ -2,7 +2,6 @@ package com.example.dbvideomarker.database.entitiy;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.OnConflictStrategy;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "video")
@@ -12,7 +11,7 @@ public class Video {
     public int vid;
 
     @ColumnInfo(name = "vname")
-    public String vName;
+    public int vName;
 
 //    @ColumnInfo(name = "vpath")
 //    public String vPath;
@@ -55,15 +54,15 @@ public class Video {
         this.vid = vid;
     }
 
-    public String getvName() {
+    public int getvName() {
         return vName;
     }
 
-    public void setvName(String vName) {
+    public void setvName(int vName) {
         this.vName = vName;
     }
 
-//    public String getvPath() {
+    //    public String getvPath() {
 //        return vPath;
 //    }
 //

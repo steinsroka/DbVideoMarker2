@@ -35,6 +35,7 @@ import androidx.room.Update;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.MarkEditActivity;
+import com.example.dbvideomarker.activity.PlayerActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.MediaAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
@@ -55,7 +56,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
     private HomeViewModel homeViewModel;
     private MediaAdapter mediaAdapter;
-    private VideoAdapter videoAdapter;
     private String TAG = HomeFragment.class.getSimpleName();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +78,16 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }
         }
 
+        List<Media> datas = MediaStoreLoader.getContent(getActivity());
+        ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
+        VideoAdapter videoAdapter = new VideoAdapter(context, ViewCase.NORMAL, this, this);
+        RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(videoAdapter);
+
         homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
         homeViewModel.getAllVideo().observe(getActivity(), new Observer<List<Video>>() {
             @Override
@@ -86,9 +96,9 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }
         });
 
-        List<Media> datas = MediaStoreLoader.getContent(getActivity());
-        ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
-        videoAdapter = new VideoAdapter(context, ViewCase.NORMAL, this, this);
+
+
+
 
         FloatingActionButton fab = v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +123,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
                 for(int i = 0; i < idArray.size(); i++) {
                     Video video = new Video();
-                    String ContentId = String.valueOf(idArray.get(i));
+                    int ContentId = idArray.get(i);
                     video.setvName(ContentId);
                     homeViewModel.insertVideo(video);
                     Log.d(TAG, "insert ======" + ContentId);
@@ -129,28 +139,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
                 Log.d(TAG, "idArraySize ======" + idArray);
                 idArray.clear();
-            }
-        });
-
-        Button buttonSearch = v.findViewById(R.id.btn_Search);
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentSearch = new Intent(getContext(), SearchActivity.class);
-                getContext().startActivity(intentSearch);
-            }
-        });
-
-        Button buttonRoom = v.findViewById(R.id.btn_room);
-        buttonRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
-                DividerItemDecoration dividerItemDecoration =
-                        new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
-                recyclerView.addItemDecoration(dividerItemDecoration);
-                recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-                recyclerView.setAdapter(videoAdapter);
             }
         });
 
@@ -191,7 +179,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (et.getText().toString().trim().length() != 0) {
                                     Video video = new Video();
-                                    video.setvName(et.getText().toString());
+                                    video.setvName(Integer.parseInt(et.getText().toString()));
                                     video.setVid(id);
 
                                     homeViewModel.updateVideo(video);
@@ -214,9 +202,13 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
     @Override
     public void clickItem(int id) {
-        Intent intent = new Intent(getContext(), MarkEditActivity.class);
-        intent.putExtra("동영상 번호", id);
-        getContext().startActivity(intent);
+//        Intent intent = new Intent(getContext(), MarkEditActivity.class);
+//        intent.putExtra("동영상 번호", id);
+//        getContext().startActivity(intent);
+
+        Intent playerIntent = new Intent(getContext(), PlayerActivity.class);
+        playerIntent.putExtra("ContentID", id);
+        getContext().startActivity(playerIntent);
     }
 
     @Override

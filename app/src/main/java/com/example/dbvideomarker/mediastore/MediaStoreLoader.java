@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.example.dbvideomarker.database.entitiy.Media;
+import com.example.dbvideomarker.database.entitiy.MediaDisplay;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class MediaStoreLoader {
         Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         String projections[] = {
                 MediaStore.Video.Media._ID,
-                MediaStore.Video.Media.DISPLAY_NAME,
+                MediaStore.Video.Media.TITLE,
                 MediaStore.Video.Media.DURATION,
                 MediaStore.Video.Media.SIZE,
                 MediaStore.Video.Media.MIME_TYPE,
@@ -133,5 +134,55 @@ public class MediaStoreLoader {
             }
         }
         return String.valueOf(dec.format(fileSize) + suffix);
+    }
+
+
+
+    public List<MediaDisplay> getDisplayContent(Context context) {
+        List<MediaDisplay> mediaDisplayList = new ArrayList<>();
+
+        ContentResolver resolver = context.getContentResolver();
+        MediaStoreLoader loader = new MediaStoreLoader();
+
+        Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        String projections[] = {
+                MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.TITLE,
+                MediaStore.Video.Media.DURATION,
+        };
+
+        String selection = MediaStore.Video.Media._ID + "=?";
+        String[] selectionArgs = new String[] {"24", "25", "26"};
+        Cursor c = resolver.query(uri, projections, selection, selectionArgs, null);
+
+        if (c != null) {
+            while (c.moveToNext()) {
+                int index = c.getColumnIndex(projections[0]);
+                id = c.getInt(index);
+
+                index = c.getColumnIndex(projections[1]);
+                String name = c.getString(index);
+
+                index = c.getColumnIndex(projections[2]);
+                String millisDur = c.getString(index);
+                long millis = Long.parseLong(millisDur);
+
+
+                MediaDisplay data = new MediaDisplay();
+
+                data.setResId(id);
+                data.setName(name);
+
+                String changedTime = loader.getReadableDuration(millis);
+                data.setDur(changedTime);
+
+                String ContentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id)).toString();
+                data.setContentUri(ContentUri);
+
+                mediaDisplayList.add(data);
+            }
+        }
+        c.close();
+        return mediaDisplayList;
     }
 }

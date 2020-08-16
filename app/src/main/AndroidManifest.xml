@@ -24,6 +24,7 @@
         <activity android:name=".activity.PlayListEditActivity" />
         <activity android:name=".activity.SelectActivity" />
         <activity android:name=".activity.MarkEditActivity" />
+        <activity android:name=".activity.PlayerActivity"/>
     </application>
 
 </manifest>
