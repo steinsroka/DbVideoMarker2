@@ -1,8 +1,6 @@
 package com.example.dbvideomarker.ui.dashboard;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
@@ -13,30 +11,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
+import com.example.dbvideomarker.adapter.listener.OnMarkClickListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
-import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.player.PlayerActivity;
 
 import java.util.List;
 
-public class DashboardFragment extends Fragment implements OnItemClickListener {
+public class DashboardFragment extends Fragment implements OnItemClickListener, OnMarkClickListener {
 
     private DashboardViewModel dashboardViewModel;
 
@@ -47,7 +42,7 @@ public class DashboardFragment extends Fragment implements OnItemClickListener {
         Context context = rootv.getContext();
 
         RecyclerView recyclerView = rootv.findViewById(R.id.rv_Mark);
-        MarkAdapter adapter = new MarkAdapter(context, this);
+        MarkAdapter adapter = new MarkAdapter(context, this, this);
 
         dashboardViewModel = new ViewModelProvider(getActivity()).get(DashboardViewModel.class);
 
@@ -119,5 +114,15 @@ public class DashboardFragment extends Fragment implements OnItemClickListener {
 
     @Override
     public void clickItem(int id) {
+
+    }
+
+
+    @Override
+    public void clickMark(int id, long start) {
+        Intent playerIntent = new Intent(getContext(), PlayerActivity.class);
+        playerIntent.putExtra("ContentID", id);
+        playerIntent.putExtra("Start", start);
+        getContext().startActivity(playerIntent);
     }
 }

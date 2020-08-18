@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
+import com.example.dbvideomarker.adapter.listener.OnMarkClickListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.repository.PlayListEditRepository;
 import com.google.android.exoplayer2.C;
@@ -42,7 +43,7 @@ import com.google.android.exoplayer2.util.Util;
 
 import java.util.List;
 
-public class PlayerActivity extends AppCompatActivity implements OnItemClickListener {
+public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener {
 
     private PlayerView exoPlayerView;
     private SimpleExoPlayer player;
@@ -51,13 +52,20 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     private int currentWindow = 0;
     private Long playbackPosition = 0L;
     private static final String TAG = PlayerActivity.class.getSimpleName();
+
+
     private int id;
+    private long start;
+
     private Uri contentUri;
     private PlayerViewModel playerViewModel;
     private RecyclerView recyclerView;
     private MarkAdapter markAdapter;
     private DividerItemDecoration dividerItemDecoration;
     private Long CURRENT_POSITION;
+
+//    private int SWIPE_MIN_DISTANCE = 120;
+//    private int SWIPE_MAX_OFF_PATH = 250;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +74,8 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
         Intent intent = getIntent();
         id = intent.getExtras().getInt("ContentID");
+        start = intent.getExtras().getLong("Start");
+
         String id_toString = String.valueOf(id);
         contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id_toString);
 
@@ -74,7 +84,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         recyclerView = findViewById(R.id.rv_getMark);
 
 
-        markAdapter = new MarkAdapter(this, this);
+        markAdapter = new MarkAdapter(this, this, this);
         dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -135,9 +145,11 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         MediaSource mediaSource = buildMediaSource(contentUri);
         //prepare
         player.prepare(mediaSource, true, false);
+        player.seekTo(start);
         //start,stop
         player.setPlayWhenReady(playWhenReady);
         seekToOnDoubleTap();
+//        seekToOnSwipe();
     }
 
 //    //현재 동영상의 시간
@@ -240,14 +252,41 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 //                        else {
 //                        player.seekTo(player.getCurrentPosition() + 5000);
 //                        }
+                        player.setPlayWhenReady(false);
                         CURRENT_POSITION = player.getCurrentPosition();
                         Log.d(TAG, "onDoubleTap():  " + player.getCurrentPosition());
                         addMark(CURRENT_POSITION);
+                        player.setPlayWhenReady(false);
+                        player.getPlaybackState();
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                        //return super.onScroll(e1, e2, distanceX, distanceY);
+                        if (Math.abs(e1.getY() - e2.getY()) > Math.abs(e1.getX() - e2.getX())) {
+                            if(e1.getX() - e2.getX() > 100) {
+                                //Left swipe
+                                player.seekTo(player.getCurrentPosition() - 5000);
+                                Log.d(TAG, "왼쪽으로 스와이프" + e1.getX() + e2.getX());
+                            } else if(e2.getX() - e1.getX() > 100) {
+                                player.seekTo(player.getCurrentPosition() + 5000);
+                                Log.d(TAG, "오른쪽으로 스와이프" + e1.getX() + e2.getX());
+                                //Right swipe
+                            }
+                        }
                         return true;
                     }
                 });
         exoPlayerView.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
     }
+//
+//    public void seekToOnSwipe() {
+//        final GestureDetector gestureDetector = new GestureDetector(getApplicationContext(),
+//                new GestureDetector.SimpleOnGestureListener() {
+//
+//                });
+//    }
 
     public void addMark(Long currentPosition) {
 
@@ -270,6 +309,8 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+        player.setPlayWhenReady(true);
+        player.getPlaybackState();
 
 
 
@@ -282,5 +323,9 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void clickItem(int id) {
+    }
+
+    @Override
+    public void clickMark(int id, long start) {
     }
 }

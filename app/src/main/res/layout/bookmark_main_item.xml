@@ -28,7 +28,7 @@
         android:textColor="@android:color/white"
         android:textSize="10sp" />
     <TextView
-        android:id="@+id/contentId"
+        android:id="@+id/mstart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="7dp"

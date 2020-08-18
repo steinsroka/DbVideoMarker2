@@ -27,6 +27,7 @@ import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.adapter.listener.OnMarkClickListener;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.Video;
@@ -34,7 +35,7 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener {
+public class SearchActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener, OnMarkClickListener {
 
     private VideoAdapter videoAdapter;
     private MarkAdapter markAdapter;
@@ -56,7 +57,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
         recyclerViewVideo.setAdapter(videoAdapter);
 
         RecyclerView recyclerViewMark  = findViewById(R.id.rv_MarkResult);
-        markAdapter = new MarkAdapter(this, this);
+        markAdapter = new MarkAdapter(this, this, this);
         DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(recyclerViewMark.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerViewMark.addItemDecoration(dividerItemDecoration);
         recyclerViewMark.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -104,6 +105,11 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+
+    }
+
+    @Override
+    public void clickMark(int id, long start) {
 
     }
 }
