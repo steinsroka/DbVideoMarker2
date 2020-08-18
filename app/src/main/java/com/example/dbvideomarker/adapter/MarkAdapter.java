@@ -42,6 +42,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.MViewHolder> {
             Mark current = markList.get(position);
             holder.mid.setText(String.valueOf(current.getmid()));
             holder.mMemo.setText(current.getmMemo());
+//            holder.contentId.setText(current.getvid());
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -79,12 +80,14 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.MViewHolder> {
         private View view;
         private TextView mid;
         private TextView mMemo;
+        private TextView contentId;
 
         public MViewHolder(View view) {
             super(view);
             this.view = view;
             mid = view.findViewById(R.id.mid);
             mMemo = view.findViewById(R.id.mMemo);
+            contentId = view.findViewById(R.id.contentId);
         }
     }
 }

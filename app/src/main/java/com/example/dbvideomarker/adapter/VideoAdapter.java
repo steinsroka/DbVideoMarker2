@@ -62,19 +62,18 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
             ItemViewHolderNormal viewHolderNormal = (ItemViewHolderNormal)holder;
             if(videoList != null) {
                 Video current = videoList.get(position);
-                viewHolderNormal.vId.setText(String.valueOf(current.getVid()));
-                viewHolderNormal.vName.setText(String.valueOf(current.getvName()));
+                viewHolderNormal.vId.setText(String.valueOf(current.getContentId()));
                 viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int id = current.getvName();
+                        int id = current.getContentId();
                         onItemClickListener.clickItem(id);
                     }
                 });
                 viewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        int id = current.getvName();
+                        int id = current.getContentId();
                         onItemClickListener.clickLongItem(v, id);
                         return false;
                     }
@@ -88,8 +87,8 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
             ItemViewHolderSelect viewHolderSelect = (ItemViewHolderSelect) holder;
             if (videoList != null) {
                 Video current = videoList.get(position);
-                viewHolderSelect.selectedVid.setText(String.valueOf(current.getVid()));
-                viewHolderSelect.selectedVname.setText(String.valueOf(current.getVid()));
+                viewHolderSelect.selectedVid.setText(String.valueOf(current.getContentId()));
+                viewHolderSelect.selectedVname.setText(String.valueOf(current.getContentId()));
 
 
                 if (mSelectedItems.get(position, false)) {
@@ -105,12 +104,12 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                         if (mSelectedItems.get(position, false) == true) {
                             //GRAY
                             mSelectedItems.delete(position);
-                            mSelectedItemIds.delete(current.getVid());
+                            mSelectedItemIds.delete(current.getContentId());
                             notifyItemChanged(position);
                         } else {
                             //WHITE
                             mSelectedItems.put(position, true);
-                            mSelectedItemIds.put(current.getVid(), true);
+                            mSelectedItemIds.put(current.getContentId(), true);
                             notifyItemChanged(position);
                         }
 //                        Log.d("test", "parsed"+ mSelectedItems.size() + "/// size" + selectedVidList.size());

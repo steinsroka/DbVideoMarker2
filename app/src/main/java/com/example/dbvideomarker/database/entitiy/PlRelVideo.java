@@ -13,9 +13,6 @@ public class PlRelVideo{
     @ColumnInfo(name="video_id")
     private int pv_vid;
 
-    @ColumnInfo(name="video_name")
-    private String pv_vname;
-
     public int getPv_pid() {
         return pv_pid;
     }
@@ -30,14 +27,6 @@ public class PlRelVideo{
 
     public void setPv_vid(int pv_vid) {
         this.pv_vid = pv_vid;
-    }
-
-    public String getPv_vname() {
-        return pv_vname;
-    }
-
-    public void setPv_vname(String pv_vname) {
-        this.pv_vname = pv_vname;
     }
 
     @Override

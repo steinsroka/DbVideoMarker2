@@ -7,8 +7,7 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "mark", foreignKeys = {
-        @ForeignKey(entity = Video.class, parentColumns = "vid", childColumns = "vid"),
-        @ForeignKey(entity = Video.class, parentColumns = "vname", childColumns = "vName")
+        @ForeignKey(entity = Video.class, parentColumns = "contentId", childColumns = "vid")
 })
 public class Mark {
 
@@ -18,14 +17,11 @@ public class Mark {
     @ColumnInfo(name = "vid")
     public int vid;
 
-    @ColumnInfo(name = "vName")
-    public int vname;
-
     @ColumnInfo(name = "mMemo")
     public String mMemo;
 
     @ColumnInfo(name = "mStart")
-    public String mStart;
+    public Long mStart;
 
 //    @ColumnInfo(name = "mEnd")
 //    public String mEnd;
@@ -50,22 +46,17 @@ public class Mark {
 
     public void setvid(int vid) { this.vid = vid; }
 
-    public int getVname() {
-        return vname;
-    }
-
-    public void setVname(int vname) {
-        this.vname = vname;
-    }
-
     public String getmMemo() { return mMemo; }
 
     public void setmMemo(String mMemo) { this.mMemo = mMemo; }
 
-    public String getmStart() { return mStart; }
+    public Long getmStart() {
+        return mStart;
+    }
 
-    public void setmStart(String mStart) { this.mStart = mStart; }
-
+    public void setmStart(Long mStart) {
+        this.mStart = mStart;
+    }
 //    public String getmEnd() { return mEnd; }
 
 //    public void setmEnd(String mEnd) { this.mEnd = mEnd; }

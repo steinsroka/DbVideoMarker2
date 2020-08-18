@@ -22,8 +22,8 @@ public interface PlRelDao {
     @Query("SELECT * FROM plrel ORDER BY plrel_id")
     LiveData<List<PlRel>> findAllPlayListRelation();
 
-    @Query("SELECT video.vid as video_id, video.vname as video_name, plrel_pid as playlist_id FROM plrel " +
-            "INNER JOIN video ON video.vid = plrel.plrel_vid " +
+    @Query("SELECT video.contentId as video_id, plrel_pid as playlist_id FROM plrel " +
+            "INNER JOIN video ON video.contentId = plrel.plrel_vid " +
             "WHERE plrel_pid = :pid")
     LiveData<List<PlRelVideo>> findVideoInPlayList(int pid);
 
@@ -39,8 +39,8 @@ public interface PlRelDao {
     @Query("SELECT * FROM Plrel WHERE plrel_pid != :pid")
     LiveData<List<PlRel>> videoOverlapCheck(int pid);
 
-    @Query("SELECT video.vid as video_id, video.vname as video_name, plrel_pid as playlist_id FROM plrel " +
-            "INNER JOIN video ON video.vid = plrel.plrel_vid " +
-            "WHERE plrel_pid != :pid")
-    LiveData<List<PlRelVideo>> getVideoOverlap(int pid);
+//    @Query("SELECT video.vid as video_id, video.vname as video_name, plrel_pid as playlist_id FROM plrel " +
+//            "INNER JOIN video ON video.vid = plrel.plrel_vid " +
+//            "WHERE plrel_pid != :pid")
+//    LiveData<List<PlRelVideo>> getVideoOverlap(int pid);
 }

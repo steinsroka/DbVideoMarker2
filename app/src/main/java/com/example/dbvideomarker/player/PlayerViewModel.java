@@ -24,4 +24,8 @@ public class PlayerViewModel extends AndroidViewModel {
     public LiveData<List<Mark>> getMarkByVideoId(int id) {
         return markRepository.getMarkByVideoId(id);
     }
+
+    public void insertMark(Mark mark) {
+        markRepository.insertMark(mark);
+    }
 }

@@ -2,6 +2,7 @@ package com.example.dbvideomarker.player;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,8 +14,10 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -247,12 +250,28 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     }
 
     public void addMark(Long currentPosition) {
-        Mark mark = new Mark();
-        mark.setvid();
-        mark.setVname();
-        mark.setmid();
-        mark.setmMemo();
-        mark.setmStart(currentPosition);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        EditText mMemo = new EditText(this);
+        builder.setView(mMemo);
+        builder.setTitle("북마크 추가");
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (mMemo.getText().toString().trim().length() != 0) {
+                    Mark mark = new Mark();
+                    mark.setvid(id);
+                    mark.setmMemo(mMemo.getText().toString());
+                    mark.setmStart(currentPosition);
+
+                    playerViewModel.insertMark(mark);
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
 
         //TODO: 여기 값 어떻게 채워넣을지 확인하기, 슬라이드 제스쳐디택터 추가
     }

@@ -25,7 +25,7 @@ public interface MarkDao {
     @Query("SELECT * FROM Mark WHERE mMemo LIKE + '%' + :mMemo + '%' ORDER BY mMemo")
     LiveData<List<Mark>> searchMark(String mMemo);
 
-    @Query("SELECT * FROM mark WHERE vName = :id")
+    @Query("SELECT * FROM mark WHERE vid = :id")
     LiveData<List<Mark>> getMarkByVideoId(int id);
 
     @Query("SELECT * FROM Mark WHERE mid = :mid")

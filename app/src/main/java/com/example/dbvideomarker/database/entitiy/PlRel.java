@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 import com.google.android.material.circularreveal.CircularRevealHelper;
 
 @Entity(tableName = "plrel", foreignKeys = {
-        @ForeignKey(entity = Video.class, parentColumns = "vid", childColumns = "plrel_vid"),
+        @ForeignKey(entity = Video.class, parentColumns = "contentId", childColumns = "plrel_vid"),
         @ForeignKey(entity = PlayList.class, parentColumns = "pid", childColumns = "plrel_pid")
 })
 public class PlRel {

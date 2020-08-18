@@ -31,21 +31,21 @@ public class MarkEditActivity extends AppCompatActivity {
         int vid = intent.getIntExtra("동영상 번호", -1);
         textView.setText(""+vid);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(editText1.getText().toString().trim().length() != 0
-                        && editText2.getText().toString().trim().length() != 0) {
-                    String memo = editText1.getText().toString().trim();
-                    String start = editText2.getText().toString().trim();
-                    Mark mark = new Mark();
-                    mark.setmMemo(memo);
-                    mark.setmStart(start);
-                    mark.setvid(vid);
-                    markRepository.insertMark(mark);
-                    finish();
-                }
-            }
-        });
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(editText1.getText().toString().trim().length() != 0
+//                        && editText2.getText().toString().trim().length() != 0) {
+//                    String memo = editText1.getText().toString().trim();
+//                    String start = editText2.getText().toString().trim();
+//                    Mark mark = new Mark();
+//                    mark.setmMemo(memo);
+//                    mark.setmStart(start);
+//                    mark.setvid(vid);
+//                    markRepository.insertMark(mark);
+//                    finish();
+//                }
+//            }
+//        });
     }
 }

@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 //                EditText videoName = new EditText(context);
 //                builder.setView(videoName);
 //                builder.setTitle("임시 비디오 추가");
@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 for (int i = 0; i < idArray.size(); i++) {
                     Video video = new Video();
                     int ContentId = idArray.get(i);
-                    video.setvName(ContentId);
+                    video.setContentId(ContentId);
                     homeViewModel.insertVideo(video);
                     Log.d(TAG, "insert ======" + ContentId);
                 }
@@ -162,23 +162,24 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.popup_edit:
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        EditText et = new EditText(getActivity());
-                        builder.setView(et);
-                        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (et.getText().toString().trim().length() != 0) {
-                                    Video video = new Video();
-                                    video.setvName(Integer.parseInt(et.getText().toString()));
-                                    video.setVid(id);
-
-                                    homeViewModel.updateVideo(video);
-                                }
-                            }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                        EditText et = new EditText(getActivity());
+//                        builder.setView(et);
+//                        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                if (et.getText().toString().trim().length() != 0) {
+//                                    Video video = new Video();
+//                                    video.setvName(Integer.parseInt(et.getText().toString()));
+//                                    video.setVid(id);
+//
+//                                    homeViewModel.updateVideo(video);
+//                                }
+//                            }
+//                        });
+//                        AlertDialog dialog = builder.create();
+//                        dialog.show();
+                        //TODO: 데이터베이스 수정코드 -> 미디어스토어 수정코드로 변경할 필요있음
                         break;
                     case (R.id.popup_delete):
                         homeViewModel.deleteVideo(id);

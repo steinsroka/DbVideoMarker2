@@ -34,14 +34,11 @@ public interface VideoDao {
     //LiveData<List<Video>> findAllVideo (boolean sort);
     LiveData<List<VideoSelect>> findAllVideo ();
 */
-    @Query("SELECT * FROM Video ORDER BY vName ASC")
+    @Query("SELECT * FROM Video ORDER BY contentID ASC")
     LiveData<List<Video>> findAllVideo ();
 
-    @Query("SELECT * FROM Video WHERE vname LIKE + '%' + :vName + '%' ORDER BY vName")
-    LiveData<List<Video>> searchVideo(String vName);
-
-    @Query("SELECT * FROM Video WHERE vid=:vid")
-    Video findVideo(long vid);
+//    @Query("SELECT * FROM Video WHERE vname LIKE + '%' + :vName + '%' ORDER BY vName")
+//    LiveData<List<Video>> searchVideo(String vName);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insertVideo(Video video);
@@ -49,6 +46,6 @@ public interface VideoDao {
     @Update
     int updateVideo(Video video);
 
-    @Query("DELETE FROM video WHERE vid = :id")
+    @Query("DELETE FROM video WHERE contentID = :id")
     int deleteVideo(int id);
 }

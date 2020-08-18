@@ -51,7 +51,6 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
         if(plRelList != null) {
             PlRelVideo current = plRelList.get(position);
             holder.pid.setText(String.valueOf(current.getPv_pid()));
-            holder.vname.setText(String.valueOf(current.getPv_vname()));
             holder.vid.setText(String.valueOf(current.getPv_vid()));
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

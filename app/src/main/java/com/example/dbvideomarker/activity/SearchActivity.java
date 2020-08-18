@@ -76,12 +76,12 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
         });
     }
     private void getSearchResult(String searchableText) {
-        searchViewModel.getSearchVideo(searchableText).observe(this, new Observer<List<Video>>() {
-            @Override
-            public void onChanged(List<Video> videos) {
-                videoAdapter.setVideos(videos);
-            }
-        });
+//        searchViewModel.getSearchVideo(searchableText).observe(this, new Observer<List<Video>>() {
+//            @Override
+//            public void onChanged(List<Video> videos) {
+//                videoAdapter.setVideos(videos);
+//            }
+//        });
 
         searchViewModel.getSearchMark(searchableText).observe(this, new Observer<List<Mark>>() {
             @Override
