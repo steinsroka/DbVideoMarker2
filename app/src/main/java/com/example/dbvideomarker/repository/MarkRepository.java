@@ -33,6 +33,10 @@ public class MarkRepository {
         return markDao.searchMark(mMemo);
     }
 
+    public LiveData<List<Mark>> getMarkByVideoId(int id) {
+        return markDao.getMarkByVideoId(id);
+    }
+
     public void insertMark(Mark mark) {
         new AsyncTask<Mark, Void, Long>() {
             @Override

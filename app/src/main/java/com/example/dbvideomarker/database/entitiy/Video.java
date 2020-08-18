@@ -2,9 +2,10 @@ package com.example.dbvideomarker.database.entitiy;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "video")
+@Entity(tableName = "video", indices = {@Index(value = {"vname"}, unique = true)})
 public class Video {
 
     @PrimaryKey(autoGenerate = true)

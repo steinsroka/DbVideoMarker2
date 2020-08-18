@@ -1,10 +1,15 @@
 package com.example.dbvideomarker.database.entitiy;
 
+import androidx.lifecycle.ViewModel;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "mark")
+@Entity(tableName = "mark", foreignKeys = {
+        @ForeignKey(entity = Video.class, parentColumns = "vid", childColumns = "vid"),
+        @ForeignKey(entity = Video.class, parentColumns = "vname", childColumns = "vName")
+})
 public class Mark {
 
     @PrimaryKey(autoGenerate = true)
@@ -12,6 +17,9 @@ public class Mark {
 
     @ColumnInfo(name = "vid")
     public int vid;
+
+    @ColumnInfo(name = "vName")
+    public int vname;
 
     @ColumnInfo(name = "mMemo")
     public String mMemo;
@@ -41,6 +49,14 @@ public class Mark {
     public int getvid() { return vid; }
 
     public void setvid(int vid) { this.vid = vid; }
+
+    public int getVname() {
+        return vname;
+    }
+
+    public void setVname(int vname) {
+        this.vname = vname;
+    }
 
     public String getmMemo() { return mMemo; }
 

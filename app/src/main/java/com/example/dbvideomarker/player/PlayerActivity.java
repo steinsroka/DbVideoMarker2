@@ -1,4 +1,4 @@
-package com.example.dbvideomarker.activity;
+package com.example.dbvideomarker.player;
 
 
 import android.content.Context;
@@ -11,12 +11,23 @@ import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.adapter.MarkAdapter;
+import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
+import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.repository.PlayListEditRepository;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -26,7 +37,9 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-public class PlayerActivity extends AppCompatActivity {
+import java.util.List;
+
+public class PlayerActivity extends AppCompatActivity implements OnItemClickListener {
 
     private PlayerView exoPlayerView;
     private SimpleExoPlayer player;
@@ -34,19 +47,42 @@ public class PlayerActivity extends AppCompatActivity {
     private Boolean playWhenReady = true;
     private int currentWindow = 0;
     private Long playbackPosition = 0L;
-    private String id;
+    private static final String TAG = PlayerActivity.class.getSimpleName();
+    private int id;
     private Uri contentUri;
+    private PlayerViewModel playerViewModel;
+    private RecyclerView recyclerView;
+    private MarkAdapter markAdapter;
+    private DividerItemDecoration dividerItemDecoration;
+    private Long CURRENT_POSITION;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        exoPlayerView = findViewById(R.id.video_view);
-
         Intent intent = getIntent();
-        id = String.valueOf(intent.getExtras().getInt("ContentID"));
-        contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
+        id = intent.getExtras().getInt("ContentID");
+        String id_toString = String.valueOf(id);
+        contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id_toString);
+
+        exoPlayerView = findViewById(R.id.video_view);
+        playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+        recyclerView = findViewById(R.id.rv_getMark);
+
+
+        markAdapter = new MarkAdapter(this, this);
+        dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(markAdapter);
+
+        playerViewModel.getMarkByVideoId(id).observe(this, new Observer<List<Mark>>() {
+            @Override
+            public void onChanged(List<Mark> marks) {
+                markAdapter.setMarks(marks);
+            }
+        });
     }
 
     @Override
@@ -191,21 +227,41 @@ public class PlayerActivity extends AppCompatActivity {
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
 
-                        float positionOfDoubleTapX = e.getX();
+//                        float positionOfDoubleTapX = e.getX();
 
-                        if (positionOfDoubleTapX < widthOfScreen / 2)
-                            player.seekTo(player.getCurrentPosition() - 5000);
-                        else
-                            player.seekTo(player.getCurrentPosition() + 5000);
-
-                        Log.d("TEST", "onDoubleTap(): widthOfScreen >> " + widthOfScreen +
-                                " positionOfDoubleTapX >>" + positionOfDoubleTapX);
+//                        if (positionOfDoubleTapX < widthOfScreen / 2) {
+//                            player.seekTo(player.getCurrentPosition() - 5000);
+//                            Log.d("TEST", "onDoubleTap(): widthOfScreen >> " + widthOfScreen +
+//                                    " positionOfDoubleTapX >>" + positionOfDoubleTapX);
+//                        }
+//                        else {
+//                        player.seekTo(player.getCurrentPosition() + 5000);
+//                        }
+                        CURRENT_POSITION = player.getCurrentPosition();
+                        Log.d(TAG, "onDoubleTap():  " + player.getCurrentPosition());
+                        addMark(CURRENT_POSITION);
                         return true;
                     }
                 });
-
         exoPlayerView.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
     }
 
-    //TODO: 더블탭 해도 하단 메뉴바가 움직임, 시간이동 없음
+    public void addMark(Long currentPosition) {
+        Mark mark = new Mark();
+        mark.setvid();
+        mark.setVname();
+        mark.setmid();
+        mark.setmMemo();
+        mark.setmStart(currentPosition);
+
+        //TODO: 여기 값 어떻게 채워넣을지 확인하기, 슬라이드 제스쳐디택터 추가
+    }
+
+    @Override
+    public void clickLongItem(View v, int id) {
+    }
+
+    @Override
+    public void clickItem(int id) {
+    }
 }

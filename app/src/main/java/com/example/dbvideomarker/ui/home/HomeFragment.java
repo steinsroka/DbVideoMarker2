@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ContextThemeWrapper;
@@ -31,12 +30,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Update;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.activity.MarkEditActivity;
-import com.example.dbvideomarker.activity.PlayerActivity;
-import com.example.dbvideomarker.activity.SearchActivity;
+import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.adapter.MediaAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
@@ -45,10 +41,8 @@ import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.mediastore.MediaStoreLoader;
-import com.example.dbvideomarker.repository.VideoRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,14 +57,14 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         Context context = v.getContext();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // 마시멜로우 버전과 같거나 이상이라면
-            if(ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     Toast.makeText(getContext(), "외부 저장소 사용을 위해 읽기/쓰기 필요", Toast.LENGTH_SHORT).show();
                 }
 
                 requestPermissions(new String[]
-                                {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                                {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
                         2);  //마지막 인자는 체크해야될 권한 갯수
 
             } else {
@@ -83,7 +77,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         VideoAdapter videoAdapter = new VideoAdapter(context, ViewCase.NORMAL, this, this);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
+                new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(getContext()).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(videoAdapter);
@@ -97,14 +91,11 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         });
 
 
-
-
-
         FloatingActionButton fab = v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                //                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 //                EditText videoName = new EditText(context);
 //                builder.setView(videoName);
 //                builder.setTitle("임시 비디오 추가");
@@ -121,7 +112,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 //                AlertDialog dialog = builder.create();
 //                dialog.show();
                 ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
-                for(int i = 0; i < idArray.size(); i++) {
+                for (int i = 0; i < idArray.size(); i++) {
                     Video video = new Video();
                     int ContentId = idArray.get(i);
                     video.setvName(ContentId);
@@ -148,7 +139,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             public void onClick(View view) {
                 RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
                 DividerItemDecoration dividerItemDecoration =
-                        new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
+                        new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(getContext()).getOrientation());
                 recyclerView.addItemDecoration(dividerItemDecoration);
                 mediaAdapter = new MediaAdapter(context, ViewCase.MEDIA, datas);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
@@ -189,7 +180,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                         AlertDialog dialog = builder.create();
                         dialog.show();
                         break;
-                    case(R.id.popup_delete):
+                    case (R.id.popup_delete):
                         homeViewModel.deleteVideo(id);
                         break;
                 }
