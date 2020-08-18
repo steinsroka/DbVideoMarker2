@@ -327,5 +327,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void clickMark(int id, long start) {
+        player.seekTo(start);
     }
 }
