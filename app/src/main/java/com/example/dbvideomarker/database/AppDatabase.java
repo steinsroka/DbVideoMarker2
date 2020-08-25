@@ -16,7 +16,7 @@ import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
 
-@Database(entities = {Video.class, PlayList.class, Mark.class, PlRel.class}, version = 1, exportSchema = false)
+@Database(entities = {Video.class, PlayList.class, Mark.class, PlRel.class}, version = 242, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     //데이터베이스와 연결되는 DAO, DAO는 abstract로 getter 제공

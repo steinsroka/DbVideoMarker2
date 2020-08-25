@@ -6,8 +6,10 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
+import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.List;
@@ -34,14 +36,16 @@ public interface VideoDao {
     //LiveData<List<Video>> findAllVideo (boolean sort);
     LiveData<List<VideoSelect>> findAllVideo ();
 */
+
+
     @Query("SELECT * FROM Video ORDER BY contentID ASC")
     LiveData<List<Video>> findAllVideo ();
 
 //    @Query("SELECT * FROM Video WHERE vname LIKE + '%' + :vName + '%' ORDER BY vName")
 //    LiveData<List<Video>> searchVideo(String vName);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long insertVideo(Video video);
+    @Insert(onConflict = IGNORE)
+    long insertVideo(Video video);
 
     @Update
     int updateVideo(Video video);

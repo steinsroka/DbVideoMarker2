@@ -137,8 +137,17 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab_video = findViewById(R.id.fab_video);
+        fab_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(PlayListEditActivity.this, SelectActivity.class);
+                intent1.putExtra("추가할 재생목록 번호", pid);
+                startActivityForResult(intent1, SELECT_REQUEST_CODE);
+            }
+        });
+        FloatingActionButton fab_mark = findViewById(R.id.fab_mark);
+        fab_mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(PlayListEditActivity.this, SelectActivity.class);

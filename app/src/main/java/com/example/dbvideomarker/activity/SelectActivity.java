@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
@@ -39,7 +40,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
     private Button btnSelection;
     private ArrayList<Integer> selectedVidList = new ArrayList<>();
     private int pid;
-
+    public RequestManager mGlideRequestManager;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         add_pid.setText(""+pid);
 
         RecyclerView recyclerView = findViewById(R.id.rv_select);
-        VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this);
+        VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this, mGlideRequestManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

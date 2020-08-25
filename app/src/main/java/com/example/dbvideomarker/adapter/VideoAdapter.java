@@ -2,27 +2,28 @@ package com.example.dbvideomarker.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
+import android.net.Uri;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.MyItemView;
 import com.example.dbvideomarker.adapter.util.ViewCase;
-import com.example.dbvideomarker.adapter.viewholder.ItemViewHolderMedia;
 import com.example.dbvideomarker.adapter.viewholder.ItemViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.ItemViewHolderSelect;
-import com.example.dbvideomarker.database.entitiy.Media;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.ui.home.HomeFragment;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
@@ -34,10 +35,13 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
     private OnItemSelectedListener onItemSelectedListener;
     private OnItemClickListener onItemClickListener;
+    private RequestManager mRequestManager;
 
 
-    public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
+
+    public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener, RequestManager requestManager) {
         mInflater = LayoutInflater.from(context);
+        mRequestManager = requestManager;
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
         this.onItemClickListener = onItemClickListener;
@@ -63,6 +67,10 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
             if(videoList != null) {
                 Video current = videoList.get(position);
                 viewHolderNormal.vId.setText(String.valueOf(current.getContentId()));
+                viewHolderNormal.vName.setText(String.valueOf(current.getVname()));
+                viewHolderNormal.vDur.setText(String.valueOf(current.getVdur()));
+                //viewHolderNormal.vThumb.setImage
+                mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderNormal.vThumb);
                 viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -88,8 +96,8 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
             if (videoList != null) {
                 Video current = videoList.get(position);
                 viewHolderSelect.selectedVid.setText(String.valueOf(current.getContentId()));
-                viewHolderSelect.selectedVname.setText(String.valueOf(current.getContentId()));
-
+                viewHolderSelect.selectedVname.setText(String.valueOf(current.getVname()));
+                viewHolderSelect.selectedDur.setText(String.valueOf(current.getVdur()));
 
                 if (mSelectedItems.get(position, false)) {
                     viewHolderSelect.view.setBackgroundColor(Color.GRAY);

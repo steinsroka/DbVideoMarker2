@@ -14,15 +14,15 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.activity.SearchActivity;
+import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.listener.OnMarkClickListener;
@@ -34,6 +34,7 @@ import java.util.List;
 public class DashboardFragment extends Fragment implements OnItemClickListener, OnMarkClickListener {
 
     private DashboardViewModel dashboardViewModel;
+    private MainActivity mainActivity;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class DashboardFragment extends Fragment implements OnItemClickListener, 
         RecyclerView recyclerView = rootv.findViewById(R.id.rv_Mark);
         MarkAdapter adapter = new MarkAdapter(context, this, this);
 
+        mainActivity  = new MainActivity();
+
         dashboardViewModel = new ViewModelProvider(getActivity()).get(DashboardViewModel.class);
 
         dashboardViewModel.getAllMark().observe(getActivity(), new Observer<List<Mark>>() {
@@ -53,15 +56,15 @@ public class DashboardFragment extends Fragment implements OnItemClickListener, 
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         recyclerView.setAdapter(adapter);
 
         Button buttonSearch = rootv.findViewById(R.id.btn_Search);
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentSearch = new Intent(getContext(), SearchActivity.class);
-                getContext().startActivity(intentSearch);
+                //Intent intentSearch = new Intent(getContext(), SearchActivity.class);
+                //getContext().startActivity(intentSearch);
             }
         });
 

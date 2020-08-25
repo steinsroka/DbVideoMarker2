@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ContextThemeWrapper;
@@ -31,6 +32,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.adapter.MediaAdapter;
@@ -41,6 +44,7 @@ import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.mediastore.MediaStoreLoader;
+import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -51,10 +55,12 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     private HomeViewModel homeViewModel;
     private MediaAdapter mediaAdapter;
     private String TAG = HomeFragment.class.getSimpleName();
+    public RequestManager mGlideRequestManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         Context context = v.getContext();
+        mGlideRequestManager = Glide.with(getActivity());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // 마시멜로우 버전과 같거나 이상이라면
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -74,7 +80,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
         List<Media> datas = MediaStoreLoader.getContent(getActivity());
         ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
-        VideoAdapter videoAdapter = new VideoAdapter(context, ViewCase.NORMAL, this, this);
+        VideoAdapter videoAdapter = new VideoAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(getContext()).getOrientation());
@@ -111,14 +117,29 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 //                });
 //                AlertDialog dialog = builder.create();
 //                dialog.show();
-                ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
-                for (int i = 0; i < idArray.size(); i++) {
+
+
+                /** insert only id */
+//                ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
+//                for (int i = 0; i < idArray.size(); i++) {
+//                    Video video = new Video();
+//                    int ContentId = idArray.get(i);
+//                    video.setContentId(ContentId);
+//                    homeViewModel.insertVideo(video);
+//                    Log.d(TAG, "insert ======" + ContentId);
+//                }
+
+                List<Media> mediaList = MediaStoreLoader.getContent(getActivity());
+                for(int i = 0; i < mediaList.size(); i++) {
+                    Media media = mediaList.get(i);
                     Video video = new Video();
-                    int ContentId = idArray.get(i);
-                    video.setContentId(ContentId);
+                    video.setContentId(media.getResId());
+                    video.setVdur(media.getDur());
+                    video.setVname(media.getName());
+                    video.setVpath(media.getPath());
                     homeViewModel.insertVideo(video);
-                    Log.d(TAG, "insert ======" + ContentId);
                 }
+
             }
         });
 

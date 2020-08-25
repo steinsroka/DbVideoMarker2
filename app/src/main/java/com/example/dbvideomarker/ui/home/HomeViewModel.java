@@ -6,8 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.mediastore.MediaStoreLoader;
 import com.example.dbvideomarker.repository.PlayListEditRepository;
 import com.example.dbvideomarker.repository.VideoRepository;
 
@@ -17,9 +19,7 @@ import java.util.List;
 public class HomeViewModel extends AndroidViewModel {
 
     private VideoRepository videoRepository;
-    private PlayListEditRepository playListEditRepository;
     private LiveData<List<Video>> allVideo;
-    private LiveData<List<PlRel>> allPlayListRelation;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -29,6 +29,7 @@ public class HomeViewModel extends AndroidViewModel {
     public LiveData<List<Video>> getAllVideo() {
         return allVideo;
     }
+
 
     public void insertVideo(Video video) {
         videoRepository.insertVideo(video);

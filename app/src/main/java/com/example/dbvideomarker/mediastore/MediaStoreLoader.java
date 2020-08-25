@@ -32,7 +32,8 @@ public class MediaStoreLoader {
                 MediaStore.Video.Media.DURATION,
                 MediaStore.Video.Media.SIZE,
                 MediaStore.Video.Media.MIME_TYPE,
-                MediaStore.Video.Media.DATE_ADDED
+                MediaStore.Video.Media.DATE_ADDED,
+                MediaStore.Video.Media.DATA
         };
         Cursor c = resolver.query(uri, projections, null, null, null);
 
@@ -58,13 +59,16 @@ public class MediaStoreLoader {
                 index = c.getColumnIndex(projections[5]);
                 String added = c.getString(index);
 
+                index = c.getColumnIndex(projections[6]);
+                String path = c.getString(index);
+
                 Media data = new Media();
 
                 data.setResId(id);
                 data.setName(name);
 
-                String changedTime = loader.getReadableDuration(millis);
-                data.setDur(changedTime);
+                String readableDur = loader.getReadableDuration(millis);
+                data.setDur(readableDur);
 
                 String changedSize = loader.getReadableFileSize(size);
                 data.setSize(changedSize);
@@ -74,6 +78,8 @@ public class MediaStoreLoader {
 
                 String ContentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id)).toString();
                 data.setContentUri(ContentUri);
+
+                data.setPath(path);
 
                 mediaList.add(data);
             }

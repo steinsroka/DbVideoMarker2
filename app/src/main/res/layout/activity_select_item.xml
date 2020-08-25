@@ -11,7 +11,13 @@
         android:text="textView" />
 
     <TextView
-        android:id="@+id/selectedVid"
+    android:id="@+id/selectedVid"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="textView" />
+
+    <TextView
+        android:id="@+id/selectedDur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="textView" />

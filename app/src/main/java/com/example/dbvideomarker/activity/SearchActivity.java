@@ -7,21 +7,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
-import android.view.ContextThemeWrapper;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupMenu;
-import android.widget.Toast;
 
+import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
@@ -30,9 +22,7 @@ import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.listener.OnMarkClickListener;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
-import com.example.dbvideomarker.database.entitiy.Video;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener, OnMarkClickListener {
@@ -40,17 +30,18 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
     private VideoAdapter videoAdapter;
     private MarkAdapter markAdapter;
     private SearchViewModel searchViewModel;
+    public RequestManager mGlideRequestManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.fragment_search);
 
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
         RecyclerView recyclerViewVideo = findViewById(R.id.rv_VideoResult);
-        videoAdapter = new VideoAdapter(this, ViewCase.NORMAL,this,this);
+        videoAdapter = new VideoAdapter(this, ViewCase.NORMAL,this,this, mGlideRequestManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewVideo.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerViewVideo.addItemDecoration(dividerItemDecoration);
         recyclerViewVideo.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

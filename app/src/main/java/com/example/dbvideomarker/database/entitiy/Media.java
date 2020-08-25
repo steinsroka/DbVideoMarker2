@@ -1,5 +1,8 @@
 package com.example.dbvideomarker.database.entitiy;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 public class Media {
 
     private int resId;
@@ -9,6 +12,7 @@ public class Media {
     private String Mime;
     private String Added;
     private String ContentUri;
+    private String Path;
 
 
     public String getName() {
@@ -65,5 +69,13 @@ public class Media {
 
     public void setContentUri(String contentUri) {
         ContentUri = contentUri;
+    }
+
+    public String getPath() {
+        return Path;
+    }
+
+    public void setPath(String path) {
+        Path = path;
     }
 }

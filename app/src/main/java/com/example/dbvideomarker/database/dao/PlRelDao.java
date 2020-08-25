@@ -25,6 +25,7 @@ public interface PlRelDao {
     @Query("SELECT video.contentId as video_id, plrel_pid as playlist_id FROM plrel " +
             "INNER JOIN video ON video.contentId = plrel.plrel_vid " +
             "WHERE plrel_pid = :pid")
+    //TODO:쿼리 수정(제목, 재생시간 추가)
     LiveData<List<PlRelVideo>> findVideoInPlayList(int pid);
 
     @Insert
