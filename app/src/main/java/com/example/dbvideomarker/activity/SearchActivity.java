@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
@@ -39,6 +40,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
         setContentView(R.layout.fragment_search);
 
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        mGlideRequestManager = Glide.with(this);
 
         RecyclerView recyclerViewVideo = findViewById(R.id.rv_VideoResult);
         videoAdapter = new VideoAdapter(this, ViewCase.NORMAL,this,this, mGlideRequestManager);

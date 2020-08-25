@@ -71,6 +71,8 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                 viewHolderNormal.vDur.setText(String.valueOf(current.getVdur()));
                 //viewHolderNormal.vThumb.setImage
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderNormal.vThumb);
+
+                //TODO: 특정 시간을 추출
                 viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -95,9 +97,10 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
             ItemViewHolderSelect viewHolderSelect = (ItemViewHolderSelect) holder;
             if (videoList != null) {
                 Video current = videoList.get(position);
-                viewHolderSelect.selectedVid.setText(String.valueOf(current.getContentId()));
-                viewHolderSelect.selectedVname.setText(String.valueOf(current.getVname()));
+                viewHolderSelect.selectedId.setText(String.valueOf(current.getContentId()));
+                viewHolderSelect.selectedName.setText(String.valueOf(current.getVname()));
                 viewHolderSelect.selectedDur.setText(String.valueOf(current.getVdur()));
+                mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderSelect.selectedThumb);
 
                 if (mSelectedItems.get(position, false)) {
                     viewHolderSelect.view.setBackgroundColor(Color.GRAY);

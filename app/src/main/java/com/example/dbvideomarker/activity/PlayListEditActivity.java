@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.PlayListEditAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
@@ -51,14 +53,16 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     public int SELECT_REQUEST_CODE = 1001;
     private List<PlRelVideo> resultList = new ArrayList<>();
     private int pid;
-    ItemTouchHelper itemTouchHelper;
-    PlayListEditAdapter adapter;
+    public ItemTouchHelper itemTouchHelper;
+    public PlayListEditAdapter adapter;
+    public RequestManager mGlideRequestManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_playlistedit);
 
+        mGlideRequestManager = Glide.with(this);
         Intent intent = getIntent();
 
         pid = intent.getIntExtra("재생목록 번호", -1);
@@ -84,7 +88,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함 + setText는 charsequance 자료형임
 
         RecyclerView recyclerView = findViewById(R.id.rv_PlaylistEdit);
-        adapter = new PlayListEditAdapter(this, this, this);
+        adapter = new PlayListEditAdapter(this, this, this, mGlideRequestManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         Callback callback = new Callback(adapter);
@@ -139,15 +143,6 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         FloatingActionButton fab_video = findViewById(R.id.fab_video);
         fab_video.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1 = new Intent(PlayListEditActivity.this, SelectActivity.class);
-                intent1.putExtra("추가할 재생목록 번호", pid);
-                startActivityForResult(intent1, SELECT_REQUEST_CODE);
-            }
-        });
-        FloatingActionButton fab_mark = findViewById(R.id.fab_mark);
-        fab_mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(PlayListEditActivity.this, SelectActivity.class);

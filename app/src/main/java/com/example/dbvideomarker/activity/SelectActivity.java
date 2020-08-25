@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.VideoAdapter;
@@ -46,6 +47,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
 
+        mGlideRequestManager = Glide.with(this);
         Intent intent = getIntent();
 
         pid = intent.getIntExtra("추가할 재생목록 번호", -1);
