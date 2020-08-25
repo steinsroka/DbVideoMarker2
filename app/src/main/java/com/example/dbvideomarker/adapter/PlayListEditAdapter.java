@@ -77,6 +77,7 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
                 }
             });
 
+            //이미지 터치하면 드래그시작
             holder.imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -101,6 +102,7 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
         notifyDataSetChanged();
     }
 
+    //아이템이 움직이면 포지션 변경
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         Collections.swap(plRelList, fromPosition, toPosition);

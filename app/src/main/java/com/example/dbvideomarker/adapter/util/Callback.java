@@ -16,6 +16,7 @@ public class Callback extends ItemTouchHelper.Callback {
         moveListener = listener;
     }
 
+    //아이템 상하움직임 감지
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
