@@ -1,4 +1,4 @@
-package com.example.dbvideomarker.ui;
+package com.example.dbvideomarker.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
-import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.ui.notifications.NotificationsViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -26,14 +26,14 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-public class BottomSheetDialog extends BottomSheetDialogFragment implements OnItemClickListener {
+public class Player_BottomSheetDialog extends BottomSheetDialogFragment implements OnItemClickListener {
 
     private NotificationsViewModel notificationsViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.bottom_sheet_layout, container, false);
+        View v = inflater.inflate(R.layout.bottom_sheet_player, container, false);
 
         Context context = v.getContext();
 

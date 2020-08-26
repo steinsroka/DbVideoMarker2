@@ -28,7 +28,7 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
-import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 
 import java.util.List;

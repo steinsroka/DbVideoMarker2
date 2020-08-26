@@ -64,7 +64,6 @@ public class PlayListRepository {
                 Log.d(TAG, "deletePlayList : " + integer);
             }
         }.execute(pid);
-        //TODO: 내부에 데이터 있을때 삭제가 안됨
     }
 
     public void update(PlayList playList) {

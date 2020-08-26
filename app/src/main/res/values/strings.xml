@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="dialog_delete_confirm">Delete???</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
 </resources>

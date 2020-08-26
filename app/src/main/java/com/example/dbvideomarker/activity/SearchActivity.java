@@ -18,9 +18,9 @@ import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
-import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
-import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.adapter.listener.OnMarkClickListener;
+import com.example.dbvideomarker.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
 

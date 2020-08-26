@@ -12,17 +12,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
-import com.example.dbvideomarker.adapter.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.MyItemView;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.ItemViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.ItemViewHolderSelect;
 import com.example.dbvideomarker.database.entitiy.Video;
-import com.example.dbvideomarker.ui.home.HomeFragment;
 
 import java.io.File;
 import java.util.List;
@@ -72,7 +70,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                 //viewHolderNormal.vThumb.setImage
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderNormal.vThumb);
 
-                //TODO: 특정 시간을 추출
+                //TODO: 특정 시간을 추출하는게 가능한가
                 viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

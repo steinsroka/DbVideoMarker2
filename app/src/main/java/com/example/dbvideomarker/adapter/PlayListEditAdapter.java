@@ -15,11 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.util.Callback;
-import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
-import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.io.File;
 import java.util.Collections;

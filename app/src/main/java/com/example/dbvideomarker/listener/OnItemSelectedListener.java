@@ -1,4 +1,4 @@
-package com.example.dbvideomarker.adapter.listener;
+package com.example.dbvideomarker.listener;
 
 import android.util.SparseBooleanArray;
 import android.view.View;
