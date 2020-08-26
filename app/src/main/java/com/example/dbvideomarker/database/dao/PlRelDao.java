@@ -39,6 +39,9 @@ public interface PlRelDao {
     @Query("DELETE FROM plrel WHERE plrel_vid = :vid")
     int deletePlRel(int vid);
 
+    @Query("DELETE FROM plrel WHERE plrel_pid = :pid")
+    int deleteWithPlayList(int pid);
+
     @Query("SELECT * FROM Plrel WHERE plrel_pid != :pid")
     LiveData<List<PlRel>> videoOverlapCheck(int pid);
 

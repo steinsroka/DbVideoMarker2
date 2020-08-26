@@ -77,4 +77,21 @@ public class PlayListEditRepository {
             }
         }.execute(vid);
     }
+
+    public void deleteWithPlayList(int pid) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer... integers) {
+                if(plRelDao == null)
+                    return -1;
+                return plRelDao.deleteWithPlayList(integers[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "deleteWithPlayList : " + integer);
+            }
+        }.execute(pid);
+    }
 }

@@ -21,6 +21,7 @@ public class NotificationsViewModel extends AndroidViewModel {
     public NotificationsViewModel(@NonNull Application application) {
         super(application);
         playListRepository = new PlayListRepository(application);
+        playListEditRepository = new PlayListEditRepository(application);
         allPlayList = playListRepository.findAllPlayList();
     }
 
@@ -34,6 +35,10 @@ public class NotificationsViewModel extends AndroidViewModel {
 
     public void deletePlayList(int pid) {
         playListRepository.deletePlayList(pid);
+    }
+
+    public void deleteWithPlayList(int pid) {
+        playListEditRepository.deleteWithPlayList(pid);
     }
 
     public void update(PlayList playList) {

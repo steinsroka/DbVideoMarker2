@@ -107,6 +107,7 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup, menu);
+        int pid = id;
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -132,7 +133,7 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
                         dialog.show();
                         break;
                     case(R.id.popup_delete):
-
+                        notificationsViewModel.deleteWithPlayList(pid);
                         notificationsViewModel.deletePlayList(id);
                         break;
                 }
