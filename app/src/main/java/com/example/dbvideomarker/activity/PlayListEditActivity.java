@@ -55,14 +55,14 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     private int pid;
     public ItemTouchHelper itemTouchHelper;
     public PlayListEditAdapter adapter;
-    public RequestManager mGlideRequestManager;
+    public RequestManager _mGlideRequestManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_playlistedit);
 
-        mGlideRequestManager = Glide.with(this);
+        _mGlideRequestManager = Glide.with(this);
         Intent intent = getIntent();
 
         pid = intent.getIntExtra("재생목록 번호", -1);
@@ -71,7 +71,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         TextView playListName = (TextView) findViewById(R.id.playListName);
         TextView playListId = (TextView) findViewById(R.id.playListId);
-        TextView playListCount = (TextView) findViewById(R.id.playListCount);
+//        TextView playListCount = (TextView) findViewById(R.id.playListCount);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
@@ -88,17 +88,12 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함 + setText는 charsequance 자료형임
 
         RecyclerView recyclerView = findViewById(R.id.rv_PlaylistEdit);
-        adapter = new PlayListEditAdapter(this, this, this, mGlideRequestManager);
+        adapter = new PlayListEditAdapter(this, this, this, _mGlideRequestManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         Callback callback = new Callback(adapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
-
-
-
-
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
@@ -107,6 +102,8 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
             @Override
             public void onChanged(List<PlRelVideo> plRels) {
                 //Update the cached copy of the words in the adapter.
+                adapter.setPlRels(plRels);
+/*
                 resultList = getStringArrayList(""+pid);
 
                 if(resultList == null) {
@@ -135,6 +132,8 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
                     }
                 }
 
+ */
+
             }
         });
 
@@ -148,6 +147,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
                 Intent intent1 = new Intent(PlayListEditActivity.this, SelectActivity.class);
                 intent1.putExtra("추가할 재생목록 번호", pid);
                 startActivityForResult(intent1, SELECT_REQUEST_CODE);
+                //TODO: 갑자기 작동안함
             }
         });
     }
@@ -191,13 +191,13 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
                 switch (menuItem.getItemId()) {
                     case(R.id.popup_delete):
                         playListEditViewModel.deletePlRel(id);
+
                         break;
                 }
                 return false;
             }
         });
         popupMenu.show();
-
     }
 
     @Override

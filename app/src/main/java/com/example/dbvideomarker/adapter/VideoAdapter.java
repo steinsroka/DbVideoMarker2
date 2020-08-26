@@ -3,6 +3,7 @@ package com.example.dbvideomarker.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
     private RequestManager mRequestManager;
 
 
-
     public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener, RequestManager requestManager) {
         mInflater = LayoutInflater.from(context);
         mRequestManager = requestManager;
@@ -49,10 +49,10 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
 
     @Override
     public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(sel_type == ViewCase.NORMAL) {
+        if (sel_type == ViewCase.NORMAL) {
             View view = mInflater.from(parent.getContext()).inflate(R.layout.home_main_item, parent, false);
             return new ItemViewHolderNormal(view);
-        } else if (sel_type == ViewCase.SELECT){
+        } else if (sel_type == ViewCase.SELECT) {
             View view = mInflater.from(parent.getContext()).inflate(R.layout.activity_select_item, parent, false);
             return new ItemViewHolderSelect(view);
         }
@@ -62,9 +62,9 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyItemView holder, int position) {
-        if(holder instanceof ItemViewHolderNormal){
-            ItemViewHolderNormal viewHolderNormal = (ItemViewHolderNormal)holder;
-            if(videoList != null) {
+        if (holder instanceof ItemViewHolderNormal) {
+            ItemViewHolderNormal viewHolderNormal = (ItemViewHolderNormal) holder;
+            if (videoList != null) {
                 Video current = videoList.get(position);
                 viewHolderNormal.vId.setText(String.valueOf(current.getContentId()));
                 viewHolderNormal.vName.setText(String.valueOf(current.getVname()));
@@ -91,7 +91,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
             } else {
                 viewHolderNormal.vName.setText("No Data");
             }
-        } else if(holder instanceof ItemViewHolderSelect) {
+        } else if (holder instanceof ItemViewHolderSelect) {
             //선택모드
 
             ItemViewHolderSelect viewHolderSelect = (ItemViewHolderSelect) holder;
@@ -123,7 +123,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                             mSelectedItemIds.put(current.getContentId(), true);
                             notifyItemChanged(position);
                         }
-//                        Log.d("test", "parsed"+ mSelectedItems.size() + "/// size" + selectedVidList.size());
+                        Log.d("test", "parsed"+ mSelectedItemIds.size());
 
                         onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                     }
@@ -139,22 +139,19 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
 
     @Override
     public int getItemCount() {
-        if(videoList != null) {
+        if (videoList != null) {
             return videoList.size();
         } else return 0;
     }
 
-
-
-    public void parseSelectedItem() {
-
-    }
-
-
-
 //    private void toggleItemSelected(int position) {
-//
-//
+//        if (mSelectedItems.get(position, false) == true) {
+//            mSelectedItems.delete(position);
+//            notifyItemChanged(position);
+//        } else {
+//            mSelectedItems.put(position, true);
+//            notifyItemChanged(position);
+//        }
 //    }
 
 //    private boolean isItemSelected(int position) {

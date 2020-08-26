@@ -22,8 +22,10 @@ public interface PlRelDao {
     @Query("SELECT * FROM plrel ORDER BY plrel_id")
     LiveData<List<PlRel>> findAllPlayListRelation();
 
-    @Query("SELECT video.contentId as video_id, plrel_pid as playlist_id FROM plrel " +
+    @Query("SELECT video.contentId as video_id, video.vname as video_name , video.vdur as video_dur , video.vpath as video_path, " +
+            "plrel.plrel_pid as playlist_id FROM plrel " +
             "INNER JOIN video ON video.contentId = plrel.plrel_vid " +
+            "INNER JOIN playlist ON playlist.pid = plrel.plrel_pid " +
             "WHERE plrel_pid = :pid")
     //TODO:쿼리 수정(제목, 재생시간 추가)
     LiveData<List<PlRelVideo>> findVideoInPlayList(int pid);

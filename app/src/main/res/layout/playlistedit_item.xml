@@ -44,11 +44,16 @@
                     android:text="TextView" />
 
                 <TextView
-                    android:id="@+id/plrel_id"
+                android:id="@+id/plrel_vid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/plrel_pid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView" />
-
 
             </LinearLayout>
         </LinearLayout>

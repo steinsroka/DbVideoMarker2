@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.repository.PlayListEditRepository;
 import com.example.dbvideomarker.repository.PlayListRepository;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public class NotificationsViewModel extends AndroidViewModel {
 
     private PlayListRepository playListRepository;
+    private PlayListEditRepository playListEditRepository;
     private LiveData<List<PlayList>> allPlayList;
 
     public NotificationsViewModel(@NonNull Application application) {

@@ -19,20 +19,17 @@ import android.widget.PopupMenu;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.activity.MarkEditActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
 import com.example.dbvideomarker.adapter.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
-import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.List;
 
@@ -135,6 +132,7 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
                         dialog.show();
                         break;
                     case(R.id.popup_delete):
+
                         notificationsViewModel.deletePlayList(id);
                         break;
                 }

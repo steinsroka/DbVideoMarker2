@@ -57,9 +57,11 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
         if(plRelList != null) {
             PlRelVideo current = plRelList.get(position);
             holder.name.setText(String.valueOf(current.getPv_vname()));
-            holder.id.setText(String.valueOf(current.getPv_vid()));
+            holder.vid.setText(String.valueOf(current.getPv_vid()));
+            holder.pid.setText(String.valueOf(current.getPv_pid()));
             holder.dur.setText(String.valueOf(current.getPv_vdur()));
             mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getPv_vpath()))).into(holder.thumb);
+
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -112,7 +114,8 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
     public class PLEViewHolder extends RecyclerView.ViewHolder {
         private View view;
         private TextView name;
-        private TextView id;
+        private TextView vid;
+        private TextView pid;
         private TextView dur;
         private ImageView imageView;
         private ImageView thumb;
@@ -121,7 +124,8 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
             super(view);
             this.view = view;
             name = view.findViewById(R.id.plrel_name);
-            id = view.findViewById(R.id.plrel_dur);
+            vid = view.findViewById(R.id.plrel_vid);
+            pid = view.findViewById(R.id.plrel_pid);
             dur = view.findViewById(R.id.plrel_dur);
             thumb = view.findViewById(R.id.plrel_thumb);
             imageView = view.findViewById(R.id.dragImage);

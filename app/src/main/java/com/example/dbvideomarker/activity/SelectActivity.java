@@ -48,11 +48,11 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         setContentView(R.layout.activity_select);
 
         mGlideRequestManager = Glide.with(this);
-        Intent intent = getIntent();
+//        Intent intent = getIntent();
 
-        pid = intent.getIntExtra("추가할 재생목록 번호", -1);
-        TextView add_pid = (TextView)findViewById(R.id.playlist_id);
-        add_pid.setText(""+pid);
+//        pid = intent.getIntExtra("추가할 재생목록 번호", -1);
+//        TextView add_pid = (TextView)findViewById(R.id.playlist_id);
+//        add_pid.setText(""+pid);
 
         RecyclerView recyclerView = findViewById(R.id.rv_select);
         VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this, mGlideRequestManager);
