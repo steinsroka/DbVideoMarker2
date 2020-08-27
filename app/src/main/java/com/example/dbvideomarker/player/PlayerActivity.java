@@ -1,9 +1,14 @@
 package com.example.dbvideomarker.player;
 
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,11 +16,17 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -28,15 +39,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
+import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.mediastore.MediaStoreLoader;
 import com.example.dbvideomarker.dialog.Player_BottomSheetDialog;
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
@@ -45,38 +61,62 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener {
+public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, View.OnClickListener, PlayerController {
 
-    private PlayerView exoPlayerView;
-    private SimpleExoPlayer player;
-    private int widthOfScreen, index;
-    private Boolean playWhenReady = true;
-    private int currentWindow = 0;
-    private Long playbackPosition = 0L;
     private static final String TAG = PlayerActivity.class.getSimpleName();
-
+    private PlayerView playerView;
+    private VideoPlayer player;
+    private ImageButton mute, unMute, lock, unLock, nextBtn, preBtn, retry, back, full, unFull;
+    private ProgressBar progressBar;
+    private AudioManager mAudioManager;
+    private boolean disableBackPress = false;
+    private PlayerActivity playerActivity;
 
     private int id;
     private long start;
-
     private Uri contentUri;
-    private PlayerViewModel playerViewModel;
-    private RecyclerView recyclerView;
-    private MarkAdapter markAdapter;
-    private DividerItemDecoration dividerItemDecoration;
-    private Long CURRENT_POSITION;
-    private MediaStoreLoader mediaStoreLoader;
+
+    private boolean forceLandscape = false;
+    private ViewGroup.LayoutParams layoutParams;
+
+
+
 
 //    private int SWIPE_MIN_DISTANCE = 120;
 //    private int SWIPE_MAX_OFF_PATH = 250;
 
-    
+    private final AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+                @Override
+                public void onAudioFocusChange(int focusChange) {
+                    switch (focusChange) {
+                        case AudioManager.AUDIOFOCUS_GAIN:
+                            if (player != null)
+                                //  player.getPlayer().setPlayWhenReady(true);
+                                break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                            // Audio focus was lost, but it's possible to duck (i.e.: play quietly)
+                            if (player != null)
+                                player.getPlayer().setPlayWhenReady(false);
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                        case AudioManager.AUDIOFOCUS_LOSS:
+                            // Lost audio focus, probably "permanently"
+                            // Lost audio focus, but will gain it back (shortly), so note whether
+                            // playback should resume
+                            if (player != null)
+                                player.getPlayer().setPlayWhenReady(false);
+                            break;
+                    }
+                }
+            };
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-
+/*
         Intent intent = getIntent();
         id = intent.getExtras().getInt("ContentID");
         start = intent.getExtras().getLong("Start");
@@ -84,7 +124,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         String id_toString = String.valueOf(id);
         contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id_toString);
 
-        exoPlayerView = findViewById(R.id.video_view);
+        playerView = findViewById(R.id.video_view);
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         recyclerView = findViewById(R.id.rv_getMark);
 
@@ -120,24 +160,269 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                 playerBottomSheetDialog.show(getSupportFragmentManager(), "bottomSheetDialog");
             }
         });
+*/
+
+
+        getDataFromIntent();
+        setupLayout();
+        initSource();
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        id = intent.getExtras().getInt("ContentID");
+        start = intent.getExtras().getLong("Start");
+        String id_toString = String.valueOf(id);
+
+        contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id_toString);
+    }
+
+    private void setupLayout() {
+        playerView = findViewById(R.id.video_view);
+        progressBar = findViewById(R.id.progress_bar);
+
+        mute = findViewById(R.id.btn_mute);
+        unMute = findViewById(R.id.btn_unMute);
+        lock = findViewById(R.id.btn_lock);
+        unLock = findViewById(R.id.btn_unLock);
+        nextBtn = findViewById(R.id.btn_next);
+        preBtn = findViewById(R.id.btn_prev);
+        retry = findViewById(R.id.retry_btn);
+        back = findViewById(R.id.btn_back);
+        full = findViewById(R.id.btn_full);
+        unFull = findViewById(R.id.btn_unFull);
+
+        //optional setting
+        playerView.getSubtitleView().setVisibility(View.GONE);
+
+        mute.setOnClickListener(this);
+        unMute.setOnClickListener(this);
+        lock.setOnClickListener(this);
+        unLock.setOnClickListener(this);
+        nextBtn.setOnClickListener(this);
+        preBtn.setOnClickListener(this);
+        retry.setOnClickListener(this);
+        back.setOnClickListener(this);
+        full.setOnClickListener(this);
+        unFull.setOnClickListener(this);
+    }
+
+    private void initSource() {
+
+        if (contentUri == null) {
+            Toast.makeText(this, "can not play video", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        player = new VideoPlayer(playerView, getApplicationContext(), contentUri, this);
+
+        mAudioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+
+        //optional setting
+        playerView.getSubtitleView().setVisibility(View.GONE);
+        player.seekToOnDoubleTap();
+
+        playerView.setControllerVisibilityListener(visibility ->
+        {
+            Log.i(TAG, "onVisibilityChange: " + visibility);
+            if (player.isLock())
+                playerView.hideController();
+
+            back.setVisibility(visibility == View.VISIBLE && !player.isLock() ? View.VISIBLE : View.GONE);
+        });
+
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-        initializePlayer();
+        if (player != null)
+            player.resumePlayer();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        releasePlayer();
+    public void onResume() {
+        super.onResume();
+        hideSystemUi();
+        if (player != null)
+            player.resumePlayer();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (player != null)
+            player.releasePlayer();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mAudioManager != null) {
+            mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
+            mAudioManager = null;
+        }
+        if (player != null) {
+            player.releasePlayer();
+            player = null;
+        }
+        //PlayerApplication.getRefWatcher(this).watch(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (disableBackPress)
+            return;
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        hideSystemUi();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int controllerId = view.getId();
+
+        switch (controllerId) {
+            case R.id.btn_mute:
+                player.setMute(true);
+                break;
+            case R.id.btn_unMute:
+                player.setMute(false);
+                break;
+            case R.id.btn_lock:
+                updateLockMode(true);
+                break;
+            case R.id.btn_unLock:
+                updateLockMode(false);
+                break;
+            case R.id.exo_rew:
+                player.seekToSelectedPosition(0, true);
+                break;
+            case R.id.btn_back:
+                onBackPressed();
+                break;
+            case R.id.retry_btn:
+                initSource();
+                showProgressBar(true);
+                showRetryBtn(false);
+                break;
+            case R.id.btn_full:
+                getFullScreen(playerView, true);
+                break;
+            case R.id.btn_unFull:
+                getFullScreen(playerView,false);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    public void getFullScreen(PlayerView playerView, boolean forceLandscape) {
+
+        PlayerView playerViewFullscreen = new PlayerView(this);
+        layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        playerViewFullscreen.setLayoutParams(layoutParams);
+        playerViewFullscreen.setVisibility(View.GONE);
+        playerViewFullscreen.setBackgroundColor(Color.BLACK);
+
+
+        //childcount 부분 비어있음(index)
+        ((ViewGroup)playerView.getRootView()).addView(playerViewFullscreen, 1);
+
+        if(forceLandscape) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            //시스템 버전별로 UI를 숨기는 View변수가 다른데 4102는 절대값이라 상관없음
+            getWindow().getDecorView().setSystemUiVisibility(4102);
+            playerView.setVisibility(View.GONE);
+            playerViewFullscreen.setVisibility(View.VISIBLE);
+            playerView.switchTargetView(player.getPlayer(), playerView, playerViewFullscreen);
+        } else if(!forceLandscape) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            getWindow().getDecorView().setSystemUiVisibility(View.VISIBLE);
+            playerView.setVisibility(View.VISIBLE);
+            playerViewFullscreen.setVisibility(View.GONE);
+            playerView.switchTargetView(player.getPlayer(), playerViewFullscreen, playerView);
+        }
+        playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_HEIGHT);
+        playerView.getPlayer();
+        //TODO:전체화면은 되는데 나갈수가없음
+    }
+
+
+    @SuppressLint("InlinedApi")
+    private void hideSystemUi() {
+        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    public void setMuteMode(boolean mute) {
+        if (player != null && playerView != null) {
+            if (mute) {
+                this.mute.setVisibility(View.GONE);
+                unMute.setVisibility(View.VISIBLE);
+            } else {
+                unMute.setVisibility(View.GONE);
+                this.mute.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void showProgressBar(boolean visible) {
+        progressBar.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateLockMode(boolean isLock) {
+        if (player == null || playerView == null)
+            return;
+
+        player.lockScreen(isLock);
+
+        if (isLock) {
+            disableBackPress = true;
+            playerView.hideController();
+            unLock.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        disableBackPress = false;
+        playerView.showController();
+        unLock.setVisibility(View.GONE);
+
+    }
+
+
+    @Override
+    public void showRetryBtn(boolean visible) {
+        retry.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+
+    @Override
+    public void audioFocus() {
+        mAudioManager.requestAudioFocus(
+                mOnAudioFocusChangeListener,
+                AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN);
+    }
+
+
+
+
+/*
     private void initializePlayer() {
         if (player == null) {
 
-            /*DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(this.getApplicationContext());
+            DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(this.getApplicationContext());
             DefaultTrackSelector trackSelector = new DefaultTrackSelector();
             DefaultLoadControl loadControl = new DefaultLoadControl();
 
@@ -145,24 +430,24 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                     this.getApplicationContext(),
                     renderersFactory,
                     trackSelector,
-                    loadControl);*/
+                    loadControl);
 
             player = ExoPlayerFactory.newSimpleInstance(this.getApplicationContext());
 
             //플레이어 연결
-            exoPlayerView.setPlayer(player);
+            playerView.setPlayer(player);
 
             //컨트롤러 없애기
-            //exoPlayerView.setUseController(false);
+            exoPlayerView.setUseController(false);
 
             //사이즈 조절
-            //exoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM); // or RESIZE_MODE_FILL
+            exoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM); // or RESIZE_MODE_FILL
 
             //음량조절
-            //player.setVolume(0);
+            player.setVolume(0);
 
             //프레임 포지션 설정
-            //player.seekTo(currentWindow, playbackPosition);
+            player.seekTo(currentWindow, playbackPosition);
 
         }
 
@@ -173,53 +458,53 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         //start,stop
         player.setPlayWhenReady(playWhenReady);
         seekToOnDoubleTap();
-//        seekToOnSwipe();
+        seekToOnSwipe();
     }
 
-//    //현재 동영상의 시간
-//    public int getCurrentPosition(){
-//        return (int) player.getCurrentPosition();
-//    }
-//
-//    //동영상이 실행되고있는지 확인
-//    public boolean isPlaying(){
-//        return player.getPlayWhenReady();
-//    }
-//
-//    //동영상 정지
-//    public void pause(){
-//        player.setPlayWhenReady(false);
-//    }
-//
-//    //동영상 재생
-//    public void start(){
-//        player.setPlayWhenReady(true);
-//    }
-//
-//    //동영상 시간 설정
-//    public void seekTo(int position){
-//        player.seekTo(position);
-//    }
-//
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Log.i("DATADATA","onResume");
-//        player.setPlayWhenReady(true);
-//    }
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        Log.i("DATADATA","onPause");
-//        player.setPlayWhenReady(false);
-//    }
-//
-//    //동영상 해제
-//    public void releasePlayer() {
-//        player.release();
-//        trackSelector = null;
-//    }
+    //현재 동영상의 시간
+    public int getCurrentPosition(){
+        return (int) player.getCurrentPosition();
+    }
+
+    //동영상이 실행되고있는지 확인
+    public boolean isPlaying(){
+        return player.getPlayWhenReady();
+    }
+
+    //동영상 정지
+    public void pause(){
+        player.setPlayWhenReady(false);
+    }
+
+    //동영상 재생
+    public void start(){
+        player.setPlayWhenReady(true);
+    }
+
+    //동영상 시간 설정
+    public void seekTo(int position){
+        player.seekTo(position);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("DATADATA","onResume");
+        player.setPlayWhenReady(true);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("DATADATA","onPause");
+        player.setPlayWhenReady(false);
+    }
+
+    //동영상 해제
+    public void releasePlayer() {
+        player.release();
+        trackSelector = null;
+    }
 
     private MediaSource buildMediaSource(Uri uri) {
 
@@ -244,7 +529,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
             currentWindow = player.getCurrentWindowIndex();
             playWhenReady = player.getPlayWhenReady();
 
-            exoPlayerView.setPlayer(null);
+            playerView.setPlayer(null);
             player.release();
             player = null;
 
@@ -301,7 +586,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 //                        return true;
 //                    }
                 });
-        exoPlayerView.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
+        playerView.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
     }
 //
 //    public void seekToOnSwipe() {
@@ -310,7 +595,10 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 //
 //                });
 //    }
+*/
 
+
+/*
     public void addMark(Long currentPosition) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -336,11 +624,11 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         dialog.show();
 
 
-
+*/
 
         //TODO: 여기 값 어떻게 채워넣을지 확인하기, 슬라이드 제스쳐디택터 추가
         //TODO: 북마크 시점 시간형변환
-    }
+
 
     @Override
     public void clickLongItem(View v, int id) {
@@ -352,6 +640,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void clickMark(int id, long start) {
-        player.seekTo(start);
+        //player.seekTo(start);
     }
 }
