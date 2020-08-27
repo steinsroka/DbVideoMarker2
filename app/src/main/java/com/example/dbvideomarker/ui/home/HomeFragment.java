@@ -8,10 +8,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -165,9 +170,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
     @Override
     public void clickLongItem(View v, int id) {
-        /*
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenuOverlapAnchor);
-        PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, getView());
+        PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup, menu);
@@ -197,6 +201,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                         //TODO: 데이터베이스 수정코드 -> 미디어스토어 수정코드로 변경할 필요있음
                         break;
                     case (R.id.popup_delete):
+                        homeViewModel.deleteVideoWithMark(id);
                         homeViewModel.deleteVideo(id);
                         break;
                 }
@@ -204,11 +209,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }
         });
         popupMenu.show();
-         */
-        Video_BottomSheetDialog video_bottomSheetDialog = new Video_BottomSheetDialog();
-        video_bottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
-        video_bottomSheetDialog.onClick(v);
-        //TODO:여기서부터작업(바텀 메뉴로부터 이벤트 받기)
+
+//        Video_BottomSheetDialog video_bottomSheetDialog = new Video_BottomSheetDialog();
+//        video_bottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
+//        video_bottomSheetDialog.onClick(v);
     }
 
     @Override

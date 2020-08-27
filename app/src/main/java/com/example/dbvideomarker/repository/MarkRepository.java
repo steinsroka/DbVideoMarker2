@@ -70,4 +70,21 @@ public class MarkRepository {
             }
         }.execute(id);
     }
+
+    public void deleteVideoWithMark(int id) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer... integers) {
+                if(markDao == null)
+                    return -1;
+                return markDao.deleteVideoWithMark(integers[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "deleteVideo : " + integer);
+            }
+        }.execute(id);
+    }
 }

@@ -39,4 +39,7 @@ public interface MarkDao {
 
     @Query("DELETE FROM Mark WHERE mid = :mid")
     int deleteMark(int mid);
+
+    @Query("DELETE FROM Mark WHERE vid =:id")
+    int deleteVideoWithMark(int id);
 }

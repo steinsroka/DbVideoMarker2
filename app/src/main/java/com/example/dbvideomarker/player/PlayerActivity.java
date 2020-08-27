@@ -70,6 +70,8 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 //    private int SWIPE_MIN_DISTANCE = 120;
 //    private int SWIPE_MAX_OFF_PATH = 250;
 
+    
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
