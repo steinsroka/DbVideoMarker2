@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.InfoActivity;
 import com.example.dbvideomarker.dialog.Video_BottomSheetDialog;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.adapter.MediaAdapter;
@@ -180,6 +181,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
+                    case R.id.popup_info:
+                        Intent infoIntent = new Intent(getContext(), InfoActivity.class);
+                        infoIntent.putExtra("ContentID", id);
+                        getContext().startActivity(infoIntent);
                     case R.id.popup_edit:
 //                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 //                        EditText et = new EditText(getActivity());
