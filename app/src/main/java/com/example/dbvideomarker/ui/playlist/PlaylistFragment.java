@@ -1,4 +1,4 @@
-package com.example.dbvideomarker.ui.notifications;
+package com.example.dbvideomarker.ui.playlist;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -33,12 +33,12 @@ import com.example.dbvideomarker.database.entitiy.PlayList;
 
 import java.util.List;
 
-public class NotificationsFragment extends Fragment implements OnItemClickListener {
+public class PlaylistFragment extends Fragment implements OnItemClickListener {
 
-    private NotificationsViewModel notificationsViewModel;
+    private PlaylistViewModel playlistViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rv = inflater.inflate(R.layout.fragment_notifications, container, false);
+        View rv = inflater.inflate(R.layout.fragment_playlist, container, false);
         Context context = rv.getContext();
 
         RecyclerView recyclerView = rv.findViewById(R.id.rv_Playlist);
@@ -49,12 +49,12 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
         PlayListAdapter adapter = new PlayListAdapter(context, this);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        notificationsViewModel = new ViewModelProvider(getActivity()).get(NotificationsViewModel.class);
+        playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        notificationsViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
+        playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
             @Override
             public void onChanged(List<PlayList> playList) {
                 //Update the cached copy of the words in the adapter.
@@ -82,7 +82,7 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
                     PlayList playList = new PlayList();
                     playList.setpName(name);
 
-                    notificationsViewModel.insertPlayList(playList);
+                    playlistViewModel.insertPlayList(playList);
                 }
 
             }
@@ -125,7 +125,7 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
                                     playList.setpName(et.getText().toString());
                                     playList.setPid(id);
 
-                                    notificationsViewModel.update(playList);
+                                    playlistViewModel.update(playList);
                                 }
                             }
                         });
@@ -133,8 +133,8 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
                         dialog.show();
                         break;
                     case(R.id.popup_delete):
-                        notificationsViewModel.deleteWithPlayList(pid);
-                        notificationsViewModel.deletePlayList(id);
+                        playlistViewModel.deleteWithPlayList(pid);
+                        playlistViewModel.deletePlayList(id);
                         break;
                 }
                 return false;
@@ -149,5 +149,10 @@ public class NotificationsFragment extends Fragment implements OnItemClickListen
         Intent intent = new Intent(getContext(), PlayListEditActivity.class);
         intent.putExtra("재생목록 번호", pid);
         getContext().startActivity(intent);
+    }
+
+    @Override
+    public void clickMark(int id, long start) {
+
     }
 }

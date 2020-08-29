@@ -25,7 +25,8 @@
         </activity>
         <activity android:name=".activity.PlayListEditActivity" />
         <activity android:name=".activity.InfoActivity" />
-        <activity android:name=".activity.SelectActivity" />
+        <activity android:name=".activity.SelectVideoActivity" />
+        <activity android:name=".activity.SelectMarkActivity" />
         <activity
             android:name=".player.PlayerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"

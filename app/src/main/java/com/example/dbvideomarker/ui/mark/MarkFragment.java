@@ -1,8 +1,9 @@
-package com.example.dbvideomarker.ui.dashboard;
+package com.example.dbvideomarker.ui.mark;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,35 +21,37 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
+import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.player.PlayerActivity;
 
 import java.util.List;
 
-public class DashboardFragment extends Fragment implements OnItemClickListener, OnMarkClickListener {
+public class MarkFragment extends Fragment implements OnItemClickListener, OnItemSelectedListener {
 
-    private DashboardViewModel dashboardViewModel;
-    private MainActivity mainActivity;
+    private MarkViewModel markViewModel;
+    private RequestManager mGlideRequestManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View rootv = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View rootv = inflater.inflate(R.layout.fragment_mark, container, false);
 
         Context context = rootv.getContext();
+        mGlideRequestManager = Glide.with(context);
 
         RecyclerView recyclerView = rootv.findViewById(R.id.rv_Mark);
-        MarkAdapter adapter = new MarkAdapter(context, this, this);
+        MarkAdapter adapter = new MarkAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
 
-        mainActivity  = new MainActivity();
-
-        dashboardViewModel = new ViewModelProvider(getActivity()).get(DashboardViewModel.class);
-
-        dashboardViewModel.getAllMark().observe(getActivity(), new Observer<List<Mark>>() {
+        markViewModel = new ViewModelProvider(getActivity()).get(MarkViewModel.class);
+        markViewModel.getAllMark().observe(getActivity(), new Observer<List<Mark>>() {
             @Override
             public void onChanged(List<Mark> marks) {
                 adapter.setMarks(marks);
@@ -104,7 +107,7 @@ public class DashboardFragment extends Fragment implements OnItemClickListener, 
                         //TODO: update구문 특정 column만 변경할 수 있도록 수정필요
                         break;
                     case(R.id.popup_delete):
-                        dashboardViewModel.deleteMark(id);
+                        markViewModel.deleteMark(id);
                         break;
                 }
                 return false;
@@ -115,9 +118,7 @@ public class DashboardFragment extends Fragment implements OnItemClickListener, 
     }
 
     @Override
-    public void clickItem(int id) {
-
-    }
+    public void clickItem(int id) {}
 
 
     @Override
@@ -127,4 +128,7 @@ public class DashboardFragment extends Fragment implements OnItemClickListener, 
         playerIntent.putExtra("Start", start);
         getContext().startActivity(playerIntent);
     }
+
+    @Override
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {}
 }

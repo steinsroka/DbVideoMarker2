@@ -50,7 +50,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
         recyclerViewVideo.setAdapter(videoAdapter);
 
         RecyclerView recyclerViewMark  = findViewById(R.id.rv_MarkResult);
-        markAdapter = new MarkAdapter(this, this, this);
+        markAdapter = new MarkAdapter(this, ViewCase.NORMAL, this, this, mGlideRequestManager);
         DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(recyclerViewMark.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerViewMark.addItemDecoration(dividerItemDecoration);
         recyclerViewMark.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

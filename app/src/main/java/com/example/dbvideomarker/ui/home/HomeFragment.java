@@ -222,13 +222,15 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
     @Override
     public void clickItem(int id) {
-//        Intent intent = new Intent(getContext(), MarkEditActivity.class);
-//        intent.putExtra("동영상 번호", id);
-//        getContext().startActivity(intent);
-
         Intent playerIntent = new Intent(getContext(), PlayerActivity.class);
         playerIntent.putExtra("ContentID", id);
+        playerIntent.putExtra("Start", -1);
         getContext().startActivity(playerIntent);
+    }
+
+    @Override
+    public void clickMark(int id, long start) {
+
     }
 
     @Override

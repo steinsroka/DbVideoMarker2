@@ -1,6 +1,5 @@
 package com.example.dbvideomarker.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,30 +9,22 @@ import android.widget.Toast;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.ViewPagerAdapter;
-import com.example.dbvideomarker.ui.dashboard.DashboardFragment;
+import com.example.dbvideomarker.ui.mark.MarkFragment;
 import com.example.dbvideomarker.ui.home.HomeFragment;
-import com.example.dbvideomarker.ui.notifications.NotificationsFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.dbvideomarker.ui.playlist.PlaylistFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    DashboardFragment dashboardFragment;
+    MarkFragment markFragment;
     HomeFragment homeFragment;
-    NotificationsFragment notificationsFragment;
+    PlaylistFragment playlistFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        dashboardFragment = new DashboardFragment();
+        markFragment = new MarkFragment();
         homeFragment = new HomeFragment();
-        notificationsFragment = new NotificationsFragment();
+        playlistFragment = new PlaylistFragment();
         adapter.addFragment(homeFragment, "VIDEO");
-        adapter.addFragment(dashboardFragment, "BOOKMARK");
-        adapter.addFragment(notificationsFragment, "MY");
+        adapter.addFragment(markFragment, "BOOKMARK");
+        adapter.addFragment(playlistFragment, "MY");
         viewPager.setAdapter(adapter);
     }
 

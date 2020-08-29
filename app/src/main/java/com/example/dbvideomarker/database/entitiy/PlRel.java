@@ -26,8 +26,8 @@ public class PlRel {
     @ColumnInfo(name = "plrel_vid")
     public int vid;
 
-
-//    public int mid;
+    @ColumnInfo(name = "plrel mid")
+    public int mid;
 
     public int getPlid() {
         return plid;
@@ -53,13 +53,13 @@ public class PlRel {
         this.vid = vid;
     }
 
-//    public int getMid() {
-//        return mid;
-//    }
-//
-//    public void setMid(int mid) {
-//        this.mid = mid;
-//    }
+    public int getMid() {
+        return mid;
+    }
+
+    public void setMid(int mid) {
+        this.mid = mid;
+    }
 
 }
 

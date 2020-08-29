@@ -19,7 +19,7 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
-import com.example.dbvideomarker.ui.notifications.NotificationsViewModel;
+import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class Player_BottomSheetDialog extends BottomSheetDialogFragment implements OnItemClickListener {
 
-    private NotificationsViewModel notificationsViewModel;
+    private PlaylistViewModel playlistViewModel;
 
     @Nullable
     @Override
@@ -45,12 +45,12 @@ public class Player_BottomSheetDialog extends BottomSheetDialogFragment implemen
         PlayListAdapter adapter = new PlayListAdapter(context, this);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        notificationsViewModel = new ViewModelProvider(getActivity()).get(NotificationsViewModel.class);
+        playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        notificationsViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
+        playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
             @Override
             public void onChanged(List<PlayList> playList) {
                 //Update the cached copy of the words in the adapter.
@@ -79,6 +79,11 @@ public class Player_BottomSheetDialog extends BottomSheetDialogFragment implemen
 
     @Override
     public void clickItem(int id) {
+
+    }
+
+    @Override
+    public void clickMark(int id, long start) {
 
     }
 }

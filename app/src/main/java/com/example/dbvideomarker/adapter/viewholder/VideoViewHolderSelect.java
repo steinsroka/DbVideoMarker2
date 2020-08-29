@@ -8,14 +8,14 @@ import android.widget.TextView;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.util.MyItemView;
 
-public class ItemViewHolderSelect extends MyItemView {
+public class VideoViewHolderSelect extends MyItemView {
     public View view;
     public TextView selectedId;
     public TextView selectedName;
     public TextView selectedDur;
     public ImageView selectedThumb;
 
-    public ItemViewHolderSelect(View view) {
+    public VideoViewHolderSelect(View view) {
         super(view);
         this.view = view;
         selectedId = view.findViewById(R.id.selectedId);

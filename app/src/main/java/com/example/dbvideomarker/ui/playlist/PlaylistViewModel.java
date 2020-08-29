@@ -1,4 +1,4 @@
-package com.example.dbvideomarker.ui.notifications;
+package com.example.dbvideomarker.ui.playlist;
 
 import android.app.Application;
 
@@ -12,13 +12,13 @@ import com.example.dbvideomarker.repository.PlayListRepository;
 
 import java.util.List;
 
-public class NotificationsViewModel extends AndroidViewModel {
+public class PlaylistViewModel extends AndroidViewModel {
 
     private PlayListRepository playListRepository;
     private PlayListEditRepository playListEditRepository;
     private LiveData<List<PlayList>> allPlayList;
 
-    public NotificationsViewModel(@NonNull Application application) {
+    public PlaylistViewModel(@NonNull Application application) {
         super(application);
         playListRepository = new PlayListRepository(application);
         playListEditRepository = new PlayListEditRepository(application);

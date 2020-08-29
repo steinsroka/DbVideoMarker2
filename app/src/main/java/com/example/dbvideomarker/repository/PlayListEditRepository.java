@@ -4,15 +4,12 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.PlRelDao;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
-import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.List;
 

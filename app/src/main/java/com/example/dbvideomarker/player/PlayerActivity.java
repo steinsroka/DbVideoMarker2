@@ -2,7 +2,6 @@ package com.example.dbvideomarker.player;
 
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,16 +11,10 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.GestureDetector;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,57 +26,45 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
-import com.example.dbvideomarker.database.AppDatabase;
-import com.example.dbvideomarker.listener.OnItemClickListener;
-import com.example.dbvideomarker.listener.OnMarkClickListener;
+import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
-import com.example.dbvideomarker.mediastore.MediaStoreLoader;
 import com.example.dbvideomarker.dialog.Player_BottomSheetDialog;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.example.dbvideomarker.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, View.OnClickListener, PlayerController {
+public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnItemSelectedListener, View.OnClickListener, PlayerController {
 
     private static final String TAG = PlayerActivity.class.getSimpleName();
     private PlayerView playerView;
     private VideoPlayer player;
-    private ImageButton mute, unMute, lock, unLock, nextBtn, preBtn, retry, back, full, unFull;
+    private ImageButton mute, unMute, lock, unLock, nextBtn, preBtn, retry, back, full, unFull, add;
     private ProgressBar progressBar;
     private AudioManager mAudioManager;
     private boolean disableBackPress = false;
-    private PlayerActivity playerActivity;
+
+    private PlayerViewModel playerViewModel;
 
     private int id;
     private long start;
+    private long CURRENT_POSITION;
     private Uri contentUri;
 
     private boolean forceLandscape = false;
     private ViewGroup.LayoutParams layoutParams;
-
-
-
-
-//    private int SWIPE_MIN_DISTANCE = 120;
-//    private int SWIPE_MAX_OFF_PATH = 250;
+    private RequestManager mGlideRequestManager;
 
     private final AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -116,39 +97,40 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-/*
+
+
         Intent intent = getIntent();
         id = intent.getExtras().getInt("ContentID");
         start = intent.getExtras().getLong("Start");
 
-        String id_toString = String.valueOf(id);
-        contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id_toString);
+        if(start == -1) {
+            startPlayer();
+            player.setCurrentPosition(0);
+        } else {
+            startPlayer();
+            player.setCurrentPosition(start);
+        }
 
-        playerView = findViewById(R.id.video_view);
-        playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
-        recyclerView = findViewById(R.id.rv_getMark);
+        initBottomView();
+    }
 
+    private void startPlayer() {
+        getDataFromIntent();
+        setupLayout();
+        initSource();
+    }
 
-        markAdapter = new MarkAdapter(this, this, this);
-        dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(this).getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    private void initBottomView() {
+        RecyclerView recyclerView = findViewById(R.id.rv_getMark);
+        MarkAdapter markAdapter = new MarkAdapter(this, ViewCase.NORMAL, this, this, mGlideRequestManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(markAdapter);
 
+        playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         playerViewModel.getMarkByVideoId(id).observe(this, new Observer<List<Mark>>() {
             @Override
             public void onChanged(List<Mark> marks) {
                 markAdapter.setMarks(marks);
-            }
-        });
-
-        FloatingActionButton fab = findViewById(R.id.fab_add_mark);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CURRENT_POSITION = player.getCurrentPosition();
-                player.setPlayWhenReady(false);
-                addMark(CURRENT_POSITION);
             }
         });
 
@@ -160,21 +142,12 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                 playerBottomSheetDialog.show(getSupportFragmentManager(), "bottomSheetDialog");
             }
         });
-*/
-
-
-        getDataFromIntent();
-        setupLayout();
-        initSource();
     }
 
     private void getDataFromIntent() {
         Intent intent = getIntent();
         id = intent.getExtras().getInt("ContentID");
-        start = intent.getExtras().getLong("Start");
-        String id_toString = String.valueOf(id);
-
-        contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id_toString);
+        contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
     }
 
     private void setupLayout() {
@@ -191,6 +164,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         back = findViewById(R.id.btn_back);
         full = findViewById(R.id.btn_full);
         unFull = findViewById(R.id.btn_unFull);
+        add = findViewById(R.id.add_mark);
 
         //optional setting
         playerView.getSubtitleView().setVisibility(View.GONE);
@@ -205,6 +179,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         back.setOnClickListener(this);
         full.setOnClickListener(this);
         unFull.setOnClickListener(this);
+        add.setOnClickListener(this);
     }
 
     private void initSource() {
@@ -219,7 +194,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         mAudioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
         //optional setting
-        playerView.getSubtitleView().setVisibility(View.GONE);
         player.seekToOnDoubleTap();
 
         playerView.setControllerVisibilityListener(visibility ->
@@ -229,6 +203,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                 playerView.hideController();
 
             back.setVisibility(visibility == View.VISIBLE && !player.isLock() ? View.VISIBLE : View.GONE);
+            add.setVisibility(visibility == View.VISIBLE && !player.isLock() ? View.VISIBLE : View.GONE);
         });
 
     }
@@ -316,6 +291,10 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
             case R.id.btn_unFull:
                 getFullScreen(playerView,false);
                 break;
+            case R.id.add_mark:
+                player.pausePlayer();
+;               Log.d("DDDDDDDDDDDDDDDDDD", "DDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+                addMark(player.getCurrentPosition());
             default:
                 break;
         }
@@ -330,8 +309,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         playerViewFullscreen.setVisibility(View.GONE);
         playerViewFullscreen.setBackgroundColor(Color.BLACK);
 
-
-        //childcount 부분 비어있음(index)
         ((ViewGroup)playerView.getRootView()).addView(playerViewFullscreen, 1);
 
         if(forceLandscape) {
@@ -357,9 +334,9 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
         playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                //| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
@@ -414,9 +391,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                 AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
     }
-
-
-
 
 /*
     private void initializePlayer() {
@@ -562,11 +536,15 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 //                        player.seekTo(player.getCurrentPosition() + 5000);
 //                        }
 //                        player.setPlayWhenReady(false);
+
+
                         CURRENT_POSITION = player.getCurrentPosition();
                         Log.d(TAG, "onDoubleTap():  " + player.getCurrentPosition());
                         addMark(CURRENT_POSITION);
                         player.setPlayWhenReady(false);
                         return true;
+
+
                     }
 
 //                    @Override
@@ -597,8 +575,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 //    }
 */
 
-
-/*
     public void addMark(Long currentPosition) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -615,16 +591,13 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                     mark.setmStart(currentPosition);
 
                     playerViewModel.insertMark(mark);
-                    player.setPlayWhenReady(true);
-                    player.getPlaybackState();
+                    player.resumePlayer();
                 }
             }
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-
-
-*/
+    }
 
         //TODO: 여기 값 어떻게 채워넣을지 확인하기, 슬라이드 제스쳐디택터 추가
         //TODO: 북마크 시점 시간형변환
@@ -640,6 +613,11 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void clickMark(int id, long start) {
-        //player.seekTo(start);
+        player.setCurrentPosition(start);
+    }
+
+    @Override
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+
     }
 }

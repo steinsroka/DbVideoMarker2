@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,10 +23,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.PlayListEditAdapter;
+import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.util.Callback;
 import com.example.dbvideomarker.database.entitiy.PlRel;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -40,13 +39,17 @@ import java.util.List;
 public class PlayListEditActivity extends AppCompatActivity implements OnItemClickListener, PlayListEditAdapter.OnStartDragListener {
 
     private PlayListEditViewModel playListEditViewModel;
-    TextView PlayListName, PlayListId;
-    public int SELECT_REQUEST_CODE = 1001;
     private List<PlRelVideo> resultList = new ArrayList<>();
+    public int SELECT_VIDEO_REQUEST_CODE = 1001;
+    public int SELECT_MARK_REQUEST_CODE = 1002;
     private int pid;
     public ItemTouchHelper itemTouchHelper;
     public PlayListEditAdapter adapter;
     public RequestManager _mGlideRequestManager;
+    private FloatingActionButton fab_main, fab_video, fab_mark;
+
+    TextView PlayListName, PlayListId;
+    Boolean IS_OPEN = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,12 +64,9 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 //        String pname = intent.getStringExtra("재생목록 이름");
 
         TextView playListName = (TextView) findViewById(R.id.playListName);
-        TextView playListId = (TextView) findViewById(R.id.playListId);
 //        TextView playListCount = (TextView) findViewById(R.id.playListCount);
 
-        // Get a new or existing ViewModel from the ViewModelProvider.
         playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
-
         playListEditViewModel.getPlayList(pid).observe(this, new Observer<PlayList>() {
             @Override
             public void onChanged(PlayList playList) {
@@ -76,15 +76,14 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         });
 
 
-        playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함 + setText는 charsequance 자료형임
+        //playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함 + setText는 charsequance 자료형임
 
         RecyclerView recyclerView = findViewById(R.id.rv_PlaylistEdit);
         adapter = new PlayListEditAdapter(this, this, this, _mGlideRequestManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
         Callback callback = new Callback(adapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
@@ -92,7 +91,6 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         playListEditViewModel.findVideoInPlayList(pid).observe(this, new Observer<List<PlRelVideo>>() {
             @Override
             public void onChanged(List<PlRelVideo> plRels) {
-                //Update the cached copy of the words in the adapter.
                 adapter.setPlRels(plRels);
 /*
                 resultList = getStringArrayList(""+pid);
@@ -122,22 +120,45 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
                         adapter.setPlRels(resultList);
                     }
                 }
-
  */
-
             }
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton fab_video = findViewById(R.id.fab_video);
+        fab_main = findViewById(R.id.fab_main);
+        fab_video = findViewById(R.id.fab_video);
+        fab_mark = findViewById(R.id.fab_mark);
+
+        fab_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!IS_OPEN) {
+                    fab_video.setVisibility(View.VISIBLE);
+                    fab_mark.setVisibility(View.VISIBLE);
+                    IS_OPEN = true;
+                } else {
+                    fab_video.setVisibility(View.GONE);
+                    fab_mark.setVisibility(View.GONE);
+                    IS_OPEN = false;
+                }
+            }
+        });
+
         fab_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(PlayListEditActivity.this, SelectActivity.class);
-                intent1.putExtra("추가할 재생목록 번호", pid);
-                startActivityForResult(intent1, SELECT_REQUEST_CODE);
+                Intent videoIntent = new Intent(PlayListEditActivity.this, SelectVideoActivity.class);
+                startActivityForResult(videoIntent, SELECT_VIDEO_REQUEST_CODE);
+            }
+        });
+
+        fab_mark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent markIntent = new Intent(PlayListEditActivity.this, SelectMarkActivity.class);
+                startActivityForResult(markIntent, SELECT_MARK_REQUEST_CODE);
             }
         });
     }
@@ -146,24 +167,24 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == SELECT_REQUEST_CODE && resultCode == RESULT_OK) {
-            ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
-
-            /*
-            //선택했던 데이터를 제거해도 데이터를 전달하는 ArrayList에서는 제거되지 않으므로, ArrayList의 중복을 제거하는 Logic
-            //중복을 제거하는 코드를 Adapter 에 추가하였으므로 주석처리
-            resultList = new ArrayList<Integer>();
-            for(int i = 0; i < selectedVidList.size(); i++) {
-                if(!resultList.contains(selectedVidList.get(i))) {
-                    resultList.add(selectedVidList.get(i));
+        if(resultCode == RESULT_OK) {
+            if(requestCode == SELECT_VIDEO_REQUEST_CODE) {
+                ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
+                for(int i=0; i<selectedVidList.size(); i++) {
+                    PlRel plRel = new PlRel();
+                    plRel.setPid(pid);
+                    plRel.setVid(selectedVidList.get(i));
+                    playListEditViewModel.insertPlRelation(plRel);
                 }
-            }*/
+            } else if(requestCode == SELECT_MARK_REQUEST_CODE) {
+                ArrayList<Integer> selectedMidList = data.getIntegerArrayListExtra("midlist");
+                for(int i=0; i<selectedMidList.size(); i++) {
+                    PlRel plRel = new PlRel();
+                    plRel.setPid(pid);
+                    plRel.setMid(selectedMidList.get(i));
+                    playListEditViewModel.insertPlRelation(plRel);
+                }
 
-            for(int i=0; i<selectedVidList.size(); i++) {
-                PlRel plRel = new PlRel();
-                plRel.setPid(pid);
-                plRel.setVid(selectedVidList.get(i));
-                playListEditViewModel.insertPlRelation(plRel);
             }
         }
     }
@@ -191,7 +212,10 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     }
 
     @Override
-    public void clickItem(int pid) {
+    public void clickItem(int pid) {}
+
+    @Override
+    public void clickMark(int id, long start) {
 
     }
 

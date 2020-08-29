@@ -1,6 +1,9 @@
 package com.example.dbvideomarker.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,61 +12,114 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.adapter.util.MyItemView;
+import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderNormal;
+import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderSelect;
 import com.example.dbvideomarker.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 
 import java.util.List;
 
-public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.MViewHolder> {
+public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
 
     private OnItemClickListener onItemClickListener;
-    private OnMarkClickListener onMarkClickListener;
-
+    private OnItemSelectedListener onItemSelectedListener;
+    private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
+    private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
+    private RequestManager mRequestManager;
     private List<Mark> markList;
     private LayoutInflater mInflater;
+    private ViewCase sel_type;
 
-    public MarkAdapter(Context context, OnItemClickListener onItemClickListener, OnMarkClickListener onMarkClickListener) {
+    public MarkAdapter(Context context, ViewCase sel_type, OnItemClickListener onItemClickListener, OnItemSelectedListener onItemSelectedListener, RequestManager requestManager) {
         mInflater = LayoutInflater.from(context);
+        mRequestManager = requestManager;
+        this.sel_type = sel_type;
+        this.onItemSelectedListener = onItemSelectedListener;
         this.onItemClickListener = onItemClickListener;
-        this.onMarkClickListener = onMarkClickListener;
     }
 
-    @NonNull
+
     @Override
-    public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.from(parent.getContext()).inflate(R.layout.bookmark_main_item, parent, false);
-        return new MViewHolder(view);
+    public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (sel_type == ViewCase.NORMAL) {
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.mark_item, parent, false);
+            return new MarkViewHolderNormal(view);
+        } else if (sel_type == ViewCase.SELECT) {
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.activity_select_mark_item, parent, false);
+            return new MarkViewHolderSelect(view);
+        }
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MViewHolder holder, int position) {
-        if(markList != null) {
+    public void onBindViewHolder(@NonNull final MyItemView holder, int position) {
+        if (holder instanceof MarkViewHolderNormal) {
+            MarkViewHolderNormal markViewHolderNormal = (MarkViewHolderNormal) holder;
+            if (markList != null) {
 
-            Mark current = markList.get(position);
-            holder.mid.setText(String.valueOf(current.getmid()));
-            holder.mMemo.setText(current.getmMemo());
-            holder.mStart.setText(String.valueOf(current.getmStart()));
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int mid = current.getvid();
-                    long mstart = current.getmStart();
-                    onMarkClickListener.clickMark(mid, mstart);
+                Mark current = markList.get(position);
+                markViewHolderNormal.mid.setText(String.valueOf(current.getmid()));
+                markViewHolderNormal.mMemo.setText(current.getmMemo());
+                markViewHolderNormal.mStart.setText(String.valueOf(current.getmStart()));
+                markViewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int mid = current.getvid();
+                        long mstart = current.getmStart();
+                        onItemClickListener.clickMark(mid, mstart);
+                    }
+                });
+                markViewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        int mid = current.getmid();
+                        onItemClickListener.clickLongItem(view, mid);
+                        return false;
+                    }
+                });
+            } else {
+                Log.d("MarkAdapter.class", "No Data");
+            }
+        } else if (holder instanceof MarkViewHolderSelect) {
+            MarkViewHolderSelect markViewHolderSelect = (MarkViewHolderSelect) holder;
+            if (markList != null) {
+                Mark current = markList.get(position);
+                markViewHolderSelect._mid.setText(String.valueOf(current.getmid()));
+                markViewHolderSelect._mMemo.setText(current.getmMemo());
+                markViewHolderSelect._mStart.setText(String.valueOf(current.getmStart()));
+
+                if (mSelectedItems.get(position, false)) {
+                    markViewHolderSelect._view.setBackgroundColor(Color.GRAY);
+                } else {
+                    markViewHolderSelect._view.setBackgroundColor(Color.WHITE);
                 }
-            });
-            holder.view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    int mid = current.getmid();
-                    onItemClickListener.clickLongItem(view, mid);
-                    return false;
-                }
-            });
-        } else {
-            holder.mid.setText("No idData");
-            holder.mMemo.setText("No Data");
+                markViewHolderSelect._view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(mSelectedItems.get(position, false) == true) {
+                            mSelectedItems.delete(position);
+                            mSelectedItems.delete(current.getmid());
+                            notifyItemChanged(position);
+                        } else {
+                            mSelectedItems.put(position, true);
+                            mSelectedItemIds.put(current.getmid(), true);
+                            notifyItemChanged(position);
+                        }
+                        Log.d("MarkAdaper.classs", "parsed"+mSelectedItemIds.size());
+
+                        onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
+                    }
+                });
+
+            } else {
+                Log.d("MarkAdapter.class", "No Data");
+            }
         }
     }
 
@@ -74,23 +130,10 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.MViewHolder> {
 
     @Override
     public int getItemCount() {
-        if(markList != null)
+        if (markList != null)
             return markList.size();
         else return 0;
     }
 
-    public class MViewHolder extends RecyclerView.ViewHolder {
-        private View view;
-        private TextView mid;
-        private TextView mMemo;
-        private TextView mStart;
 
-        public MViewHolder(View view) {
-            super(view);
-            this.view = view;
-            mid = view.findViewById(R.id.mid);
-            mMemo = view.findViewById(R.id.mMemo);
-            mStart = view.findViewById(R.id.mstart);
-        }
-    }
 }

@@ -31,27 +31,20 @@ import com.example.dbvideomarker.ui.home.HomeViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener {
+public class SelectVideoActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener {
 
-    private PlayListEditViewModel playListEditViewModel;
     private HomeViewModel homeViewModel;
     private Button btnSelection;
-    private ArrayList<Integer> selectedVidList = new ArrayList<>();
-    private int pid;
     public RequestManager mGlideRequestManager;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select);
+        setContentView(R.layout.activity_select_video);
 
         mGlideRequestManager = Glide.with(this);
-//        Intent intent = getIntent();
 
-//        pid = intent.getIntExtra("추가할 재생목록 번호", -1);
-//        TextView add_pid = (TextView)findViewById(R.id.playlist_id);
-//        add_pid.setText(""+pid);
 
-        RecyclerView recyclerView = findViewById(R.id.rv_select);
+        RecyclerView recyclerView = findViewById(R.id.rv_select_video);
         VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this, mGlideRequestManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
@@ -68,32 +61,26 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
             }
         });
 */
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
-        // The onChanged() method fires when the observed data changes and the activity is
-        // in the foreground.
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.getAllVideo().observe(this, new Observer<List<Video>>() {
             @Override
             public void onChanged(List<Video> videos) {
-                //Update the cached copy of the words in the adapter.
                 adapter.setVideos(videos);
             }
         });
-
-
     }
 
     @Override
-    public void clickLongItem(View v, int id) {
-        //Do Nothing
-    }
+    public void clickLongItem(View v, int id) {}
 
     @Override
-    public void clickItem(int vid) {
-        //Do Nothing
-    }
+    public void clickItem(int vid) {}
 
+    @Override
+    public void clickMark(int id, long start) {
+
+    }
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
@@ -103,7 +90,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
             Log.d("text", "길이 : " + sparseBooleanArray);
         }
 
-        btnSelection = (Button) findViewById(R.id.btn_add);
+        btnSelection = (Button) findViewById(R.id.btn_add_video);
         btnSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

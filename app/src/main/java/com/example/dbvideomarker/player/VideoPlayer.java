@@ -1,33 +1,22 @@
 package com.example.dbvideomarker.player;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.source.dash.DashMediaSource;
-import com.google.android.exoplayer2.source.hls.HlsMediaSource;
-import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
@@ -39,6 +28,7 @@ public class VideoPlayer {
     private Context context;
     private PlayerController playerController;
 
+    private PlayerActivity playerActivity;
     private PlayerView playerView;
     private MediaSource mediaSource;
     private DefaultTrackSelector trackSelector;
@@ -143,6 +133,15 @@ public class VideoPlayer {
         exoPlayer = null;
     }
 
+    public void setCurrentPosition(long pos) {
+        exoPlayer.seekTo(pos);
+    }
+
+    public long getCurrentPosition() {
+        long cur_pos = exoPlayer.getCurrentPosition();
+        return cur_pos;
+    }
+
     public SimpleExoPlayer getPlayer() {
         return exoPlayer;
     }
@@ -176,12 +175,12 @@ public class VideoPlayer {
     }
 
     public void seekToOnDoubleTap() {
-        getWidthOfScreen();
+        //getWidthOfScreen();
         final GestureDetector gestureDetector = new GestureDetector(context,
                 new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
-
+/*
                         float positionOfDoubleTapX = e.getX();
 
                         if (positionOfDoubleTapX < widthOfScreen / 2)
@@ -191,13 +190,24 @@ public class VideoPlayer {
 
                         Log.d(TAG, "onDoubleTap(): widthOfScreen >> " + widthOfScreen +
                                 " positionOfDoubleTapX >>" + positionOfDoubleTapX);
+
+
+
+                        Long cur_pos = exoPlayer.getCurrentPosition();
+                        Log.d(TAG, "onDoubleTap():  " + exoPlayer.getCurrentPosition());
+                        playerActivity = new PlayerActivity();
+                        playerActivity.addMark(cur_pos);
+                        resumePlayer();
+*/
                         return true;
                     }
                 });
-
         playerView.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
     }
 
+    /**
+    아마 슬라이드할때 쓸듯
+     */
     private void getWidthOfScreen() {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -205,6 +215,10 @@ public class VideoPlayer {
         display.getMetrics(metrics);
         widthOfScreen = metrics.widthPixels;
     }
+
+
+
+
 
     /***********************************************************
      playerView listener for lock and unlock screen

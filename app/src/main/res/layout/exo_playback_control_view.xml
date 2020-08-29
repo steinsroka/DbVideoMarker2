@@ -116,21 +116,22 @@
 
         <ImageButton
             android:id="@+id/btn_full"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0"
+            style="@style/ExoMediaButton.Play"
             android:src="@drawable/ic_baseline_fullscreen_24"/>
         <ImageButton
             android:id="@+id/btn_unFull"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0"
+            style="@style/ExoMediaButton.Play"
             android:visibility="gone"
-            android:src="@drawable/ic_baseline_fullscreen_24"/>
+            android:src="@drawable/ic_baseline_fullscreen_exit_24"/>
+
 
     </LinearLayout>
 

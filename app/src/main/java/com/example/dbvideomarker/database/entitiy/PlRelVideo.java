@@ -3,10 +3,7 @@ package com.example.dbvideomarker.database.entitiy;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 
-import com.google.android.exoplayer2.text.Cue;
-import com.google.android.material.circularreveal.CircularRevealHelper;
-
-public class PlRelVideo{
+public class PlRelVideo {
 
     @ColumnInfo(name="playlist_id")
     private int pv_pid;

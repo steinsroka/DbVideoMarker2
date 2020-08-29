@@ -4,19 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/playlist_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="textview" />
     <Button
-        android:id="@+id/btn_add"
+        android:id="@+id/btn_add_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="추가" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_select"
+        android:id="@+id/rv_select_mark"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

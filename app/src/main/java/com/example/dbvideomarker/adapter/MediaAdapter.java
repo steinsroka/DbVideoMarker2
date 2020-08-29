@@ -1,6 +1,5 @@
 package com.example.dbvideomarker.adapter;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +33,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MyItemView> {
     @Override
     public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(sel_type == ViewCase.MEDIA) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.home_media_item, parent, false);
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.home_item_media, parent, false);
             return new ItemViewHolderMedia(view);
         }
         return null;

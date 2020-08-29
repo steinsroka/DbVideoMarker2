@@ -9,14 +9,14 @@ import com.example.dbvideomarker.adapter.util.MyItemView;
 
 import org.w3c.dom.Text;
 
-public class ItemViewHolderNormal extends MyItemView {
+public class VideoViewHolderNormal extends MyItemView {
     public View view;
     public TextView vId;
     public TextView vName;
     public TextView vDur;
     public ImageView vThumb;
 
-    public ItemViewHolderNormal(View view) {
+    public VideoViewHolderNormal(View view) {
         super(view);
         this.view = view;
         vId = view.findViewById(R.id.vId);
