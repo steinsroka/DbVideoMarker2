@@ -13,7 +13,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="재생목록 이름: "/>
+            android:text="재생목록 이름: " />
+
         <TextView
             android:id="@+id/playListName"
             android:layout_width="wrap_content"
@@ -21,43 +22,6 @@
             android:text="TextView" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="동영상 : "/>
-        <TextView
-            android:id="@+id/playListVideoCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" 개"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="북마크 : "/>
-        <TextView
-            android:id="@+id/playListMarkCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" 개"/>
-    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -68,13 +32,64 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="북마크: " />
+
+                <TextView
+                    android:id="@+id/video_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="n"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 개" />
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_PlaylistEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                android:id="@+id/rv_PlaylistEdit_video"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="동영상: " />
+
+                <TextView
+                    android:id="@+id/mark_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="n"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 개" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_PlaylistEdit_mark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
-
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -83,31 +98,30 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_baseline_add_24"
-            android:focusable="true" />
+            android:focusable="true"
+            android:src="@drawable/ic_baseline_add_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:layout_marginBottom="80dp"
             android:layout_marginRight="16dp"
-            android:visibility="gone"
+            android:layout_marginBottom="80dp"
+            android:focusable="true"
             android:src="@drawable/ic_baseline_play_circle_outline_24"
-            android:focusable="true" />
+            android:visibility="gone" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:layout_marginBottom="144dp"
             android:layout_marginRight="16dp"
-            android:visibility="gone"
+            android:layout_marginBottom="144dp"
+            android:focusable="true"
             android:src="@drawable/ic_baseline_bookmarks_24"
-            android:focusable="true" />
-
+            android:visibility="gone" />
 
 
     </FrameLayout>

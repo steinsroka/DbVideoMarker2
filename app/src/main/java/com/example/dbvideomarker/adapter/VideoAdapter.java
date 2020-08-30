@@ -102,7 +102,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
 
                 if (mSelectedItems.get(position, false)) {
                     viewHolderSelect.view.setBackgroundColor(Color.GRAY);
-
                 } else {
                     viewHolderSelect.view.setBackgroundColor(Color.WHITE);
                 }

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.example.dbvideomarker.database.entitiy.Media;
-import com.example.dbvideomarker.database.entitiy.MediaDisplay;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

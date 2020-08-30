@@ -23,7 +23,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapter.PLEViewHolder> implements Callback.OnItemMoveListener{
+public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAdapter.PLEViewHolder> implements Callback.OnItemMoveListener{
 
     private final OnStartDragListener onStartDragListener;
     private OnItemClickListener onItemClickListener;
@@ -32,7 +32,7 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
     private RequestManager mRequestManager;
 
 
-    public PlayListEditAdapter(Context context, OnItemClickListener onItemClickListener, OnStartDragListener onStartDragListener, RequestManager requestManager) {
+    public PlayList_VideoAdapter(Context context, OnItemClickListener onItemClickListener, OnStartDragListener onStartDragListener, RequestManager requestManager) {
         mInflater = LayoutInflater.from(context);
         mRequestManager = requestManager;
         this.onItemClickListener = onItemClickListener;
@@ -46,7 +46,7 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
     @NonNull
     @Override
     public PLEViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.playlistedit_item, parent, false);
+        View view = mInflater.inflate(R.layout.playlistedit_video_item, parent, false);
         return new PLEViewHolder(view);
     }
 
@@ -97,7 +97,7 @@ public class PlayListEditAdapter extends RecyclerView.Adapter<PlayListEditAdapte
         else return 0;
     }
 
-    public void setPlRels(List<PlRelVideo> plRel) {
+    public void setPlRelv(List<PlRelVideo> plRel) {
         plRelList = plRel;
         notifyDataSetChanged();
     }

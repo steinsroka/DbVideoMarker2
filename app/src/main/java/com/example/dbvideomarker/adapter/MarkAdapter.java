@@ -104,21 +104,18 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                     public void onClick(View view) {
                         if(mSelectedItems.get(position, false) == true) {
                             mSelectedItems.delete(position);
-                            mSelectedItems.delete(current.getmid());
+                            mSelectedItemIds.delete(current.getmid());
                             notifyItemChanged(position);
                         } else {
                             mSelectedItems.put(position, true);
                             mSelectedItemIds.put(current.getmid(), true);
                             notifyItemChanged(position);
                         }
-                        Log.d("MarkAdaper.classs", "parsed"+mSelectedItemIds.size());
+                        Log.d("MarkAdaper.class", ""+mSelectedItemIds);
 
                         onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                     }
                 });
-
-            } else {
-                Log.d("MarkAdapter.class", "No Data");
             }
         }
     }

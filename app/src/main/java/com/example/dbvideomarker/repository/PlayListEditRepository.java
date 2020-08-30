@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.PlRelDao;
 import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.PlRelMark;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 
 import java.util.List;
@@ -35,6 +36,18 @@ public class PlayListEditRepository {
 
     public LiveData<List<PlRelVideo>> findVideoInPlayList(int pid) {
         return plRelDao.findVideoInPlayList(pid);
+    }
+
+    public LiveData<List<PlRelMark>> findMarkInPlayList(int pid) {
+        return plRelDao.findMarkInPlayList(pid);
+    }
+
+    public LiveData<Integer> getMarkRowCount(int pid) {
+        return plRelDao.getMarkRowCount(pid);
+    }
+
+    public LiveData<Integer> getVideoCount(int pid) {
+        return plRelDao.getVideoRowCount(pid);
     }
 
 //    public LiveData<List<PlRel>> videoOverlapCheck(int pid) {

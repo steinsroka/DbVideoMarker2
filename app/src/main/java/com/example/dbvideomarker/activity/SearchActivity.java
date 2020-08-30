@@ -18,6 +18,7 @@ import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
+import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
@@ -26,10 +27,9 @@ import com.example.dbvideomarker.database.entitiy.Mark;
 
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener, OnMarkClickListener {
+public class SearchActivity extends AppCompatActivity {
 
-    private VideoAdapter videoAdapter;
-    private MarkAdapter markAdapter;
+
     private SearchViewModel searchViewModel;
     public RequestManager mGlideRequestManager;
 
@@ -39,43 +39,21 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_search);
 
-        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-        mGlideRequestManager = Glide.with(this);
+        List<Video> videoList;
+        List<Mark> markList;
 
-        RecyclerView recyclerViewVideo = findViewById(R.id.rv_VideoResult);
-        videoAdapter = new VideoAdapter(this, ViewCase.NORMAL,this,this, mGlideRequestManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewVideo.getContext(),new LinearLayoutManager(this).getOrientation());
-        recyclerViewVideo.addItemDecoration(dividerItemDecoration);
-        recyclerViewVideo.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerViewVideo.setAdapter(videoAdapter);
+        //searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        //mGlideRequestManager = Glide.with(this);
 
-        RecyclerView recyclerViewMark  = findViewById(R.id.rv_MarkResult);
-        markAdapter = new MarkAdapter(this, ViewCase.NORMAL, this, this, mGlideRequestManager);
-        DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(recyclerViewMark.getContext(),new LinearLayoutManager(this).getOrientation());
-        recyclerViewMark.addItemDecoration(dividerItemDecoration);
-        recyclerViewMark.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerViewMark.setAdapter(markAdapter);
-
-
-        Button searchTextParse = (Button) findViewById(R.id.btn_searchText);
-        searchTextParse.setOnClickListener(new View.OnClickListener() {
+    }
+   /*
+    private void getSearchResult(String searchableText) {
+        searchViewModel.getSearchVideo(searchableText).observe(this, new Observer<List<Video>>() {
             @Override
-            public void onClick(View v) {
-                EditText searchText = (EditText) findViewById(R.id.searchText);
-                if(searchText.getText().toString().trim().length() != 0) {
-                    String searchableText = searchText.getText().toString().trim();
-                    getSearchResult(searchableText);
-                }
+            public void onChanged(List<Video> videos) {
+                videoAdapter.setVideos(videos);
             }
         });
-    }
-    private void getSearchResult(String searchableText) {
-//        searchViewModel.getSearchVideo(searchableText).observe(this, new Observer<List<Video>>() {
-//            @Override
-//            public void onChanged(List<Video> videos) {
-//                videoAdapter.setVideos(videos);
-//            }
-//        });
 
         searchViewModel.getSearchMark(searchableText).observe(this, new Observer<List<Mark>>() {
             @Override
@@ -84,25 +62,5 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
             }
         });
     }
-
-    @Override
-    public void clickLongItem(View v, int id) {
-
-    }
-
-    @Override
-    public void clickItem(int id) {
-
-    }
-
-
-    @Override
-    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
-
-    }
-
-    @Override
-    public void clickMark(int id, long start) {
-
-    }
+*/
 }

@@ -65,7 +65,6 @@ public class SelectMarkActivity extends AppCompatActivity implements OnItemSelec
         ArrayList<Integer> idList = new ArrayList<>();
         for(int i=0; i<sparseBooleanArray.size(); i++) {
             idList.add(sparseBooleanArray.keyAt(i));
-            Log.d("text", "길이 : " + sparseBooleanArray);
         }
 
         btnSelection = (Button) findViewById(R.id.btn_add_mark);

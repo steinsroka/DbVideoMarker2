@@ -3,10 +3,12 @@ package com.example.dbvideomarker.activity;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.ListViewAutoScrollHelper;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.PlRelMark;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.repository.PlayListEditRepository;
@@ -32,9 +34,23 @@ public class PlayListEditViewModel extends AndroidViewModel {
 //        return playListEditRepository.getVideoOverlap(pid);
 //    }
 
+    public LiveData<Integer> getMarkRowCount(int pid) {
+        return playListEditRepository.getMarkRowCount(pid);
+    }
+
+    public LiveData<Integer> getVideoRowCount(int pid) {
+        return playListEditRepository.getVideoCount(pid);
+    }
+
     public LiveData<List<PlRelVideo>> findVideoInPlayList(int pid) {
         return playListEditRepository.findVideoInPlayList(pid);
     }
+
+    public LiveData<List<PlRelMark>> findMarkInPlayList(int pid) {
+        return playListEditRepository.findMarkInPlayList(pid);
+    }
+
+
 
     public LiveData<PlayList> getPlayList(int pid) {
         return playListRepository.getPlayList(pid);

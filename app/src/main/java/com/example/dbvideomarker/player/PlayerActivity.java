@@ -293,7 +293,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                 break;
             case R.id.add_mark:
                 player.pausePlayer();
-;               Log.d("DDDDDDDDDDDDDDDDDD", "DDDDDDDDDDDDDDDDDDDDDDDDDDDD");
                 addMark(player.getCurrentPosition());
             default:
                 break;

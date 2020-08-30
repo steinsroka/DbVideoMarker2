@@ -46,8 +46,6 @@ public class SelectVideoActivity extends AppCompatActivity implements OnItemSele
 
         RecyclerView recyclerView = findViewById(R.id.rv_select_video);
         VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this, mGlideRequestManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(this).getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 

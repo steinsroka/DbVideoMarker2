@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.PlRelMark;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 
 import java.util.List;
@@ -20,9 +21,24 @@ public interface PlRelDao {
     @Query("SELECT video.contentId as video_id, video.vname as video_name , video.vdur as video_dur , video.vpath as video_path, " +
             "plrel.plrel_pid as playlist_id FROM plrel " +
             "INNER JOIN video ON video.contentId = plrel.plrel_vid " +
-            "INNER JOIN playlist ON playlist.pid = plrel.plrel_pid " +
+            //"INNER JOIN playlist ON playlist.pid = plrel.plrel_pid " +
             "WHERE plrel_pid = :pid")
     LiveData<List<PlRelVideo>> findVideoInPlayList(int pid);
+
+
+    @Query("SELECT mark.mid as mark_id, mark.vid as mark_vid, mark.mMemo as mark_mmemo, mark.mStart as mark_mstart, " +
+            "plrel.plrel_pid as playlist_id FROM plrel " +
+            "INNER JOIN mark ON mark.mid = plrel.plrel_mid " +
+            //"INNER JOIN playlist ON playlist.pid = plrel.plrel_pid " +
+            "WHERE plrel_pid = :pid")
+    LiveData<List<PlRelMark>> findMarkInPlayList(int pid);
+
+    @Query("SELECT COUNT(plrel_mid) FROM plrel WHERE plrel_pid =:pid ")
+    LiveData<Integer> getMarkRowCount(int pid);
+
+    @Query("SELECT COUNT(plrel_vid) FROM plrel WHERE plrel_pid =:pid ")
+    LiveData<Integer> getVideoRowCount(int pid);
+
 
     @Insert
     long insertPlRel(PlRel plRel);
