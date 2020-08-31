@@ -33,11 +33,11 @@ public interface PlRelDao {
             "WHERE plrel_pid = :pid")
     LiveData<List<PlRelMark>> findMarkInPlayList(int pid);
 
-    @Query("SELECT COUNT(plrel_mid) FROM plrel WHERE plrel_pid =:pid ")
-    LiveData<Integer> getMarkRowCount(int pid);
+//    @Query("SELECT COUNT(plrel_mid) FROM plrel WHERE plrel_pid =:pid ")
+//    LiveData<Integer> getMarkRowCount(int pid);
 
-    @Query("SELECT COUNT(plrel_vid) FROM plrel WHERE plrel_pid =:pid ")
-    LiveData<Integer> getVideoRowCount(int pid);
+//    @Query("SELECT COUNT(plrel_vid) FROM plrel WHERE plrel_pid =:pid ")
+//    LiveData<Integer> getVideoRowCount(int pid);
 
 
     @Insert
@@ -47,7 +47,10 @@ public interface PlRelDao {
     int updatePlRel(PlRel plRel);
 
     @Query("DELETE FROM plrel WHERE plrel_vid = :vid")
-    int deletePlRel(int vid);
+    int deleteVideoInPlaylist(int vid);
+
+    @Query("DELETE FROM plrel WHERE plrel_mid = :mid" )
+    int deleteMarkInPlaylist(int mid);
 
     @Query("DELETE FROM plrel WHERE plrel_pid = :pid")
     int deleteWithPlayList(int pid);

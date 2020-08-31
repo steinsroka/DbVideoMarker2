@@ -48,30 +48,17 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
 
         PlayListAdapter adapter = new PlayListAdapter(context, this);
 
-        // Get a new or existing ViewModel from the ViewModelProvider.
-        playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
 
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
-        // The onChanged() method fires when the observed data changes and the activity is
-        // in the foreground.
+        playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
         playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
             @Override
             public void onChanged(List<PlayList> playList) {
-                //Update the cached copy of the words in the adapter.
                 adapter.setPlayLists(playList);
             }
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-
-//        FloatingActionButton fab = (FloatingActionButton) rv.findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
 
         rv.findViewById(R.id.btn_addPlayList).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,18 +83,15 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
                 getContext().startActivity(intentSearch);
             }
         });
-
         return rv;
     }
 
     @Override
     public void clickLongItem(View v, int id) {
-        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenuOverlapAnchor);
-        PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, getView());
+        PopupMenu popupMenu = new PopupMenu(getContext(),v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
-        inflater.inflate(R.menu.menu_popup, menu);
-        int pid = id;
+        inflater.inflate(R.menu.menu_popup_video, menu);
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -124,7 +108,6 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
                                     PlayList playList = new PlayList();
                                     playList.setpName(et.getText().toString());
                                     playList.setPid(id);
-
                                     playlistViewModel.update(playList);
                                 }
                             }
@@ -133,7 +116,7 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
                         dialog.show();
                         break;
                     case(R.id.popup_delete):
-                        playlistViewModel.deleteWithPlayList(pid);
+                        playlistViewModel.deleteWithPlayList(id);
                         playlistViewModel.deletePlayList(id);
                         break;
                 }
@@ -141,7 +124,6 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
             }
         });
         popupMenu.show();
-
     }
 
     @Override
@@ -152,7 +134,8 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
     }
 
     @Override
-    public void clickMark(int id, long start) {
+    public void clickMark(int id, long start) {}
 
-    }
+    @Override
+    public void clickLongMark(View v, int id) {}
 }

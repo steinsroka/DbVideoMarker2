@@ -86,4 +86,9 @@ public class Player_BottomSheetDialog extends BottomSheetDialogFragment implemen
     public void clickMark(int id, long start) {
 
     }
+
+    @Override
+    public void clickLongMark(View v, int id) {
+
+    }
 }

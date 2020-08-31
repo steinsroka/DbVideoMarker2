@@ -24,12 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.player.PlayerActivity;
 
@@ -74,12 +72,26 @@ public class MarkFragment extends Fragment implements OnItemClickListener, OnIte
     }
 
     @Override
-    public void clickLongItem(View v, int id) {
-        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenuOverlapAnchor);
-        PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, getView());
+    public void clickLongItem(View v, int id) {}
+
+    @Override
+    public void clickItem(int id) {}
+
+
+    @Override
+    public void clickMark(int id, long start) {
+        Intent playerIntent = new Intent(getContext(), PlayerActivity.class);
+        playerIntent.putExtra("ContentID", id);
+        playerIntent.putExtra("Start", start);
+        getContext().startActivity(playerIntent);
+    }
+
+    @Override
+    public void clickLongMark(View v, int id) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
-        inflater.inflate(R.menu.menu_popup, menu);
+        inflater.inflate(R.menu.menu_popup_mark, menu);
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -114,19 +126,6 @@ public class MarkFragment extends Fragment implements OnItemClickListener, OnIte
             }
         });
         popupMenu.show();
-
-    }
-
-    @Override
-    public void clickItem(int id) {}
-
-
-    @Override
-    public void clickMark(int id, long start) {
-        Intent playerIntent = new Intent(getContext(), PlayerActivity.class);
-        playerIntent.putExtra("ContentID", id);
-        playerIntent.putExtra("Start", start);
-        getContext().startActivity(playerIntent);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class PlayList_MarkAdapter extends RecyclerView.Adapter<PlayList_MarkAdap
                 @Override
                 public boolean onLongClick(View view) {
                     int mid = current.getPm_mid();
-                    onItemClickListener.clickLongItem(view, mid);
+                    onItemClickListener.clickLongMark(view, mid);
                     return false;
                 }
             });

@@ -87,4 +87,9 @@ public class SelectMarkActivity extends AppCompatActivity implements OnItemSelec
 
     @Override
     public void clickMark(int id, long start) {}
+
+    @Override
+    public void clickLongMark(View v, int id) {
+
+    }
 }
