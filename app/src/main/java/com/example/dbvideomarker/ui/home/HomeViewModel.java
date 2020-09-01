@@ -34,6 +34,9 @@ public class HomeViewModel extends AndroidViewModel {
         return allVideo;
     }
 
+    public LiveData<List<Video>> getAllVideo(int sort) {
+        return videoRepository.getAllVideo(sort);
+    }
 
     public void insertVideo(Video video) {
         videoRepository.insertVideo(video);

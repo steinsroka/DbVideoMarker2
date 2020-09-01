@@ -23,6 +23,9 @@ public class Video {
     @ColumnInfo(name = "vpath")
     public String vpath;
 
+    @ColumnInfo(name = "vadded")
+    public String vAdded;
+
     public int getContentId() {
         return contentId;
     }
@@ -53,6 +56,14 @@ public class Video {
 
     public void setVpath(String vpath) {
         this.vpath = vpath;
+    }
+
+    public String getvAdded() {
+        return vAdded;
+    }
+
+    public void setvAdded(String vAdded) {
+        this.vAdded = vAdded;
     }
 }
 

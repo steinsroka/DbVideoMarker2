@@ -1,6 +1,8 @@
 package com.example.dbvideomarker.ui.mark;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -27,6 +29,7 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
@@ -39,6 +42,8 @@ public class MarkFragment extends Fragment implements OnItemClickListener, OnIte
 
     private MarkViewModel markViewModel;
     private RequestManager mGlideRequestManager;
+    public int selectedSort;
+    public MarkAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +53,7 @@ public class MarkFragment extends Fragment implements OnItemClickListener, OnIte
         mGlideRequestManager = Glide.with(context);
 
         RecyclerView recyclerView = rootv.findViewById(R.id.rv_Mark);
-        MarkAdapter adapter = new MarkAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
+        adapter = new MarkAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
 
         markViewModel = new ViewModelProvider(getActivity()).get(MarkViewModel.class);
         markViewModel.getAllMark().observe(getActivity(), new Observer<List<Mark>>() {
@@ -70,7 +75,43 @@ public class MarkFragment extends Fragment implements OnItemClickListener, OnIte
             }
         });
 
+        Button buttonSortDialog = rootv.findViewById(R.id.mark_sort);
+        buttonSortDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort();
+            }
+        });
+
         return rootv;
+    }
+
+    public int sort() {
+        final String[] sort = new String[] {"북마크 제목순", "추가된순(최근)", "추가된순(오래된)"};
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle("정렬 순서")
+                .setSingleChoiceItems(sort, selectedSort, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedSort = which;
+                    }
+                })
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        markViewModel.getAllMark(selectedSort).observe(getActivity(), new Observer<List<Mark>>() {
+                            @Override
+                            public void onChanged(List<Mark> marks) {
+                                adapter.setMarks(marks);
+                            }
+                        });
+                    }
+                });
+        AlertDialog alertDialog = dialog.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+        return selectedSort;
     }
 
     @Override

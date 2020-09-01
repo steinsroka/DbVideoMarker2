@@ -1,11 +1,15 @@
 package com.example.dbvideomarker.ui.home;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ContextThemeWrapper;
@@ -23,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -54,6 +59,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     private MediaAdapter mediaAdapter;
     private String TAG = HomeFragment.class.getSimpleName();
     public RequestManager mGlideRequestManager;
+    public int selectedSort = 0;
+    public VideoAdapter videoAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
@@ -78,7 +85,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
         List<Media> datas = MediaStoreLoader.getContent(getActivity());
         ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
-        VideoAdapter videoAdapter = new VideoAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
+        videoAdapter = new VideoAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(getContext()).getOrientation());
@@ -87,7 +94,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         recyclerView.setAdapter(videoAdapter);
 
         homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
-        homeViewModel.getAllVideo().observe(getActivity(), new Observer<List<Video>>() {
+        homeViewModel.getAllVideo(selectedSort).observe(getActivity(), new Observer<List<Video>>() {
             @Override
             public void onChanged(List<Video> videos) {
                 videoAdapter.setVideos(videos);
@@ -135,6 +142,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                     video.setVdur(media.getDur());
                     video.setVname(media.getName());
                     video.setVpath(media.getPath());
+                    video.setvAdded(media.getAdded());
                     homeViewModel.insertVideo(video);
                 }
 
@@ -165,9 +173,51 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 recyclerView.setAdapter(mediaAdapter);
             }
         });
+
+        Button buttonSortDialog = v.findViewById(R.id.video_sort);
+        buttonSortDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedSort = sort();
+
+//                SortRunnable runnable = new SortRunnable();
+//                Thread thread = new Thread(runnable);
+//                thread.setDaemon(true);
+//                thread.start();
+
+            }
+        });
+
         return v;
     }
 
+    public int sort() {
+        final String[] sort = new String[] {"영상 제목순", "추가된순(최근)", "추가된순(오래된)", "북마크된 수"};
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle("정렬 순서")
+                .setSingleChoiceItems(sort, selectedSort, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedSort = which;
+                    }
+                })
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        homeViewModel.getAllVideo(selectedSort).observe(getActivity(), new Observer<List<Video>>() {
+                            @Override
+                            public void onChanged(List<Video> videos) {
+                                videoAdapter.setVideos(videos);
+                            }
+                        });
+                    }
+                });
+        AlertDialog alertDialog = dialog.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+        return selectedSort;
+    }
 
     @Override
     public void clickLongItem(View v, int id) {
@@ -237,4 +287,27 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
 
     }
+
+//    class SortRunnable implements Runnable {
+//        public List<Video> videoList;
+//
+//        @Override
+//        public void run() {
+//            homeViewModel.getAllVideo(selectedSort).observe(getActivity(), new Observer<List<Video>>() {
+//                @Override
+//                public void onChanged(List<Video> videos) {
+//                    videoList = videos;
+//                    handler.sendEmptyMessage(0);
+//                }
+//            });
+//
+//        }
+//
+//        Handler handler = new Handler() {
+//            public void handleMessage(Message msg) {
+//                if(msg.what == 0)
+//                    videoAdapter.setVideos(videoList);
+//            }
+//        };
+//    }
 }

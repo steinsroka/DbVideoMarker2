@@ -23,6 +23,16 @@ public class Mark {
     @ColumnInfo(name = "mStart")
     public Long mStart;
 
+    @ColumnInfo(name = "mAdded")
+    public Long mAdded;
+
+    public Long getmAdded() {
+        return mAdded;
+    }
+
+    public void setmAdded(Long mAdded) {
+        this.mAdded = mAdded;
+    }
 //    @ColumnInfo(name = "mEnd")
 //    public String mEnd;
 
