@@ -28,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -38,7 +39,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.InfoActivity;
-import com.example.dbvideomarker.dialog.Video_BottomSheetDialog;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.adapter.MediaAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
@@ -87,9 +87,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
         videoAdapter = new VideoAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(getContext()).getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(videoAdapter);
 
@@ -142,7 +139,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                     video.setVdur(media.getDur());
                     video.setVname(media.getName());
                     video.setVpath(media.getPath());
-                    video.setvAdded(media.getAdded());
+                    video.setVadded(media.getAdded());
                     homeViewModel.insertVideo(video);
                 }
 
@@ -221,11 +218,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
     @Override
     public void clickLongItem(View v, int id) {
-        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenuOverlapAnchor);
-        PopupMenu popupMenu = new PopupMenu(contextThemeWrapper, v);
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
-        inflater.inflate(R.menu.menu_popup, menu);
+        inflater.inflate(R.menu.menu_popup_video, menu);
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -235,24 +231,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                         Intent infoIntent = new Intent(getContext(), InfoActivity.class);
                         infoIntent.putExtra("ContentID", id);
                         getContext().startActivity(infoIntent);
+                        break;
                     case R.id.popup_edit:
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                        EditText et = new EditText(getActivity());
-//                        builder.setView(et);
-//                        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                if (et.getText().toString().trim().length() != 0) {
-//                                    Video video = new Video();
-//                                    video.setvName(Integer.parseInt(et.getText().toString()));
-//                                    video.setVid(id);
-//
-//                                    homeViewModel.updateVideo(video);
-//                                }
-//                            }
-//                        });
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
                         //TODO: 데이터베이스 수정코드 -> 미디어스토어 수정코드로 변경할 필요있음
                         break;
                     case (R.id.popup_delete):
@@ -264,7 +244,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }
         });
         popupMenu.show();
-
 //        Video_BottomSheetDialog video_bottomSheetDialog = new Video_BottomSheetDialog();
 //        video_bottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
 //        video_bottomSheetDialog.onClick(v);
@@ -279,9 +258,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
     @Override
-    public void clickMark(int id, long start) {
+    public void clickMark(int id, long start) {}
 
-    }
+    @Override
+    public void clickLongMark(View v, int id) {}
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {

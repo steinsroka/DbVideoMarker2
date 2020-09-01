@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,6 +36,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,15 +48,18 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     private List<PlRelVideo> resultList = new ArrayList<>();
     public int SELECT_VIDEO_REQUEST_CODE = 1001;
     public int SELECT_MARK_REQUEST_CODE = 1002;
-    private int pid;
-    public ItemTouchHelper itemTouchHelper;
-    public RequestManager _mGlideRequestManager;
-    private FloatingActionButton fab_main, fab_video, fab_mark;
 
+    private int pid;
+
+    private ItemTouchHelper itemTouchHelper;
+    private RequestManager _mGlideRequestManager;
+    private FloatingActionButton fab_main, fab_video, fab_mark;
+    private TextView vCount, mCount;
     private PlayList_VideoAdapter adapter_video;
     private PlayList_MarkAdapter adapter_mark;
 
-    TextView PlayListName, PlayListId;
+
+
     Boolean IS_OPEN = false;
 
     @Override
@@ -81,21 +86,9 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
             }
         });
 
-        TextView markCount = (TextView) findViewById(R.id.mark_count);
-
-        playListEditViewModel.getMarkRowCount(pid).observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                LiveData<Integer> count1 = playListEditViewModel.getMarkRowCount(pid);
-                markCount.setText((CharSequence) count1);
-            }
-        });
-
         setVideoInPlaylist();
         setMarkInPlaylist();
         setFab();
-
-
     }
 
     public void setFab(){
@@ -137,19 +130,19 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
     public void setVideoInPlaylist() {
         RecyclerView recyclerView_video = findViewById(R.id.rv_PlaylistEdit_video);
+
         adapter_video = new PlayList_VideoAdapter(this, this, this, _mGlideRequestManager);
         Callback callback = new Callback(adapter_video);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView_video);
 
+        vCount = findViewById(R.id.video_count);
 
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
-        // The onChanged() method fires when the observed data changes and the activity is
-        // in the foreground.
         playListEditViewModel.findVideoInPlayList(pid).observe(this, new Observer<List<PlRelVideo>>() {
             @Override
             public void onChanged(List<PlRelVideo> plRels) {
                 adapter_video.setPlRelv(plRels);
+                vCount.setText(""+plRels.size());
 /*
                 resultList = getStringArrayList(""+pid);
 
@@ -186,17 +179,20 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         recyclerView_video.setAdapter(adapter_video);
     }
 
+
     public void setMarkInPlaylist() {
         RecyclerView recyclerView_mark = findViewById(R.id.rv_PlaylistEdit_mark);
         adapter_mark = new PlayList_MarkAdapter(this, this, _mGlideRequestManager);
+
+        mCount = findViewById(R.id.mark_count);
 
         playListEditViewModel.findMarkInPlayList(pid).observe(this, new Observer<List<PlRelMark>>() {
             @Override
             public void onChanged(List<PlRelMark> plRelMarks) {
                 adapter_mark.setPlRelm(plRelMarks);
+                mCount.setText(""+plRelMarks.size());
             }
         });
-
         recyclerView_mark.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView_mark.setAdapter(adapter_mark);
     }
@@ -232,15 +228,14 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         PopupMenu popupMenu = new PopupMenu(this, v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
-        inflater.inflate(R.menu.menu_popup, menu);
+        inflater.inflate(R.menu.menu_popup_playlist_video, menu);
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case(R.id.popup_delete):
-                        playListEditViewModel.deletePlRel(id);
-
+                    case(R.id.popup_delete_playlist):
+                        playListEditViewModel.deleteVideoInPlaylist(id);
                         break;
                 }
                 return false;
@@ -249,12 +244,35 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         popupMenu.show();
     }
 
+
+
     @Override
     public void clickItem(int pid) {}
 
     @Override
     public void clickMark(int id, long start) {
 
+    }
+
+    @Override
+    public void clickLongMark(View v, int id) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        Menu menu = popupMenu.getMenu();
+        inflater.inflate(R.menu.menu_popup_playlist_mark, menu);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case(R.id.popup_delete_playlist):
+                        playListEditViewModel.deleteMarkInPlaylist(id);
+                        break;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
     }
 
     @Override

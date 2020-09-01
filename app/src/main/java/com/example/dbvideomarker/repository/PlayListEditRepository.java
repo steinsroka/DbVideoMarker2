@@ -42,13 +42,13 @@ public class PlayListEditRepository {
         return plRelDao.findMarkInPlayList(pid);
     }
 
-    public LiveData<Integer> getMarkRowCount(int pid) {
-        return plRelDao.getMarkRowCount(pid);
-    }
+//    public LiveData<Integer> getMarkRowCount(int pid) {
+//        return plRelDao.getMarkRowCount(pid);
+//    }
 
-    public LiveData<Integer> getVideoCount(int pid) {
-        return plRelDao.getVideoRowCount(pid);
-    }
+//    public LiveData<Integer> getVideoCount(int pid) {
+//        return plRelDao.getVideoRowCount(pid);
+//    }
 
 //    public LiveData<List<PlRel>> videoOverlapCheck(int pid) {
 //        return plRelDao.videoOverlapCheck(pid);
@@ -71,21 +71,38 @@ public class PlayListEditRepository {
         }.execute(plRel);
     }
 
-    public void deletePlRel(int vid) {
+    public void deleteVideoInPlaylist(int vid) {
         new AsyncTask<Integer, Void, Integer>() {
             @Override
             protected Integer doInBackground(Integer... integers) {
                 if (plRelDao == null)
                     return -1;
-                return plRelDao.deletePlRel(integers[0]);
+                return plRelDao.deleteVideoInPlaylist(integers[0]);
             }
 
             @Override
             protected void onPostExecute(Integer integer) {
                 super.onPostExecute(integer);
-                Log.d(TAG, "deletePlRel : " + integer);
+                Log.d(TAG, "delete video in playlist : " + integer);
             }
         }.execute(vid);
+    }
+
+    public void deleteMarkInPlaylist(int mid) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer... integers) {
+                if (plRelDao == null)
+                    return -1;
+                return plRelDao.deleteMarkInPlaylist(integers[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "delete mark in playlist : " + integer);
+            }
+        }.execute(mid);
     }
 
     public void deleteWithPlayList(int pid) {

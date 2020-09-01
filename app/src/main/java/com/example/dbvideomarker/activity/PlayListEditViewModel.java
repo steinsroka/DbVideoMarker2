@@ -34,13 +34,13 @@ public class PlayListEditViewModel extends AndroidViewModel {
 //        return playListEditRepository.getVideoOverlap(pid);
 //    }
 
-    public LiveData<Integer> getMarkRowCount(int pid) {
-        return playListEditRepository.getMarkRowCount(pid);
-    }
+//    public LiveData<Integer> getMarkRowCount(int pid) {
+//        return playListEditRepository.getMarkRowCount(pid);
+//    }
 
-    public LiveData<Integer> getVideoRowCount(int pid) {
-        return playListEditRepository.getVideoCount(pid);
-    }
+//    public LiveData<Integer> getVideoRowCount(int pid) {
+//        return playListEditRepository.getVideoCount(pid);
+//    }
 
     public LiveData<List<PlRelVideo>> findVideoInPlayList(int pid) {
         return playListEditRepository.findVideoInPlayList(pid);
@@ -64,7 +64,11 @@ public class PlayListEditViewModel extends AndroidViewModel {
         playListRepository.update(playList);
     }
 
-    public void deletePlRel(int vid) {
-        playListEditRepository.deletePlRel(vid);
+    public void deleteVideoInPlaylist(int vid) {
+        playListEditRepository.deleteVideoInPlaylist(vid);
+    }
+
+    public void deleteMarkInPlaylist(int mid) {
+        playListEditRepository.deleteMarkInPlaylist(mid);
     }
 }

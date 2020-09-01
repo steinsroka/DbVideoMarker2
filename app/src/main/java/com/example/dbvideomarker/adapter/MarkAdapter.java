@@ -79,7 +79,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                     @Override
                     public boolean onLongClick(View view) {
                         int mid = current.getmid();
-                        onItemClickListener.clickLongItem(view, mid);
+                        onItemClickListener.clickLongMark(view, mid);
                         return false;
                     }
                 });

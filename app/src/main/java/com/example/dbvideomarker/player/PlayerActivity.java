@@ -575,7 +575,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 */
 
     public void addMark(Long currentPosition) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         EditText mMemo = new EditText(this);
         builder.setView(mMemo);
@@ -602,19 +601,19 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         //TODO: 여기 값 어떻게 채워넣을지 확인하기, 슬라이드 제스쳐디택터 추가
         //TODO: 북마크 시점 시간형변환
 
+    @Override
+    public void clickLongItem(View v, int id) {}
 
     @Override
-    public void clickLongItem(View v, int id) {
-    }
-
-    @Override
-    public void clickItem(int id) {
-    }
+    public void clickItem(int id) {}
 
     @Override
     public void clickMark(int id, long start) {
         player.setCurrentPosition(start);
     }
+
+    @Override
+    public void clickLongMark(View v, int id) {}
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {

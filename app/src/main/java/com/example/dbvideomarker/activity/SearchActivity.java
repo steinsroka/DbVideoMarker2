@@ -29,10 +29,8 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
-
     private SearchViewModel searchViewModel;
     public RequestManager mGlideRequestManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

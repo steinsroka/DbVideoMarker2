@@ -10,5 +10,7 @@ public interface OnItemClickListener {
     void clickItem(int id);
 
     void clickMark(int id, long start);
+
+    void clickLongMark(View v, int id);
 }
 

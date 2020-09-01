@@ -81,6 +81,11 @@ public class SelectVideoActivity extends AppCompatActivity implements OnItemSele
     }
 
     @Override
+    public void clickLongMark(View v, int id) {
+
+    }
+
+    @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
         ArrayList<Integer> idList = new ArrayList<>();
         for(int i=0; i<sparseBooleanArray.size(); i++) {
