@@ -587,6 +587,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                     mark.setvid(id);
                     mark.setmMemo(mMemo.getText().toString());
                     mark.setmStart(currentPosition);
+                    mark.setmAdded(System.currentTimeMillis());
 
                     playerViewModel.insertMark(mark);
                     player.resumePlayer();

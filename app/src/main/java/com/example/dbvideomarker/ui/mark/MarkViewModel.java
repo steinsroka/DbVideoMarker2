@@ -22,6 +22,10 @@ public class MarkViewModel extends AndroidViewModel {
         allMark = markRepository.getAllMark();
     }
 
+    public LiveData<List<Mark>> getAllMark(int sort) {
+        return markRepository.getAllMark(sort);
+    }
+
     public LiveData<List<Mark>> getAllMark() {
         return allMark;
     }

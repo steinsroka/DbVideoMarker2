@@ -30,6 +30,12 @@
             android:text="LogCheck" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/video_sort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="정렬" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

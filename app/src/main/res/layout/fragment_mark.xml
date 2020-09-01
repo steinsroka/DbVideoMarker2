@@ -13,6 +13,12 @@
         android:text="검색"
         android:id="@+id/btn_Search"/>
 
+    <Button
+        android:id="@+id/mark_sort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="정렬" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_Mark"
         android:layout_width="match_parent"

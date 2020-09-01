@@ -26,8 +26,7 @@ public class Video {
     @ColumnInfo(name = "vadded")
     public String vadded;
 
-
-
+  
     public int getContentId() {
         return contentId;
     }
