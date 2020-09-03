@@ -1,66 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.SearchActivity">
+    android:background="@color/colorBG"
+    tools:context="activity.SearchActivity">
 
-
-    <LinearLayout
+    <EditText
+        android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:drawableLeft="@drawable/ic_baseline_search_24"
+        android:textColorHint="@color/colorText"
+        android:textColor="@color/colorText"
+        android:hint="검색어를 입력해주세요." />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:inputType="text"
-            android:id="@+id/searchText"/>
-
-        <Button
-            android:id="@+id/btn_searchText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="검색" />
-    </LinearLayout>
-
-    <LinearLayout
+    <ExpandableListView
+        android:id="@+id/expandableListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="동영상 제목" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_VideoResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="북마크 제목" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_MarkResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
+        android:layout_height="match_parent"
+        android:textFilterEnabled="true" />
 </LinearLayout>
