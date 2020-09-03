@@ -1,64 +1,79 @@
 package com.example.dbvideomarker.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.adapter.MarkAdapter;
-import com.example.dbvideomarker.adapter.VideoAdapter;
-import com.example.dbvideomarker.database.entitiy.Video;
-import com.example.dbvideomarker.listener.OnItemClickListener;
-import com.example.dbvideomarker.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.listener.OnMarkClickListener;
-import com.example.dbvideomarker.adapter.util.ViewCase;
-import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.adapter.SearchAdapter;
+import com.example.dbvideomarker.database.entitiy.SearchGroupList;
+import com.example.dbvideomarker.database.entitiy.SearchItemList;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private SearchViewModel searchViewModel;
-    public RequestManager mGlideRequestManager;
+    private ExpandableListView expandableListView;
+    private EditText editText;
+    private SearchAdapter searchAdapter;
+    private ArrayList<SearchGroupList> searchGroupLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_search);
 
-        List<Video> videoList;
-        List<Mark> markList;
+        editText = (EditText) findViewById(R.id.editText);
 
-        //searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-        //mGlideRequestManager = Glide.with(this);
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
-    }
-   /*
-    private void getSearchResult(String searchableText) {
-        searchViewModel.getSearchVideo(searchableText).observe(this, new Observer<List<Video>>() {
+        searchGroupLists = new ArrayList<>();
+        searchGroupLists = Data(searchGroupLists);
+        searchAdapter = new SearchAdapter(this, searchGroupLists);
+        expandableListView.setAdapter(searchAdapter);
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onChanged(List<Video> videos) {
-                videoAdapter.setVideos(videos);
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                return false;
             }
         });
-
-        searchViewModel.getSearchMark(searchableText).observe(this, new Observer<List<Mark>>() {
+        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
             @Override
-            public void onChanged(List<Mark> marks) {
-                markAdapter.setMarks(marks);
+            public void onGroupCollapse(int i) {
+
+            }
+        });
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int i) {
+
             }
         });
     }
-*/
+
+
+    private ArrayList<SearchGroupList> Data(ArrayList<SearchGroupList> list) {
+        SearchGroupList videoList = new SearchGroupList("영상 제목", "(1)",null);
+        ArrayList<SearchItemList> videoLists = new ArrayList<>();
+        videoLists.add(new SearchItemList(R.drawable.ic_baseline_search_24,"30:28","은밀한 사생활","GJW-903"));
+        videoList.setSearchItemLists(videoLists);
+        list.add(videoList);
+
+        SearchGroupList markList = new SearchGroupList("북마크 메모","(1)",null);
+        ArrayList<SearchItemList> markLists = new ArrayList<>();
+        markLists.add(new SearchItemList(R.drawable.ic_baseline_search_24,"30:28","은밀한 사생활","GJW-903"));
+        markList.setSearchItemLists(markLists);
+        list.add(markList);
+
+        return list;
+    }
+
+
+    /*
+     */
+
 }
