@@ -1,5 +1,6 @@
 package com.example.dbvideomarker.player;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.KeyEvent;
 import android.view.View;
@@ -38,6 +40,9 @@ import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.player.media.SimpleMediaSource;
 import com.example.dbvideomarker.player.ui.ExoVideoPlaybackControlView;
 import com.example.dbvideomarker.player.ui.ExoVideoView;
+import com.google.android.exoplayer2.Player;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 import java.util.List;
 
@@ -46,36 +51,47 @@ import static com.example.dbvideomarker.player.orientation.OnOrientationChangedL
 
 public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnItemSelectedListener {
 
+
     private ExoVideoView videoView;
     private View wrapper;
 
     private PlayerViewModel playerViewModel;
     private RequestManager mGlideRequestManager;
 
-    private int CONTENT_ID;
+    public static int CONTENT_ID;
     private long CONTENT_START;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_video_view);
         wrapper = findViewById(R.id.wrapper);
 
+        FloatingActionButton fab = findViewById(R.id.fab_add_mark);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addMark(videoView.getCurrentPosition());
+            }
+        });
+
         Intent intent = getIntent();
         CONTENT_ID = intent.getExtras().getInt("ContentID");
         CONTENT_START = intent.getExtras().getLong("Start");
 
-        if (CONTENT_START == -1) {
+        if (CONTENT_START == -1L) {
             initVideoView(String.valueOf(CONTENT_ID));
-            //player.setCurrentPosition(0);
-        } else {
+            videoView.seekTo(0);
+            Log.d("TAG", "start =" + CONTENT_START +"//"+ CONTENT_ID);
+        } else if (CONTENT_START != -1){
             initVideoView(String.valueOf(CONTENT_ID));
-            //player.setCurrentPosition(CONTENT_START);
+            videoView.seekTo(CONTENT_START);
+            Log.d("TAG", "start != -1 &&" + CONTENT_START +"//"+ CONTENT_ID);
         }
 
         initVideoView(String.valueOf(CONTENT_ID));
         initBottomView();
     }
+
 
     private void initBottomView() {
         RecyclerView recyclerView = findViewById(R.id.rv_getMark);
@@ -142,6 +158,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                 changeToLandscape();
             }
         });
+        videoView.addMarkToDoubleTap();
 
         //SimpleMediaSource mediaSource = new SimpleMediaSource("http://vfx.mtime.cn/Video/2019/03/12/mp4/190312083533415853.mp4"); //동영상 URI
         Uri uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
@@ -237,7 +254,9 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     public void clickItem(int id) {}
 
     @Override
-    public void clickMark(int id, long start) {}
+    public void clickMark(int id, long start) {
+        videoView.seekTo(start);
+    }
 
     @Override
     public void clickLongMark(View v, int id) {}

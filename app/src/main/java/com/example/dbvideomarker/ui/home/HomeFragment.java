@@ -253,7 +253,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     public void clickItem(int id) {
         Intent playerIntent = new Intent(getContext(), PlayerActivity.class);
         playerIntent.putExtra("ContentID", id);
-        playerIntent.putExtra("Start", -1);
+        playerIntent.putExtra("Start", -1L);
         getContext().startActivity(playerIntent);
     }
 

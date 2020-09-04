@@ -30,16 +30,20 @@ public class PlayListEditRepository {
         return allPlRel;
     }
 
-//    public LiveData<List<PlRelVideo>> getVideoOverlap(int pid) {
-//        return plRelDao.getVideoOverlap(pid);
-//    }
-
     public LiveData<List<PlRelVideo>> findVideoInPlayList(int pid) {
         return plRelDao.findVideoInPlayList(pid);
     }
 
     public LiveData<List<PlRelMark>> findMarkInPlayList(int pid) {
         return plRelDao.findMarkInPlayList(pid);
+    }
+
+    public LiveData<List<PlRelMark>> selectMark(int pid) {
+        return plRelDao.selectMark(pid);
+    }
+
+    public LiveData<List<PlRelVideo>> selectVideo(int pid) {
+        return plRelDao.selectVideo(pid);
     }
 
 //    public LiveData<Integer> getMarkRowCount(int pid) {

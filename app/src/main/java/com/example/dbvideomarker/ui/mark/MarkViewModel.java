@@ -7,13 +7,16 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.database.entitiy.PlRelMark;
 import com.example.dbvideomarker.repository.MarkRepository;
+import com.example.dbvideomarker.repository.PlayListEditRepository;
 
 import java.util.List;
 
 public class MarkViewModel extends AndroidViewModel {
 
     private MarkRepository markRepository;
+    private PlayListEditRepository playListEditRepository;
     private LiveData<List<Mark>> allMark;
 
     public MarkViewModel(@NonNull Application application) {
