@@ -38,14 +38,6 @@ public class PlayListEditRepository {
         return plRelDao.findMarkInPlayList(pid);
     }
 
-    public LiveData<List<PlRelMark>> selectMark(int pid) {
-        return plRelDao.selectMark(pid);
-    }
-
-    public LiveData<List<PlRelVideo>> selectVideo(int pid) {
-        return plRelDao.selectVideo(pid);
-    }
-
 //    public LiveData<Integer> getMarkRowCount(int pid) {
 //        return plRelDao.getMarkRowCount(pid);
 //    }

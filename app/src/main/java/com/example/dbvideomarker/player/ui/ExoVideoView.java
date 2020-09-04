@@ -409,9 +409,6 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
         if (controller != null) {
             controller.setMediaSource(mediaSource);
         }
-        if(markViewer) {
-            addMarkView();
-        }
         playInternal(mediaSource, playWhenReady, where, creator);
     }
 
@@ -555,46 +552,6 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
         if (controller != null) {
             controller.setControllerDisplayMode(ExoVideoPlaybackControlView.CONTROLLER_MODE_ALL);
         }
-    }
-
-    private void addMarkView(){
-        if (controller != null) {
-            controller.setVisibilityCallback(visibility -> {
-                overlayFrameLayout.setVisibility(visibility);
-                if (visibility != VISIBLE) {
-                    controller.show();
-                }
-
-            });
-        }
-        overlayFrameLayout.removeAllViews();
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.exo_player_mark_viewer, null, false);
-        overlayFrameLayout.setVisibility(GONE);
-
-
-
-        MarkAdapter markAdapter = new MarkAdapter(getContext(), ViewCase.NORMAL, this, this, mGlideRequestManager);
-        RecyclerView container = view.findViewById(R.id.exo_player_mark_container);
-
-//        PlayerViewModel playerViewModel = new ViewModelProvider( new PlayerActivity()).get(PlayerViewModel.class);
-//        playerViewModel.getMarkByVideoId(CONTENT_ID).observe(new PlayerActivity(), new Observer<List<Mark>>() {
-//            @Override
-//            public void onChanged(List<Mark> marks) {
-//                markAdapter.setMarks(marks);
-//            }
-//        });
-
-        container.setAdapter(markAdapter);
-        container.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        view.setOnClickListener(v -> overlayFrameLayout.setVisibility(GONE));
-
-        View containerWrapper = view.findViewById(R.id.containerWrapper);
-        if(controllerBackgroundId != 0) {
-            containerWrapper.setBackgroundResource(controllerBackgroundId);
-        }
-
-        overlayFrameLayout.addView(view);
     }
 
 

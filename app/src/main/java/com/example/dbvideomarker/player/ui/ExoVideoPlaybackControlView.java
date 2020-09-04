@@ -202,7 +202,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
 
     private int displayMode = CONTROLLER_MODE_ALL;
 
-    private MarkAdapter.VisibilityCallback markVisibilityCallback;
 
     private VideoViewAccessor videoViewAccessor;
     private VideoGesture videoGesture;
@@ -1030,9 +1029,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
             exoPlayerControllerBottomLandscape.setVisibility(visibility);
         }
 
-        if (markVisibilityCallback != null) {
-            markVisibilityCallback.shouldChangeVisibility(GONE);
-        }
 
     }
 
@@ -1089,9 +1085,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
         videoViewAccessor.attachVideoView().setSystemUiVisibility(flag);
     }
 
-    public void setVisibilityCallback(MarkAdapter.VisibilityCallback markVisibilityCallback) {
-        this.markVisibilityCallback = markVisibilityCallback;
-    }
 
 
     public void setVideoViewAccessor(VideoViewAccessor videoViewAccessor) {
@@ -1276,9 +1269,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
                     }
                 } else if (centerInfoWrapper == view) {
                     playOrPause();
-                } else if (exoPlayerMarkLandscape == view) {
-                    hide();
-                    markVisibilityCallback.shouldChangeVisibility(View.VISIBLE);
                 }
             }
             hideAfterTimeout();
