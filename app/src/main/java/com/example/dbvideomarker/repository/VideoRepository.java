@@ -33,6 +33,10 @@ public class VideoRepository {
         return videoDao.findAllVideo(sort);
     }
 
+    public LiveData<List<Video>> selectVideo() {
+        return videoDao.selectVideo();
+    }
+
 //    public LiveData<List<Video>> getSearchVideo(String vName) {
 //        return videoDao.searchVideo(vName);
 //    }

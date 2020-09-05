@@ -38,6 +38,10 @@ public class HomeViewModel extends AndroidViewModel {
         return videoRepository.getAllVideo(sort);
     }
 
+    public LiveData<List<Video>> selectVideo() {
+        return videoRepository.selectVideo();
+    }
+
     public void insertVideo(Video video) {
         videoRepository.insertVideo(video);
     }

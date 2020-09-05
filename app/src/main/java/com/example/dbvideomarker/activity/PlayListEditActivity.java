@@ -32,6 +32,7 @@ import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.util.Callback;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.player.PlayerActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -247,11 +248,19 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
 
     @Override
-    public void clickItem(int pid) {}
+    public void clickItem(int id) {
+        Intent playerIntent = new Intent(this, PlayerActivity.class);
+        playerIntent.putExtra("ContentID", id);
+        playerIntent.putExtra("Start", 0L);
+        startActivity(playerIntent);
+    }
 
     @Override
     public void clickMark(int id, long start) {
-
+        Intent playerIntent = new Intent(this, PlayerActivity.class);
+        playerIntent.putExtra("ContentID", id);
+        playerIntent.putExtra("Start", start);
+        startActivity(playerIntent);
     }
 
     @Override

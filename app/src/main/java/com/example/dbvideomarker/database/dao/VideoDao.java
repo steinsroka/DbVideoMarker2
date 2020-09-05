@@ -44,11 +44,19 @@ public interface VideoDao {
                      "CASE WHEN :sort = 3 THEN countMark END DESC")
     LiveData<List<Video>> findAllVideo (int sort);
 
-    @Query("SELECT * FROM Video ORDER BY contentID ASC")
+    @Query("SELECT * FROM Video ORDER BY contentId ASC")
     LiveData<List<Video>> findAllVideo ();
 
 //    @Query("SELECT * FROM Video WHERE vname LIKE + '%' + :vName + '%' ORDER BY vName")
 //    LiveData<List<Video>> searchVideo(String vName);
+
+//    @Query("SELECT * FROM Video " +
+//            "WHERE contentId = (SELECT plrel_vid FROM plrel) ")
+//    LiveData<List<Video>> selectVideo();
+
+    @Query("SELECT DISTINCT Video.*, plrel_vid as joined " +
+            "FROM VIDEO JOIN plrel on Video.contentId != plrel_vid ")
+    LiveData<List<Video>> selectVideo();
 
     @Insert(onConflict = IGNORE)
     long insertVideo(Video video);

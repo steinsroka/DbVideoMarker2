@@ -61,7 +61,7 @@ public class SelectVideoActivity extends AppCompatActivity implements OnItemSele
 */
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        homeViewModel.getAllVideo().observe(this, new Observer<List<Video>>() {
+        homeViewModel.selectVideo().observe(this, new Observer<List<Video>>() {
             @Override
             public void onChanged(List<Video> videos) {
                 adapter.setVideos(videos);

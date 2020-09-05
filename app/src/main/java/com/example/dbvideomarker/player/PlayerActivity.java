@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -60,6 +62,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     public static int CONTENT_ID;
     private long CONTENT_START;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,18 +81,10 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         CONTENT_ID = intent.getExtras().getInt("ContentID");
         CONTENT_START = intent.getExtras().getLong("Start");
 
-        if (CONTENT_START == -1L) {
-            initVideoView(String.valueOf(CONTENT_ID));
-            videoView.seekTo(0);
-            Log.d("TAG", "start =" + CONTENT_START +"//"+ CONTENT_ID);
-        } else if (CONTENT_START != -1){
-            initVideoView(String.valueOf(CONTENT_ID));
-            videoView.seekTo(CONTENT_START);
-            Log.d("TAG", "start != -1 &&" + CONTENT_START +"//"+ CONTENT_ID);
-        }
-
         initVideoView(String.valueOf(CONTENT_ID));
+        Log.d("TAG", "start =" + CONTENT_START + "//" + CONTENT_ID);
         initBottomView();
+        videoView.seekTo(CONTENT_START);
     }
 
 
@@ -141,6 +136,22 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         dialog.show();
     }
 
+    public void seekToOnDoubleTap() {
+        //getWidthOfScreen();
+        final GestureDetector gestureDetector = new GestureDetector(this,
+                new GestureDetector.SimpleOnGestureListener() {
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        Long cur_pos = videoView.getCurrentPosition();
+                        Log.d("TAG", "onDoubleTap():  " + videoView.getCurrentPosition());
+                        addMark(cur_pos);
+                        videoView.resume();
+                        return true;
+                    }
+                });
+        videoView.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
+    }
+
     private void initVideoView(String id) {
         videoView = findViewById(R.id.videoView);
         videoView.setPortrait(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
@@ -167,9 +178,8 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
         videoView.setControllerDisplayMode(ExoVideoPlaybackControlView.CONTROLLER_MODE_ALL);
         videoView.play(mediaSource, false);
+        seekToOnDoubleTap();
     }
-
-
 
 
     private void changeToPortrait() {
@@ -248,10 +258,12 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     }
 
     @Override
-    public void clickLongItem(View v, int id) {}
+    public void clickLongItem(View v, int id) {
+    }
 
     @Override
-    public void clickItem(int id) {}
+    public void clickItem(int id) {
+    }
 
     @Override
     public void clickMark(int id, long start) {
@@ -259,9 +271,11 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     }
 
     @Override
-    public void clickLongMark(View v, int id) {}
+    public void clickLongMark(View v, int id) {
+    }
 
     @Override
-    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {}
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+    }
 }
 
