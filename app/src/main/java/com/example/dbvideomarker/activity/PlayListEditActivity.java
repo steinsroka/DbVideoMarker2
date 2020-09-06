@@ -220,7 +220,6 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
                     plRel.setMid(selectedMidList.get(i));
                     playListEditViewModel.insertPlRelation(plRel);
                 }
-
             }
         }
     }

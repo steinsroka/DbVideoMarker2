@@ -45,6 +45,10 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         this.onItemClickListener = onItemClickListener;
     }
 
+    public VideoAdapter() {
+        clearSelected();
+    }
+
     @Override
     public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {
         if (sel_type == ViewCase.NORMAL) {
@@ -139,6 +143,10 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         if (videoList != null) {
             return videoList.size();
         } else return 0;
+    }
+
+    public void clearSelected() {
+        mSelectedItems.clear();
     }
 
 //    private void toggleItemSelected(int position) {

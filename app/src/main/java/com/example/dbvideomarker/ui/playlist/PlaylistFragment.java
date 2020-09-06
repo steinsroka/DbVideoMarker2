@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -129,4 +131,30 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
 
     @Override
     public void clickLongMark(View v, int id) {}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.select:
+                Toast.makeText(getActivity(), "1111", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.setting:
+//                Intent intent = new Intent(this, SettingActivity.class);
+//                //액티비티 시작!
+//                startActivity(intent);
+                break;
+            case R.id.menu_search:
+                Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intentSearch);
+                break;
+        }
+        return true;
+    }
 }

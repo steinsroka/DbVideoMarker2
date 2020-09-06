@@ -26,14 +26,14 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-public class Player_BottomSheetDialog extends BottomSheetDialogFragment implements OnItemClickListener {
+public class BottomSheetDialog extends BottomSheetDialogFragment implements OnItemClickListener {
 
     private PlaylistViewModel playlistViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.bottom_sheet_player, container, false);
+        View v = inflater.inflate(R.layout.dialog_bottom_sheet, container, false);
 
         Context context = v.getContext();
 
