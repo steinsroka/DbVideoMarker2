@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.mediastore.MediaStoreLoader;
 import com.example.dbvideomarker.repository.MarkRepository;
@@ -38,9 +39,9 @@ public class HomeViewModel extends AndroidViewModel {
         return videoRepository.getAllVideo(sort);
     }
 
-    public LiveData<List<Video>> selectVideo() {
-        return videoRepository.selectVideo();
-    }
+//    public LiveData<List<Video>> selectVideo(int pid) {
+//        return videoRepository.selectVideo(pid);
+//    }
 
     public void insertVideo(Video video) {
         videoRepository.insertVideo(video);

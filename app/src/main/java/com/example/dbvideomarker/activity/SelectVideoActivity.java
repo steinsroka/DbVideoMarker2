@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +43,8 @@ public class SelectVideoActivity extends AppCompatActivity implements OnItemSele
         setContentView(R.layout.activity_select_video);
 
         mGlideRequestManager = Glide.with(this);
-
+        Intent getVideoIntent= getIntent();
+        int pid = getVideoIntent.getIntExtra("pid", -1);
 
         RecyclerView recyclerView = findViewById(R.id.rv_select_video);
         VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this, mGlideRequestManager);
@@ -61,12 +63,13 @@ public class SelectVideoActivity extends AppCompatActivity implements OnItemSele
 */
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        homeViewModel.selectVideo().observe(this, new Observer<List<Video>>() {
+        homeViewModel.getAllVideo().observe(this, new Observer<List<Video>>() {
             @Override
             public void onChanged(List<Video> videos) {
                 adapter.setVideos(videos);
             }
         });
+        Toast.makeText(this, ""+pid, Toast.LENGTH_SHORT).show();
     }
 
     @Override

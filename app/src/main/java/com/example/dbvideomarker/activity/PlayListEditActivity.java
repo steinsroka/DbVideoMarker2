@@ -116,6 +116,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
             @Override
             public void onClick(View view) {
                 Intent videoIntent = new Intent(PlayListEditActivity.this, SelectVideoActivity.class);
+                videoIntent.putExtra("pid", pid);
                 startActivityForResult(videoIntent, SELECT_VIDEO_REQUEST_CODE);
             }
         });

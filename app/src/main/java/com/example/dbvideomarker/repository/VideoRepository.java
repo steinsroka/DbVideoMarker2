@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.VideoDao;
 import com.example.dbvideomarker.database.entitiy.Media;
+import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
 
@@ -33,9 +34,10 @@ public class VideoRepository {
         return videoDao.findAllVideo(sort);
     }
 
-    public LiveData<List<Video>> selectVideo() {
-        return videoDao.selectVideo();
-    }
+
+//    public LiveData<List<Video>> selectVideo(int pid) {
+//        return videoDao.selectVideo(pid);
+//    }
 
 //    public LiveData<List<Video>> getSearchVideo(String vName) {
 //        return videoDao.searchVideo(vName);
