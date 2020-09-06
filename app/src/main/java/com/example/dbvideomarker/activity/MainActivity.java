@@ -104,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "1111", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.setting:
-//                Intent intent = new Intent(this, SettingActivity.class);
-//                //액티비티 시작!
-//                startActivity(intent);
+                Intent intent = new Intent(this, SettingActivity.class);
+                //액티비티 시작!
+                startActivity(intent);
                 break;
             case R.id.menu_search:
                 Intent intentSearch = new Intent(getApplicationContext(), SearchActivity.class);
