@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,8 +35,6 @@ import com.example.dbvideomarker.player.PlayerActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -115,8 +112,9 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         fab_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent videoIntent = new Intent(PlayListEditActivity.this, SelectVideoActivity.class);
+                Intent videoIntent = new Intent(PlayListEditActivity.this, SelectActivity.class);
                 videoIntent.putExtra("pid", pid);
+                videoIntent.putExtra("VIEW_TYPE", 2001);
                 startActivityForResult(videoIntent, SELECT_VIDEO_REQUEST_CODE);
             }
         });
@@ -124,7 +122,9 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         fab_mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent markIntent = new Intent(PlayListEditActivity.this, SelectMarkActivity.class);
+                Intent markIntent = new Intent(PlayListEditActivity.this, SelectActivity.class);
+                markIntent.putExtra("pid", pid);
+                markIntent.putExtra("VIEW_TYPE", 2002);
                 startActivityForResult(markIntent, SELECT_MARK_REQUEST_CODE);
             }
         });

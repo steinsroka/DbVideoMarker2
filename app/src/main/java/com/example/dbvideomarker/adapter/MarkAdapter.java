@@ -7,7 +7,6 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +19,6 @@ import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderSelect;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 
 import java.util.List;
@@ -48,10 +46,10 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
     @Override
     public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {
         if (sel_type == ViewCase.NORMAL) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.mark_item, parent, false);
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_mark, parent, false);
             return new MarkViewHolderNormal(view);
         } else if (sel_type == ViewCase.SELECT) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.activity_select_mark_item, parent, false);
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_mark_select, parent, false);
             return new MarkViewHolderSelect(view);
         }
         return null;

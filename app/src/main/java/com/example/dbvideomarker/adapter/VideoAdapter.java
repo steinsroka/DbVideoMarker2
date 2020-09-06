@@ -48,10 +48,10 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
     @Override
     public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {
         if (sel_type == ViewCase.NORMAL) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.home_item, parent, false);
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
             return new VideoViewHolderNormal(view);
         } else if (sel_type == ViewCase.SELECT) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.activity_select_video_item, parent, false);
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_video_select, parent, false);
             return new VideoViewHolderSelect(view);
         }
         return null;

@@ -46,7 +46,7 @@ public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAd
     @NonNull
     @Override
     public PLEViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.playlistedit_video_item, parent, false);
+        View view = mInflater.inflate(R.layout.item_video_playlist, parent, false);
         return new PLEViewHolder(view);
     }
 
