@@ -87,25 +87,6 @@ public class MediaStoreLoader {
         return mediaList;
     }
 
-    public static ArrayList<Integer> getIdArray(Context context) {
-
-        ContentResolver resolver = context.getContentResolver();
-
-        Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-        String projections[] = { MediaStore.Video.Media._ID };
-        Cursor c = resolver.query(uri, projections, null, null, null);
-        mediaIdList.clear();
-        if (c != null) {
-            while (c.moveToNext()) {
-                int index = c.getColumnIndex(projections[0]);
-                id = c.getInt(index);
-                mediaIdList.add(id);
-            }
-        }
-        c.close();
-        return mediaIdList;
-    }
-
     public String getReadableDuration(long millis) {
         //TODO: 60분 미만이어도 00:00:00 로 표시되는 현상
         String dur = String.format("%02d:%02d:%02d",

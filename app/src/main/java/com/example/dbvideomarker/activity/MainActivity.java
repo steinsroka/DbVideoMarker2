@@ -27,13 +27,14 @@ public class MainActivity extends AppCompatActivity {
     MarkFragment markFragment;
     HomeFragment homeFragment;
     PlaylistFragment playlistFragment;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar); //툴바를 액션바(앱바)로 사용할 수 있는 메소드
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -71,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
+    public void disableToolbar() {
+        toolbar.setVisibility(View.GONE);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
@@ -96,25 +101,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.select:
-                Toast.makeText(this, "1111", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.setting:
-                Intent intent = new Intent(this, SettingActivity.class);
-                //액티비티 시작!
-                startActivity(intent);
-                break;
-            case R.id.menu_search:
-                Intent intentSearch = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivity(intentSearch);
-                break;
-        }
-        return true;
-    }
-
+                //Intent intent = new Intent(this, SettingActivity.class);
+                //startActivity(intent);
 
 }

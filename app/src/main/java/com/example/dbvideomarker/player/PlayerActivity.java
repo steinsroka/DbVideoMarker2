@@ -1,6 +1,5 @@
 package com.example.dbvideomarker.player;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -24,25 +23,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
-import com.example.dbvideomarker.dialog.Player_BottomSheetDialog;
+import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.player.media.SimpleMediaSource;
 import com.example.dbvideomarker.player.ui.ExoVideoPlaybackControlView;
 import com.example.dbvideomarker.player.ui.ExoVideoView;
-import com.google.android.exoplayer2.Player;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -106,7 +100,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Player_BottomSheetDialog playerBottomSheetDialog = new Player_BottomSheetDialog();
+                BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
                 playerBottomSheetDialog.show(getSupportFragmentManager(), "bottomSheetDialog");
             }
         });

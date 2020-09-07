@@ -33,7 +33,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MyItemView> {
     @Override
     public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(sel_type == ViewCase.MEDIA) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.home_item_media, parent, false);
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_media, parent, false);
             return new ItemViewHolderMedia(view);
         }
         return null;

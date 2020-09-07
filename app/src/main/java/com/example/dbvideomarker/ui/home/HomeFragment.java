@@ -1,18 +1,16 @@
 package com.example.dbvideomarker.ui.home;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.util.SparseBooleanArray;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,18 +18,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
-
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,33 +36,46 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.InfoActivity;
-import com.example.dbvideomarker.player.PlayerActivity;
-import com.example.dbvideomarker.adapter.MediaAdapter;
+import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
-import com.example.dbvideomarker.listener.OnItemClickListener;
-import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.dialog.BottomSheetDialog;
+import com.example.dbvideomarker.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.mediastore.MediaStoreLoader;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.dbvideomarker.player.PlayerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OnItemSelectedListener, OnItemClickListener {
 
-    private HomeViewModel homeViewModel;
-    private MediaAdapter mediaAdapter;
     private String TAG = HomeFragment.class.getSimpleName();
-    public RequestManager mGlideRequestManager;
-    public int selectedSort = 0;
-    public VideoAdapter videoAdapter;
+    private HomeViewModel homeViewModel;
+    private RequestManager mGlideRequestManager;
+    private VideoAdapter videoAdapter;
+
+    private int selectedSort = 0;
+    private View v;
+    private View normalView;
+    private View selectView;
+    private View bottomMenu;
+
+    private ImageButton btn_add_playlist, btn_info, btn_delete;
+
+    private ArrayList<Integer> idList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
-        Context context = v.getContext();
+        v = inflater.inflate(R.layout.fragment_home, container, false);
+//        Context context = v.getContext();
         mGlideRequestManager = Glide.with(getActivity());
+
+
+        normalView = v.findViewById(R.id.video_normal_wrapper);
+        selectView = v.findViewById(R.id.video_select_wrapper);
+        bottomMenu = v.findViewById(R.id.home_bottom_menu);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // 마시멜로우 버전과 같거나 이상이라면
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -79,104 +89,59 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                         2);  //마지막 인자는 체크해야될 권한 갯수
 
             } else {
+
                 //Toast.makeText(this, "권한 승인되었음", Toast.LENGTH_SHORT).show();
             }
         }
 
-        List<Media> datas = MediaStoreLoader.getContent(getActivity());
-        ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
-        videoAdapter = new VideoAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
-        RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(videoAdapter);
-
-        homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
-        homeViewModel.getAllVideo(selectedSort).observe(getActivity(), new Observer<List<Video>>() {
-            @Override
-            public void onChanged(List<Video> videos) {
-                videoAdapter.setVideos(videos);
-            }
-        });
+        setVideoNormalView();
+        normalView.setVisibility(View.VISIBLE);
+        selectView.setVisibility(View.GONE);
+        bottomMenu.setVisibility(View.GONE);
 
 
-        FloatingActionButton fab = v.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                EditText videoName = new EditText(context);
-//                builder.setView(videoName);
-//                builder.setTitle("임시 비디오 추가");
-//                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        if (videoName.getText().toString().trim().length() != 0) {
-//                            Video video = new Video();
-//                            video.setvName(videoName.getText().toString());
-//                            homeViewModel.insertVideo(video);
-//                        }
-//                    }
-//                });
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-
-
-                /** insert only id */
+        setBottomMenu();
+//        Button buttonMediaRoom = v.findViewById(R.id.media_room);
+//        buttonMediaRoom.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
 //                ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
-//                for (int i = 0; i < idArray.size(); i++) {
-//                    Video video = new Video();
-//                    int ContentId = idArray.get(i);
-//                    video.setContentId(ContentId);
-//                    homeViewModel.insertVideo(video);
-//                    Log.d(TAG, "insert ======" + ContentId);
-//                }
-
-                List<Media> mediaList = MediaStoreLoader.getContent(getActivity());
-                for(int i = 0; i < mediaList.size(); i++) {
-                    Media media = mediaList.get(i);
-                    Video video = new Video();
-                    video.setContentId(media.getResId());
-                    video.setVdur(media.getDur());
-                    video.setVname(media.getName());
-                    video.setVpath(media.getPath());
-                    video.setVadded(media.getAdded());
-                    homeViewModel.insertVideo(video);
-                }
-
-            }
-        });
-
-
-        Button buttonMediaRoom = v.findViewById(R.id.media_room);
-        buttonMediaRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
-                Log.d(TAG, "idArraySize ======" + idArray);
-                idArray.clear();
-            }
-        });
-
-        Button buttonMedia = v.findViewById(R.id.btn_media);
-        buttonMedia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
-                DividerItemDecoration dividerItemDecoration =
-                        new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(getContext()).getOrientation());
-                recyclerView.addItemDecoration(dividerItemDecoration);
-                mediaAdapter = new MediaAdapter(context, ViewCase.MEDIA, datas);
-                recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-                recyclerView.setAdapter(mediaAdapter);
-            }
-        });
+//                Log.d(TAG, "idArraySize ======" + idArray);
+//                idArray.clear();
+//            }
+//        });
+//
+//        Button buttonMedia = v.findViewById(R.id.btn_media);
+//        buttonMedia.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
+//                DividerItemDecoration dividerItemDecoration =
+//                        new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(getContext()).getOrientation());
+//                recyclerView.addItemDecoration(dividerItemDecoration);
+//                mediaAdapter = new MediaAdapter(context, ViewCase.MEDIA, datas);
+//                recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+//                recyclerView.setAdapter(mediaAdapter);
+//            }
+//        });
+        //최초실행 확인 + 최초실행시 Room에 데이터 추가
+        SharedPreferences pref = getActivity().getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
+        boolean first = pref.getBoolean("isFirst", false);
+        if(first==false){
+            Log.d("Is first Time?", "first");
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("isFirst",true);
+            editor.commit();
+            addMediaDataToRoom();
+        }else{
+            Log.d("Is first Time?", "not first");
+        }
 
         Button buttonSortDialog = v.findViewById(R.id.video_sort);
         buttonSortDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedSort = sort();
-
 //                SortRunnable runnable = new SortRunnable();
 //                Thread thread = new Thread(runnable);
 //                thread.setDaemon(true);
@@ -188,8 +153,130 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         return v;
     }
 
+    public void setBottomMenu() {
+        btn_add_playlist = (ImageButton) v.findViewById(R.id.video_bottom_add_playlist);
+        btn_info = (ImageButton) v.findViewById(R.id.video_bottom_info);
+        btn_delete = (ImageButton) v.findViewById(R.id.video_bottom_delete);
+
+        btn_add_playlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomSheetDialog video_bottomSheetDialog = new BottomSheetDialog();
+                video_bottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
+            }
+        });
+
+        btn_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent infoIntent = new Intent(getContext(), InfoActivity.class);
+                infoIntent.putExtra("ContentID", idList.get(0));
+                getContext().startActivity(infoIntent);
+            }
+        });
+
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for(int i = 0; i<idList.size(); i++) {
+                    deleteVideo(idList.get(i));
+                    videoAdapter = new VideoAdapter();
+                    Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
+                    setVideoNormalView();
+                }
+            }
+        });
+    }
+
+    public void addMediaDataToRoom() {
+        List<Media> mediaList = MediaStoreLoader.getContent(getActivity());
+        for (int i = 0; i < mediaList.size(); i++) {
+            Media media = mediaList.get(i);
+            Video video = new Video();
+            video.setContentId(media.getResId());
+            video.setVdur(media.getDur());
+            video.setVname(media.getName());
+            video.setVpath(media.getPath());
+            video.setVadded(media.getAdded());
+            homeViewModel.insertVideo(video);
+        }
+    }
+
+    public void setVideoNormalView() {
+
+        normalView.setVisibility(View.VISIBLE);
+        selectView.setVisibility(View.GONE);
+        bottomMenu.setVisibility(View.GONE);
+
+        VideoAdapter videoAdapter = new VideoAdapter(getActivity(), ViewCase.NORMAL, this, this, mGlideRequestManager);
+        RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(videoAdapter);
+        homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+        homeViewModel.getAllVideo(selectedSort).observe(getActivity(), new Observer<List<Video>>() {
+            @Override
+            public void onChanged(List<Video> videos) {
+                videoAdapter.setVideos(videos);
+            }
+        });
+    }
+
+    public void setVideoSelectView() {
+
+        normalView.setVisibility(View.GONE);
+        selectView.setVisibility(View.VISIBLE);
+        bottomMenu.setVisibility(View.VISIBLE);
+
+        RecyclerView recyclerView = v.findViewById(R.id.rv_Home_select);
+        VideoAdapter adapter = new VideoAdapter(getActivity(), ViewCase.SELECT, this, this, mGlideRequestManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel.getAllVideo(selectedSort).observe(this, new Observer<List<Video>>() {
+            @Override
+            public void onChanged(List<Video> videos) {
+                adapter.setVideos(videos);
+            }
+        });
+    }
+
+    public void deleteVideo(int id) {
+        homeViewModel.deleteVideoWithMark(id);
+        homeViewModel.deleteVideo(id);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.select:
+                setVideoSelectView();
+                break;
+            case R.id.setting:
+//                Intent intent = new Intent(this, SettingActivity.class);
+//                //액티비티 시작!
+//                startActivity(intent);
+                break;
+            case R.id.menu_search:
+                Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intentSearch);
+                break;
+            case R.id.menu_sort:
+                addMediaDataToRoom();
+                break;
+        }
+        return true;
+    }
+
     public int sort() {
-        final String[] sort = new String[] {"영상 제목순", "추가된순(최근)", "추가된순(오래된)", "북마크된 수"};
+        final String[] sort = new String[]{"영상 제목순", "추가된순(최근)", "추가된순(오래된)", "북마크된 수"};
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle("정렬 순서")
@@ -236,17 +323,13 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                         //TODO: 데이터베이스 수정코드 -> 미디어스토어 수정코드로 변경할 필요있음
                         break;
                     case (R.id.popup_delete):
-                        homeViewModel.deleteVideoWithMark(id);
-                        homeViewModel.deleteVideo(id);
+                        deleteVideo(id);
                         break;
                 }
                 return false;
             }
         });
         popupMenu.show();
-//        Video_BottomSheetDialog video_bottomSheetDialog = new Video_BottomSheetDialog();
-//        video_bottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
-//        video_bottomSheetDialog.onClick(v);
     }
 
     @Override
@@ -258,15 +341,31 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
     @Override
-    public void clickMark(int id, long start) {}
+    public void clickMark(int id, long start) {
+    }
 
     @Override
-    public void clickLongMark(View v, int id) {}
+    public void clickLongMark(View v, int id) {
+    }
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+        idList = new ArrayList<>();
 
+        for (int i = 0; i < sparseBooleanArray.size(); i++) {
+            idList.add(sparseBooleanArray.keyAt(i));
+            Log.d("text", "idList 길이 : " + sparseBooleanArray);
+            if (idList.size() > 1) {
+                btn_info.setBackgroundResource(R.drawable.ic_baseline_info_red_24);
+                btn_info.setClickable(false);
+            } else {
+                btn_info.setBackgroundResource(R.drawable.ic_baseline_info_24);
+                btn_info.setClickable(true);
+            }
+        }
     }
+
+
 
 //    class SortRunnable implements Runnable {
 //        public List<Video> videoList;

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.database.entitiy.PlRelMark;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 
 import java.util.List;
@@ -34,7 +33,7 @@ public class PlayList_MarkAdapter extends RecyclerView.Adapter<PlayList_MarkAdap
     @NonNull
     @Override
     public PlayList_MarkAdapter.PLMViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = minflater.inflate(R.layout.playlistedit_mark_item,parent,false);
+        View view = minflater.inflate(R.layout.item_mark_playlist,parent,false);
         return new PLMViewHolder(view);
     }
 
