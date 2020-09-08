@@ -38,6 +38,7 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.InfoActivity;
 import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.activity.SearchActivity;
+import com.example.dbvideomarker.activity.setting.SettingActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Media;
@@ -272,9 +273,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 setVideoSelectView();
                 break;
             case R.id.setting:
-//                Intent intent = new Intent(this, SettingActivity.class);
-//                //액티비티 시작!
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu_search:
                 Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
