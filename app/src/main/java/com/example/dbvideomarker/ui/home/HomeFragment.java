@@ -106,31 +106,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         selectView.setVisibility(View.GONE);
         bottomMenu.setVisibility(View.GONE);
 
-
         setBottomMenu();
-//        Button buttonMediaRoom = v.findViewById(R.id.media_room);
-//        buttonMediaRoom.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ArrayList<Integer> idArray = MediaStoreLoader.getIdArray(getActivity());
-//                Log.d(TAG, "idArraySize ======" + idArray);
-//                idArray.clear();
-//            }
-//        });
-//
-//        Button buttonMedia = v.findViewById(R.id.btn_media);
-//        buttonMedia.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
-//                DividerItemDecoration dividerItemDecoration =
-//                        new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(getContext()).getOrientation());
-//                recyclerView.addItemDecoration(dividerItemDecoration);
-//                mediaAdapter = new MediaAdapter(context, ViewCase.MEDIA, datas);
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-//                recyclerView.setAdapter(mediaAdapter);
-//            }
-//        });
+
         //최초실행 확인 + 최초실행시 Room에 데이터 추가
         SharedPreferences pref = getActivity().getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
         boolean first = pref.getBoolean("isFirst", false);
@@ -224,7 +201,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         selectView.setVisibility(View.GONE);
         bottomMenu.setVisibility(View.GONE);
 
-        VideoAdapter videoAdapter = new VideoAdapter(getActivity(), ViewCase.NORMAL, this, this);
+        videoAdapter = new VideoAdapter(getActivity(), ViewCase.NORMAL, this, this);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(videoAdapter);
@@ -243,8 +220,9 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         selectView.setVisibility(View.VISIBLE);
         bottomMenu.setVisibility(View.VISIBLE);
 
-        RecyclerView recyclerView = v.findViewById(R.id.rv_Home_select);
+
         VideoAdapter adapter = new VideoAdapter(getActivity(), ViewCase.SELECT, this, this);
+        RecyclerView recyclerView = v.findViewById(R.id.rv_Home_select);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
@@ -324,9 +302,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup_video, menu);
-
-
-
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -340,7 +315,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         EditText afterName = new EditText(getActivity());
                         builder.setView(afterName);
-                        builder.setTitle("북마크 추가");
+                        builder.setTitle("동영상 제목 수정");
                         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

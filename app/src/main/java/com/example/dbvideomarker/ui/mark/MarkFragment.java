@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MarkFragment extends Fragment implements OnMarkClickListener, OnItemSelectedListener {
@@ -46,38 +49,100 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
     private MarkViewModel markViewModel;
     private RequestManager mGlideRequestManager;
     public int selectedSort;
-    public MarkAdapter adapter;
+    private MarkAdapter markAdapter;
+
+    private View v;
+    private View normalMarkView;
+    private View selectMarkView;
+    private View bottomMarkMenu;
+
+    private ImageButton btn_add_playlist_mark, btn_delete_mark;
+
+    private ArrayList<Integer> idList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View rootv = inflater.inflate(R.layout.fragment_mark, container, false);
+        v = inflater.inflate(R.layout.fragment_mark, container, false);
 
-        Context context = rootv.getContext();
         mGlideRequestManager = Glide.with(getActivity());
 
-        RecyclerView recyclerView = rootv.findViewById(R.id.rv_Mark);
-        adapter = new MarkAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
+        normalMarkView = v.findViewById(R.id.mark_normal_wrapper);
+        selectMarkView = v.findViewById(R.id.mark_select_wrapper);
+        bottomMarkMenu = v.findViewById(R.id.mark_bottom_menu);
 
+        setMarkNormalView();
+        setBottomMarkMenu();
+
+        return v;
+    }
+
+    public void setMarkNormalView() {
+
+        normalMarkView.setVisibility(View.VISIBLE);
+        selectMarkView.setVisibility(View.GONE);
+        bottomMarkMenu.setVisibility(View.GONE);
+
+        markAdapter = new MarkAdapter(getActivity(), ViewCase.NORMAL, this, this, mGlideRequestManager);
+        RecyclerView recyclerView = v.findViewById(R.id.rv_Mark);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setAdapter(markAdapter);
         markViewModel = new ViewModelProvider(getActivity()).get(MarkViewModel.class);
         markViewModel.getAllMark().observe(getActivity(), new Observer<List<Mark>>() {
             @Override
             public void onChanged(List<Mark> marks) {
-                adapter.setMarks(marks);
+                markAdapter.setMarks(marks);
             }
         });
 
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
-        recyclerView.setAdapter(adapter);
-
-        Button buttonSortDialog = rootv.findViewById(R.id.mark_sort);
+        Button buttonSortDialog = v.findViewById(R.id.mark_sort);
         buttonSortDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sort();
             }
         });
+    }
 
-        return rootv;
+    public void setMarkSelectView() {
+
+        normalMarkView.setVisibility(View.GONE);
+        selectMarkView.setVisibility(View.VISIBLE);
+        bottomMarkMenu.setVisibility(View.VISIBLE);
+
+        MarkAdapter markAdapter = new MarkAdapter(getActivity(), ViewCase.SELECT, this, this, mGlideRequestManager);
+        RecyclerView recyclerView = v.findViewById(R.id.rv_Mark_select);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setAdapter(markAdapter);
+        markViewModel = new ViewModelProvider(getActivity()).get(MarkViewModel.class);
+        markViewModel.getAllMark().observe(getActivity(), new Observer<List<Mark>>() {
+            @Override
+            public void onChanged(List<Mark> marks) {
+                markAdapter.setMarks(marks);
+            }
+        });
+    }
+
+    public void setBottomMarkMenu() {
+        btn_add_playlist_mark = v.findViewById(R.id.mark_bottom_add_playlist);
+        btn_delete_mark = v.findViewById(R.id.mark_bottom_delete);
+
+        btn_add_playlist_mark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //재생목록 추가
+            }
+        });
+
+        btn_delete_mark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for(int i = 0; i<idList.size(); i++) {
+                    markViewModel.deleteMark(idList.get(i));
+                    Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
+                    setMarkNormalView();
+                }
+            }
+        });
     }
 
     public int sort() {
@@ -97,7 +162,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                         markViewModel.getAllMark(selectedSort).observe(getActivity(), new Observer<List<Mark>>() {
                             @Override
                             public void onChanged(List<Mark> marks) {
-                                adapter.setMarks(marks);
+                                markAdapter.setMarks(marks);
                             }
                         });
                     }
@@ -110,7 +175,14 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
 
     @Override
-    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {}
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+        idList = new ArrayList<>();
+
+        for (int i = 0; i < sparseBooleanArray.size(); i++) {
+            idList.add(sparseBooleanArray.keyAt(i));
+            Log.d("text", "idList 길이 : " + sparseBooleanArray);
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,7 +195,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         switch (item.getItemId()) {
 
             case R.id.select:
-                Toast.makeText(getActivity(), "1111", Toast.LENGTH_SHORT).show();
+                setMarkSelectView();
                 break;
             case R.id.setting:
 //                Intent intent = new Intent(this, SettingActivity.class);
@@ -153,7 +225,6 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup_mark, menu);
-
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {

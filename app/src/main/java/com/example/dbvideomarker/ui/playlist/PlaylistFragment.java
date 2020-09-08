@@ -117,7 +117,7 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
         PopupMenu popupMenu = new PopupMenu(getContext(),v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
-        inflater.inflate(R.menu.menu_popup_video, menu);
+        inflater.inflate(R.menu.menu_popup_playlist, menu);
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
