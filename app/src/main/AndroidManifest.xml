@@ -25,9 +25,9 @@
         </activity>
         <activity android:name=".activity.PlayListEditActivity" />
         <activity android:name=".activity.InfoActivity" />
-        <activity android:name=".activity.SettingActivity"/>
-        <activity android:name=".activity.PrivacyActivity"/>
-        <activity android:name=".activity.LicenseActivity"/>
+        <activity android:name=".activity.setting.SettingActivity"/>
+        <activity android:name=".activity.setting.PrivacyActivity"/>
+        <activity android:name=".activity.setting.LicenseActivity"/>
         <activity android:name=".activity.SelectActivity" />
         <activity
             android:name=".player.PlayerActivity"

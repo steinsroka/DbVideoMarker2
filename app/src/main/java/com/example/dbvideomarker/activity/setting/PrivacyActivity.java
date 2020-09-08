@@ -1,4 +1,4 @@
-package com.example.dbvideomarker.activity;
+package com.example.dbvideomarker.activity.setting;
 
 import android.os.Bundle;
 
@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dbvideomarker.R;
 
 
-public class LicenseActivity extends AppCompatActivity {
+public class PrivacyActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_license);
-        setTitle("오픈 라이센스 정보");
+        setContentView(R.layout.fragment_privacy);
+        setTitle("개인 정보 처리 방침");
         ActionBar actionBar = this.getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

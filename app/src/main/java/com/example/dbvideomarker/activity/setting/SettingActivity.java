@@ -1,21 +1,22 @@
-package com.example.dbvideomarker.activity;
+package com.example.dbvideomarker.activity.setting;
+
 
 import android.os.Bundle;
-
+import android.preference.PreferenceFragment;
 import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import com.example.dbvideomarker.R;
 
-
-public class PrivacyActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_privacy);
-        setTitle("개인 정보 처리 방침");
+        setContentView(R.layout.activity_settings);
+        setTitle("환경설정");
         ActionBar actionBar = this.getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -35,3 +36,5 @@ public class PrivacyActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
+//Todo: Activity 종료 메서드 만들기

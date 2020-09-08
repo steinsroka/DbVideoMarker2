@@ -1,22 +1,21 @@
-package com.example.dbvideomarker.activity;
-
+package com.example.dbvideomarker.activity.setting;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+
 import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
 
 import com.example.dbvideomarker.R;
 
-public class SettingActivity extends AppCompatActivity {
+
+public class LicenseActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        setTitle("환경설정");
+        setContentView(R.layout.fragment_license);
+        setTitle("오픈 라이센스 정보");
         ActionBar actionBar = this.getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -36,5 +35,3 @@ public class SettingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
-
-//Todo: Activity 종료 메서드 만들기

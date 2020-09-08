@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-                //Intent intent = new Intent(this, SettingActivity.class);
-                //startActivity(intent);
+
 
 }
