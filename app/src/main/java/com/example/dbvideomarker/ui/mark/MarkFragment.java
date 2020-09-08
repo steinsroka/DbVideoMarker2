@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -158,7 +159,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.popup_edit:
-                        /*AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         EditText et = new EditText(getActivity());
                         builder.setView(et);
                         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -167,16 +168,13 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                                 if (et.getText().toString().trim().length() != 0) {
                                     Mark mark = new Mark();
                                     mark.setmMemo(et.getText().toString());
-                                    mark.set
-                                    mark.setmid(id);
-
-                                    DashboardViewModel.update(playList);
+                                    markViewModel.updateMark(id, et.getText().toString());
                                 }
                             }
                         });
                         AlertDialog dialog = builder.create();
-                        dialog.show();*/
-                        //TODO: update구문 특정 column만 변경할 수 있도록 수정필요
+                        dialog.show();
+                        //TODO: update Mark
                         break;
                     case(R.id.popup_delete):
                         markViewModel.deleteMark(id);

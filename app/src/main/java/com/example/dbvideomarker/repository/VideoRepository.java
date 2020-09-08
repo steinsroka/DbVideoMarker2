@@ -77,13 +77,13 @@ public class VideoRepository {
         }.execute(id);
     }
 
-    public void updateVideo(Video video) {
-        new AsyncTask<Video, Void, Integer>() {
+    public void updateVideo(int id, String name) {
+        new AsyncTask<Integer, Void, Integer>() {
             @Override
-            protected Integer doInBackground(Video...videos) {
+            protected Integer doInBackground(Integer... integers) {
                 if (videoDao == null)
                     return -1;
-                return videoDao.updateVideo(videos[0]);
+                return videoDao.updateVideo(integers[0], name);
             }
 
             @Override
@@ -91,6 +91,6 @@ public class VideoRepository {
                 super.onPostExecute(integer);
                 Log.d(TAG, "update : " + integer);
             }
-        }.execute(video);
+        }.execute(id);
     }
 }

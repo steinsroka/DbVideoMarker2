@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.MyItemView;
@@ -23,7 +22,7 @@ import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderSelect;
 import com.example.dbvideomarker.database.entitiy.Video;
-import com.example.dbvideomarker.mediastore.MediaStoreLoader;
+import com.example.dbvideomarker.util.MediaStoreLoader;
 
 import java.io.File;
 import java.util.List;

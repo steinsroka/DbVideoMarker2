@@ -61,8 +61,8 @@ public interface VideoDao {
     @Insert(onConflict = IGNORE)
     long insertVideo(Video video);
 
-    @Update
-    int updateVideo(Video video);
+    @Query("UPDATE video SET vname = :name WHERE contentId = :id")
+    int updateVideo(int id, String name);
 
     @Query("DELETE FROM video WHERE contentID = :id")
     int deleteVideo(int id);

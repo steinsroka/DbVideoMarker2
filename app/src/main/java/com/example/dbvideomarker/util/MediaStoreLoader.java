@@ -1,4 +1,4 @@
-package com.example.dbvideomarker.mediastore;
+package com.example.dbvideomarker.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.example.dbvideomarker.database.entitiy.Media;
 
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;

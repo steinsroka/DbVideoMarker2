@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -41,15 +42,17 @@ import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.activity.setting.SettingActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.Media;
-import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.mediastore.MediaStoreLoader;
+import com.example.dbvideomarker.util.FileUtil;
+import com.example.dbvideomarker.util.MediaStoreLoader;
 import com.example.dbvideomarker.player.PlayerActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -322,6 +325,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup_video, menu);
 
+
+
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -332,9 +337,30 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                         getContext().startActivity(infoIntent);
                         break;
                     case R.id.popup_edit:
-                        //TODO: 데이터베이스 수정코드 -> 미디어스토어 수정코드로 변경할 필요있음
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        EditText afterName = new EditText(getActivity());
+                        builder.setView(afterName);
+                        builder.setTitle("북마크 추가");
+                        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (afterName.getText().toString().trim().length() != 0) {
+                                    Video video =  new Video();
+                                    video.setVname(afterName.getText().toString());
+                                    //File update, mediastore update
+                                    homeViewModel.updateVideo(id, afterName.getText().toString());
+
+                                    FileUtil fileUtil = new FileUtil();
+                                    fileUtil.fileRename(path, video.getVname(), afterName.getText().toString());
+                                }
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
                         break;
                     case (R.id.popup_delete):
+                        //File delete
                         deleteVideo(id);
                         break;
                 }

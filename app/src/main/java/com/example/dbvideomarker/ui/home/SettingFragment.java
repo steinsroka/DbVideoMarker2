@@ -4,7 +4,6 @@ package com.example.dbvideomarker.ui.home;
 import android.os.Bundle;
 
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 
 import com.example.dbvideomarker.R;
 

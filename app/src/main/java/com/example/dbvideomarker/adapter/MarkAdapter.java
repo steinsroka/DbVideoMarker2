@@ -19,11 +19,10 @@ import com.example.dbvideomarker.adapter.util.MyItemView;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderSelect;
-import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
-import com.example.dbvideomarker.mediastore.MediaStoreLoader;
+import com.example.dbvideomarker.util.MediaStoreLoader;
 
 import java.io.File;
 import java.util.List;
@@ -72,7 +71,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 markViewHolderNormal.mid.setText(String.valueOf(current.getmid()));
                 markViewHolderNormal.mMemo.setText(current.getmMemo());
                 markViewHolderNormal.mStart.setText(loader.getReadableDuration(current.getmStart()));
-                mRequestManager.asBitmap()..load(Uri.fromFile(new File(current.getMpath()))).into(markViewHolderNormal.mthumb);
+                mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getMpath()))).into(markViewHolderNormal.mthumb);
                 //markViewHolderNormal.mthumb.setImageBitmap(loader.getThumbnail(current.getMpath(), current.getmStart()));
                 markViewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -6,14 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.dbvideomarker.database.entitiy.Mark;
-import com.example.dbvideomarker.database.entitiy.Media;
-import com.example.dbvideomarker.database.entitiy.PlRel;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.Video;
-import com.example.dbvideomarker.mediastore.MediaStoreLoader;
 import com.example.dbvideomarker.repository.MarkRepository;
-import com.example.dbvideomarker.repository.PlayListEditRepository;
 import com.example.dbvideomarker.repository.VideoRepository;
 
 import java.util.List;
@@ -55,7 +49,7 @@ public class HomeViewModel extends AndroidViewModel {
         markRepository.deleteVideoWithMark(id);
     }
 
-    public void updateVideo(Video video) {
-        videoRepository.updateVideo(video);
+    public void updateVideo(int id, String name) {
+        videoRepository.updateVideo(id, name);
     }
 }

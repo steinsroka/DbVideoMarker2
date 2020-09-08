@@ -36,4 +36,8 @@ public class MarkViewModel extends AndroidViewModel {
     public void deleteMark(int id) {
         markRepository.deleteMark(id);
     }
+
+    public void updateMark(int id, String name) {
+        markRepository.updateMark(id, name);
+    }
 }
