@@ -28,13 +28,14 @@ import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.ui.home.HomeViewModel;
 import com.example.dbvideomarker.ui.mark.MarkViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, OnItemClickListener {
+public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, OnMarkClickListener, OnItemClickListener {
 
     private HomeViewModel homeViewModel;
     private MarkViewModel markViewModel;
@@ -75,7 +76,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
 
     public void setVideoSelectView() {
         RecyclerView recyclerView = findViewById(R.id.rv_select_video);
-        VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this, mGlideRequestManager);
+        VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
@@ -102,18 +103,6 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
             }
         });
     }
-
-    @Override
-    public void clickLongItem(View v, int id) {}
-
-    @Override
-    public void clickItem(int vid) {}
-
-    @Override
-    public void clickMark(int id, long start) {}
-
-    @Override
-    public void clickLongMark(View v, int id) {}
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
@@ -151,5 +140,25 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 }
             });
         }
+    }
+
+    @Override
+    public void clickItem(int id, String path) {
+
+    }
+
+    @Override
+    public void clickLongItem(View v, int id, String path) {
+
+    }
+
+    @Override
+    public void clickMark(int id, long start, String path) {
+
+    }
+
+    @Override
+    public void clickLongMark(View v, int id, String path) {
+
     }
 }

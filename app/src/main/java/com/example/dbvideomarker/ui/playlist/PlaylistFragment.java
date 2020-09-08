@@ -80,7 +80,40 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
     }
 
     @Override
-    public void clickLongItem(View v, int id) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.select:
+                Toast.makeText(getActivity(), "1111", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.setting:
+//                Intent intent = new Intent(this, SettingActivity.class);
+//                //액티비티 시작!
+//                startActivity(intent);
+                break;
+            case R.id.menu_search:
+                Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intentSearch);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void clickItem(int id, String path) {
+        Intent intent = new Intent(getContext(), PlayListEditActivity.class);
+        intent.putExtra("재생목록 번호", id);
+        getContext().startActivity(intent);
+    }
+
+    @Override
+    public void clickLongItem(View v, int id, String path) {
         PopupMenu popupMenu = new PopupMenu(getContext(),v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
@@ -117,44 +150,5 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
             }
         });
         popupMenu.show();
-    }
-
-    @Override
-    public void clickItem(int pid) {
-        Intent intent = new Intent(getContext(), PlayListEditActivity.class);
-        intent.putExtra("재생목록 번호", pid);
-        getContext().startActivity(intent);
-    }
-
-    @Override
-    public void clickMark(int id, long start) {}
-
-    @Override
-    public void clickLongMark(View v, int id) {}
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.select:
-                Toast.makeText(getActivity(), "1111", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.setting:
-//                Intent intent = new Intent(this, SettingActivity.class);
-//                //액티비티 시작!
-//                startActivity(intent);
-                break;
-            case R.id.menu_search:
-                Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
-                startActivity(intentSearch);
-                break;
-        }
-        return true;
     }
 }

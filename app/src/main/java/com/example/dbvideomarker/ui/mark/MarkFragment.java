@@ -35,11 +35,12 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 
 import java.util.List;
 
-public class MarkFragment extends Fragment implements OnItemClickListener, OnItemSelectedListener {
+public class MarkFragment extends Fragment implements OnMarkClickListener, OnItemSelectedListener {
 
     private MarkViewModel markViewModel;
     private RequestManager mGlideRequestManager;
@@ -51,7 +52,7 @@ public class MarkFragment extends Fragment implements OnItemClickListener, OnIte
         View rootv = inflater.inflate(R.layout.fragment_mark, container, false);
 
         Context context = rootv.getContext();
-        mGlideRequestManager = Glide.with(context);
+        mGlideRequestManager = Glide.with(getActivity());
 
         RecyclerView recyclerView = rootv.findViewById(R.id.rv_Mark);
         adapter = new MarkAdapter(context, ViewCase.NORMAL, this, this, mGlideRequestManager);
@@ -106,23 +107,47 @@ public class MarkFragment extends Fragment implements OnItemClickListener, OnIte
         return selectedSort;
     }
 
-    @Override
-    public void clickLongItem(View v, int id) {}
 
     @Override
-    public void clickItem(int id) {}
-
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {}
 
     @Override
-    public void clickMark(int id, long start) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.select:
+                Toast.makeText(getActivity(), "1111", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.setting:
+//                Intent intent = new Intent(this, SettingActivity.class);
+//                //액티비티 시작!
+//                startActivity(intent);
+                break;
+            case R.id.menu_search:
+                Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intentSearch);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void clickMark(int id, long start, String path) {
         Intent playerIntent = new Intent(getContext(), PlayerActivity.class);
         playerIntent.putExtra("ContentID", id);
+        playerIntent.putExtra("Path", path);
         playerIntent.putExtra("Start", start);
         getContext().startActivity(playerIntent);
     }
 
     @Override
-    public void clickLongMark(View v, int id) {
+    public void clickLongMark(View v, int id, String path) {
         PopupMenu popupMenu = new PopupMenu(getContext(), v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
@@ -161,34 +186,5 @@ public class MarkFragment extends Fragment implements OnItemClickListener, OnIte
             }
         });
         popupMenu.show();
-    }
-
-    @Override
-    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {}
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.select:
-                Toast.makeText(getActivity(), "1111", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.setting:
-//                Intent intent = new Intent(this, SettingActivity.class);
-//                //액티비티 시작!
-//                startActivity(intent);
-                break;
-            case R.id.menu_search:
-                Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
-                startActivity(intentSearch);
-                break;
-        }
-        return true;
     }
 }

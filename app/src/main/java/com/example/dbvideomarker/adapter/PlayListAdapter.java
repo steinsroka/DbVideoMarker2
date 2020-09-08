@@ -44,7 +44,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
                 @Override
                 public boolean onLongClick(View view) {
                     int pid = current.getPid();
-                    onItemClickListener.clickLongItem(view, pid);
+                    onItemClickListener.clickLongItem(view, pid, "");
                     return false;
                 }
             });
@@ -53,7 +53,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PViewH
                 @Override
                 public void onClick(View view) {
                     int pid = current.getPid();
-                    onItemClickListener.clickItem(pid);
+                    onItemClickListener.clickItem(pid, "");
                 }
             });
         }

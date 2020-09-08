@@ -90,7 +90,8 @@ public class InfoActivity extends AppCompatActivity {
                 String changedTime = loader.getReadableDuration(millis);
                 String changedSize = loader.getReadableFileSize(size);
 
-                Glide.with(this).asBitmap().load(uri).into(iv1);
+                //Glide.with(this).asBitmap().load(uri).into(iv1);
+                iv1.setImageBitmap(loader.getThumbnail(path, 20000));
                 tv1.setText(name);
                 tv2.setText(changedTime);
                 tv3.setText(changedSize);

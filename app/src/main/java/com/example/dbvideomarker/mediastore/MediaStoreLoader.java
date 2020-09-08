@@ -3,11 +3,15 @@ package com.example.dbvideomarker.mediastore;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.example.dbvideomarker.database.entitiy.Media;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,8 +70,7 @@ public class MediaStoreLoader {
                 data.setResId(id);
                 data.setName(name);
 
-                String readableDur = loader.getReadableDuration(millis);
-                data.setDur(readableDur);
+                data.setDur(millis);
 
                 String changedSize = loader.getReadableFileSize(size);
                 data.setSize(changedSize);
@@ -107,9 +110,9 @@ public class MediaStoreLoader {
         float fileSize = 0;
         String suffix = KILOBYTES;
 
-        if(size > BYTES_IN_KILOBYTES) {
+        if (size > BYTES_IN_KILOBYTES) {
             fileSize = size / BYTES_IN_KILOBYTES;
-            if(fileSize > BYTES_IN_KILOBYTES) {
+            if (fileSize > BYTES_IN_KILOBYTES) {
                 fileSize = fileSize / BYTES_IN_KILOBYTES;
                 if (fileSize > BYTES_IN_KILOBYTES) {
                     fileSize = fileSize / BYTES_IN_KILOBYTES;
@@ -120,5 +123,18 @@ public class MediaStoreLoader {
             }
         }
         return String.valueOf(dec.format(fileSize) + suffix);
+    }
+
+    public Bitmap getThumbnail(String path, long where) {
+
+        Bitmap bitmap;
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+
+        retriever.setDataSource(path);
+
+        bitmap = retriever.getFrameAtTime(where, MediaMetadataRetriever.OPTION_NEXT_SYNC);
+        Log.d("Thumb", "thmbnail picked at" + where);
+        retriever.release();
+        return bitmap;
     }
 }

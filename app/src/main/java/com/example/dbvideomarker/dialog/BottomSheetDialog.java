@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,18 +18,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
+import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.ui.home.HomeFragment;
 import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment implements OnItemClickListener {
 
     private PlaylistViewModel playlistViewModel;
+    private int pid;
 
     @Nullable
     @Override
@@ -61,34 +67,17 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnIt
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-        Button button = v.findViewById(R.id.add_to_playlist);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(v, "재생목록에 추가됨", BaseTransientBottomBar.LENGTH_LONG).show();
-            }
-        });
+
         return v;
     }
 
-
     @Override
-    public void clickLongItem(View v, int id) {
+    public void clickItem(int id, String path) {
 
     }
 
     @Override
-    public void clickItem(int id) {
-
-    }
-
-    @Override
-    public void clickMark(int id, long start) {
-
-    }
-
-    @Override
-    public void clickLongMark(View v, int id) {
+    public void clickLongItem(View v, int id, String path) {
 
     }
 }

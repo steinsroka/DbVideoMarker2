@@ -568,23 +568,18 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
         return this;
     }
 
+    @Override
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {}
 
     @Override
-    public void clickLongItem(View v, int id) {}
+    public void clickItem(int id, String path) {
 
-    @Override
-    public void clickItem(int id) {}
-
-    @Override
-    public void clickMark(int id, long start) {
-        player.seekTo(start);
     }
 
     @Override
-    public void clickLongMark(View v, int id) { }
+    public void clickLongItem(View v, int id, String path) {
 
-    @Override
-    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {}
+    }
 
 
     private final class ComponentListener implements TextOutput, Player.EventListener,

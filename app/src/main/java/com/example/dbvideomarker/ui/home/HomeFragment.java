@@ -36,10 +36,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.InfoActivity;
+import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Media;
+import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
@@ -54,6 +56,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
     private String TAG = HomeFragment.class.getSimpleName();
     private HomeViewModel homeViewModel;
+    private PlayListEditViewModel playListEditViewModel;
     private RequestManager mGlideRequestManager;
     private VideoAdapter videoAdapter;
 
@@ -153,10 +156,20 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         return v;
     }
 
+//    public void addToPlaylist(int pid) {
+//       Toast.makeText(getActivity(), "재생목록: "+pid+" 리스트 크기"+idList.size(), Toast.LENGTH_SHORT).show();
+//        for(int j=0; j<idList.size(); j++) {
+//            PlRel plRel = new PlRel();
+//            plRel.setPid(pid);
+//            plRel.setVid(idList.get(j));
+//            playListEditViewModel.insertPlRelation(plRel);
+//        }
+//    }
+
     public void setBottomMenu() {
-        btn_add_playlist = (ImageButton) v.findViewById(R.id.video_bottom_add_playlist);
-        btn_info = (ImageButton) v.findViewById(R.id.video_bottom_info);
-        btn_delete = (ImageButton) v.findViewById(R.id.video_bottom_delete);
+        btn_add_playlist = v.findViewById(R.id.video_bottom_add_playlist);
+        btn_info = v.findViewById(R.id.video_bottom_info);
+        btn_delete = v.findViewById(R.id.video_bottom_delete);
 
         btn_add_playlist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +193,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             public void onClick(View view) {
                 for(int i = 0; i<idList.size(); i++) {
                     deleteVideo(idList.get(i));
-                    videoAdapter = new VideoAdapter();
                     Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
                     setVideoNormalView();
                 }
@@ -208,7 +220,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         selectView.setVisibility(View.GONE);
         bottomMenu.setVisibility(View.GONE);
 
-        VideoAdapter videoAdapter = new VideoAdapter(getActivity(), ViewCase.NORMAL, this, this, mGlideRequestManager);
+        VideoAdapter videoAdapter = new VideoAdapter(getActivity(), ViewCase.NORMAL, this, this);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(videoAdapter);
@@ -228,7 +240,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         bottomMenu.setVisibility(View.VISIBLE);
 
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home_select);
-        VideoAdapter adapter = new VideoAdapter(getActivity(), ViewCase.SELECT, this, this, mGlideRequestManager);
+        VideoAdapter adapter = new VideoAdapter(getActivity(), ViewCase.SELECT, this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
@@ -304,7 +316,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
     @Override
-    public void clickLongItem(View v, int id) {
+    public void clickLongItem(View v, int id, String path) {
         PopupMenu popupMenu = new PopupMenu(getContext(), v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
@@ -333,20 +345,14 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
     @Override
-    public void clickItem(int id) {
+    public void clickItem(int id, String path) {
         Intent playerIntent = new Intent(getContext(), PlayerActivity.class);
         playerIntent.putExtra("ContentID", id);
+        playerIntent.putExtra("Path", path);
         playerIntent.putExtra("Start", 0L);
         getContext().startActivity(playerIntent);
     }
 
-    @Override
-    public void clickMark(int id, long start) {
-    }
-
-    @Override
-    public void clickLongMark(View v, int id) {
-    }
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
@@ -364,7 +370,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }
         }
     }
-
 
 
 //    class SortRunnable implements Runnable {

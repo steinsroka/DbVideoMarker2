@@ -31,9 +31,13 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.database.entitiy.Media;
+import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.listener.OnMarkClickListener;
+import com.example.dbvideomarker.mediastore.MediaStoreLoader;
 import com.example.dbvideomarker.player.media.SimpleMediaSource;
 import com.example.dbvideomarker.player.ui.ExoVideoPlaybackControlView;
 import com.example.dbvideomarker.player.ui.ExoVideoView;
@@ -45,7 +49,7 @@ import java.util.List;
 import static com.example.dbvideomarker.player.orientation.OnOrientationChangedListener.SENSOR_LANDSCAPE;
 import static com.example.dbvideomarker.player.orientation.OnOrientationChangedListener.SENSOR_PORTRAIT;
 
-public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnItemSelectedListener {
+public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, OnItemSelectedListener {
 
 
     private ExoVideoView videoView;
@@ -56,6 +60,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     public static int CONTENT_ID;
     private long CONTENT_START;
+    private String CONTENT_PATH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +78,10 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
         Intent intent = getIntent();
         CONTENT_ID = intent.getExtras().getInt("ContentID");
+        CONTENT_PATH = intent.getExtras().getString("Path");
         CONTENT_START = intent.getExtras().getLong("Start");
+
+
 
         initVideoView(String.valueOf(CONTENT_ID));
         Log.d("TAG", "start =" + CONTENT_START + "//" + CONTENT_ID);
@@ -120,6 +128,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                     mark.setmMemo(mMemo.getText().toString());
                     mark.setmStart(position);
                     mark.setmAdded(System.currentTimeMillis());
+                    mark.setMpath(CONTENT_PATH);
 
                     playerViewModel.insertMark(mark);
                     videoView.resume();
@@ -252,20 +261,20 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     }
 
     @Override
-    public void clickLongItem(View v, int id) {
+    public void clickItem(int id, String path) {
     }
 
     @Override
-    public void clickItem(int id) {
+    public void clickLongItem(View v, int id, String path) {
     }
 
     @Override
-    public void clickMark(int id, long start) {
+    public void clickMark(int id, long start, String path) {
         videoView.seekTo(start);
     }
 
     @Override
-    public void clickLongMark(View v, int id) {
+    public void clickLongMark(View v, int id, String path) {
     }
 
     @Override

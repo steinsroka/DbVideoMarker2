@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.MyItemView;
@@ -21,6 +23,7 @@ import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderSelect;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.mediastore.MediaStoreLoader;
 
 import java.io.File;
 import java.util.List;
@@ -35,19 +38,17 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
     private OnItemSelectedListener onItemSelectedListener;
     private OnItemClickListener onItemClickListener;
     private RequestManager mRequestManager;
+    private MediaStoreLoader loader;
 
 
-    public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener, RequestManager requestManager) {
+    public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
         mInflater = LayoutInflater.from(context);
-        mRequestManager = requestManager;
+        mRequestManager = Glide.with(context);
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
         this.onItemClickListener = onItemClickListener;
     }
 
-    public VideoAdapter() {
-        clearSelected();
-    }
 
     @Override
     public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,29 +65,28 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyItemView holder, int position) {
+        loader = new MediaStoreLoader();
         if (holder instanceof VideoViewHolderNormal) {
             VideoViewHolderNormal viewHolderNormal = (VideoViewHolderNormal) holder;
             if (videoList != null) {
                 Video current = videoList.get(position);
                 viewHolderNormal.vId.setText(String.valueOf(current.getContentId()));
                 viewHolderNormal.vName.setText(String.valueOf(current.getVname()));
-                viewHolderNormal.vDur.setText(String.valueOf(current.getVdur()));
+                viewHolderNormal.vDur.setText(loader.getReadableDuration(current.getVdur()));
                 //viewHolderNormal.vThumb.setImage
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderNormal.vThumb);
-
+                //viewHolderNormal.vThumb.setImageBitmap(loader.getThumbnail(current.vpath, current.getVdur()/3));
                 //TODO: 특정 시간을 추출하는게 가능한가
                 viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int id = current.getContentId();
-                        onItemClickListener.clickItem(id);
+                        onItemClickListener.clickItem(current.getContentId(), current.getVpath());
                     }
                 });
                 viewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        int id = current.getContentId();
-                        onItemClickListener.clickLongItem(v, id);
+                        onItemClickListener.clickLongItem(v, current.getContentId(), current.getVpath());
                         return false;
                     }
                 });
@@ -143,10 +143,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         if (videoList != null) {
             return videoList.size();
         } else return 0;
-    }
-
-    public void clearSelected() {
-        mSelectedItems.clear();
     }
 
 //    private void toggleItemSelected(int position) {
