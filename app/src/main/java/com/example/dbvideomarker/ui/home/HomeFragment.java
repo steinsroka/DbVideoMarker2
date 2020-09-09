@@ -3,10 +3,13 @@ package com.example.dbvideomarker.ui.home;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,11 +18,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -78,7 +83,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         v = inflater.inflate(R.layout.fragment_home, container, false);
 //        Context context = v.getContext();
         mGlideRequestManager = Glide.with(getActivity());
-
 
         normalView = v.findViewById(R.id.video_normal_wrapper);
         selectView = v.findViewById(R.id.video_select_wrapper);
@@ -160,6 +164,21 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }
         });
 
+        btn_add_playlist.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    btn_add_playlist.setImageResource(R.drawable.ic_baseline_playlist_add_red_24);
+                    return false;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    btn_add_playlist.setImageResource(R.drawable.ic_baseline_playlist_add_24);
+                    return false;
+                }
+                return false;
+            }
+        });
+
+
         btn_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,6 +196,20 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                     Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
                     setVideoNormalView();
                 }
+            }
+        });
+
+        btn_delete.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    btn_delete.setImageResource(R.drawable.ic_baseline_delete_outline_red_24);
+                    return false;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    btn_delete.setImageResource(R.drawable.ic_baseline_delete_outline_24);
+                    return false;
+                }
+                return false;
             }
         });
     }
@@ -363,14 +396,18 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             idList.add(sparseBooleanArray.keyAt(i));
             Log.d("text", "idList 길이 : " + sparseBooleanArray);
             if (idList.size() > 1) {
-                btn_info.setBackgroundResource(R.drawable.ic_baseline_info_red_24);
+                btn_info.setImageResource(R.drawable.ic_baseline_info_red_24);
                 btn_info.setClickable(false);
             } else {
-                btn_info.setBackgroundResource(R.drawable.ic_baseline_info_24);
+                btn_info.setImageResource(R.drawable.ic_baseline_info_24);
                 btn_info.setClickable(true);
             }
         }
     }
+
+
+
+
 
 
 //    class SortRunnable implements Runnable {
