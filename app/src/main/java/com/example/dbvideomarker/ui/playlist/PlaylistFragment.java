@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,12 +31,14 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
+import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
 
 import java.util.List;
 
-public class PlaylistFragment extends Fragment implements OnItemClickListener {
+public class PlaylistFragment extends Fragment implements OnItemClickListener, OnItemSelectedListener {
 
     private PlaylistViewModel playlistViewModel;
 
@@ -48,7 +51,7 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
                 new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        PlayListAdapter adapter = new PlayListAdapter(context, this);
+        PlayListAdapter adapter = new PlayListAdapter(context, ViewCase.NORMAL, this, this);
 
 
         playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
@@ -150,5 +153,10 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener {
             }
         });
         popupMenu.show();
+    }
+
+    @Override
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.dbvideomarker.ui.mark;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,9 +32,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.activity.SearchActivity;
+import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
@@ -47,8 +51,10 @@ import java.util.List;
 public class MarkFragment extends Fragment implements OnMarkClickListener, OnItemSelectedListener {
 
     private MarkViewModel markViewModel;
+    private PlayListEditViewModel playListEditViewModel;
     private RequestManager mGlideRequestManager;
     public int selectedSort;
+    private int SELECT_PLAYLIST_REQUEST_CODE = 1003;
     private MarkAdapter markAdapter;
 
     private View v;
@@ -72,8 +78,30 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
         setMarkNormalView();
         setBottomMarkMenu();
+        playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
 
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK) {
+            if(requestCode == SELECT_PLAYLIST_REQUEST_CODE) {
+                ArrayList<Integer> selectedPidList = data.getIntegerArrayListExtra("pidlist");
+                for(int i=0; i<selectedPidList.size(); i++) {
+                    for(int j=0; j<idList.size(); j++) {
+                        PlRel plRel = new PlRel();
+                        plRel.setPid(selectedPidList.get(i));
+                        plRel.setMid(idList.get(j));
+                        playListEditViewModel.insertPlRelation(plRel);
+                    }
+                }
+            }
+        }
+        setMarkNormalView();
+        Toast.makeText(getActivity(), "재생목록에 추가됨", Toast.LENGTH_SHORT).show();
     }
 
     public void setMarkNormalView() {
@@ -129,7 +157,10 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         btn_add_playlist_mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //재생목록 추가
+                Intent playlistIntent = new Intent(getContext(), SelectActivity.class);
+                playlistIntent.putExtra("pid", "");
+                playlistIntent.putExtra("VIEW_TYPE", 2003);
+                startActivityForResult(playlistIntent, SELECT_PLAYLIST_REQUEST_CODE);
             }
         });
 

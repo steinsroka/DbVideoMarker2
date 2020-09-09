@@ -40,34 +40,34 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnIt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_bottom_sheet, container, false);
-
-        Context context = v.getContext();
-
-        RecyclerView recyclerView = v.findViewById(R.id.rv_playlist_bottom);
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-        PlayListAdapter adapter = new PlayListAdapter(context, this);
-
-        // Get a new or existing ViewModel from the ViewModelProvider.
-        playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
-
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
-        // The onChanged() method fires when the observed data changes and the activity is
-        // in the foreground.
-        playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
-            @Override
-            public void onChanged(List<PlayList> playList) {
-                //Update the cached copy of the words in the adapter.
-                adapter.setPlayLists(playList);
-            }
-        });
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
-
-
+//
+//        Context context = v.getContext();
+//
+//        RecyclerView recyclerView = v.findViewById(R.id.rv_playlist_bottom);
+//        DividerItemDecoration dividerItemDecoration =
+//                new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
+//        recyclerView.addItemDecoration(dividerItemDecoration);
+//
+//        PlayListAdapter adapter = new PlayListAdapter(context, this);
+//
+//        // Get a new or existing ViewModel from the ViewModelProvider.
+//        playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
+//
+//        // Add an observer on the LiveData returned by getAlphabetizedWords.
+//        // The onChanged() method fires when the observed data changes and the activity is
+//        // in the foreground.
+//        playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
+//            @Override
+//            public void onChanged(List<PlayList> playList) {
+//                //Update the cached copy of the words in the adapter.
+//                adapter.setPlayLists(playList);
+//            }
+//        });
+//
+//        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+//        recyclerView.setAdapter(adapter);
+//
+//
         return v;
     }
 

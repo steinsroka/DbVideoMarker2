@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,17 +43,22 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.InfoActivity;
+import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.activity.SearchActivity;
+import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.activity.setting.SettingActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
+import com.example.dbvideomarker.adapter.ViewPagerAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.Media;
+import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
 import com.example.dbvideomarker.util.FileUtil;
 import com.example.dbvideomarker.util.MediaStoreLoader;
 import com.example.dbvideomarker.player.PlayerActivity;
@@ -61,6 +67,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class HomeFragment extends Fragment implements OnItemSelectedListener, OnItemClickListener {
 
     private String TAG = HomeFragment.class.getSimpleName();
@@ -68,15 +76,13 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     private PlayListEditViewModel playListEditViewModel;
     private RequestManager mGlideRequestManager;
     private VideoAdapter videoAdapter;
-
+    private int SELECT_PLAYLIST_REQUEST_CODE = 1003;
     private int selectedSort = 0;
     private View v;
     private View normalView;
     private View selectView;
     private View bottomMenu;
-
     private ImageButton btn_add_playlist, btn_info, btn_delete;
-
     private ArrayList<Integer> idList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,14 +110,15 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 //Toast.makeText(this, "권한 승인되었음", Toast.LENGTH_SHORT).show();
             }
         }
-
+        setBottomMenu();
         setVideoNormalView();
+
         normalView.setVisibility(View.VISIBLE);
         selectView.setVisibility(View.GONE);
         bottomMenu.setVisibility(View.GONE);
 
-        setBottomMenu();
 
+        playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
         //최초실행 확인 + 최초실행시 Room에 데이터 추가
         SharedPreferences pref = getActivity().getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
         boolean first = pref.getBoolean("isFirst", false);
@@ -151,6 +158,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 //        }
 //    }
 
+
+
     public void setBottomMenu() {
         btn_add_playlist = v.findViewById(R.id.video_bottom_add_playlist);
         btn_info = v.findViewById(R.id.video_bottom_info);
@@ -159,8 +168,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         btn_add_playlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomSheetDialog video_bottomSheetDialog = new BottomSheetDialog();
-                video_bottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
+                Intent playlistIntent = new Intent(getContext(), SelectActivity.class);
+                playlistIntent.putExtra("pid", "");
+                playlistIntent.putExtra("VIEW_TYPE", 2003);
+                startActivityForResult(playlistIntent, SELECT_PLAYLIST_REQUEST_CODE);
             }
         });
 
@@ -212,6 +223,27 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK) {
+            if(requestCode == SELECT_PLAYLIST_REQUEST_CODE) {
+                ArrayList<Integer> selectedPidList = data.getIntegerArrayListExtra("pidlist");
+                for(int i=0; i<selectedPidList.size(); i++) {
+                    for(int j=0; j<idList.size(); j++) {
+                        PlRel plRel = new PlRel();
+                        plRel.setPid(selectedPidList.get(i));
+                        plRel.setVid(idList.get(j));
+                        playListEditViewModel.insertPlRelation(plRel);
+                    }
+                }
+            }
+        }
+        setVideoNormalView();
+        Toast.makeText(getActivity(), "재생목록에 추가됨", Toast.LENGTH_SHORT).show();
     }
 
     public void addMediaDataToRoom() {

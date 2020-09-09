@@ -1,4 +1,4 @@
-package com.example.dbvideomarker.ui.home;
+package com.example.dbvideomarker.activity.setting;
 
 
 import android.os.Bundle;

@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_add_to_playlist"
+        android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="추가" />
@@ -30,6 +30,18 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_select_mark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/playlist_select_view">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_select_playlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>

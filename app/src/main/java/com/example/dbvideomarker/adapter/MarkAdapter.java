@@ -71,8 +71,8 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 markViewHolderNormal.mid.setText(String.valueOf(current.getmid()));
                 markViewHolderNormal.mMemo.setText(current.getmMemo());
                 markViewHolderNormal.mStart.setText(loader.getReadableDuration(current.getmStart()));
-                mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getMpath()))).into(markViewHolderNormal.mthumb);
-                //markViewHolderNormal.mthumb.setImageBitmap(loader.getThumbnail(current.getMpath(), current.getmStart()));
+                //mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getMpath()))).into(markViewHolderNormal.mthumb);
+                markViewHolderNormal.mthumb.setImageBitmap(loader.getThumbnail(current.getMpath(), current.getmStart()));
                 markViewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -95,8 +95,8 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 Mark current = markList.get(position);
                 markViewHolderSelect._mid.setText(String.valueOf(current.getmid()));
                 markViewHolderSelect._mMemo.setText(current.getmMemo());
-                markViewHolderSelect._mStart.setText(String.valueOf(current.getmStart()));
-
+                markViewHolderSelect._mStart.setText(loader.getReadableDuration(current.getmStart()));
+                markViewHolderSelect._mThumb.setImageBitmap(loader.getThumbnail(current.getMpath(), current.getmStart()));
                 if (mSelectedItems.get(position, false)) {
                     markViewHolderSelect._view.setBackgroundColor(Color.GRAY);
                 } else {

@@ -6,13 +6,11 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,9 +19,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
+import com.example.dbvideomarker.adapter.PlayListAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
-import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderSelect;
 import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.ViewCase;
@@ -31,6 +30,7 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.ui.home.HomeViewModel;
 import com.example.dbvideomarker.ui.mark.MarkViewModel;
+import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +39,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
 
     private HomeViewModel homeViewModel;
     private MarkViewModel markViewModel;
+    private PlaylistViewModel playlistViewModel;
     private Button btnSelection;
     public RequestManager mGlideRequestManager;
 
@@ -47,14 +48,16 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
 
     private View markSelectView;
     private View videoSelectView;
+    private View playlistSelectView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_video);
+        setContentView(R.layout.activity_select);
 
         markSelectView = findViewById(R.id.mark_select_view);
         videoSelectView = findViewById(R.id.video_select_view);
+        playlistSelectView = findViewById(R.id.playlist_select_view);
 
         mGlideRequestManager = Glide.with(this);
         Intent getIntent= getIntent();
@@ -65,12 +68,17 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
             setVideoSelectView();
             videoSelectView.setVisibility(View.VISIBLE);
             markSelectView.setVisibility(View.GONE);
+            playlistSelectView.setVisibility(View.GONE);
         } else if(VIEW_TYPE == 2002) {
             setMarkSelectView();
             markSelectView.setVisibility(View.VISIBLE);
             videoSelectView.setVisibility(View.GONE);
-        } else {
-            finish();
+            playlistSelectView.setVisibility(View.GONE);
+        } else if(VIEW_TYPE == 2003) {
+            setPlaylistSelectView();
+            markSelectView.setVisibility(View.GONE);
+            videoSelectView.setVisibility(View.GONE);
+            playlistSelectView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -104,6 +112,22 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         });
     }
 
+    public void setPlaylistSelectView() {
+        RecyclerView recyclerView = findViewById(R.id.rv_select_playlist);
+        PlayListAdapter adapter = new PlayListAdapter(this, ViewCase.SELECT, this, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+
+        playlistViewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
+        playlistViewModel.findAllPlayList().observe(this, new Observer<List<PlayList>>() {
+            @Override
+            public void onChanged(List<PlayList> playLists) {
+                adapter.setPlayLists(playLists);
+            }
+        });
+
+    }
+
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
         if (VIEW_TYPE == 2001) {
@@ -113,7 +137,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 Log.d("text", "길이 : " + sparseBooleanArray);
             }
 
-            btnSelection = (Button) findViewById(R.id.btn_add_to_playlist);
+            btnSelection = (Button) findViewById(R.id.btn_add);
             btnSelection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -129,7 +153,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 idList.add(sparseBooleanArray.keyAt(i));
             }
 
-            btnSelection = (Button) findViewById(R.id.btn_add_to_playlist);
+            btnSelection = (Button) findViewById(R.id.btn_add);
             btnSelection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -139,26 +163,40 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                     finish();
                 }
             });
+        } else if(VIEW_TYPE == 2003) {
+            ArrayList<Integer> idList = new ArrayList<>();
+            for(int i=0; i<sparseBooleanArray.size(); i++) {
+                idList.add(sparseBooleanArray.keyAt(i));
+            }
+
+            btnSelection = (Button) findViewById(R.id.btn_add);
+            btnSelection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent resultIntent = new Intent();
+                    resultIntent.putIntegerArrayListExtra("pidlist", idList);
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+                }
+            });
         }
     }
 
     @Override
-    public void clickItem(int id, String path) {
-
-    }
+    public void clickItem(int id, String path) {}
 
     @Override
-    public void clickLongItem(View v, int id, String path) {
-
-    }
+    public void clickLongItem(View v, int id, String path) {}
 
     @Override
-    public void clickMark(int id, long start, String path) {
-
-    }
+    public void clickMark(int id, long start, String path) {}
 
     @Override
-    public void clickLongMark(View v, int id, String path) {
+    public void clickLongMark(View v, int id, String path) {}
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

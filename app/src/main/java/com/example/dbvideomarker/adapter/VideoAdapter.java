@@ -100,7 +100,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                 Video current = videoList.get(position);
                 viewHolderSelect.selectedId.setText(String.valueOf(current.getContentId()));
                 viewHolderSelect.selectedName.setText(String.valueOf(current.getVname()));
-                viewHolderSelect.selectedDur.setText(String.valueOf(current.getVdur()));
+                viewHolderSelect.selectedDur.setText(String.valueOf(loader.getReadableDuration(current.getVdur())));
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderSelect.selectedThumb);
 
                 if (mSelectedItems.get(position, false)) {
@@ -143,18 +143,4 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
             return videoList.size();
         } else return 0;
     }
-
-//    private void toggleItemSelected(int position) {
-//        if (mSelectedItems.get(position, false) == true) {
-//            mSelectedItems.delete(position);
-//            notifyItemChanged(position);
-//        } else {
-//            mSelectedItems.put(position, true);
-//            notifyItemChanged(position);
-//        }
-//    }
-
-//    private boolean isItemSelected(int position) {
-//        return mSelectedItems.get(position, false);
-//    }
 }
