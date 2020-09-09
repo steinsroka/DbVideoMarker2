@@ -269,6 +269,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
     public void deleteVideo(int id) {
+        MediaStoreLoader loader = new MediaStoreLoader();
+        loader.deleteFile(getActivity(), id);
         homeViewModel.deleteVideoWithMark(id);
         homeViewModel.deleteVideo(id);
     }
@@ -368,7 +370,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
                         break;
                     case (R.id.popup_delete):
-                        //File delete
                         deleteVideo(id);
                         break;
                 }

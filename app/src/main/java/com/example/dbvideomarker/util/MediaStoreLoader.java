@@ -136,4 +136,13 @@ public class MediaStoreLoader {
         retriever.release();
         return bitmap;
     }
+
+    public void deleteFile(Context context, int id) {
+        String mSelection = MediaStore.Video.Media._ID + "=?";
+        String[] mSelectionsArgs = new String[] {String.valueOf(id)};
+        Uri contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
+
+        ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.delete(contentUri, mSelection, mSelectionsArgs);
+    }
 }

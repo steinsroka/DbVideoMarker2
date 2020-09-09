@@ -35,6 +35,12 @@ public class SettingActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
 
 //Todo: Activity 종료 메서드 만들기
