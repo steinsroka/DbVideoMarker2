@@ -25,6 +25,7 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.util.MediaStoreLoader;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
@@ -47,7 +48,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         this.onItemSelectedListener = onItemSelectedListener;
         this.onItemClickListener = onItemClickListener;
     }
-
 
     @Override
     public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {
