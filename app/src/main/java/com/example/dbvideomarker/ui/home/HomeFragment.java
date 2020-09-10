@@ -463,6 +463,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
+            setVideoNormalView();
         }
     };
 

@@ -39,6 +39,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
     private OnItemClickListener onItemClickListener;
     private RequestManager mRequestManager;
     private MediaStoreLoader loader;
+    private ArrayList<Integer> mSelectedId;
 
 
     public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
@@ -47,6 +48,12 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void resetSelection(){
+        mSelectedId= new ArrayList<>();
+        // ketika tampilan berubah
+        notifyDataSetChanged();
     }
 
     @Override
