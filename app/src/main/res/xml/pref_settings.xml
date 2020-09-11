@@ -14,7 +14,7 @@
             android:key="inquiry"
             android:title="1:1 고객 문의">
         <intent android:targetPackage="com.example.dbvideomarker"
-            android:targetClass="com.example.dbvideomarker.activity.InquiryActivity"/>
+            android:targetClass="com.example.dbvideomarker.activity.setting.InquiryActivity"/>
         </PreferenceScreen>
 
         <PreferenceScreen

@@ -1,4 +1,4 @@
-package com.example.dbvideomarker.activity;
+package com.example.dbvideomarker.activity.setting;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -29,7 +29,7 @@
         <activity android:name=".activity.setting.PrivacyActivity"/>
         <activity android:name=".activity.setting.LicenseActivity"/>
         <activity android:name=".activity.SelectActivity" />
-        <activity android:name=".activity.InquiryActivity"/>
+        <activity android:name=".activity.setting.InquiryActivity"/>
         <activity
             android:name=".player.PlayerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"

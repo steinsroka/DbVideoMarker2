@@ -10,6 +10,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.setting.SettingActivity;
 import com.example.dbvideomarker.adapter.ViewPagerAdapter;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.ui.mark.MarkFragment;
@@ -105,21 +106,6 @@ public class MainActivity extends AppCompatActivity {
 //        });
         return true;
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-
-            case R.id.select:
-                Toast.makeText(this, "1111",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.setting:
-                Intent intent = new Intent(this, SettingActivity.class);
-                //액티비티 시작!
-                startActivity(intent);
-                break;
-        }
-        return true;
-    }
 
     private long backKeyPressedTime = 0;
     private Toast toast;
@@ -130,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (System.currentTimeMillis() > backKeyPressedTime + 2500) {
             backKeyPressedTime = System.currentTimeMillis();
-            toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
+            toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG);
             toast.show();
             return;
         }
@@ -138,8 +124,6 @@ public class MainActivity extends AppCompatActivity {
         if (System.currentTimeMillis() <= backKeyPressedTime + 2500) {
             finish();
             toast.cancel();
-            toast = Toast.makeText(this, "이용해 주셔서 감사합니다.", Toast.LENGTH_LONG);
-            toast.show();
         }
     }
 }
