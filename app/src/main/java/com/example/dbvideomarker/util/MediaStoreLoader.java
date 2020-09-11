@@ -1,6 +1,7 @@
 package com.example.dbvideomarker.util;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -31,7 +32,7 @@ public class MediaStoreLoader {
         Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         String projections[] = {
                 MediaStore.Video.Media._ID,
-                MediaStore.Video.Media.TITLE,
+                MediaStore.Video.Media.DISPLAY_NAME,
                 MediaStore.Video.Media.DURATION,
                 MediaStore.Video.Media.SIZE,
                 MediaStore.Video.Media.MIME_TYPE,
@@ -145,6 +146,7 @@ public class MediaStoreLoader {
         return bitmap;
     }
 
+    //TODO: 30이상에서 문제가 발생할 수 있음
     public void deleteFile(Context context, int id) {
         String mSelection = MediaStore.Video.Media._ID + "=?";
         String[] mSelectionsArgs = new String[] {String.valueOf(id)};
@@ -152,5 +154,15 @@ public class MediaStoreLoader {
 
         ContentResolver contentResolver = context.getContentResolver();
         contentResolver.delete(contentUri, mSelection, mSelectionsArgs);
+    }
+
+    //TODO: 30이상에서 문제가 발생할 수 있음
+    public void updateFile(Context context, int id, String text) {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Video.Media.DISPLAY_NAME, text);
+        Uri contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
+
+        ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.update(contentUri, values, null, null);
     }
 }

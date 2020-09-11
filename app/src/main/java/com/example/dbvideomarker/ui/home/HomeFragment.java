@@ -394,11 +394,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                                 if (afterName.getText().toString().trim().length() != 0) {
                                     Video video =  new Video();
                                     video.setVname(afterName.getText().toString());
-                                    //File update, mediastore update
-                                    homeViewModel.updateVideo(id, afterName.getText().toString());
 
-                                    FileUtil fileUtil = new FileUtil();
-                                    fileUtil.fileRename(path, video.getVname(), afterName.getText().toString());
+                                    MediaStoreLoader loader = new MediaStoreLoader();
+                                    loader.updateFile(getActivity(), id, afterName.getText().toString());
+                                    homeViewModel.updateVideo(id, afterName.getText().toString());
                                 }
                             }
                         });

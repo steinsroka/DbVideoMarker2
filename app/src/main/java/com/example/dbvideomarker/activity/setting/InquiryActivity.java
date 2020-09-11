@@ -1,6 +1,7 @@
 package com.example.dbvideomarker.activity.setting;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dbvideomarker.R;
 
 public class InquiryActivity extends AppCompatActivity {
+
+    public String getDeviceModel(){
+        return Build.MODEL;
+    }
+    public String getOsVersion(){
+        return Build.VERSION.RELEASE;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,8 +37,10 @@ public class InquiryActivity extends AppCompatActivity {
                     email.setType("plain/text");
                     String[] address = {"developer@email.com"};
                     email.putExtra(Intent.EXTRA_EMAIL, address);
-                    email.putExtra(Intent.EXTRA_SUBJECT, "title");
-                    email.putExtra(Intent.EXTRA_TEXT, "내용 미리보기 (미리적을 수 있음)");
+                    email.putExtra(Intent.EXTRA_SUBJECT, "VideoMarker 문의");
+                    email.putExtra(Intent.EXTRA_TEXT, "앱 버전 (AppVersion):" + getString(R.string.appVersion) +
+                            "\n기기명 (Device):"+(getDeviceModel())+"\n안드로이드 OS (Android OS):" +
+                            (getOsVersion())+"\n내용 (Content):\n");
                     startActivity(email);
                 }
             });
