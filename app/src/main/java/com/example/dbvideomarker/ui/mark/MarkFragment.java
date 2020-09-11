@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -56,6 +59,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
     public int selectedSort;
     private int SELECT_PLAYLIST_REQUEST_CODE = 1003;
     private MarkAdapter markAdapter;
+    private ActionMode mActionMode;
 
     private View v;
     private View normalMarkView;
@@ -87,11 +91,11 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == SELECT_PLAYLIST_REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_PLAYLIST_REQUEST_CODE) {
                 ArrayList<Integer> selectedPidList = data.getIntegerArrayListExtra("pidlist");
-                for(int i=0; i<selectedPidList.size(); i++) {
-                    for(int j=0; j<idList.size(); j++) {
+                for (int i = 0; i < selectedPidList.size(); i++) {
+                    for (int j = 0; j < idList.size(); j++) {
                         PlRel plRel = new PlRel();
                         plRel.setPid(selectedPidList.get(i));
                         plRel.setMid(idList.get(j));
@@ -164,20 +168,48 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
             }
         });
 
+        btn_add_playlist_mark.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_red_24);
+                    return false;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_24);
+                    return false;
+                }
+                return false;
+            }
+        });
+
         btn_delete_mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for(int i = 0; i<idList.size(); i++) {
+                for (int i = 0; i < idList.size(); i++) {
                     markViewModel.deleteMark(idList.get(i));
                     Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
                     setMarkNormalView();
                 }
             }
         });
+
+        btn_delete_mark.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_red_24);
+                    return false;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_24);
+                    return false;
+                }
+                return false;
+            }
+        });
     }
 
     public int sort() {
-        final String[] sort = new String[] {"북마크 제목순", "추가된순(최근)", "추가된순(오래된)"};
+        final String[] sort = new String[]{"북마크 제목순", "추가된순(최근)", "추가된순(오래된)"};
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle("정렬 순서")
@@ -227,6 +259,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
             case R.id.select:
                 setMarkSelectView();
+                mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(mActionModeCallback);
                 break;
             case R.id.setting:
 //                Intent intent = new Intent(this, SettingActivity.class);
@@ -277,7 +310,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                         AlertDialog dialog = builder.create();
                         dialog.show();
                         break;
-                    case(R.id.popup_delete):
+                    case (R.id.popup_delete):
                         markViewModel.deleteMark(id);
                         break;
                 }
@@ -286,4 +319,30 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         });
         popupMenu.show();
     }
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.menu_action_toolbar, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            mode.setTitle(String.valueOf(idList) + " selected");
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            mActionMode.finish();
+            setMarkNormalView();
+        }
+    };
 }

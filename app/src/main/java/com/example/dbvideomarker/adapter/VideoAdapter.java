@@ -25,6 +25,7 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.util.MediaStoreLoader;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
@@ -39,7 +40,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
     private RequestManager mRequestManager;
     private MediaStoreLoader loader;
 
-
     public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
         mInflater = LayoutInflater.from(context);
         mRequestManager = Glide.with(context);
@@ -47,7 +47,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         this.onItemSelectedListener = onItemSelectedListener;
         this.onItemClickListener = onItemClickListener;
     }
-
 
     @Override
     public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {

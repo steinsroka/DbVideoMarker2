@@ -31,6 +31,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -43,6 +45,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.InfoActivity;
+import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.activity.SearchActivity;
@@ -84,6 +87,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     private View bottomMenu;
     private ImageButton btn_add_playlist, btn_info, btn_delete;
     private ArrayList<Integer> idList;
+    private ActionMode mActionMode;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_home, container, false);
@@ -319,6 +323,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
             case R.id.select:
                 setVideoSelectView();
+                mActionMode = ((AppCompatActivity)getActivity()).startSupportActionMode(mActionModeCallback);
                 break;
             case R.id.setting:
                 Intent intent = new Intent(getActivity(), SettingActivity.class);
@@ -437,6 +442,30 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }
         }
     }
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.menu_action_toolbar, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            mode.setTitle(String.valueOf(idList)+ " selected");
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            setVideoNormalView();
+        }
+    };
 
 
 
