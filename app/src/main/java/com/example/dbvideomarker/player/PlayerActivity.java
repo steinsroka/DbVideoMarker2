@@ -78,12 +78,12 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         CONTENT_PATH = intent.getExtras().getString("Path");
         CONTENT_START = intent.getExtras().getLong("Start");
 
+        videoView.seekTo(CONTENT_START);
 
 
         initVideoView(String.valueOf(CONTENT_ID));
         Log.d("TAG", "start =" + CONTENT_START + "//" + CONTENT_ID);
         initBottomView();
-        videoView.seekTo(CONTENT_START);
     }
 
 

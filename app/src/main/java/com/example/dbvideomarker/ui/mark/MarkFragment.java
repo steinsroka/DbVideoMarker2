@@ -276,7 +276,6 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                         });
                         AlertDialog dialog = builder.create();
                         dialog.show();
-                        //TODO: update Mark
                         break;
                     case(R.id.popup_delete):
                         markViewModel.deleteMark(id);

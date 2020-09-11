@@ -42,5 +42,3 @@ public class SettingActivity extends AppCompatActivity {
         finish();
     }
 }
-
-//Todo: Activity 종료 메서드 만들기

@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class MediaStoreLoader {
 
     private static int id;
+    private int MS_ONE_HOUR = 3600000;
     private static ArrayList<Integer> mediaIdList = new ArrayList<>();
 
     public static List<Media> getContent(Context context) {
@@ -90,13 +91,20 @@ public class MediaStoreLoader {
     }
 
     public String getReadableDuration(long millis) {
-        //TODO: 60분 미만이어도 00:00:00 로 표시되는 현상
-        String dur = String.format("%02d:%02d:%02d",
-                TimeUnit.MILLISECONDS.toHours(millis),
-                TimeUnit.MILLISECONDS.toMinutes(millis) -
-                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), // The change is in this line
-                TimeUnit.MILLISECONDS.toSeconds(millis) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+        String dur = null;
+        if(millis > MS_ONE_HOUR) {
+            dur = String.format("%02d:%02d:%02d",
+                    TimeUnit.MILLISECONDS.toHours(millis),
+                    TimeUnit.MILLISECONDS.toMinutes(millis) -
+                            TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), // The change is in this line
+                    TimeUnit.MILLISECONDS.toSeconds(millis) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+        } else {
+            dur = String.format("%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(millis),
+                    TimeUnit.MILLISECONDS.toSeconds(millis) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+        }
         return dur;
     }
 
