@@ -105,6 +105,21 @@ public class MainActivity extends AppCompatActivity {
 //        });
         return true;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.select:
+                Toast.makeText(this, "1111",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.setting:
+                Intent intent = new Intent(this, SettingActivity.class);
+                //액티비티 시작!
+                startActivity(intent);
+                break;
+        }
+        return true;
+    }
 
     private long backKeyPressedTime = 0;
     private Toast toast;
