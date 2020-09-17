@@ -15,7 +15,7 @@ public class PlRelVideo {
     private String pv_vname;
 
     @ColumnInfo(name="video_dur")
-    private String pv_vdur;
+    private long pv_vdur;
 
     @ColumnInfo(name="video_path")
     private String pv_vpath;
@@ -45,11 +45,11 @@ public class PlRelVideo {
         this.pv_vname = pv_vname;
     }
 
-    public String getPv_vdur() {
+    public long getPv_vdur() {
         return pv_vdur;
     }
 
-    public void setPv_vdur(String pv_vdur) {
+    public void setPv_vdur(long pv_vdur) {
         this.pv_vdur = pv_vdur;
     }
 

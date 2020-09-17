@@ -78,9 +78,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         CONTENT_PATH = intent.getExtras().getString("Path");
         CONTENT_START = intent.getExtras().getLong("Start");
 
-        videoView.seekTo(CONTENT_START);
-
-
         initVideoView(String.valueOf(CONTENT_ID));
         Log.d("TAG", "start =" + CONTENT_START + "//" + CONTENT_ID);
         initBottomView();
@@ -177,7 +174,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         mediaSource.setDisplayName("Apple HLS"); // 동영상 제목 설정
 
         videoView.setControllerDisplayMode(ExoVideoPlaybackControlView.CONTROLLER_MODE_ALL);
-        videoView.play(mediaSource, false);
+        videoView.play(mediaSource, false, CONTENT_START);
         seekToOnDoubleTap();
     }
 

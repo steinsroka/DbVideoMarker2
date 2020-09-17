@@ -74,7 +74,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                 //viewHolderNormal.vThumb.setImage
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderNormal.vThumb);
                 //viewHolderNormal.vThumb.setImageBitmap(loader.getThumbnail(current.vpath, current.getVdur()/3));
-                //TODO: 특정 시간을 추출하는게 가능한가
                 viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

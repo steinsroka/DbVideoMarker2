@@ -126,7 +126,7 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener, O
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.popup_edit:
+                    case R.id.modifyPlayList:
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         EditText et = new EditText(getActivity());
                         builder.setView(et);
@@ -144,7 +144,7 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener, O
                         AlertDialog dialog = builder.create();
                         dialog.show();
                         break;
-                    case(R.id.popup_delete):
+                    case(R.id.deletePlayList):
                         playlistViewModel.deleteWithPlayList(id);
                         playlistViewModel.deletePlayList(id);
                         break;

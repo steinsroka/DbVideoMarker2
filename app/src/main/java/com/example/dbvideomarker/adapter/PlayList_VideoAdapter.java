@@ -18,6 +18,7 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.util.Callback;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
+import com.example.dbvideomarker.util.MediaStoreLoader;
 
 import java.io.File;
 import java.util.Collections;
@@ -30,7 +31,7 @@ public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAd
     public List<PlRelVideo> plRelList;
     private LayoutInflater mInflater;
     private RequestManager mRequestManager;
-
+    private MediaStoreLoader loader;
 
     public PlayList_VideoAdapter(Context context, OnItemClickListener onItemClickListener, OnStartDragListener onStartDragListener, RequestManager requestManager) {
         mInflater = LayoutInflater.from(context);
@@ -52,12 +53,13 @@ public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAd
 
     @Override
     public void onBindViewHolder(@NonNull PLEViewHolder holder, int position) {
+        loader = new MediaStoreLoader();
         if(plRelList != null) {
             PlRelVideo current = plRelList.get(position);
             holder.name.setText(String.valueOf(current.getPv_vname()));
             holder.vid.setText(String.valueOf(current.getPv_vid()));
             holder.pid.setText(String.valueOf(current.getPv_pid()));
-            holder.dur.setText(String.valueOf(current.getPv_vdur()));
+            holder.dur.setText(String.valueOf(loader.getReadableDuration(current.getPv_vdur())));
             mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getPv_vpath()))).into(holder.thumb);
 
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {

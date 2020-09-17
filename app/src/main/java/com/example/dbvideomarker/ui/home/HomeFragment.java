@@ -162,8 +162,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 //        }
 //    }
 
-
-
     public void setBottomMenu() {
         btn_add_playlist = v.findViewById(R.id.video_bottom_add_playlist);
         btn_info = v.findViewById(R.id.video_bottom_info);
@@ -172,10 +170,16 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         btn_add_playlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent playlistIntent = new Intent(getContext(), SelectActivity.class);
-                playlistIntent.putExtra("pid", "");
-                playlistIntent.putExtra("VIEW_TYPE", 2003);
-                startActivityForResult(playlistIntent, SELECT_PLAYLIST_REQUEST_CODE);
+                BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
+                Bundle args = new Bundle();
+                args.putIntegerArrayList("idList",idList);
+                playerBottomSheetDialog.setArguments(args);
+                playerBottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
+
+//                Intent playlistIntent = new Intent(getContext(), SelectActivity.class);
+//                playlistIntent.putExtra("pid", "");
+//                playlistIntent.putExtra("VIEW_TYPE", 2003);
+//                startActivityForResult(playlistIntent, SELECT_PLAYLIST_REQUEST_CODE);
             }
         });
 
@@ -264,11 +268,12 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         }
     }
 
+
     public void setVideoNormalView() {
 
-        normalView.setVisibility(View.VISIBLE);
         selectView.setVisibility(View.GONE);
         bottomMenu.setVisibility(View.GONE);
+        normalView.setVisibility(View.VISIBLE);
 
         videoAdapter = new VideoAdapter(getActivity(), ViewCase.NORMAL, this, this);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
@@ -288,7 +293,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         normalView.setVisibility(View.GONE);
         selectView.setVisibility(View.VISIBLE);
         bottomMenu.setVisibility(View.VISIBLE);
-
 
         VideoAdapter adapter = new VideoAdapter(getActivity(), ViewCase.SELECT, this, this);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home_select);
@@ -450,7 +454,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            mode.setTitle(String.valueOf(idList)+ " selected");
+            mode.setTitle(idList + " selected");
             return false;
         }
 
