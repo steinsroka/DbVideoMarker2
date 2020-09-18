@@ -1,79 +1,179 @@
 package com.example.dbvideomarker.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.adapter.PlayList_MarkAdapter;
+import com.example.dbvideomarker.adapter.PlayList_VideoAdapter;
 import com.example.dbvideomarker.adapter.SearchAdapter;
+import com.example.dbvideomarker.adapter.VideoAdapter;
+import com.example.dbvideomarker.adapter.util.Callback;
+import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.database.entitiy.PlRelMark;
+import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.SearchGroupList;
 import com.example.dbvideomarker.database.entitiy.SearchItemList;
+import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.listener.OnMarkClickListener;
+import com.example.dbvideomarker.repository.MarkRepository;
+import com.example.dbvideomarker.repository.VideoRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements OnItemClickListener, OnItemSelectedListener, OnMarkClickListener {
 
-    private ExpandableListView expandableListView;
     private EditText editText;
-    private SearchAdapter searchAdapter;
-    private ArrayList<SearchGroupList> searchGroupLists;
+    private TextView vCount, mCount;
+    private PlayList_VideoAdapter adapter_video;
+    private PlayList_MarkAdapter adapter_mark;
+    private RequestManager _mGlideRequestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_search);
 
+        _mGlideRequestManager = Glide.with(this);
         editText = (EditText) findViewById(R.id.editText);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+            }
 
-        searchGroupLists = new ArrayList<>();
-        searchGroupLists = Data(searchGroupLists);
-        searchAdapter = new SearchAdapter(this, searchGroupLists);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+            /*
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                videoRepository = new VideoRepository(getApplication());
+                markRepository = new MarkRepository(getApplication());
+                listVideo = new ArrayList<>();
+                listMark = new ArrayList<>();
+                ArrayList<SearchGroupList> list = new ArrayList<>();
+                list.add(null);
+                list.add(null);
+
+                if (videoRepository.searchVideo(s.toString()) != null) {
+                    videoLiveData = videoRepository.searchVideo(s.toString());
+                }
+                if (markRepository.getSearchMark(s.toString()) != null) {
+                    markLiveData = markRepository.getSearchMark(s.toString());
+                }
+
+                videoLiveData.observe(SearchActivity.this, new Observer<List<Video>>() {
+                    @Override
+                    public void onChanged(List<Video> videos) {
+                        listVideo.addAll(videos);
+                        for (int i = 0; i < listVideo.size(); i++)
+                            Log.d("asd", "onChanged : " + listVideo.get(i).getVname());
+                        Log.d("asd", "listVideo.size : " + String.valueOf(listVideo.size()));
+                        for (int i = 0; i < listVideo.size(); i++) {
+                            videoGroup.add(new SearchItemList(R.drawable.ic_baseline_search_24, listVideo.get(i).vdur, listVideo.get(i).getVname(), String.valueOf(listVideo.get(i).getContentId())));
+                            Log.d("asd", "add : " + videoGroup.get(i).getvName());
+                        }
+                        videoGroupList.setSearchItemLists(videoGroup);
+                        list.set(0, videoGroupList);
+                        if (listVideo.size() == 0)
+                            searchAdapter.setList(null);
+                        else
+                            searchAdapter.setList(list);
+                        Log.d("asd", "child : " + searchAdapter.getChild(0, 0));
+                        expandableListView.setAdapter(searchAdapter);
+                        expandableListView.expandGroup(0);
+                    }
+                });
+
+                markLiveData.observe(SearchActivity.this, new Observer<List<Mark>>() {
+                    @Override
+                    public void onChanged(List<Mark> marks) {
+                        listMark.addAll(marks);
+                        for (int i = 0; i < listMark.size(); i++)
+                            markGroup.add(new SearchItemList(R.drawable.ic_baseline_search_24, String.valueOf(listMark.get(i).getmStart()), listVideo.get(i).getVname() + " / " + listMark.get(i).getmMemo(), String.valueOf(listMark.get(i).getmid())));
+                        markGroupList.setSearchItemLists(markGroup);
+                        list.set(1, markGroupList);
+                        if (listMark.size() == 0)
+                            searchAdapter.setList(null);
+                        else
+                            searchAdapter.setList(list);
+                        expandableListView.setAdapter(searchAdapter);
+                        expandableListView.expandGroup(1);
+                    }
+                });
+            }
+        });
+
         expandableListView.setAdapter(searchAdapter);
 
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                return false;
-            }
-        });
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-            @Override
-            public void onGroupCollapse(int i) {
+        expandableListView.expandGroup(0);
+        expandableListView.expandGroup(1);
+ */
 
-            }
-        });
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int i) {
+            setMarkSearchResult();
+            setVideoSearchResult();
+    }
+    public void setVideoSearchResult() {
+        RecyclerView searchVideo = findViewById(R.id.search_Video_Result);
+        VideoAdapter videoAdapter = new VideoAdapter(this, ViewCase.NORMAL, this, this);
 
-            }
-        });
+        searchVideo.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        searchVideo.setAdapter(videoAdapter);
     }
 
 
-    private ArrayList<SearchGroupList> Data(ArrayList<SearchGroupList> list) {
-        SearchGroupList videoList = new SearchGroupList("영상 제목", "(1)",null);
-        ArrayList<SearchItemList> videoLists = new ArrayList<>();
-        videoLists.add(new SearchItemList(R.drawable.ic_baseline_search_24,"30:28","은밀한 사생활","GJW-903"));
-        videoList.setSearchItemLists(videoLists);
-        list.add(videoList);
+    public void setMarkSearchResult() {
+        RecyclerView searchMark = findViewById(R.id.search_Mark_Result);
+        VideoAdapter videoAdapter = new VideoAdapter(this, ViewCase.NORMAL, this, this);
 
-        SearchGroupList markList = new SearchGroupList("북마크 메모","(1)",null);
-        ArrayList<SearchItemList> markLists = new ArrayList<>();
-        markLists.add(new SearchItemList(R.drawable.ic_baseline_search_24,"30:28","은밀한 사생활","GJW-903"));
-        markList.setSearchItemLists(markLists);
-        list.add(markList);
-
-        return list;
+        searchMark.setLayoutManager(new GridLayoutManager(this, 2));
+        searchMark.setAdapter(videoAdapter);
     }
 
+    @Override
+    public void clickItem(int id, String path) {}
 
-    /*
-     */
+    @Override
+    public void clickLongItem(View v, int id, String path) {}
 
+    @Override
+    public void clickMark(int id, long start, String path) {}
+
+    @Override
+    public void clickLongMark(View v, int id, String path) {}
+
+    @Override
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+
+    }
 }
