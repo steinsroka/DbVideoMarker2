@@ -39,9 +39,9 @@ public class VideoRepository {
 //        return videoDao.selectVideo(pid);
 //    }
 
-//    public LiveData<List<Video>> getSearchVideo(String vName) {
-//        return videoDao.searchVideo(vName);
-//    }
+    public LiveData<List<Video>> getSearchVideo(String vName) {
+        return videoDao.searchVideo(vName);
+    }
 
     public void insertVideo(Video video) {
         new AsyncTask<Video, Void, Long>() {

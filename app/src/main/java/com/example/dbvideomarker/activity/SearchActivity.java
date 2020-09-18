@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.PlayList_MarkAdapter;
 import com.example.dbvideomarker.adapter.PlayList_VideoAdapter;
 import com.example.dbvideomarker.adapter.SearchAdapter;
@@ -45,15 +46,22 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity implements OnItemClickListener, OnItemSelectedListener, OnMarkClickListener {
 
     private EditText editText;
-    private TextView vCount, mCount;
-    private PlayList_VideoAdapter adapter_video;
-    private PlayList_MarkAdapter adapter_mark;
     private RequestManager _mGlideRequestManager;
+    VideoAdapter videoAdapter;
+    MarkAdapter markAdapter;
+    VideoRepository videoRepository;
+    MarkRepository markRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_search);
+
+        videoAdapter = new VideoAdapter(this, ViewCase.NORMAL, this, this);
+        markAdapter = new MarkAdapter(this, ViewCase.NORMAL, this, this, _mGlideRequestManager);
+
+        videoRepository = new VideoRepository(getApplication());
+        markRepository = new MarkRepository(getApplication());
 
         _mGlideRequestManager = Glide.with(this);
         editText = (EditText) findViewById(R.id.editText);
@@ -69,7 +77,23 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
 
             @Override
             public void afterTextChanged(Editable editable) {
+                if(videoRepository.getSearchVideo(editable.toString()) != null) {
+                    videoRepository.getSearchVideo(editable.toString()).observe(SearchActivity.this, new Observer<List<Video>>() {
+                        @Override
+                        public void onChanged(List<Video> videos) {
+                            videoAdapter.setVideos(videos);
+                        }
+                    });
+                }
 
+                if(markRepository.getSearchMark(editable.toString()) != null) {
+                    markRepository.getSearchMark(editable.toString()).observe(SearchActivity.this, new Observer<List<Mark>>() {
+                        @Override
+                        public void onChanged(List<Mark> marks) {
+                            markAdapter.setMarks(marks);
+                        }
+                    });
+                }
             }
         });
 
@@ -145,19 +169,29 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
     }
     public void setVideoSearchResult() {
         RecyclerView searchVideo = findViewById(R.id.search_Video_Result);
-        VideoAdapter videoAdapter = new VideoAdapter(this, ViewCase.NORMAL, this, this);
 
         searchVideo.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        videoRepository.getAllVideo().observe(SearchActivity.this, new Observer<List<Video>>() {
+            @Override
+            public void onChanged(List<Video> videos) {
+                videoAdapter.setVideos(videos);
+            }
+        });
         searchVideo.setAdapter(videoAdapter);
     }
 
 
     public void setMarkSearchResult() {
         RecyclerView searchMark = findViewById(R.id.search_Mark_Result);
-        VideoAdapter videoAdapter = new VideoAdapter(this, ViewCase.NORMAL, this, this);
 
         searchMark.setLayoutManager(new GridLayoutManager(this, 2));
-        searchMark.setAdapter(videoAdapter);
+        markRepository.getAllMark().observe(SearchActivity.this, new Observer<List<Mark>>() {
+            @Override
+            public void onChanged(List<Mark> marks) {
+                markAdapter.setMarks(marks);
+            }
+        });
+        searchMark.setAdapter(markAdapter);
     }
 
     @Override
