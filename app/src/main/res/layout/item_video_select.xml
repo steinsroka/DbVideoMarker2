@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#CCFFFFFF"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,7 +17,7 @@
 
             <ImageView
                 android:id="@+id/selectedThumb"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <TextView
@@ -26,8 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
-                android:background="#BAFFFFFF"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:text="TextView" />
         </FrameLayout>
 
@@ -40,12 +38,14 @@
                 android:id="@+id/selectedName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#ffffff"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/selectedId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#ffffff"
                 android:text="TextView" />
 
 

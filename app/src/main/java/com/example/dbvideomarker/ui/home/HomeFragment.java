@@ -337,9 +337,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intentSearch);
                 break;
-            case R.id.menu_sort:
-                addMediaDataToRoom();
-                break;
         }
         return true;
     }
@@ -454,7 +451,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            mode.setTitle(idList + " selected");
+            mode.setTitle(String.valueOf(idList) + " selected");
             return false;
         }
 
@@ -469,6 +466,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             setVideoNormalView();
         }
     };
+
+
 
 
 

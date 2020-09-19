@@ -6,19 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.dbvideomarker.player.PlayerActivity">
+    tools:context="com.example.dbvideomarker.player.PlayerActivity"
+ >
 
     <com.example.dbvideomarker.player.ui.ExoVideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_weight="1.5"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:background="#000000"/>
 
     <FrameLayout
         android:id="@+id/wrapper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:background="@color/colorBG">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -32,7 +35,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="동영상 상세정보들어갈 공간임" />
+                    android:text="동영상 상세정보들어갈 공간임"
+                    android:textColor="#ffffff"/>
 
 
                 <Button

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorBG">
 
     <ImageView
         android:id="@+id/plrel_mark_thumb"
@@ -16,15 +17,18 @@
         android:id="@+id/plrel_mid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:layout_margin="5dp" />
     <TextView
         android:id="@+id/plrel_mmemo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:layout_margin="5dp" />
     <TextView
         android:id="@+id/plrel_mstart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:layout_margin="5dp" />
 </LinearLayout>
