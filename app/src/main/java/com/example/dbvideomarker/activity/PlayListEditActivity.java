@@ -33,6 +33,8 @@ import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
+import com.example.dbvideomarker.ui.home.HomeViewModel;
+import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -44,6 +46,8 @@ import java.util.List;
 public class PlayListEditActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, PlayList_VideoAdapter.OnStartDragListener {
 
     private PlayListEditViewModel playListEditViewModel;
+    private HomeViewModel homeViewModel;
+    private PlaylistViewModel playlistViewModel;
     private List<PlRelVideo> resultList = new ArrayList<>();
     public int SELECT_VIDEO_REQUEST_CODE = 1001;
     public int SELECT_MARK_REQUEST_CODE = 1002;
@@ -76,6 +80,8 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 //        playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함 + setText는 charsequance 자료형임
         TextView playListName = (TextView) findViewById(R.id.playListName);
 
+        playlistViewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
         playListEditViewModel.getPlayList(pid).observe(this, new Observer<PlayList>() {
             @Override
@@ -207,6 +213,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         if(resultCode == RESULT_OK) {
             if(requestCode == SELECT_VIDEO_REQUEST_CODE) {
                 ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
+                playlistViewModel.updateVideoCount(pid, selectedVidList.size());
                 for(int i=0; i<selectedVidList.size(); i++) {
                     PlRel plRel = new PlRel();
                     plRel.setPid(pid);
@@ -215,6 +222,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
                 }
             } else if(requestCode == SELECT_MARK_REQUEST_CODE) {
                 ArrayList<Integer> selectedMidList = data.getIntegerArrayListExtra("midlist");
+                playlistViewModel.updateMarkCount(pid, selectedMidList.size());
                 for(int i=0; i<selectedMidList.size(); i++) {
                     PlRel plRel = new PlRel();
                     plRel.setPid(pid);
@@ -231,6 +239,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         playerIntent.putExtra("ContentID", id);
         playerIntent.putExtra("Path", path);
         playerIntent.putExtra("Start", 0L);
+        homeViewModel.updateRecentVideo(id, System.currentTimeMillis());
         startActivity(playerIntent);
     }
 

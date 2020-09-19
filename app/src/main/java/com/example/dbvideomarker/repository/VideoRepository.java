@@ -34,6 +34,9 @@ public class VideoRepository {
         return videoDao.findAllVideo(sort);
     }
 
+    public LiveData<List<Video>> findRecentViewVideo() {
+        return videoDao.findRecentViewVideo();
+    }
 
 //    public LiveData<List<Video>> selectVideo(int pid) {
 //        return videoDao.selectVideo(pid);
@@ -84,6 +87,23 @@ public class VideoRepository {
                 if (videoDao == null)
                     return -1;
                 return videoDao.updateVideo(integers[0], name);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "update : " + integer);
+            }
+        }.execute(id);
+    }
+
+    public void updateRecentVideo(int id, long current) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer... integers) {
+                if (videoDao == null)
+                    return -1;
+                return videoDao.updateRecentVideo(integers[0], current);
             }
 
             @Override

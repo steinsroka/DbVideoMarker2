@@ -264,6 +264,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             video.setVname(media.getName());
             video.setVpath(media.getPath());
             video.setVadded(media.getAdded());
+            video.setVrecent(System.currentTimeMillis());
             homeViewModel.insertVideo(video);
         }
     }
@@ -425,6 +426,9 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         playerIntent.putExtra("ContentID", id);
         playerIntent.putExtra("Path", path);
         playerIntent.putExtra("Start", 0L);
+        //update
+        homeViewModel.updateRecentVideo(id, System.currentTimeMillis());
+
         getContext().startActivity(playerIntent);
     }
 

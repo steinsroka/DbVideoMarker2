@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderRecent;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.MyItemView;
@@ -56,6 +57,9 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         } else if (sel_type == ViewCase.SELECT) {
             View view = mInflater.from(parent.getContext()).inflate(R.layout.item_video_select, parent, false);
             return new VideoViewHolderSelect(view);
+        } else if (sel_type == ViewCase.RECENT) {
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_video_recent, parent, false);
+            return new VideoViewHolderRecent(view);
         }
         return null;
     }
@@ -124,6 +128,20 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                         Log.d("test", "parsed"+ mSelectedItemIds.size());
 
                         onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
+                    }
+                });
+            }
+        } else if (holder instanceof VideoViewHolderRecent) {
+            VideoViewHolderRecent videoViewHolderRecent = (VideoViewHolderRecent) holder;
+            if(videoList != null) {
+                Video current = videoList.get(position);
+                videoViewHolderRecent.rName.setText(current.getVname());
+                videoViewHolderRecent.rDur.setText(String.valueOf(loader.getReadableDuration(current.getVdur())));
+                mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(videoViewHolderRecent.rThumb);
+                videoViewHolderRecent.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onItemClickListener.clickItem(current.getContentId(), current.getVpath());
                     }
                 });
             }

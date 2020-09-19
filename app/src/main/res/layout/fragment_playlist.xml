@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context=".ui.playlist.PlaylistFragment">
 
+    <TextView
+        android:id="@+id/recentView_Header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="최근시청"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recentView"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

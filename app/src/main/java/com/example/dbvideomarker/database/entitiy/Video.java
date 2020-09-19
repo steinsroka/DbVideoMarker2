@@ -26,6 +26,9 @@ public class Video {
     @ColumnInfo(name = "vadded")
     public String vadded;
 
+    @ColumnInfo(name = "vrecent")
+    public long vrecent;
+
   
     public int getContentId() {
         return contentId;
@@ -65,6 +68,14 @@ public class Video {
 
     public void setVadded(String vadded) {
         this.vadded = vadded;
+    }
+
+    public long getVrecent() {
+        return vrecent;
+    }
+
+    public void setVrecent(long vrecent) {
+        this.vrecent = vrecent;
     }
 }
 

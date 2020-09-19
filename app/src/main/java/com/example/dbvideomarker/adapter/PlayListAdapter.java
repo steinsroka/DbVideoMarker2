@@ -64,6 +64,8 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
                 PlayList current = playListList.get(position);
                 playlistViewHolderNormal.pId.setText(String.valueOf(current.getPid()));
                 playlistViewHolderNormal.pName.setText(current.getpName());
+                playlistViewHolderNormal.pvCount.setText(String.valueOf(current.getVcount()));
+                playlistViewHolderNormal.pmCount.setText(String.valueOf(current.getMcount()));
 
                 playlistViewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -89,6 +91,8 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
                 PlayList current = playListList.get(position);
                 playlistViewHolderSelect._pId.setText(String.valueOf(current.getPid()));
                 playlistViewHolderSelect._pName.setText(current.getpName());
+                playlistViewHolderSelect._pvCount.setText(String.valueOf(current.getVcount()));
+                playlistViewHolderSelect._pmCount.setText(String.valueOf(current.getMcount()));
 
                 if(mSelectedItems.get(position, false)) {
                     playlistViewHolderSelect._view.setBackgroundColor(Color.GRAY);

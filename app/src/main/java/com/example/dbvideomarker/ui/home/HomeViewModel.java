@@ -25,6 +25,7 @@ public class HomeViewModel extends AndroidViewModel {
         videoRepository = new VideoRepository(application);
         allVideo = videoRepository.getAllVideo();
     }
+
     public LiveData<List<Video>> getAllVideo() {
         return allVideo;
     }
@@ -33,6 +34,9 @@ public class HomeViewModel extends AndroidViewModel {
         return videoRepository.getAllVideo(sort);
     }
 
+    public LiveData<List<Video>> findRecentViewVideo() {
+        return videoRepository.findRecentViewVideo();
+    }
 //    public LiveData<List<Video>> selectVideo(int pid) {
 //        return videoRepository.selectVideo(pid);
 //    }
@@ -52,4 +56,10 @@ public class HomeViewModel extends AndroidViewModel {
     public void updateVideo(int id, String name) {
         videoRepository.updateVideo(id, name);
     }
+
+    public void updateRecentVideo(int id, long current) {
+        videoRepository.updateRecentVideo(id, current);
+    }
+
+
 }

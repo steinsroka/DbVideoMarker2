@@ -44,4 +44,12 @@ public class PlaylistViewModel extends AndroidViewModel {
     public void update(PlayList playList) {
         playListRepository.update(playList);
     }
+
+    public void updateVideoCount(int pid, int count) {
+        playListRepository.updateVideoCount(pid, count);
+    }
+
+    public void updateMarkCount(int pid, int count) {
+        playListRepository.updateMarkCount(pid, count);
+    }
 }

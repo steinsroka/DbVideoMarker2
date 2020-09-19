@@ -99,12 +99,14 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnIt
             @Override
             public void onClick(View view) {
                 for(int i=0; i<pidList.size(); i++) {
+                    playlistViewModel.updateVideoCount(pidList.get(i), idList.size());
                     for(int j=0; j<idList.size(); j++) {
                         PlRel plrel = new PlRel();
                         plrel.setPid((pidList.get(i)));
                         plrel.setVid(idList.get(j));
                         playListEditViewModel.insertPlRelation(plrel);
                     }
+
                 }
                 dismiss();
                 // TODO: 여기서 선택모드 종료

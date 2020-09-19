@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,29 +32,27 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
+import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.ui.home.HomeViewModel;
 
 import java.util.List;
 
 public class PlaylistFragment extends Fragment implements OnItemClickListener, OnItemSelectedListener {
 
     private PlaylistViewModel playlistViewModel;
+    private HomeViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rv = inflater.inflate(R.layout.fragment_playlist, container, false);
         Context context = rv.getContext();
 
         RecyclerView recyclerView = rv.findViewById(R.id.rv_Playlist);
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
         PlayListAdapter adapter = new PlayListAdapter(context, ViewCase.NORMAL, this, this);
-
-
         playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
         playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
             @Override
@@ -61,7 +60,6 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener, O
                 adapter.setPlayLists(playList);
             }
         });
-
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
@@ -73,12 +71,26 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener, O
                     String name = et.getText().toString().trim();
                     PlayList playList = new PlayList();
                     playList.setpName(name);
-
+                    playList.setVcount(0);
+                    playList.setMcount(0);
                     playlistViewModel.insertPlayList(playList);
                 }
 
             }
         });
+
+        RecyclerView recentView = rv.findViewById(R.id.rv_recentView);
+        VideoAdapter recentAdapter = new VideoAdapter(context, ViewCase.RECENT, this, this);
+        homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+        homeViewModel.findRecentViewVideo().observe(getViewLifecycleOwner(), new Observer<List<Video>>() {
+            @Override
+            public void onChanged(List<Video> videos) {
+                recentAdapter.setVideos(videos);
+            }
+        });
+        recentView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        recentView.setAdapter(recentAdapter);
+
         return rv;
     }
 
