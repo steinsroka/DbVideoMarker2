@@ -98,9 +98,9 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 markViewHolderSelect._mStart.setText(loader.getReadableDuration(current.getmStart()));
                 markViewHolderSelect._mThumb.setImageBitmap(loader.getThumbnail(current.getMpath(), current.getmStart()));
                 if (mSelectedItems.get(position, false)) {
-                    markViewHolderSelect._view.setBackgroundColor(Color.GRAY);
+                    markViewHolderSelect._view.setBackgroundColor(Color.parseColor("#A6A6A6"));
                 } else {
-                    markViewHolderSelect._view.setBackgroundColor(Color.WHITE);
+                    markViewHolderSelect._view.setBackgroundColor(Color.parseColor("#373737"));
                 }
                 markViewHolderSelect._view.setOnClickListener(new View.OnClickListener() {
                     @Override
