@@ -49,8 +49,11 @@ public interface VideoDao {
     @Query("SELECT * FROM Video ORDER BY contentId ASC")
     LiveData<List<Video>> findAllVideo ();
 
-//    @Query("SELECT * FROM Video WHERE vname LIKE + '%' + :vName + '%' ORDER BY vName")
-//    LiveData<List<Video>> searchVideo(String vName);
+    @Query("SELECT * FROM Video WHERE vname LIKE  '%' || :vName || '%' ORDER BY vName")
+    LiveData<List<Video>> searchVideo(String vName);
+
+    @Query("SELECT * FROM video ORDER BY vRecent DESC")
+    LiveData<List<Video>> findRecentViewVideo();
 
 //    @Query("SELECT Video.* " +
 //            "FROM VIDEO LEFT JOIN plrel on Video.contentId = plrel.plrel_vid " +
@@ -66,5 +69,8 @@ public interface VideoDao {
 
     @Query("DELETE FROM video WHERE contentID = :id")
     int deleteVideo(int id);
+
+    @Query("UPDATE video SET vrecent = :recent WHERE contentId = :id")
+    int updateRecentVideo(int id, long recent);
 
 }

@@ -82,4 +82,38 @@ public class PlayListRepository {
             }
         }.execute(playList);
     }
+
+    public void updateVideoCount(int pid, int count) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer...integers) {
+                if (playListDao == null)
+                    return -1;
+                return playListDao.updateVideoCount(integers[0], count);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "update : " + integer);
+            }
+        }.execute(pid);
+    }
+
+    public void updateMarkCount(int pid, int count) {
+        new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer...integers) {
+                if (playListDao == null)
+                    return -1;
+                return playListDao.updateMarkCount(integers[0], count);
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                Log.d(TAG, "update : " + integer);
+            }
+        }.execute(pid);
+    }
 }
