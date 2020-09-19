@@ -5,27 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorBG">
 
     <ImageView
         android:id="@+id/_mthumb"
         android:layout_width="match_parent"
+        android:background="#000000"
         android:layout_height="100dp"/>
 
     <TextView
         android:id="@+id/_mMemo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:layout_margin="5dp"/>
 
     <TextView
         android:id="@+id/_mid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:layout_margin="5dp" />
     <TextView
         android:id="@+id/_mstart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#ffffff"
         android:layout_margin="5dp" />
 </LinearLayout>

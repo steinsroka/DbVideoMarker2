@@ -23,7 +23,8 @@
                 <ImageView
                     android:id="@+id/plrel_thumb"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:background="#000000"/>
 
                 <TextView
                     android:id="@+id/plrel_dur"
