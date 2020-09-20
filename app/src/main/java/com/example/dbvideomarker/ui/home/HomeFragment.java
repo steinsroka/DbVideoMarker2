@@ -338,7 +338,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intentSearch);
                 break;
-            case R.id.menu_sort:
+            case R.id.menu_scan:
                 addMediaDataToRoom();
                 break;
         }
@@ -464,7 +464,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                    return false;
+            return false;
         }
 
         @Override

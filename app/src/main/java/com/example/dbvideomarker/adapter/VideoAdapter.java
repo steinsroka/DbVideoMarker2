@@ -106,9 +106,9 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderSelect.selectedThumb);
 
                 if (mSelectedItems.get(position, false)) {
-                    viewHolderSelect.view.setBackgroundColor(Color.GRAY);
+                    viewHolderSelect.view.setBackgroundColor(Color.parseColor("#A6A6A6"));
                 } else {
-                    viewHolderSelect.view.setBackgroundColor(Color.WHITE);
+                    viewHolderSelect.view.setBackgroundColor(Color.parseColor("#373737"));
                 }
                 viewHolderSelect.view.setOnClickListener(new View.OnClickListener() {
                     @Override

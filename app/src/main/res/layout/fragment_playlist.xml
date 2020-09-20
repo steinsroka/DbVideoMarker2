@@ -5,18 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.playlist.PlaylistFragment">
+    tools:context=".ui.playlist.PlaylistFragment"
+    android:background="@color/colorBG">
 
     <TextView
         android:id="@+id/recentView_Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="최근시청"/>
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textColor="#ffffff"
+        android:background="#7F7F7F"
+        android:gravity="center_vertical"
+        android:text="   최근시청"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_recentView"
         android:layout_width="match_parent"
-        android:layout_height="140dp"/>
+        android:layout_height="160dp"/>
+
+    <TextView
+        android:id="@+id/playListView_Header"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textColor="#ffffff"
+        android:background="#7F7F7F"
+        android:gravity="center_vertical"
+        android:text="   내 재생목록"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,12 +39,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="재생목록 이름: " />
+            android:text="재생목록 이름: "
+            android:textColor="#ffffff"/>
 
         <EditText
             android:id="@+id/et_PlayListName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:backgroundTint = "#Ffffff"/>
 
     </LinearLayout>
 

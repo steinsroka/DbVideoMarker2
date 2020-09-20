@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorBG">
 
 
     <LinearLayout
@@ -13,13 +14,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="재생목록 이름: " />
+            android:text="재생목록 이름: "
+            android:textColor="#ffffff"/>
 
         <TextView
             android:id="@+id/playListName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="#ffffff"/>
     </LinearLayout>
 
 
@@ -40,18 +43,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="북마크: " />
+                    android:text="북마크: "
+                    android:textColor="#ffffff"/>
 
                 <TextView
                     android:id="@+id/video_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="n"/>
+                    android:text="n"
+                    android:textColor="#ffffff"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" 개" />
+                    android:text=" 개"
+                    android:textColor="#ffffff"/>
 
             </LinearLayout>
 
@@ -69,18 +75,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="동영상: " />
+                    android:text="동영상: "
+                    android:textColor="#ffffff"/>
 
                 <TextView
                     android:id="@+id/mark_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="n"/>
+                    android:text="n"
+                    android:textColor="#ffffff"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" 개" />
+                    android:text=" 개"
+                    android:textColor="#ffffff"/>
 
             </LinearLayout>
 

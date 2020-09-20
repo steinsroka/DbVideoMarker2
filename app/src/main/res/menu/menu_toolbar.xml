@@ -5,17 +5,20 @@
     <item
         android:id="@+id/menu_search"
         android:title="Search"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_search_24"/>
 
     <item
-        android:id="@+id/menu_sort"
-        android:title="sort"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/menu_scan"
+        android:title="Scan"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_autorenew_24"/>
 
     <item
         android:id="@+id/menu_option"
         android:title="menu"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        android:icon="@drawable/ic_launcher_background">
 
         <menu>
 

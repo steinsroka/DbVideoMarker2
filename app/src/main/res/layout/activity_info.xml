@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorBGIF">
 
 
     <ImageView
@@ -31,7 +32,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="파일명" />
+                android:text="파일명"
+                android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/info_name"
@@ -39,7 +41,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff"/>
         </LinearLayout>
 
 
@@ -54,7 +57,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="재생 시간" />
+                android:text="재생 시간"
+                android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/info_dur"
@@ -62,7 +66,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff"/>
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +81,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="파일 크기" />
+                android:text="파일 크기"
+                android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/info_size"
@@ -84,7 +90,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff"/>
         </LinearLayout>
 
         <LinearLayout
@@ -98,7 +105,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="파일 형식" />
+                android:text="파일 형식"
+                android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/info_mime"
@@ -106,7 +114,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff"/>
         </LinearLayout>
 
         <LinearLayout
@@ -120,7 +129,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="해상도" />
+                android:text="해상도"
+                android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/info_resol"
@@ -128,7 +138,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff"/>
         </LinearLayout>
 
         <LinearLayout
@@ -142,7 +153,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="추가된 날짜" />
+                android:text="추가된 날짜"
+                android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/info_added"
@@ -150,7 +162,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff"/>
         </LinearLayout>
 
         <LinearLayout
@@ -164,7 +177,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_vertical"
-                android:text="파일 경로" />
+                android:text="파일 경로"
+                android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/info_path"
@@ -172,7 +186,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff"/>
         </LinearLayout>
     </LinearLayout>
 

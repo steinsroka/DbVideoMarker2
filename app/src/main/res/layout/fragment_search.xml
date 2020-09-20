@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="activity.SearchActivity">
+    tools:context="activity.SearchActivity"
+    android:background="@color/colorBG">
 
     <EditText
         android:id="@+id/editText"
@@ -19,7 +20,9 @@
     <TextView
         android:id="@+id/videoTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
+        android:textColor="#ffffff"
+        android:gravity="center_vertical"
         android:text="동영상" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -32,8 +35,10 @@
 
     <TextView
         android:id="@+id/markTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textColor="#ffffff"
+        android:gravity="center_vertical"
         android:text="북마크" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -341,7 +341,6 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
-            mActionMode.finish();
             setMarkNormalView();
         }
     };

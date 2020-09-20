@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#CCFFFFFF"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/colorBG">
 
         <FrameLayout
             android:layout_width="160dp"
@@ -19,15 +19,15 @@
             <ImageView
                 android:id="@+id/thumb"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="#000000"/>
 
             <TextView
                 android:id="@+id/vDur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
-                android:background="#BAFFFFFF"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:text="TextView" />
         </FrameLayout>
 
@@ -40,12 +40,16 @@
                 android:id="@+id/vName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/vId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp"
                 android:text="TextView" />
 
 
