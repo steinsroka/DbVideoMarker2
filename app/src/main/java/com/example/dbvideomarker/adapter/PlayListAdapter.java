@@ -95,9 +95,9 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
                 playlistViewHolderSelect._pmCount.setText(String.valueOf(current.getMcount()));
 
                 if(mSelectedItems.get(position, false)) {
-                    playlistViewHolderSelect._view.setBackgroundColor(Color.GRAY);
+                    playlistViewHolderSelect._view.setBackgroundColor(Color.parseColor("#A6A6A6"));
                 } else {
-                    playlistViewHolderSelect._view.setBackgroundColor(Color.WHITE);
+                    playlistViewHolderSelect._view.setBackgroundColor(Color.parseColor("#5C5C5C"));
                 }
 
                 playlistViewHolderSelect._view.setOnClickListener(new View.OnClickListener() {

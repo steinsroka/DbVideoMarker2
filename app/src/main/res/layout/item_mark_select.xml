@@ -18,19 +18,19 @@
         android:id="@+id/_mMemo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorBasicText"
         android:layout_margin="5dp"/>
 
     <TextView
         android:id="@+id/_mid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorBasicText"
         android:layout_margin="5dp" />
     <TextView
         android:id="@+id/_mstart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorBasicText"
         android:layout_margin="5dp" />
 </LinearLayout>

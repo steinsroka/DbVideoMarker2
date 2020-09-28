@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
-                android:textColor="#ffffff"
+                android:textColor="@color/colorBasicText"
                 android:text="TextView" />
         </FrameLayout>
 
@@ -39,7 +39,7 @@
                 android:id="@+id/selectedName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
+                android:textColor="@color/colorBasicText"
                 android:layout_marginLeft="5dp"
                 android:text="TextView" />
 
@@ -47,7 +47,7 @@
                 android:id="@+id/selectedId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
+                android:textColor="@color/colorBasicText"
                 android:layout_marginLeft="5dp"
                 android:text="TextView" />
 
