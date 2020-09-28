@@ -12,7 +12,7 @@
         android:id="@+id/recentView_Header"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorBasicText"
         android:background="#7F7F7F"
         android:gravity="center_vertical"
         android:text="   최근시청"/>
@@ -26,7 +26,7 @@
         android:id="@+id/playListView_Header"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorBasicText"
         android:background="#7F7F7F"
         android:gravity="center_vertical"
         android:text="   내 재생목록"/>
@@ -40,13 +40,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="재생목록 이름: "
-            android:textColor="#ffffff"/>
+            android:textColor="@color/colorBasicText"/>
 
         <EditText
             android:id="@+id/et_PlayListName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint = "#Ffffff"/>
+            android:backgroundTint="@color/colorBasicText"/>
 
     </LinearLayout>
 

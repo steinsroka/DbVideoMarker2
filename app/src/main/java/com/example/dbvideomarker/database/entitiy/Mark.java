@@ -27,7 +27,7 @@ public class Mark {
     public Long mAdded;
 
     @ColumnInfo(name = "mPath")
-    public String mpath;
+    public String mPath;
 
     public Long getmAdded() {
         return mAdded;
@@ -58,10 +58,10 @@ public class Mark {
     }
 
     public String getMpath() {
-        return mpath;
+        return mPath;
     }
 
-    public void setMpath(String mpath) {
-        this.mpath = mpath;
+    public void setMpath(String mPath) {
+        this.mPath = mPath;
     }
 }

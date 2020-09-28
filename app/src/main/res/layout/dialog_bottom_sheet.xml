@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="ㅋㅋ"
         android:id="@+id/textview"
-        android:textColor="#ffffff"/>
+        android:textColor="@color/colorBasicText"/>
 
     <Button
         android:id="@+id/parse_pid"
