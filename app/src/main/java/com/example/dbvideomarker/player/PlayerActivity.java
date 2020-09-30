@@ -103,6 +103,9 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
             @Override
             public void onClick(View view) {
                 BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
+                Bundle args = new Bundle();
+                args.putInt("vid", CONTENT_ID);
+                playerBottomSheetDialog.setArguments(args);
                 playerBottomSheetDialog.show(getSupportFragmentManager(), "bottomSheetDialog");
             }
         });

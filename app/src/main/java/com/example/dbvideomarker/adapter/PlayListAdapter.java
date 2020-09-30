@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.util.MyItemView;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.adapter.viewholder.PlaylistViewHolderBottom;
 import com.example.dbvideomarker.adapter.viewholder.PlaylistViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.PlaylistViewHolderSelect;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderNormal;
@@ -23,6 +24,7 @@ import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderSelect;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.listener.OnPlaylistClickListener;
 
 import java.util.List;
 
@@ -31,16 +33,16 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
     private OnItemSelectedListener onItemSelectedListener;
-    private OnItemClickListener onItemClickListener;
+    private OnPlaylistClickListener onPlaylistClickListener;
     private List<PlayList> playListList;
     private LayoutInflater mInflater;
     private ViewCase sel_type;
 
-    public PlayListAdapter(Context context, ViewCase sel_type, OnItemClickListener onItemClickListener, OnItemSelectedListener onItemSelectedListener) {
+    public PlayListAdapter(Context context, ViewCase sel_type, OnPlaylistClickListener onPlaylistClickListener, OnItemSelectedListener onItemSelectedListener) {
         mInflater = LayoutInflater.from(context);
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
-        this.onItemClickListener = onItemClickListener;
+        this.onPlaylistClickListener = onPlaylistClickListener;
     }
 
     @NonNull
@@ -52,6 +54,9 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
         } else if (sel_type == ViewCase.SELECT) {
             View view = mInflater.from(parent.getContext()).inflate(R.layout.item_playlist, parent, false);
             return new PlaylistViewHolderSelect(view);
+        } else if (sel_type == ViewCase.BOTTOM) {
+            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_playlist_bottomsheet, parent, false);
+            return new PlaylistViewHolderBottom(view);
         }
         return null;
     }
@@ -71,14 +76,14 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
                     @Override
                     public void onClick(View view) {
                         int pid = current.getPid();
-                        onItemClickListener.clickItem(pid, "");
+                        onPlaylistClickListener.clickPlaylist(pid);
                     }
                 });
                 playlistViewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
                         int pid = current.getPid();
-                        onItemClickListener.clickLongItem(view, pid, "");
+                        onPlaylistClickListener.clickLongPlaylist(view, pid);
                         return false;
                     }
                 });
@@ -121,6 +126,38 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
                 });
 
 
+            }
+        } else if(holder instanceof PlaylistViewHolderBottom) {
+            PlaylistViewHolderBottom playlistViewHolderBottom = (PlaylistViewHolderBottom) holder;
+            if (playListList != null) {
+                PlayList current = playListList.get(position);
+                playlistViewHolderBottom.pname.setText(current.getpName());
+
+                if(mSelectedItems.get(position, false)) {
+                    playlistViewHolderBottom.view.setBackgroundColor(Color.GRAY);
+                } else {
+                    playlistViewHolderBottom.view.setBackgroundColor(Color.WHITE);
+                }
+
+                playlistViewHolderBottom.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (mSelectedItems.get(position, false) == true) {
+                            //GRAY
+                            mSelectedItems.delete(position);
+                            mSelectedItemIds.delete(current.getPid());
+                            notifyItemChanged(position);
+                        } else {
+                            //WHITE
+                            mSelectedItems.put(position, true);
+                            mSelectedItemIds.put(current.getPid(), true);
+                            notifyItemChanged(position);
+                        }
+                        Log.d("test", "parsed"+ mSelectedItemIds.size());
+
+                        onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
+                    }
+                });
             }
         }
 

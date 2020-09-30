@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.InfoActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
@@ -38,11 +39,14 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.listener.OnPlaylistClickListener;
+import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.ui.home.HomeViewModel;
+import com.example.dbvideomarker.util.MediaStoreLoader;
 
 import java.util.List;
 
-public class PlaylistFragment extends Fragment implements OnItemClickListener, OnItemSelectedListener {
+public class PlaylistFragment extends Fragment implements OnPlaylistClickListener, OnItemSelectedListener, OnItemClickListener {
 
     private PlaylistViewModel playlistViewModel;
     private HomeViewModel homeViewModel;
@@ -120,15 +124,21 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener, O
         return true;
     }
 
+
     @Override
-    public void clickItem(int id, String path) {
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+
+    }
+
+    @Override
+    public void clickPlaylist(int id) {
         Intent intent = new Intent(getContext(), PlayListEditActivity.class);
         intent.putExtra("재생목록 번호", id);
         getContext().startActivity(intent);
     }
 
     @Override
-    public void clickLongItem(View v, int id, String path) {
+    public void clickLongPlaylist(View v, int id) {
         PopupMenu popupMenu = new PopupMenu(getContext(),v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
@@ -167,8 +177,22 @@ public class PlaylistFragment extends Fragment implements OnItemClickListener, O
         popupMenu.show();
     }
 
-    @Override
-    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
 
+    //비디오 터치 처리
+    @Override
+    public void clickItem(int id, String path) {
+        Intent playerIntent = new Intent(getContext(), PlayerActivity.class);
+        playerIntent.putExtra("ContentID", id);
+        playerIntent.putExtra("Path", path);
+        playerIntent.putExtra("Start", 0L);
+        //update
+        homeViewModel.updateRecentVideo(id, System.currentTimeMillis());
+
+        getContext().startActivity(playerIntent);
+    }
+
+    @Override
+    public void clickLongItem(View v, int id, String path) {
+        //Do Nothing
     }
 }

@@ -29,6 +29,7 @@ import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.listener.OnPlaylistClickListener;
 import com.example.dbvideomarker.ui.home.HomeFragment;
 import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -40,11 +41,11 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BottomSheetDialog extends BottomSheetDialogFragment implements OnItemClickListener, OnItemSelectedListener {
+public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPlaylistClickListener, OnItemSelectedListener {
 
     private PlaylistViewModel playlistViewModel;
     private PlayListEditViewModel playListEditViewModel;
-    private int pid;
+    private int vid;
     private TextView tv1;
     private ArrayList<Integer> idList;
     private ArrayList<Integer> pidList;
@@ -55,6 +56,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnIt
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
             idList = getArguments().getIntegerArrayList("idList");
+            vid = getArguments().getInt("vid");
+
         }
     }
 
@@ -75,7 +78,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnIt
                 new DividerItemDecoration(recyclerView.getContext(),new LinearLayoutManager(getContext()).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        PlayListAdapter adapter = new PlayListAdapter(context, ViewCase.SELECT, this, this);
+        PlayListAdapter adapter = new PlayListAdapter(context, ViewCase.BOTTOM, this, this);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
@@ -98,15 +101,24 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnIt
         btnSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for(int i=0; i<pidList.size(); i++) {
-                    playlistViewModel.updateVideoCount(pidList.get(i), idList.size());
-                    for(int j=0; j<idList.size(); j++) {
+                if(idList != null) {
+                    for (int i = 0; i < pidList.size(); i++) {
+                        playlistViewModel.updateVideoCount(pidList.get(i), idList.size());
+                        for (int j = 0; j < idList.size(); j++) {
+                            PlRel plrel = new PlRel();
+                            plrel.setPid((pidList.get(i)));
+                            plrel.setVid(idList.get(j));
+                            playListEditViewModel.insertPlRelation(plrel);
+                        }
+                    }
+                } else if(idList == null) {
+                    for (int i = 0; i < pidList.size(); i++) {
+                        playlistViewModel.updateVideoCount(pidList.get(i), 1);
                         PlRel plrel = new PlRel();
                         plrel.setPid((pidList.get(i)));
-                        plrel.setVid(idList.get(j));
+                        plrel.setVid(vid);
                         playListEditViewModel.insertPlRelation(plrel);
                     }
-
                 }
                 dismiss();
                 // TODO: 여기서 선택모드 종료
@@ -116,11 +128,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnIt
         return v;
     }
 
-    @Override
-    public void clickItem(int id, String path) {}
-
-    @Override
-    public void clickLongItem(View v, int id, String path) {}
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
@@ -135,4 +142,10 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnIt
         super.onDismiss(dialog);
         Log.d("BottomSheetDialog", "bottom sheet dialog dismissed");
     }
+
+    @Override
+    public void clickPlaylist(int id) {}
+
+    @Override
+    public void clickLongPlaylist(View view, int id) {}
 }

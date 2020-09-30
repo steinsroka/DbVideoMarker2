@@ -74,12 +74,15 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
             markSelectView.setVisibility(View.VISIBLE);
             videoSelectView.setVisibility(View.GONE);
             playlistSelectView.setVisibility(View.GONE);
-        } else if(VIEW_TYPE == 2003) {
+        }
+        /*
+        else if(VIEW_TYPE == 2003) {
             setPlaylistSelectView();
             markSelectView.setVisibility(View.GONE);
             videoSelectView.setVisibility(View.GONE);
             playlistSelectView.setVisibility(View.VISIBLE);
         }
+         */
     }
 
     public void setVideoSelectView() {
@@ -111,7 +114,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
             }
         });
     }
-
+/*
     public void setPlaylistSelectView() {
         RecyclerView recyclerView = findViewById(R.id.rv_select_playlist);
         PlayListAdapter adapter = new PlayListAdapter(this, ViewCase.SELECT, this, this);
@@ -127,7 +130,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         });
 
     }
-
+*/
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
         if (VIEW_TYPE == 2001) {
