@@ -27,7 +27,7 @@
             android:gravity="center"
             android:text="문의 하기"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/colorBasicText"
             android:textSize="40dp" />
 
     </LinearLayout>
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="버튼을 클릭해서 이메일로 문의가 가능합니다."
-            android:textColor="#FFFFFF"
+            android:textColor="@color/colorBasicText"
             android:textSize="18dp"/>
     </LinearLayout>
 

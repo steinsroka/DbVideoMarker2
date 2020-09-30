@@ -18,18 +18,18 @@
         android:id="@+id/plrel_mid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorBasicText"
         android:layout_margin="5dp" />
     <TextView
         android:id="@+id/plrel_mmemo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorBasicText"
         android:layout_margin="5dp" />
     <TextView
         android:id="@+id/plrel_mstart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorBasicText"
         android:layout_margin="5dp" />
 </LinearLayout>
