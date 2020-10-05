@@ -1,11 +1,21 @@
 package com.example.dbvideomarker.player;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,18 +23,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.provider.MediaStore;
-import android.util.Log;
-import android.util.SparseBooleanArray;
-import android.view.GestureDetector;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
@@ -40,7 +38,6 @@ import com.example.dbvideomarker.player.ui.ExoVideoPlaybackControlView;
 import com.example.dbvideomarker.player.ui.ExoVideoView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
 import java.util.List;
 
 import static com.example.dbvideomarker.player.orientation.OnOrientationChangedListener.SENSOR_LANDSCAPE;
@@ -51,10 +48,10 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     private ExoVideoView videoView;
     private View wrapper;
-
+    private Context context;
     private PlayerViewModel playerViewModel;
     private RequestManager mGlideRequestManager;
-
+    private Mark mark;
     public static int CONTENT_ID;
     private long CONTENT_START;
     private String CONTENT_PATH;
@@ -64,12 +61,13 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_video_view);
         wrapper = findViewById(R.id.wrapper);
-
+        context = this;
+        mark = new Mark();
         FloatingActionButton fab = findViewById(R.id.fab_add_mark);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addMark(videoView.getCurrentPosition());
+                addMark(videoView.getCurrentPosition(), context);
             }
         });
 
@@ -111,16 +109,17 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         });
     }
 
-    public void addMark(long position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        EditText mMemo = new EditText(this);
+
+    public void addMark(long position, Context context) {
+        Log.d("DOUBLETAP", "DOUBLETAPTIME : " + position);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        EditText mMemo = new EditText(context);
         builder.setView(mMemo);
         builder.setTitle("북마크 추가");
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (mMemo.getText().toString().trim().length() != 0) {
-                    Mark mark = new Mark();
                     mark.setvid(CONTENT_ID);
                     mark.setmMemo(mMemo.getText().toString());
                     mark.setmStart(position);
@@ -132,24 +131,9 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                 }
             }
         });
+
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    public void seekToOnDoubleTap() {
-        //getWidthOfScreen();
-        final GestureDetector gestureDetector = new GestureDetector(this,
-                new GestureDetector.SimpleOnGestureListener() {
-                    @Override
-                    public boolean onDoubleTap(MotionEvent e) {
-                        Long cur_pos = videoView.getCurrentPosition();
-                        Log.d("TAG", "onDoubleTap():  " + videoView.getCurrentPosition());
-                        addMark(cur_pos);
-                        videoView.resume();
-                        return true;
-                    }
-                });
-        videoView.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
     }
 
     private void initVideoView(String id) {
@@ -169,7 +153,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                 changeToLandscape();
             }
         });
-        videoView.addMarkToDoubleTap();
 
         //SimpleMediaSource mediaSource = new SimpleMediaSource("http://vfx.mtime.cn/Video/2019/03/12/mp4/190312083533415853.mp4"); //동영상 URI
         Uri uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
@@ -178,7 +161,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
         videoView.setControllerDisplayMode(ExoVideoPlaybackControlView.CONTROLLER_MODE_ALL);
         videoView.play(mediaSource, false, CONTENT_START);
-        seekToOnDoubleTap();
     }
 
 

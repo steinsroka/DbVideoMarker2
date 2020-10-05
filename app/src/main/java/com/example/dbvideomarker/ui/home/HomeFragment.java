@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -148,7 +149,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
             }
         });
-
         return v;
     }
 
@@ -473,6 +473,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             setVideoNormalView();
         }
     };
+
+
 
 
 

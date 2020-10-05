@@ -31,5 +31,4 @@ public interface OnVideoGestureChangeListener {
     void onNoGesture();
 
     void onShowSeekSize(long seekSize, boolean fastForward);
-
 }

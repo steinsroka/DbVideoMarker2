@@ -3,9 +3,12 @@ package com.example.dbvideomarker.player.gesture;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.gesture.Gesture;
 import android.media.AudioManager;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -71,18 +74,17 @@ public class VideoGesture implements View.OnTouchListener {
 
 
     private void initVol() {
-
-            /* Services and miscellaneous */
+        /* Services and miscellaneous */
         mAudioManager = (AudioManager) context.getApplicationContext().getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(!enabled){
-            return  false;
+        if (!enabled) {
+            return false;
         }
         return dispatchCenterWrapperTouchEvent(event);
 

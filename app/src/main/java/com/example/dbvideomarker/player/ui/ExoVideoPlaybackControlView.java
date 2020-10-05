@@ -15,9 +15,12 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -29,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -36,6 +40,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
+import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.player.gesture.OnVideoGestureChangeListener;
 import com.example.dbvideomarker.player.gesture.VideoGesture;
@@ -142,6 +147,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
     private ExoVideoView videoView;
     private com.google.android.exoplayer2.ControlDispatcher controlDispatcher;
     private VisibilityListener visibilityListener;
+    private PlayerActivity pa;
 
     private boolean isAttachedToWindow;
     private boolean showMultiWindowTimeBar;
@@ -162,7 +168,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
     private final Runnable updateProgressAction = this::updateProgress;
 
     private final Runnable hideAction = this::hide;
-
 
     private final TimeBar timeBarLandscape;
     private final View playButtonLandScape;
@@ -383,7 +388,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
         }
 
         exoPlayerMarkLandscape = findViewById(R.id.exo_player_controller_mark_landscape);
-        if(exoPlayerMarkLandscape != null) {
+        if (exoPlayerMarkLandscape != null) {
             exoPlayerMarkLandscape.setOnClickListener(componentListener);
         }
 
@@ -417,13 +422,24 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
             @Override
             public void onVolumeChanged(int range, int type) {
                 show();
-                setVolumeOrBrightnessInfo(getContext().getString(R.string.volume_changing, range));
+                int drawableId;
+                if (type == VOLUME_CHANGED_MUTE) {
+                    drawableId = R.drawable.ic_volume_mute_white_36dp;
+                } else if (type == VOLUME_CHANGED_INCREMENT) {
+                    drawableId = R.drawable.ic_volume_up_white_36dp;
+                } else {
+                    drawableId = R.drawable.ic_volume_down_white_36dp;
+                }
+
+                setVolumeOrBrightnessInfo(getContext().getString(R.string.volume_changing, range), drawableId);
             }
 
             @Override
             public void onBrightnessChanged(int brightnessPercent) {
                 show();
-                setVolumeOrBrightnessInfo(getContext().getString(R.string.brightness_changing, brightnessPercent));
+                String info = getContext().getString(R.string.brightness_changing, brightnessPercent);
+                int drawable = whichBrightnessImageToUse(brightnessPercent);
+                setVolumeOrBrightnessInfo(info, drawable);
             }
 
             @Override
@@ -491,17 +507,39 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
         return spannableString;
     }
 
+    @DrawableRes
+    private int whichBrightnessImageToUse(int brightnessInt) {
+        if (brightnessInt <= 15) {
+            return R.drawable.ic_brightness_1_white_36dp;
+        } else if (brightnessInt <= 30) {
+            return R.drawable.ic_brightness_2_white_36dp;
+        } else if (brightnessInt <= 45) {
+            return R.drawable.ic_brightness_3_white_36dp;
+        } else if (brightnessInt <= 60) {
+            return R.drawable.ic_brightness_4_white_36dp;
+        } else if (brightnessInt <= 75) {
+            return R.drawable.ic_brightness_5_white_36dp;
+        } else if (brightnessInt <= 90) {
+            return R.drawable.ic_brightness_6_white_36dp;
+        } else {
+            return R.drawable.ic_brightness_7_white_36dp;
+        }
 
-    private void setVolumeOrBrightnessInfo(String txt) {
+    }
+
+    private void setVolumeOrBrightnessInfo(String txt, @DrawableRes int drawableId) {
         if (centerInfo == null) {
             return;
         }
+
         if (centerError != null && centerError.getVisibility() == VISIBLE) {
             centerError.setVisibility(GONE);
         }
+
         centerInfo.setVisibility(VISIBLE);
         centerInfo.setText(txt);
         centerInfo.setTextColor(ContextCompat.getColor(getContext(), android.R.color.white));
+        centerInfo.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(getContext(), drawableId), null, null);
     }
 
 
@@ -1086,7 +1124,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
     }
 
 
-
     public void setVideoViewAccessor(VideoViewAccessor videoViewAccessor) {
         this.videoViewAccessor = videoViewAccessor;
     }
@@ -1269,6 +1306,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
                     }
                 } else if (centerInfoWrapper == view) {
                     playOrPause();
+
                 }
             }
             hideAfterTimeout();
@@ -1283,6 +1321,10 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
 
             if (500 > (SystemClock.uptimeMillis() - mHits[0])) {
                 controlDispatcher.dispatchSetPlayWhenReady(player, !player.getPlayWhenReady());
+                Log.d("TESTESTESTES", "TESTESTESTES");
+                pa = new PlayerActivity();
+                pa.addMark(player.getCurrentPosition(), getContext());
+
             }
         }
     }

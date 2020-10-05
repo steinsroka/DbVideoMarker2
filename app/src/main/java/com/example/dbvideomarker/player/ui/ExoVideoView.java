@@ -470,19 +470,6 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
         player.setPlayWhenReady(requestAudioFocus() && playWhenReady);
     }
 
-    public void addMarkToDoubleTap() {
-        final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                playerActivity = new PlayerActivity();
-                playerActivity.addMark(player.getCurrentPosition());
-                return true;
-            }
-        });
-        overlayFrameLayout.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
-    }
-
-
     private void createExoPlayer(MediaSourceCreator creator) {
         if (player != null) {
             releasePlayer();
