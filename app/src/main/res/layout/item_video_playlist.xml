@@ -13,8 +13,8 @@
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        app:srcCompat="@drawable/ic_baseline_menu_24"
-        android:contentDescription="@string/StringValue"/>
+        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
 
             <FrameLayout
                 android:layout_width="160dp"
@@ -24,8 +24,7 @@
                     android:id="@+id/plrel_thumb"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#000000"
-                    android:contentDescription="@string/StringValue"/>
+                    android:background="#000000"/>
 
                 <TextView
                     android:id="@+id/plrel_dur"

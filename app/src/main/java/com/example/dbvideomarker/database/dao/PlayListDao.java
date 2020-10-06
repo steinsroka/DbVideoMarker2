@@ -28,9 +28,9 @@ public interface PlayListDao {
     @Update
     int update(PlayList playList);
 
-    @Query("UPDATE playlist SET vcount = vcount+ :count WHERE pid = :pid")
+    @Query("UPDATE playlist SET vcount = :count WHERE pid = :pid")
     int updateVideoCount(int pid, int count);
 
-    @Query("UPDATE playlist SET mcount = mcount+ :count WHERE pid = :pid")
+    @Query("UPDATE playlist SET mcount = :count WHERE pid = :pid")
     int updateMarkCount(int pid, int count);
 }

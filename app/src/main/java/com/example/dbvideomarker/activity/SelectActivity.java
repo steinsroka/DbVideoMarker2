@@ -138,7 +138,9 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 setResult(RESULT_OK, resultIntent);
                 finish();
             });
-        } else if(VIEW_TYPE == 2003) {
+        }
+        /*
+        else if(VIEW_TYPE == 2003) {
             ArrayList<Integer> idList = new ArrayList<>();
             for(int i=0; i<sparseBooleanArray.size(); i++) {
                 idList.add(sparseBooleanArray.keyAt(i));
@@ -152,6 +154,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 finish();
             });
         }
+        */
     }
 
     @Override
