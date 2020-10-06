@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.adapter.util.MyItemView;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.PlaylistViewHolderBottom;
@@ -25,6 +27,8 @@ import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnPlaylistClickListener;
+import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
+import com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistTracker;
 
 import java.util.List;
 
@@ -37,6 +41,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
     private List<PlayList> playListList;
     private LayoutInflater mInflater;
     private ViewCase sel_type;
+    private PlayListEditViewModel playListEditViewModel;
 
     public PlayListAdapter(Context context, ViewCase sel_type, OnPlaylistClickListener onPlaylistClickListener, OnItemSelectedListener onItemSelectedListener) {
         mInflater = LayoutInflater.from(context);
@@ -173,5 +178,8 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
         if (playListList != null)
             return playListList.size();
         else return 0;
+    }
+
+    public void getPlaylistCount() {
     }
 }

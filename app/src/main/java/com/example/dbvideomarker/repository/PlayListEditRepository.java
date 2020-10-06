@@ -38,13 +38,13 @@ public class PlayListEditRepository {
         return plRelDao.findMarkInPlayList(pid);
     }
 
-//    public LiveData<Integer> getMarkRowCount(int pid) {
-//        return plRelDao.getMarkRowCount(pid);
-//    }
+    public LiveData<Integer> getMarkRowCount(int pid) {
+        return plRelDao.getMarkRowCount(pid);
+    }
 
-//    public LiveData<Integer> getVideoCount(int pid) {
-//        return plRelDao.getVideoRowCount(pid);
-//    }
+    public LiveData<Integer> getVideoCount(int pid) {
+        return plRelDao.getVideoRowCount(pid);
+    }
 
 //    public LiveData<List<PlRel>> videoOverlapCheck(int pid) {
 //        return plRelDao.videoOverlapCheck(pid);

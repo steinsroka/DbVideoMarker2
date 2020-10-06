@@ -61,7 +61,8 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     private PlayList_VideoAdapter adapter_video;
     private PlayList_MarkAdapter adapter_mark;
 
-
+    private int VIDEO_COUNT;
+    private int MARK_COUNT;
 
     Boolean IS_OPEN = false;
 
@@ -91,6 +92,22 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
             }
         });
 
+        vCount = findViewById(R.id.video_count);
+        mCount = findViewById(R.id.mark_count);
+/*
+        playListEditViewModel.getVideoRowCount(pid).observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                vCount.setText(String.valueOf(integer));
+            }
+        });
+        playListEditViewModel.getMarkRowCount(pid).observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                mCount.setText(String.valueOf(integer));
+            }
+        });
+*/
         setVideoInPlaylist();
         setMarkInPlaylist();
         setFab();
@@ -145,13 +162,13 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView_video);
 
-        vCount = findViewById(R.id.video_count);
+        //vCount = findViewById(R.id.video_count);
 
         playListEditViewModel.findVideoInPlayList(pid).observe(this, new Observer<List<PlRelVideo>>() {
             @Override
             public void onChanged(List<PlRelVideo> plRels) {
                 adapter_video.setPlRelv(plRels);
-                vCount.setText(""+plRels.size());
+                //vCount.setText(""+plRels.size());
 /*
                 resultList = getStringArrayList(""+pid);
 
@@ -193,13 +210,13 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         RecyclerView recyclerView_mark = findViewById(R.id.rv_PlaylistEdit_mark);
         adapter_mark = new PlayList_MarkAdapter(this, this, _mGlideRequestManager);
 
-        mCount = findViewById(R.id.mark_count);
+        //mCount = findViewById(R.id.mark_count);
 
         playListEditViewModel.findMarkInPlayList(pid).observe(this, new Observer<List<PlRelMark>>() {
             @Override
             public void onChanged(List<PlRelMark> plRelMarks) {
                 adapter_mark.setPlRelm(plRelMarks);
-                mCount.setText(""+plRelMarks.size());
+                //mCount.setText(""+plRelMarks.size());
             }
         });
         recyclerView_mark.setLayoutManager(new GridLayoutManager(this, 2));

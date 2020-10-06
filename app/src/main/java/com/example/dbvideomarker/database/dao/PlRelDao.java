@@ -40,11 +40,11 @@ public interface PlRelDao {
             "WHERE plrel_pid = :pid")
     LiveData<List<PlRelMark>> findMarkInPlayList(int pid);
 
-//    @Query("SELECT COUNT(plrel_mid) FROM plrel WHERE plrel_pid =:pid ")
-//    LiveData<Integer> getMarkRowCount(int pid);
+    @Query("SELECT COUNT(plrel_mid) FROM plrel WHERE plrel_pid =:pid ")
+    LiveData<Integer> getMarkRowCount(int pid);
 
-//    @Query("SELECT COUNT(plrel_vid) FROM plrel WHERE plrel_pid =:pid ")
-//    LiveData<Integer> getVideoRowCount(int pid);
+    @Query("SELECT COUNT(plrel_vid) FROM plrel WHERE plrel_pid =:pid ")
+    LiveData<Integer> getVideoRowCount(int pid);
 
 
     @Insert(onConflict = IGNORE)
