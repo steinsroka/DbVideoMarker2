@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -48,6 +50,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     private ExoVideoView videoView;
     private View wrapper;
+    private View centerInfoWrapper;
     private Context context;
     private PlayerViewModel playerViewModel;
     private RequestManager mGlideRequestManager;
@@ -61,16 +64,16 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_video_view);
         wrapper = findViewById(R.id.wrapper);
+        centerInfoWrapper = findViewById(R.id.exo_player_center_info_wrapper);
         context = this;
         mark = new Mark();
         FloatingActionButton fab = findViewById(R.id.fab_add_mark);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addMark(videoView.getCurrentPosition(), context);
+                addMark(videoView.getCurrentPosition());
             }
         });
-
         Intent intent = getIntent();
         CONTENT_ID = intent.getExtras().getInt("ContentID");
         CONTENT_PATH = intent.getExtras().getString("Path");
@@ -109,9 +112,21 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         });
     }
 
+    public void mDoubleTap() {
+        final GestureDetector gestureDetector = new GestureDetector(context,
+                new GestureDetector.SimpleOnGestureListener(){
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        addMark(videoView.getCurrentPosition());
+                        return true;
+                    }
+                });
+        centerInfoWrapper.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
+    }
 
-    public void addMark(long position, Context context) {
-        Log.d("DOUBLETAP", "DOUBLETAPTIME : " + position);
+
+    public void addMark(long position) {
+        Log.d("DOUBLETAP", "DOUBLETAPTIME : " + videoView.getCurrentPosition());
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         EditText mMemo = new EditText(context);
         builder.setView(mMemo);
@@ -161,6 +176,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
         videoView.setControllerDisplayMode(ExoVideoPlaybackControlView.CONTROLLER_MODE_ALL);
         videoView.play(mediaSource, false, CONTENT_START);
+        mDoubleTap();
     }
 
 

@@ -1305,7 +1305,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
                         }
                     }
                 } else if (centerInfoWrapper == view) {
-                    playOrPause();
+                    //playOrPause();
 
                 }
             }
@@ -1323,7 +1323,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
                 controlDispatcher.dispatchSetPlayWhenReady(player, !player.getPlayWhenReady());
                 Log.d("TESTESTESTES", "TESTESTESTES");
                 pa = new PlayerActivity();
-                pa.addMark(player.getCurrentPosition(), getContext());
+                //pa.addMark(getContext());
 
             }
         }
