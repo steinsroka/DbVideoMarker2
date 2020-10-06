@@ -94,20 +94,21 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         vCount = findViewById(R.id.video_count);
         mCount = findViewById(R.id.mark_count);
-/*
+
         playListEditViewModel.getVideoRowCount(pid).observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
+                VIDEO_COUNT = integer;
                 vCount.setText(String.valueOf(integer));
             }
         });
         playListEditViewModel.getMarkRowCount(pid).observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(Integer integer) {
-                mCount.setText(String.valueOf(integer));
+            public void onChanged(Integer integers) {
+                MARK_COUNT = integers;
+                mCount.setText(String.valueOf(integers));
             }
         });
-*/
         setVideoInPlaylist();
         setMarkInPlaylist();
         setFab();
@@ -230,16 +231,17 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         if(resultCode == RESULT_OK) {
             if(requestCode == SELECT_VIDEO_REQUEST_CODE) {
                 ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
-                playlistViewModel.updateVideoCount(pid, selectedVidList.size());
+                playlistViewModel.updateVideoCount(pid, VIDEO_COUNT);
                 for(int i=0; i<selectedVidList.size(); i++) {
                     PlRel plRel = new PlRel();
                     plRel.setPid(pid);
+                    plRel.setMid(-1);
                     plRel.setVid(selectedVidList.get(i));
                     playListEditViewModel.insertPlRelation(plRel);
                 }
             } else if(requestCode == SELECT_MARK_REQUEST_CODE) {
                 ArrayList<Integer> selectedMidList = data.getIntegerArrayListExtra("midlist");
-                playlistViewModel.updateMarkCount(pid, selectedMidList.size());
+                playlistViewModel.updateMarkCount(pid, MARK_COUNT);
                 for(int i=0; i<selectedMidList.size(); i++) {
                     PlRel plRel = new PlRel();
                     plRel.setPid(pid);

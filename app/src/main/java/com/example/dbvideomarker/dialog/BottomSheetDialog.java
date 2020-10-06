@@ -46,10 +46,14 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
     private PlaylistViewModel playlistViewModel;
     private PlayListEditViewModel playListEditViewModel;
     private int vid;
+    private int VIDEO_COUNT;
+    private int MARK_COUNT;
+
     private TextView tv1;
     private ArrayList<Integer> idList;
     private ArrayList<Integer> pidList;
     private Button btnSelection;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,12 +84,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
 
         PlayListAdapter adapter = new PlayListAdapter(context, ViewCase.BOTTOM, this, this);
 
-        // Get a new or existing ViewModel from the ViewModelProvider.
         playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
         playListEditViewModel = new ViewModelProvider(getActivity()).get(PlayListEditViewModel.class);
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
-        // The onChanged() method fires when the observed data changes and the activity is
-        // in the foreground.
+
         playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
             @Override
             public void onChanged(List<PlayList> playList) {
@@ -94,29 +95,39 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
             }
         });
 
+
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
         btnSelection = (Button) v.findViewById(R.id.parse_pid);
         btnSelection.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) { //선택모드에서 재생목록에 추가
                 if(idList != null) {
                     for (int i = 0; i < pidList.size(); i++) {
-                        playlistViewModel.updateVideoCount(pidList.get(i), idList.size());
+                        getPlaylistVideoCount(pidList.get(i));
+                        playlistViewModel.updateVideoCount(pidList.get(i), getPlaylistVideoCount(pidList.get(i)));
+                        Log.d("TESTESTESTES", "videoCount 값은 : " + getPlaylistVideoCount(pidList.get(i)));
+                        //playlistViewModel.updateVideoCount(pidList.get(i), idList.size());
                         for (int j = 0; j < idList.size(); j++) {
                             PlRel plrel = new PlRel();
                             plrel.setPid((pidList.get(i)));
                             plrel.setVid(idList.get(j));
+                            plrel.setMid(-1);
                             playListEditViewModel.insertPlRelation(plrel);
                         }
                     }
-                } else if(idList == null) {
+                } else if(idList == null) { //플레이어에서 재생목록에 추가
+
+
                     for (int i = 0; i < pidList.size(); i++) {
-                        playlistViewModel.updateVideoCount(pidList.get(i), 1);
+                        getPlaylistVideoCount(pidList.get(i));
+                        playlistViewModel.updateVideoCount(pidList.get(i), VIDEO_COUNT);
+
                         PlRel plrel = new PlRel();
                         plrel.setPid((pidList.get(i)));
                         plrel.setVid(vid);
+                        plrel.setMid(-1);
                         playListEditViewModel.insertPlRelation(plrel);
                     }
                 }
@@ -126,6 +137,25 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
         });
 
         return v;
+    }
+
+    public int getPlaylistVideoCount(int pid) {
+        playListEditViewModel.getVideoRowCount(pid).observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                VIDEO_COUNT = integer;
+            }
+        });
+        return VIDEO_COUNT;
+    }
+
+    public void getPlaylistMarkCount(int pid) {
+        playListEditViewModel.getMarkRowCount(pid).observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integers) {
+                MARK_COUNT = integers;
+            }
+        });
     }
 
 
