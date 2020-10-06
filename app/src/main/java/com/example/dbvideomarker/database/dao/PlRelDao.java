@@ -1,13 +1,8 @@
 package com.example.dbvideomarker.database.dao;
 
-import android.database.sqlite.SQLiteConstraintException;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Entity;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -57,7 +52,7 @@ public interface PlRelDao {
     @Query("DELETE FROM plrel WHERE plrel_vid = :vid")
     int deleteVideoInPlaylist(int vid);
 
-    @Query("DELETE FROM plrel WHERE plrel_mid = :mid" )
+    @Query("DELETE FROM plrel WHERE plrel_mid = :mid")
     int deleteMarkInPlaylist(int mid);
 
     @Query("DELETE FROM plrel WHERE plrel_pid = :pid")

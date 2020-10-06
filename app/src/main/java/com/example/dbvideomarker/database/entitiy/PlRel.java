@@ -1,15 +1,8 @@
 package com.example.dbvideomarker.database.entitiy;
 
-import android.view.ViewDebug;
-
-import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import com.google.android.material.circularreveal.CircularRevealHelper;
 
 @Entity(tableName = "plrel")
 //, foreignKeys = {
@@ -26,11 +19,9 @@ public class PlRel {
     @ColumnInfo(name = "plrel_pid")
     public int pid;
 
-    @Nullable
     @ColumnInfo(name = "plrel_vid")
     public int vid;
 
-    @Nullable
     @ColumnInfo(name = "plrel_mid")
     public int mid;
 

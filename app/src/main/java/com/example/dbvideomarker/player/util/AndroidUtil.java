@@ -4,20 +4,21 @@ import android.net.Uri;
 import android.os.Build;
 
 import java.io.File;
+import java.util.Objects;
 
 public class AndroidUtil {
 
 
     public static boolean isJellyBeanMR1OrLater() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
+        return true;
     }
 
     public static boolean isJellyBeanMR2OrLater() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
+        return true;
     }
 
     public static boolean isKitKatOrLater() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        return true;
     }
 
     public static boolean isLolliPopOrLater() {
@@ -25,11 +26,11 @@ public class AndroidUtil {
     }
 
     public static boolean isMarshMallowOrLater() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M;
     }
 
     public static File UriToFile(Uri uri) {
-        return new File(uri.getPath().replaceFirst("file://", ""));
+        return new File(Objects.requireNonNull(uri.getPath()).replaceFirst("file://", ""));
     }
 
     /**

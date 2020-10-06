@@ -5,19 +5,19 @@ import androidx.room.ColumnInfo;
 
 public class PlRelVideo {
 
-    @ColumnInfo(name="playlist_id")
+    @ColumnInfo(name = "playlist_id")
     private int pv_pid;
 
-    @ColumnInfo(name="video_id")
+    @ColumnInfo(name = "video_id")
     private int pv_vid;
 
-    @ColumnInfo(name="video_name")
+    @ColumnInfo(name = "video_name")
     private String pv_vname;
 
-    @ColumnInfo(name="video_dur")
+    @ColumnInfo(name = "video_dur")
     private long pv_vdur;
 
-    @ColumnInfo(name="video_path")
+    @ColumnInfo(name = "video_path")
     private String pv_vpath;
 
 
@@ -63,7 +63,7 @@ public class PlRelVideo {
 
     @Override
     public boolean equals(@Nullable Object obj) {
-        if(obj instanceof PlRelVideo) {
+        if (obj instanceof PlRelVideo) {
             PlRelVideo plRelVideo = (PlRelVideo) obj;
             return (pv_vid == plRelVideo.pv_vid);
         }

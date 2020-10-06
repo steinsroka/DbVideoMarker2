@@ -1,7 +1,7 @@
 package com.example.dbvideomarker.player;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -21,7 +21,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,13 +39,12 @@ import com.example.dbvideomarker.player.ui.ExoVideoPlaybackControlView;
 import com.example.dbvideomarker.player.ui.ExoVideoView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.List;
+import java.util.Objects;
 
 import static com.example.dbvideomarker.player.orientation.OnOrientationChangedListener.SENSOR_LANDSCAPE;
 import static com.example.dbvideomarker.player.orientation.OnOrientationChangedListener.SENSOR_PORTRAIT;
 
 public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, OnItemSelectedListener {
-
 
     private ExoVideoView videoView;
     private View wrapper;
@@ -68,14 +66,9 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         context = this;
         mark = new Mark();
         FloatingActionButton fab = findViewById(R.id.fab_add_mark);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addMark(videoView.getCurrentPosition());
-            }
-        });
+        fab.setOnClickListener(view -> addMark(videoView.getCurrentPosition()));
         Intent intent = getIntent();
-        CONTENT_ID = intent.getExtras().getInt("ContentID");
+        CONTENT_ID = Objects.requireNonNull(intent.getExtras()).getInt("ContentID");
         CONTENT_PATH = intent.getExtras().getString("Path");
         CONTENT_START = intent.getExtras().getLong("Start");
 
@@ -92,29 +85,22 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         recyclerView.setAdapter(markAdapter);
 
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
-        playerViewModel.getMarkByVideoId(CONTENT_ID).observe(this, new Observer<List<Mark>>() {
-            @Override
-            public void onChanged(List<Mark> marks) {
-                markAdapter.setMarks(marks);
-            }
-        });
+        playerViewModel.getMarkByVideoId(CONTENT_ID).observe(this, markAdapter::setMarks);
 
         Button button = findViewById(R.id.bottom_sheet);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
-                Bundle args = new Bundle();
-                args.putInt("vid", CONTENT_ID);
-                playerBottomSheetDialog.setArguments(args);
-                playerBottomSheetDialog.show(getSupportFragmentManager(), "bottomSheetDialog");
-            }
+        button.setOnClickListener(view -> {
+            BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
+            Bundle args = new Bundle();
+            args.putInt("vid", CONTENT_ID);
+            playerBottomSheetDialog.setArguments(args);
+            playerBottomSheetDialog.show(getSupportFragmentManager(), "bottomSheetDialog");
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void mDoubleTap() {
         final GestureDetector gestureDetector = new GestureDetector(context,
-                new GestureDetector.SimpleOnGestureListener(){
+                new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
                         addMark(videoView.getCurrentPosition());
@@ -131,19 +117,16 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         EditText mMemo = new EditText(context);
         builder.setView(mMemo);
         builder.setTitle("북마크 추가");
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (mMemo.getText().toString().trim().length() != 0) {
-                    mark.setvid(CONTENT_ID);
-                    mark.setmMemo(mMemo.getText().toString());
-                    mark.setmStart(position);
-                    mark.setmAdded(System.currentTimeMillis());
-                    mark.setMpath(CONTENT_PATH);
+        builder.setPositiveButton("확인", (dialogInterface, i) -> {
+            if (mMemo.getText().toString().trim().length() != 0) {
+                mark.setvid(CONTENT_ID);
+                mark.setmMemo(mMemo.getText().toString());
+                mark.setmStart(position);
+                mark.setmAdded(System.currentTimeMillis());
+                mark.setMpath(CONTENT_PATH);
 
-                    playerViewModel.insertMark(mark);
-                    videoView.resume();
-                }
+                playerViewModel.insertMark(mark);
+                videoView.resume();
             }
         });
 

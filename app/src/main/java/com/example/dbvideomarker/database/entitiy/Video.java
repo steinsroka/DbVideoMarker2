@@ -2,10 +2,7 @@ package com.example.dbvideomarker.database.entitiy;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import com.google.android.exoplayer2.video.spherical.Projection;
 
 @Entity(tableName = "video")
 public class Video {
@@ -29,7 +26,7 @@ public class Video {
     @ColumnInfo(name = "vrecent")
     public long vrecent;
 
-  
+
     public int getContentId() {
         return contentId;
     }

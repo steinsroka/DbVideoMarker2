@@ -28,10 +28,10 @@
         android:id="@id/exo_player_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,9 +60,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:drawableTop="@drawable/ic_error_outline_white_48dp"
             android:textColor="@android:color/white"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:drawableTopCompat="@drawable/ic_error_outline_white_48dp" />
     </FrameLayout>
 
     <include

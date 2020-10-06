@@ -26,39 +26,37 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.util.MediaStoreLoader;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
 
     private List<Video> videoList; //cached copy of words
-    private LayoutInflater mInflater;
     private ViewCase sel_type;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
     private OnItemSelectedListener onItemSelectedListener;
     private OnItemClickListener onItemClickListener;
     private RequestManager mRequestManager;
-    private MediaStoreLoader loader;
 
     public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
-        mInflater = LayoutInflater.from(context);
+        LayoutInflater mInflater = LayoutInflater.from(context);
         mRequestManager = Glide.with(context);
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
         this.onItemClickListener = onItemClickListener;
     }
 
+    @NonNull
     @Override
-    public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (sel_type == ViewCase.NORMAL) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
             return new VideoViewHolderNormal(view);
         } else if (sel_type == ViewCase.SELECT) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_video_select, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_select, parent, false);
             return new VideoViewHolderSelect(view);
         } else if (sel_type == ViewCase.RECENT) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_video_recent, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_recent, parent, false);
             return new VideoViewHolderRecent(view);
         }
         return null;
@@ -67,7 +65,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyItemView holder, int position) {
-        loader = new MediaStoreLoader();
+        MediaStoreLoader loader = new MediaStoreLoader();
         if (holder instanceof VideoViewHolderNormal) {
             VideoViewHolderNormal viewHolderNormal = (VideoViewHolderNormal) holder;
             if (videoList != null) {
@@ -78,18 +76,10 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                 //viewHolderNormal.vThumb.setImage
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderNormal.vThumb);
                 //viewHolderNormal.vThumb.setImageBitmap(loader.getThumbnail(current.vpath, current.getVdur()/3));
-                viewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onItemClickListener.clickItem(current.getContentId(), current.getVpath());
-                    }
-                });
-                viewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        onItemClickListener.clickLongItem(v, current.getContentId(), current.getVpath());
-                        return false;
-                    }
+                viewHolderNormal.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
+                viewHolderNormal.view.setOnLongClickListener(v -> {
+                    onItemClickListener.clickLongItem(v, current.getContentId(), current.getVpath());
+                    return false;
                 });
             } else {
                 viewHolderNormal.vName.setText("No Data");
@@ -110,40 +100,32 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                 } else {
                     viewHolderSelect.view.setBackgroundColor(Color.parseColor("#373737"));
                 }
-                viewHolderSelect.view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                viewHolderSelect.view.setOnClickListener(view -> {
 //                        toggleItemSelected(position);
-                        if (mSelectedItems.get(position, false) == true) {
-                            //GRAY
-                            mSelectedItems.delete(position);
-                            mSelectedItemIds.delete(current.getContentId());
-                            notifyItemChanged(position);
-                        } else {
-                            //WHITE
-                            mSelectedItems.put(position, true);
-                            mSelectedItemIds.put(current.getContentId(), true);
-                            notifyItemChanged(position);
-                        }
-                        Log.d("test", "parsed"+ mSelectedItemIds.size());
-
-                        onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
+                    if (mSelectedItems.get(position, false)) {
+                        //GRAY
+                        mSelectedItems.delete(position);
+                        mSelectedItemIds.delete(current.getContentId());
+                        notifyItemChanged(position);
+                    } else {
+                        //WHITE
+                        mSelectedItems.put(position, true);
+                        mSelectedItemIds.put(current.getContentId(), true);
+                        notifyItemChanged(position);
                     }
+                    Log.d("test", "parsed" + mSelectedItemIds.size());
+
+                    onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                 });
             }
         } else if (holder instanceof VideoViewHolderRecent) {
             VideoViewHolderRecent videoViewHolderRecent = (VideoViewHolderRecent) holder;
-            if(videoList != null) {
+            if (videoList != null) {
                 Video current = videoList.get(position);
                 videoViewHolderRecent.rName.setText(current.getVname());
                 videoViewHolderRecent.rDur.setText(String.valueOf(loader.getReadableDuration(current.getVdur())));
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(videoViewHolderRecent.rThumb);
-                videoViewHolderRecent.view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onItemClickListener.clickItem(current.getContentId(), current.getVpath());
-                    }
-                });
+                videoViewHolderRecent.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
             }
         }
     }

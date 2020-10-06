@@ -6,15 +6,9 @@ import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,30 +16,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
-import com.example.dbvideomarker.adapter.PlayList_MarkAdapter;
-import com.example.dbvideomarker.adapter.PlayList_VideoAdapter;
-import com.example.dbvideomarker.adapter.SearchAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
-import com.example.dbvideomarker.adapter.util.Callback;
 import com.example.dbvideomarker.adapter.util.ViewCase;
-import com.example.dbvideomarker.database.entitiy.Mark;
-import com.example.dbvideomarker.database.entitiy.PlRelMark;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
-import com.example.dbvideomarker.database.entitiy.SearchGroupList;
-import com.example.dbvideomarker.database.entitiy.SearchItemList;
-import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.repository.MarkRepository;
 import com.example.dbvideomarker.repository.VideoRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SearchActivity extends AppCompatActivity implements OnItemClickListener, OnItemSelectedListener, OnMarkClickListener {
 
-    private EditText editText;
     private RequestManager _mGlideRequestManager;
     VideoAdapter videoAdapter;
     MarkAdapter markAdapter;
@@ -64,7 +44,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         markRepository = new MarkRepository(getApplication());
 
         _mGlideRequestManager = Glide.with(this);
-        editText = (EditText) findViewById(R.id.editText);
+        EditText editText = findViewById(R.id.editText);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -77,22 +57,12 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(videoRepository.getSearchVideo(editable.toString()) != null) {
-                    videoRepository.getSearchVideo(editable.toString()).observe(SearchActivity.this, new Observer<List<Video>>() {
-                        @Override
-                        public void onChanged(List<Video> videos) {
-                            videoAdapter.setVideos(videos);
-                        }
-                    });
+                if (videoRepository.getSearchVideo(editable.toString()) != null) {
+                    videoRepository.getSearchVideo(editable.toString()).observe(SearchActivity.this, videos -> videoAdapter.setVideos(videos));
                 }
 
-                if(markRepository.getSearchMark(editable.toString()) != null) {
-                    markRepository.getSearchMark(editable.toString()).observe(SearchActivity.this, new Observer<List<Mark>>() {
-                        @Override
-                        public void onChanged(List<Mark> marks) {
-                            markAdapter.setMarks(marks);
-                        }
-                    });
+                if (markRepository.getSearchMark(editable.toString()) != null) {
+                    markRepository.getSearchMark(editable.toString()).observe(SearchActivity.this, marks -> markAdapter.setMarks(marks));
                 }
             }
         });
@@ -164,19 +134,15 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         expandableListView.expandGroup(1);
  */
 
-            setMarkSearchResult();
-            setVideoSearchResult();
+        setMarkSearchResult();
+        setVideoSearchResult();
     }
+
     public void setVideoSearchResult() {
         RecyclerView searchVideo = findViewById(R.id.search_Video_Result);
 
         searchVideo.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        videoRepository.getAllVideo().observe(SearchActivity.this, new Observer<List<Video>>() {
-            @Override
-            public void onChanged(List<Video> videos) {
-                videoAdapter.setVideos(videos);
-            }
-        });
+        videoRepository.getAllVideo().observe(SearchActivity.this, videos -> videoAdapter.setVideos(videos));
         searchVideo.setAdapter(videoAdapter);
     }
 
@@ -185,26 +151,25 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         RecyclerView searchMark = findViewById(R.id.search_Mark_Result);
 
         searchMark.setLayoutManager(new GridLayoutManager(this, 2));
-        markRepository.getAllMark().observe(SearchActivity.this, new Observer<List<Mark>>() {
-            @Override
-            public void onChanged(List<Mark> marks) {
-                markAdapter.setMarks(marks);
-            }
-        });
+        markRepository.getAllMark().observe(SearchActivity.this, marks -> markAdapter.setMarks(marks));
         searchMark.setAdapter(markAdapter);
     }
 
     @Override
-    public void clickItem(int id, String path) {}
+    public void clickItem(int id, String path) {
+    }
 
     @Override
-    public void clickLongItem(View v, int id, String path) {}
+    public void clickLongItem(View v, int id, String path) {
+    }
 
     @Override
-    public void clickMark(int id, long start, String path) {}
+    public void clickMark(int id, long start, String path) {
+    }
 
     @Override
-    public void clickLongMark(View v, int id, String path) {}
+    public void clickLongMark(View v, int id, String path) {
+    }
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {

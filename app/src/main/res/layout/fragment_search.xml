@@ -3,32 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBG"
     android:orientation="vertical"
-    tools:context="activity.SearchActivity"
-    android:background="@color/colorBG">
+    tools:context="activity.SearchActivity">
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_baseline_search_24"
-        android:textColorHint="@color/colorText"
+        android:hint="검색어를 입력해주세요."
+        android:importantForAutofill="no"
+        android:inputType="text"
         android:textColor="@color/colorText"
-        android:hint="검색어를 입력해주세요." />
+        android:textColorHint="@color/colorText" />
 
 
     <TextView
         android:id="@+id/videoTextView"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:textColor="@color/colorBasicText"
         android:gravity="center_vertical"
-        android:text="동영상" />
+        android:text="동영상"
+        android:textColor="@color/colorBasicText" />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_Video_Result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        android:id="@+id/search_Video_Result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -37,14 +39,14 @@
         android:id="@+id/markTextView"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:textColor="@color/colorBasicText"
         android:gravity="center_vertical"
-        android:text="북마크" />
+        android:text="북마크"
+        android:textColor="@color/colorBasicText" />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_Mark_Result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        android:id="@+id/search_Mark_Result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

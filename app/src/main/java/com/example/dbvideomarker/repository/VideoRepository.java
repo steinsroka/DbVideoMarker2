@@ -8,13 +8,11 @@ import androidx.lifecycle.LiveData;
 
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.VideoDao;
-import com.example.dbvideomarker.database.entitiy.Media;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
-import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class VideoRepository {
 
     private String TAG = VideoRepository.class.getSimpleName();
@@ -28,7 +26,9 @@ public class VideoRepository {
         allVideo = videoDao.findAllVideo();
     }
 
-    public LiveData<List<Video>> getAllVideo() { return allVideo; }
+    public LiveData<List<Video>> getAllVideo() {
+        return allVideo;
+    }
 
     public LiveData<List<Video>> getAllVideo(int sort) {
         return videoDao.findAllVideo(sort);
@@ -50,7 +50,7 @@ public class VideoRepository {
         new AsyncTask<Video, Void, Long>() {
             @Override
             protected Long doInBackground(Video... videos) {
-                if(videoDao == null)
+                if (videoDao == null)
                     return -1L;
                 return videoDao.insertVideo(videos[0]);
             }
@@ -67,7 +67,7 @@ public class VideoRepository {
         new AsyncTask<Integer, Void, Integer>() {
             @Override
             protected Integer doInBackground(Integer... integers) {
-                if(videoDao == null)
+                if (videoDao == null)
                     return -1;
                 return videoDao.deleteVideo(integers[0]);
             }

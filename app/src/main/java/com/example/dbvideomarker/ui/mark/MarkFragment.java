@@ -1,14 +1,12 @@
 package com.example.dbvideomarker.ui.mark;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +25,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,15 +38,12 @@ import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.PlRel;
-import com.example.dbvideomarker.database.entitiy.Video;
-import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MarkFragment extends Fragment implements OnMarkClickListener, OnItemSelectedListener {
 
@@ -74,7 +68,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                              ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_mark, container, false);
 
-        mGlideRequestManager = Glide.with(getActivity());
+        mGlideRequestManager = Glide.with(requireActivity());
 
         normalMarkView = v.findViewById(R.id.mark_normal_wrapper);
         selectMarkView = v.findViewById(R.id.mark_select_wrapper);
@@ -93,7 +87,9 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_PLAYLIST_REQUEST_CODE) {
+                assert data != null;
                 ArrayList<Integer> selectedPidList = data.getIntegerArrayListExtra("pidlist");
+                assert selectedPidList != null;
                 for (int i = 0; i < selectedPidList.size(); i++) {
                     for (int j = 0; j < idList.size(); j++) {
                         PlRel plRel = new PlRel();
@@ -118,21 +114,11 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         RecyclerView recyclerView = v.findViewById(R.id.rv_Mark);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setAdapter(markAdapter);
-        markViewModel = new ViewModelProvider(getActivity()).get(MarkViewModel.class);
-        markViewModel.getAllMark().observe(getActivity(), new Observer<List<Mark>>() {
-            @Override
-            public void onChanged(List<Mark> marks) {
-                markAdapter.setMarks(marks);
-            }
-        });
+        markViewModel = new ViewModelProvider(requireActivity()).get(MarkViewModel.class);
+        markViewModel.getAllMark().observe(requireActivity(), marks -> markAdapter.setMarks(marks));
 
         Button buttonSortDialog = v.findViewById(R.id.mark_sort);
-        buttonSortDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sort();
-            }
-        });
+        buttonSortDialog.setOnClickListener(v -> sort());
     }
 
     public void setMarkSelectView() {
@@ -145,66 +131,50 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         RecyclerView recyclerView = v.findViewById(R.id.rv_Mark_select);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setAdapter(markAdapter);
-        markViewModel = new ViewModelProvider(getActivity()).get(MarkViewModel.class);
-        markViewModel.getAllMark().observe(getActivity(), new Observer<List<Mark>>() {
-            @Override
-            public void onChanged(List<Mark> marks) {
-                markAdapter.setMarks(marks);
-            }
-        });
+        markViewModel = new ViewModelProvider(requireActivity()).get(MarkViewModel.class);
+        markViewModel.getAllMark().observe(requireActivity(), markAdapter::setMarks);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void setBottomMarkMenu() {
         btn_add_playlist_mark = v.findViewById(R.id.mark_bottom_add_playlist);
         btn_delete_mark = v.findViewById(R.id.mark_bottom_delete);
 
-        btn_add_playlist_mark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent playlistIntent = new Intent(getContext(), SelectActivity.class);
-                playlistIntent.putExtra("pid", "");
-                playlistIntent.putExtra("VIEW_TYPE", 2003);
-                startActivityForResult(playlistIntent, SELECT_PLAYLIST_REQUEST_CODE);
-            }
+        btn_add_playlist_mark.setOnClickListener(view -> {
+            Intent playlistIntent = new Intent(getContext(), SelectActivity.class);
+            playlistIntent.putExtra("pid", "");
+            playlistIntent.putExtra("VIEW_TYPE", 2003);
+            startActivityForResult(playlistIntent, SELECT_PLAYLIST_REQUEST_CODE);
         });
 
-        btn_add_playlist_mark.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_red_24);
-                    return false;
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_24);
-                    return false;
-                }
+        btn_add_playlist_mark.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_red_24);
+                return false;
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_24);
                 return false;
             }
+            return false;
         });
 
-        btn_delete_mark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i = 0; i < idList.size(); i++) {
-                    markViewModel.deleteMark(idList.get(i));
-                    Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
-                    setMarkNormalView();
-                }
+        btn_delete_mark.setOnClickListener(view -> {
+            for (int i = 0; i < idList.size(); i++) {
+                markViewModel.deleteMark(idList.get(i));
+                Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
+                setMarkNormalView();
             }
         });
 
-        btn_delete_mark.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_red_24);
-                    return false;
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_24);
-                    return false;
-                }
+        btn_delete_mark.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_red_24);
+                return false;
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_24);
                 return false;
             }
+            return false;
         });
     }
 
@@ -213,23 +183,8 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle("정렬 순서")
-                .setSingleChoiceItems(sort, selectedSort, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedSort = which;
-                    }
-                })
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        markViewModel.getAllMark(selectedSort).observe(getActivity(), new Observer<List<Mark>>() {
-                            @Override
-                            public void onChanged(List<Mark> marks) {
-                                markAdapter.setMarks(marks);
-                            }
-                        });
-                    }
-                });
+                .setSingleChoiceItems(sort, selectedSort, (dialog1, which) -> selectedSort = which)
+                .setPositiveButton("확인", (dialog12, which) -> markViewModel.getAllMark(selectedSort).observe(requireActivity(), marks -> markAdapter.setMarks(marks)));
         AlertDialog alertDialog = dialog.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
@@ -259,7 +214,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
             case R.id.select:
                 setMarkSelectView();
-                mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(mActionModeCallback);
+                mActionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(mActionModeCallback);
                 break;
             case R.id.setting:
 //                Intent intent = new Intent(this, SettingActivity.class);
@@ -280,7 +235,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         playerIntent.putExtra("ContentID", id);
         playerIntent.putExtra("Path", path);
         playerIntent.putExtra("Start", start);
-        getContext().startActivity(playerIntent);
+        requireContext().startActivity(playerIntent);
     }
 
     @Override
@@ -289,33 +244,27 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup_mark, menu);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.popup_edit:
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        EditText et = new EditText(getActivity());
-                        builder.setView(et);
-                        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (et.getText().toString().trim().length() != 0) {
-                                    Mark mark = new Mark();
-                                    mark.setmMemo(et.getText().toString());
-                                    markViewModel.updateMark(id, et.getText().toString());
-                                }
-                            }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                        break;
-                    case (R.id.popup_delete):
-                        markViewModel.deleteMark(id);
-                        break;
-                }
-                return false;
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.popup_edit:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    EditText et = new EditText(getActivity());
+                    builder.setView(et);
+                    builder.setPositiveButton("확인", (dialogInterface, i) -> {
+                        if (et.getText().toString().trim().length() != 0) {
+                            Mark mark = new Mark();
+                            mark.setmMemo(et.getText().toString());
+                            markViewModel.updateMark(id, et.getText().toString());
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    break;
+                case (R.id.popup_delete):
+                    markViewModel.deleteMark(id);
+                    break;
             }
+            return false;
         });
         popupMenu.show();
     }
@@ -329,7 +278,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            mode.setTitle(String.valueOf(idList) + " selected");
+            mode.setTitle(idList + " selected");
             return false;
         }
 

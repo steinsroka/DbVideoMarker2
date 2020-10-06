@@ -1,5 +1,6 @@
 package com.example.dbvideomarker.util;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,8 +8,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.dbvideomarker.database.entitiy.Media;
 
@@ -19,10 +23,9 @@ import java.util.concurrent.TimeUnit;
 
 public class MediaStoreLoader {
 
-    private static int id;
-    private int MS_ONE_HOUR = 3600000;
     private static ArrayList<Integer> mediaIdList = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     public static List<Media> getContent(Context context) {
         List<Media> mediaList = new ArrayList<>();
 
@@ -30,7 +33,7 @@ public class MediaStoreLoader {
         MediaStoreLoader loader = new MediaStoreLoader();
 
         Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-        String projections[] = {
+        String[] projections = {
                 MediaStore.Video.Media._ID,
                 MediaStore.Video.Media.DISPLAY_NAME,
                 MediaStore.Video.Media.DURATION,
@@ -44,7 +47,7 @@ public class MediaStoreLoader {
         if (c != null) {
             while (c.moveToNext()) {
                 int index = c.getColumnIndex(projections[0]);
-                id = c.getInt(index);
+                int id = c.getInt(index);
 
                 index = c.getColumnIndex(projections[1]);
                 String name = c.getString(index);
@@ -87,13 +90,16 @@ public class MediaStoreLoader {
                 mediaList.add(data);
             }
         }
+        assert c != null;
         c.close();
         return mediaList;
     }
 
+    @SuppressLint("DefaultLocale")
     public String getReadableDuration(long millis) {
-        String dur = null;
-        if(millis > MS_ONE_HOUR) {
+        String dur;
+        int MS_ONE_HOUR = 3600000;
+        if (millis > MS_ONE_HOUR) {
             dur = String.format("%02d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(millis),
                     TimeUnit.MILLISECONDS.toMinutes(millis) -
@@ -130,7 +136,7 @@ public class MediaStoreLoader {
                 }
             }
         }
-        return String.valueOf(dec.format(fileSize) + suffix);
+        return dec.format(fileSize) + suffix;
     }
 
     public Bitmap getThumbnail(String path, long where) {
@@ -149,7 +155,7 @@ public class MediaStoreLoader {
     //TODO: 30이상에서 문제가 발생할 수 있음
     public void deleteFile(Context context, int id) {
         String mSelection = MediaStore.Video.Media._ID + "=?";
-        String[] mSelectionsArgs = new String[] {String.valueOf(id)};
+        String[] mSelectionsArgs = new String[]{String.valueOf(id)};
         Uri contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
 
         ContentResolver contentResolver = context.getContentResolver();

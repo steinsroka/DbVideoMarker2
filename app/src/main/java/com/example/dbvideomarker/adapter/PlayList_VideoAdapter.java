@@ -1,5 +1,6 @@
 package com.example.dbvideomarker.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -10,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.MotionEventCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
@@ -24,14 +24,13 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAdapter.PLEViewHolder> implements Callback.OnItemMoveListener{
+public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAdapter.PLEViewHolder> implements Callback.OnItemMoveListener {
 
     private final OnStartDragListener onStartDragListener;
     private OnItemClickListener onItemClickListener;
     public List<PlRelVideo> plRelList;
     private LayoutInflater mInflater;
     private RequestManager mRequestManager;
-    private MediaStoreLoader loader;
 
     public PlayList_VideoAdapter(Context context, OnItemClickListener onItemClickListener, OnStartDragListener onStartDragListener, RequestManager requestManager) {
         mInflater = LayoutInflater.from(context);
@@ -51,10 +50,11 @@ public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAd
         return new PLEViewHolder(view);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull PLEViewHolder holder, int position) {
-        loader = new MediaStoreLoader();
-        if(plRelList != null) {
+        MediaStoreLoader loader = new MediaStoreLoader();
+        if (plRelList != null) {
             PlRelVideo current = plRelList.get(position);
             holder.name.setText(String.valueOf(current.getPv_vname()));
             holder.vid.setText(String.valueOf(current.getPv_vid()));
@@ -62,37 +62,26 @@ public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAd
             holder.dur.setText(String.valueOf(loader.getReadableDuration(current.getPv_vdur())));
             mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getPv_vpath()))).into(holder.thumb);
 
-            holder.view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    onItemClickListener.clickLongItem(view, current.getPv_vid(), current.getPv_vpath());
-                    return false;
-                }
+            holder.view.setOnLongClickListener(view -> {
+                onItemClickListener.clickLongItem(view, current.getPv_vid(), current.getPv_vpath());
+                return false;
             });
 
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.clickItem(current.getPv_vid(), current.getPv_vpath());
-                }
-            });
+            holder.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getPv_vid(), current.getPv_vpath()));
 
             //이미지 터치하면 드래그시작
-            holder.imageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if(MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                        onStartDragListener.onStartDrag(holder);
-                    }
-                    return false;
+            holder.imageView.setOnTouchListener((v, event) -> {
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    onStartDragListener.onStartDrag(holder);
                 }
+                return false;
             });
         }
     }
 
     @Override
     public int getItemCount() {
-        if(plRelList != null)
+        if (plRelList != null)
             return plRelList.size();
         else return 0;
     }
@@ -109,7 +98,7 @@ public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAd
         notifyItemMoved(fromPosition, toPosition);
     }
 
-    public class PLEViewHolder extends RecyclerView.ViewHolder {
+    public static class PLEViewHolder extends RecyclerView.ViewHolder {
         private View view;
         private TextView name;
         private TextView vid;

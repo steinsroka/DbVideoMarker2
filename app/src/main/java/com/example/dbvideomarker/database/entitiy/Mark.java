@@ -1,6 +1,5 @@
 package com.example.dbvideomarker.database.entitiy;
 
-import androidx.lifecycle.ViewModel;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -37,17 +36,29 @@ public class Mark {
         this.mAdded = mAdded;
     }
 
-    public int getmid() { return mid; }
+    public int getmid() {
+        return mid;
+    }
 
-    public void setmid(int mid) { this.mid = mid; }
+    public void setmid(int mid) {
+        this.mid = mid;
+    }
 
-    public int getvid() { return vid; }
+    public int getvid() {
+        return vid;
+    }
 
-    public void setvid(int vid) { this.vid = vid; }
+    public void setvid(int vid) {
+        this.vid = vid;
+    }
 
-    public String getmMemo() { return mMemo; }
+    public String getmMemo() {
+        return mMemo;
+    }
 
-    public void setmMemo(String mMemo) { this.mMemo = mMemo; }
+    public void setmMemo(String mMemo) {
+        this.mMemo = mMemo;
+    }
 
     public Long getmStart() {
         return mStart;

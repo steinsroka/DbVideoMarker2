@@ -12,6 +12,7 @@ import com.example.dbvideomarker.database.entitiy.Mark;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class MarkRepository {
 
     private String TAG = MarkRepository.class.getSimpleName();
@@ -25,9 +26,13 @@ public class MarkRepository {
         allMark = markDao.findAllMark();
     }
 
-    public LiveData<List<Mark>> getAllMark(int sort) { return markDao.findAllMark(sort); }
+    public LiveData<List<Mark>> getAllMark(int sort) {
+        return markDao.findAllMark(sort);
+    }
 
-    public LiveData<List<Mark>> getAllMark() { return allMark; }
+    public LiveData<List<Mark>> getAllMark() {
+        return allMark;
+    }
 
     public LiveData<List<Mark>> getSearchMark(String mMemo) {
         return markDao.searchMark(mMemo);
@@ -58,7 +63,7 @@ public class MarkRepository {
         new AsyncTask<Integer, Void, Integer>() {
             @Override
             protected Integer doInBackground(Integer... integers) {
-                if(markDao == null)
+                if (markDao == null)
                     return -1;
                 return markDao.deleteMark(integers[0]);
             }
@@ -75,7 +80,7 @@ public class MarkRepository {
         new AsyncTask<Integer, Void, Integer>() {
             @Override
             protected Integer doInBackground(Integer... integers) {
-                if(markDao == null)
+                if (markDao == null)
                     return -1;
                 return markDao.deleteVideoWithMark(integers[0]);
             }
@@ -92,7 +97,7 @@ public class MarkRepository {
         new AsyncTask<Integer, Void, Integer>() {
             @Override
             protected Integer doInBackground(Integer... integers) {
-                if(markDao == null)
+                if (markDao == null)
                     return -1;
                 return markDao.updateMark(integers[0], name);
             }

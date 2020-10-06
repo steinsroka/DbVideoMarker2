@@ -12,6 +12,7 @@ import com.example.dbvideomarker.database.entitiy.PlayList;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class PlayListRepository {
     private static final String TAG = PlayListRepository.class.getSimpleName();
 
@@ -36,7 +37,7 @@ public class PlayListRepository {
         new AsyncTask<PlayList, Void, Long>() {
             @Override
             protected Long doInBackground(PlayList... playLists) {
-                if(playListDao == null)
+                if (playListDao == null)
                     return -1L;
                 return playListDao.insertPlayList(playLists[0]);
             }
@@ -69,7 +70,7 @@ public class PlayListRepository {
     public void update(PlayList playList) {
         new AsyncTask<PlayList, Void, Integer>() {
             @Override
-            protected Integer doInBackground(PlayList...playLists) {
+            protected Integer doInBackground(PlayList... playLists) {
                 if (playListDao == null)
                     return -1;
                 return playListDao.update(playLists[0]);
@@ -86,7 +87,7 @@ public class PlayListRepository {
     public void updateVideoCount(int pid, int count) {
         new AsyncTask<Integer, Void, Integer>() {
             @Override
-            protected Integer doInBackground(Integer...integers) {
+            protected Integer doInBackground(Integer... integers) {
                 if (playListDao == null)
                     return -1;
                 return playListDao.updateVideoCount(integers[0], count);
@@ -103,7 +104,7 @@ public class PlayListRepository {
     public void updateMarkCount(int pid, int count) {
         new AsyncTask<Integer, Void, Integer>() {
             @Override
-            protected Integer doInBackground(Integer...integers) {
+            protected Integer doInBackground(Integer... integers) {
                 if (playListDao == null)
                     return -1;
                 return playListDao.updateMarkCount(integers[0], count);

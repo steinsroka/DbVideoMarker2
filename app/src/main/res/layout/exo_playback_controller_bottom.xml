@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@null"
-        android:scaleType ="centerInside"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_play_arrow_white_36dp" />
 
     <ImageButton
@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@null"
-        android:scaleType ="centerInside"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_pause_white_36dp" />
 
     <TextView
@@ -44,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:maxHeight="10dp"
-        android:maxWidth="10dp" />
+        android:maxWidth="10dp"
+        android:maxHeight="10dp" />
 
     <TextView
         android:id="@id/exo_player_duration"
@@ -64,7 +64,7 @@
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@null"
-        android:scaleType ="centerInside"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_fullscreen_white_36dp" />
 
 

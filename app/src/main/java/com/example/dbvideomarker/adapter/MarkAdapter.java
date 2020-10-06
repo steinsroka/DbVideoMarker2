@@ -35,26 +35,24 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
     private RequestManager mRequestManager;
     private List<Mark> markList;
-    private LayoutInflater mInflater;
     private ViewCase sel_type;
-    private MediaStoreLoader loader;
 
     public MarkAdapter(Context context, ViewCase sel_type, OnMarkClickListener onMarkClickListener, OnItemSelectedListener onItemSelectedListener, RequestManager requestManager) {
-        mInflater = LayoutInflater.from(context);
+        LayoutInflater mInflater = LayoutInflater.from(context);
         mRequestManager = Glide.with(context);
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
         this.onMarkClickListener = onMarkClickListener;
     }
 
-
+    @NonNull
     @Override
-    public MyItemView onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (sel_type == ViewCase.NORMAL) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_mark, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mark, parent, false);
             return new MarkViewHolderNormal(view);
         } else if (sel_type == ViewCase.SELECT) {
-            View view = mInflater.from(parent.getContext()).inflate(R.layout.item_mark_select, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mark_select, parent, false);
             return new MarkViewHolderSelect(view);
         }
         return null;
@@ -62,7 +60,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyItemView holder, int position) {
-        loader = new MediaStoreLoader();
+        MediaStoreLoader loader = new MediaStoreLoader();
         if (holder instanceof MarkViewHolderNormal) {
             MarkViewHolderNormal markViewHolderNormal = (MarkViewHolderNormal) holder;
             if (markList != null) {
@@ -73,18 +71,10 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 markViewHolderNormal.mStart.setText(loader.getReadableDuration(current.getmStart()));
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getMpath()))).frame(current.getmStart()).into(markViewHolderNormal.mthumb);
                 //markViewHolderNormal.mthumb.setImageBitmap(loader.getThumbnail(current.getMpath(), current.getmStart()));
-                markViewHolderNormal.view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onMarkClickListener.clickMark(current.getvid(), current.getmStart(), current.getMpath());
-                    }
-                });
-                markViewHolderNormal.view.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        onMarkClickListener.clickLongMark(view, current.getmid(), current.getMpath());
-                        return false;
-                    }
+                markViewHolderNormal.view.setOnClickListener(view -> onMarkClickListener.clickMark(current.getvid(), current.getmStart(), current.getMpath()));
+                markViewHolderNormal.view.setOnLongClickListener(view -> {
+                    onMarkClickListener.clickLongMark(view, current.getmid(), current.getMpath());
+                    return false;
                 });
             } else {
                 Log.d("MarkAdapter.class", "No Data");
@@ -102,22 +92,19 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 } else {
                     markViewHolderSelect._view.setBackgroundColor(Color.parseColor("#373737"));
                 }
-                markViewHolderSelect._view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(mSelectedItems.get(position, false) == true) {
-                            mSelectedItems.delete(position);
-                            mSelectedItemIds.delete(current.getmid());
-                            notifyItemChanged(position);
-                        } else {
-                            mSelectedItems.put(position, true);
-                            mSelectedItemIds.put(current.getmid(), true);
-                            notifyItemChanged(position);
-                        }
-                        Log.d("MarkAdaper.class", ""+mSelectedItemIds);
-
-                        onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
+                markViewHolderSelect._view.setOnClickListener(view -> {
+                    if (mSelectedItems.get(position, false)) {
+                        mSelectedItems.delete(position);
+                        mSelectedItemIds.delete(current.getmid());
+                        notifyItemChanged(position);
+                    } else {
+                        mSelectedItems.put(position, true);
+                        mSelectedItemIds.put(current.getmid(), true);
+                        notifyItemChanged(position);
                     }
+                    Log.d("MarkAdaper.class", "" + mSelectedItemIds);
+
+                    onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                 });
             }
         }

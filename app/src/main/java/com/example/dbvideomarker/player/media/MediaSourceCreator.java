@@ -1,5 +1,6 @@
 package com.example.dbvideomarker.player.media;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
@@ -26,14 +27,12 @@ import com.google.android.exoplayer2.util.Util;
 
 public class MediaSourceCreator {
 
+    @SuppressLint("StaticFieldLeak")
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
-
-    private DataSource.Factory mediaDataSourceFactory;
 
     private Context context;
     private String userAgent;
 
-    private Handler mainHandler;
     private EventLogger eventLogger;
 
     private DefaultTrackSelector trackSelector;
@@ -45,8 +44,8 @@ public class MediaSourceCreator {
     public MediaSourceCreator(Context context, String userAgent) {
         this.userAgent = userAgent;
         this.context = context;
-        mediaDataSourceFactory = buildDataSourceFactory(true);
-        mainHandler = new Handler();
+        DataSource.Factory mediaDataSourceFactory = buildDataSourceFactory(true);
+        Handler mainHandler = new Handler();
 
 
         eventLogger = new EventLogger(trackSelector);

@@ -3,14 +3,12 @@ package com.example.dbvideomarker.player.ui;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.SearchRecentSuggestionsProvider;
 import android.content.res.TypedArray;
 import android.media.AudioManager;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseBooleanArray;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,15 +17,11 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.VideoView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.adapter.MarkAdapter;
-import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.player.PlayerActivity;
@@ -96,7 +90,6 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
     };
 
     private long lastPlayedPosition = 0L;
-    private int controllerBackgroundId = 0;
 
     public ExoVideoView(Context context) {
         this(context, null);
@@ -139,17 +132,17 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
                         shutterColor);
                 playerLayoutId = a.getResourceId(R.styleable.ExoVideoView_player_layout_id,
                         playerLayoutId);
-                useController = a.getBoolean(R.styleable.ExoVideoView_use_controller, useController);
+                useController = a.getBoolean(R.styleable.ExoVideoView_use_controller, true);
                 surfaceType = a.getInt(R.styleable.ExoVideoView_surface_type, surfaceType);
                 resizeMode = a.getInt(R.styleable.ExoVideoView_resize_mode, resizeMode);
                 controllerShowTimeoutMs = a.getInt(R.styleable.ExoVideoView_show_timeout,
                         controllerShowTimeoutMs);
                 controllerHideOnTouch = a.getBoolean(R.styleable.ExoVideoView_hide_on_touch,
-                        controllerHideOnTouch);
+                        true);
                 controllerAutoShow = a.getBoolean(R.styleable.ExoVideoView_auto_show,
-                        controllerAutoShow);
+                        true);
                 markViewer = a.getBoolean(R.styleable.ExoVideoView_enable_mark, true);
-                controllerBackgroundId = a.getResourceId(R.styleable.ExoVideoView_controller_background, 0);
+                int controllerBackgroundId = a.getResourceId(R.styleable.ExoVideoView_controller_background, 0);
             } finally {
                 a.recycle();
             }
@@ -480,8 +473,8 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
         SimpleExoPlayer.Builder builder = new SimpleExoPlayer.Builder(getContext(), renderersFactory);
         TrackSelection.Factory adaptiveTrackSelectionFactory =
                 new AdaptiveTrackSelection.Factory();
-        DefaultTrackSelector trackSelector = new DefaultTrackSelector(getContext(),new AdaptiveTrackSelection.Factory());
-        builder.setTrackSelector(new DefaultTrackSelector(getContext(),adaptiveTrackSelectionFactory));
+        DefaultTrackSelector trackSelector = new DefaultTrackSelector(getContext(), new AdaptiveTrackSelection.Factory());
+        builder.setTrackSelector(new DefaultTrackSelector(getContext(), adaptiveTrackSelectionFactory));
         builder.setTrackSelector(trackSelector);
         builder.setBandwidthMeter(new DefaultBandwidthMeter.Builder(getContext()).build());
         SimpleExoPlayer internalPlayer = builder.build();
@@ -556,20 +549,24 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
     }
 
     @Override
-    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {}
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+    }
 
     @Override
-    public void clickItem(int id, String path) {}
+    public void clickItem(int id, String path) {
+    }
 
     @Override
-    public void clickLongItem(View v, int id, String path) {}
+    public void clickLongItem(View v, int id, String path) {
+    }
 
 
     private final class ComponentListener implements TextOutput, Player.EventListener,
             com.google.android.exoplayer2.video.VideoListener {
 
         @Override
-        public void onCues(List<Cue> cues) {}
+        public void onCues(@NonNull List<Cue> cues) {
+        }
 
         @Override
         public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
