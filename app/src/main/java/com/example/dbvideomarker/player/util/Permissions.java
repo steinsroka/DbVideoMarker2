@@ -50,16 +50,16 @@ public class Permissions {
 
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean canDrawOverlays(Context context) {
-        return !AndroidUtil.isMarshMallowOrLater() || Settings.canDrawOverlays(context);
+        return AndroidUtil.isMarshMallowOrLater() || Settings.canDrawOverlays(context);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean canWriteSettings(Context context) {
-        return !AndroidUtil.isMarshMallowOrLater() || Settings.System.canWrite(context);
+        return AndroidUtil.isMarshMallowOrLater() || Settings.System.canWrite(context);
     }
 
     public static boolean canReadStorage(Context context) {
-        return !AndroidUtil.isMarshMallowOrLater() || ContextCompat.checkSelfPermission(context,
+        return AndroidUtil.isMarshMallowOrLater() || ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 

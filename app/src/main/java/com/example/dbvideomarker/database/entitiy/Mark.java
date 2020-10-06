@@ -1,6 +1,5 @@
 package com.example.dbvideomarker.database.entitiy;
 
-import androidx.lifecycle.ViewModel;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;

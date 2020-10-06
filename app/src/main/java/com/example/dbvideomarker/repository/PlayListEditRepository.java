@@ -14,6 +14,7 @@ import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class PlayListEditRepository {
     private static final String TAG = PlayListEditRepository.class.getSimpleName();
 

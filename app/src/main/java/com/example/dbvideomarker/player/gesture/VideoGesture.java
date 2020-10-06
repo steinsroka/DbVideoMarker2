@@ -3,12 +3,9 @@ package com.example.dbvideomarker.player.gesture;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.gesture.Gesture;
 import android.media.AudioManager;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -368,10 +365,6 @@ public class VideoGesture implements View.OnTouchListener {
         }
 
         return isSeekable;
-    }
-
-    public void enable() {
-        enabled = true;
     }
 
     public void disable() {

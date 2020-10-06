@@ -1,7 +1,6 @@
 package com.example.dbvideomarker.database;
 
 import android.content.Context;
-import android.nfc.Tag;
 
 import androidx.room.Database;
 import androidx.room.Room;

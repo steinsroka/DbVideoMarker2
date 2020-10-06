@@ -24,13 +24,10 @@ public class PrivacyActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                return true;
-                //뒤로가기
-            }
-
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+            //뒤로가기
         }
         return super.onOptionsItemSelected(item);
     }

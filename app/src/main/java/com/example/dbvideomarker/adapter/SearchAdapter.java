@@ -17,15 +17,12 @@ import java.util.ArrayList;
 public class SearchAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<SearchGroupList> searchGroupLists;
     private ArrayList<SearchGroupList> searchGroupListArrayList;
 
     public SearchAdapter (Context context, ArrayList<SearchGroupList> arrayList) {
         this.context = context;
-        this.searchGroupLists = new ArrayList<SearchGroupList>();
-        this.searchGroupLists.addAll(arrayList);
 
-        this.searchGroupListArrayList = new ArrayList<SearchGroupList>();
+        this.searchGroupListArrayList = new ArrayList<>();
         this.searchGroupListArrayList.addAll(arrayList);
     }
 
@@ -71,8 +68,8 @@ public class SearchAdapter extends BaseExpandableListAdapter {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.search_group_view,viewGroup,false);
         }
-        TextView groupTitle = (TextView) view.findViewById(R.id.category);
-        TextView groupCount = (TextView) view.findViewById(R.id.count);
+        TextView groupTitle = view.findViewById(R.id.category);
+        TextView groupCount = view.findViewById(R.id.count);
         groupTitle.setText(searchGroupList.getGroupTitle());
         groupCount.setText(searchGroupList.getGroupCount());
         return view;
@@ -84,10 +81,10 @@ public class SearchAdapter extends BaseExpandableListAdapter {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_video,viewGroup,false);
         }
-        ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
-        TextView vDur = (TextView) view.findViewById(R.id.vDur);
-        TextView vName = (TextView) view.findViewById(R.id.vName);
-        TextView vId = (TextView) view.findViewById(R.id.vId);
+        ImageView thumb = view.findViewById(R.id.thumb);
+        TextView vDur = view.findViewById(R.id.vDur);
+        TextView vName = view.findViewById(R.id.vName);
+        TextView vId = view.findViewById(R.id.vId);
 
         thumb.setImageResource(searchItemList.getThumb());
         vDur.setText(searchItemList.getvDur());

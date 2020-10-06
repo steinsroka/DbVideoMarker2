@@ -35,7 +35,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_Home"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
         </ScrollView>
 
         <ScrollView
@@ -46,7 +46,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_Home_select"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
         </ScrollView>
 
     </FrameLayout>
@@ -68,7 +68,8 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/ic_baseline_playlist_add_24" />
+            android:src="@drawable/ic_baseline_playlist_add_24"
+            android:contentDescription="@string/StringValue" />
 
         <ImageButton
             android:id="@+id/video_bottom_info"
@@ -78,7 +79,9 @@
             android:layout_weight="1"
             android:background="@null"
             android:clickable="true"
-            android:src="@drawable/ic_baseline_info_24" />
+            android:src="@drawable/ic_baseline_info_24"
+            android:focusable="true"
+            android:contentDescription="@string/StringValue" />
 
         <ImageButton
             android:id="@+id/video_bottom_delete"
@@ -87,7 +90,8 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/ic_baseline_delete_outline_24" />
+            android:src="@drawable/ic_baseline_delete_outline_24"
+            android:contentDescription="@string/StringValue" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

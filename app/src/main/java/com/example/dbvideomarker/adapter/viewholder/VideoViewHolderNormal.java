@@ -7,8 +7,6 @@ import android.widget.TextView;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.util.MyItemView;
 
-import org.w3c.dom.Text;
-
 public class VideoViewHolderNormal extends MyItemView {
     public View view;
     public TextView vId;

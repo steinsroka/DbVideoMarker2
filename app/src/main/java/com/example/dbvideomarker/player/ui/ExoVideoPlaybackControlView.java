@@ -3,7 +3,6 @@ package com.example.dbvideomarker.player.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -17,30 +16,22 @@ import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.adapter.MarkAdapter;
-import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.player.gesture.OnVideoGestureChangeListener;
 import com.example.dbvideomarker.player.gesture.VideoGesture;
@@ -68,6 +59,7 @@ import static com.example.dbvideomarker.player.orientation.OnOrientationChangedL
 import static com.example.dbvideomarker.player.orientation.OnOrientationChangedListener.SENSOR_PORTRAIT;
 import static com.example.dbvideomarker.player.orientation.OnOrientationChangedListener.SENSOR_UNKNOWN;
 
+@SuppressWarnings("ALL")
 public class ExoVideoPlaybackControlView extends FrameLayout {
 
     public interface VideoViewAccessor {
@@ -135,19 +127,10 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
     private final Timeline.Period period;
     private final Timeline.Window window;
 
-
-    private final Drawable repeatOffButtonDrawable;
-    private final Drawable repeatOneButtonDrawable;
-    private final Drawable repeatAllButtonDrawable;
-    private final String repeatOffButtonContentDescription;
-    private final String repeatOneButtonContentDescription;
-    private final String repeatAllButtonContentDescription;
-
     private Player player;
     private ExoVideoView videoView;
     private com.google.android.exoplayer2.ControlDispatcher controlDispatcher;
     private VisibilityListener visibilityListener;
-    private PlayerActivity pa;
 
     private boolean isAttachedToWindow;
     private boolean showMultiWindowTimeBar;
@@ -158,7 +141,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
     private int showTimeoutMs;
     private @RepeatModeUtil.RepeatToggleModes
     int repeatToggleModes;
-    private boolean showShuffleButton;
     private long hideAtMs;
     private long[] adGroupTimesMs;
     private boolean[] playedAdGroups;
@@ -194,8 +176,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
     private final View back;
     private final View backLandscape;
 
-    private final View exoPlayerMarkLandscape;
-
     private boolean portrait = true;
 
     private SensorOrientation sensorOrientation;
@@ -207,9 +187,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
 
     private int displayMode = CONTROLLER_MODE_ALL;
 
-
     private VideoViewAccessor videoViewAccessor;
-    private VideoGesture videoGesture;
 
     public ExoVideoPlaybackControlView(Context context) {
         this(context, null);
@@ -223,6 +201,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
         this(context, attrs, defStyleAttr, attrs);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     public ExoVideoPlaybackControlView(Context context, AttributeSet attrs, int defStyleAttr,
                                        AttributeSet playbackAttrs) {
         super(context, attrs, defStyleAttr);
@@ -233,7 +212,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
         fastForwardMs = DEFAULT_FAST_FORWARD_MS;
         showTimeoutMs = DEFAULT_SHOW_TIMEOUT_MS;
         repeatToggleModes = DEFAULT_REPEAT_TOGGLE_MODES;
-        showShuffleButton = false;
         boolean enableGesture = true;
 
         int controllerBackgroundId = 0;
@@ -249,12 +227,12 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
                 controllerLayoutId = a.getResourceId(R.styleable.ExoVideoPlaybackControlView_controller_layout_id,
                         controllerLayoutId);
                 repeatToggleModes = getRepeatToggleModes(a, repeatToggleModes);
-                showShuffleButton = a.getBoolean(R.styleable.ExoVideoPlaybackControlView_show_shuffle_button,
-                        showShuffleButton);
+                a.getBoolean(R.styleable.ExoVideoPlaybackControlView_show_shuffle_button,
+                        false);
                 displayMode = a.getInt(R.styleable.ExoVideoPlaybackControlView_controller_display_mode, CONTROLLER_MODE_ALL);
 
                 controllerBackgroundId = a.getResourceId(R.styleable.ExoVideoPlaybackControlView_controller_background, 0);
-                enableGesture = a.getBoolean(R.styleable.ExoVideoPlaybackControlView_enableGesture, enableGesture);
+                enableGesture = a.getBoolean(R.styleable.ExoVideoPlaybackControlView_enableGesture, true);
             } finally {
                 a.recycle();
             }
@@ -313,15 +291,12 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
         }
 
         Resources resources = context.getResources();
-        repeatOffButtonDrawable = resources.getDrawable(R.drawable.exo_controls_repeat_off);
-        repeatOneButtonDrawable = resources.getDrawable(R.drawable.exo_controls_repeat_one);
-        repeatAllButtonDrawable = resources.getDrawable(R.drawable.exo_controls_repeat_all);
-        repeatOffButtonContentDescription = resources.getString(
-                R.string.exo_controls_repeat_off_description);
-        repeatOneButtonContentDescription = resources.getString(
-                R.string.exo_controls_repeat_one_description);
-        repeatAllButtonContentDescription = resources.getString(
-                R.string.exo_controls_repeat_all_description);
+        resources.getDrawable(R.drawable.exo_controls_repeat_off);
+        resources.getDrawable(R.drawable.exo_controls_repeat_one);
+        resources.getDrawable(R.drawable.exo_controls_repeat_all);
+        resources.getString(R.string.exo_controls_repeat_off_description);
+        resources.getString(R.string.exo_controls_repeat_one_description);
+        resources.getString(R.string.exo_controls_repeat_all_description);
 
 
         durationViewLandscape = findViewById(R.id.exo_player_position_duration_landscape);
@@ -387,7 +362,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
             exoPlayerVideoNameLandscape.setOnClickListener(componentListener);
         }
 
-        exoPlayerMarkLandscape = findViewById(R.id.exo_player_controller_mark_landscape);
+        View exoPlayerMarkLandscape = findViewById(R.id.exo_player_controller_mark_landscape);
         if (exoPlayerMarkLandscape != null) {
             exoPlayerMarkLandscape.setOnClickListener(componentListener);
         }
@@ -476,7 +451,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
         };
 
 
-        videoGesture = new VideoGesture(getContext(), onVideoGestureChangeListener, () -> player);
+        VideoGesture videoGesture = new VideoGesture(getContext(), onVideoGestureChangeListener, () -> player);
         if (!enableGesture) {
             videoGesture.disable();
         }
@@ -673,7 +648,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
         boolean requestPlayPauseFocus = false;
         boolean playing = player != null && player.getPlayWhenReady();
         if (playButton != null) {
-            requestPlayPauseFocus |= playing && playButton.isFocused();
+            requestPlayPauseFocus = playing && playButton.isFocused();
             playButton.setVisibility(playing ? View.GONE : View.VISIBLE);
         }
         if (pauseButton != null) {
@@ -1053,8 +1028,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
     }
 
     private void showControllerByDisplayMode() {
-        boolean showByMode = (displayMode) == displayMode;
-        int visibility = showByMode ? VISIBLE : INVISIBLE;
+        int visibility = VISIBLE;
         if (portrait) {
             exoPlayerControllerTop.setVisibility(visibility);
             exoPlayerControllerBottom.setVisibility(visibility);
@@ -1154,7 +1128,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
 
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
             if (backListener != null) {
-                if (!backListener.onClick(null, portrait)) {
+                if (backListener.onClick(null, portrait)) {
                     if (portrait) {
                         return super.onKeyDown(keyCode, event);
                     } else {
@@ -1197,20 +1171,20 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
             TimeBar.OnScrubListener, OnClickListener, Player.EventListener {
 
         @Override
-        public void onScrubStart(TimeBar timeBar, long position) {
+        public void onScrubStart(@NonNull TimeBar timeBar, long position) {
             removeCallbacks(hideAction);
             scrubbing = true;
         }
 
         @Override
-        public void onScrubMove(TimeBar timeBar, long position) {
+        public void onScrubMove(@NonNull TimeBar timeBar, long position) {
             if (positionView != null) {
                 positionView.setText(Util.getStringForTime(formatBuilder, formatter, position));
             }
         }
 
         @Override
-        public void onScrubStop(TimeBar timeBar, long position, boolean canceled) {
+        public void onScrubStop(@NonNull TimeBar timeBar, long position, boolean canceled) {
             scrubbing = false;
             if (!canceled && player != null) {
                 seekToTimeBarPosition(position);
@@ -1294,20 +1268,18 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
                     changeOrientation(SENSOR_PORTRAIT);
                 } else if (exoPlayerVideoName == view || back == view) {
                     if (backListener != null) {
-                        if (!backListener.onClick(view, portrait)) {
+                        if (backListener.onClick(view, portrait)) {
                             changeOrientation(SENSOR_LANDSCAPE);
                         }
                     }
                 } else if (exoPlayerVideoNameLandscape == view || backLandscape == view) {
                     if (backListener != null) {
-                        if (!backListener.onClick(view, portrait)) {
+                        if (backListener.onClick(view, portrait)) {
                             changeOrientation(SENSOR_PORTRAIT);
                         }
                     }
-                } else if (centerInfoWrapper == view) {
-                    //playOrPause();
+                }  //playOrPause();
 
-                }
             }
             hideAfterTimeout();
         }
@@ -1322,7 +1294,7 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
             if (500 > (SystemClock.uptimeMillis() - mHits[0])) {
                 controlDispatcher.dispatchSetPlayWhenReady(player, !player.getPlayWhenReady());
                 Log.d("TESTESTESTES", "TESTESTESTES");
-                pa = new PlayerActivity();
+                new PlayerActivity();
                 //pa.addMark(getContext());
 
             }

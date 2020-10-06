@@ -2,18 +2,10 @@ package com.example.dbvideomarker.database.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Entity;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
-import androidx.room.Update;
 
-import com.example.dbvideomarker.database.entitiy.Media;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.database.entitiy.Video;
-import com.example.dbvideomarker.database.entitiy.Mark;
 import java.util.List;
 
 import static androidx.room.OnConflictStrategy.IGNORE;

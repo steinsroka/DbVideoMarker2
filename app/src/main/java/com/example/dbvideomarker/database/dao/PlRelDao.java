@@ -1,13 +1,8 @@
 package com.example.dbvideomarker.database.dao;
 
-import android.database.sqlite.SQLiteConstraintException;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Entity;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 

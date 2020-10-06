@@ -8,13 +8,11 @@ import androidx.lifecycle.LiveData;
 
 import com.example.dbvideomarker.database.AppDatabase;
 import com.example.dbvideomarker.database.dao.VideoDao;
-import com.example.dbvideomarker.database.entitiy.Media;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
-import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class VideoRepository {
 
     private String TAG = VideoRepository.class.getSimpleName();

@@ -18,6 +18,7 @@ package com.example.dbvideomarker.player.media;
 import android.util.Log;
 import android.view.Surface;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -129,7 +130,7 @@ import java.io.IOException;
 
 
     @Override
-    public void onMetadata(Metadata metadata) {
+    public void onMetadata(@NonNull Metadata metadata) {
 
     }
 

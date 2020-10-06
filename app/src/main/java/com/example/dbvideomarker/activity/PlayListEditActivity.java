@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -25,12 +23,10 @@ import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.PlayList_MarkAdapter;
 import com.example.dbvideomarker.adapter.PlayList_VideoAdapter;
-import com.example.dbvideomarker.database.entitiy.PlRelMark;
 import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.adapter.util.Callback;
 import com.example.dbvideomarker.database.entitiy.PlRel;
-import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.ui.home.HomeViewModel;
@@ -56,8 +52,8 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
     private ItemTouchHelper itemTouchHelper;
     private RequestManager _mGlideRequestManager;
-    private FloatingActionButton fab_main, fab_video, fab_mark;
-    private TextView vCount, mCount;
+    private FloatingActionButton fab_video;
+    private FloatingActionButton fab_mark;
     private PlayList_VideoAdapter adapter_video;
     private PlayList_MarkAdapter adapter_mark;
 
@@ -79,21 +75,18 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 //        String pname = intent.getStringExtra("재생목록 이름");
 //        TextView playListCount = (TextView) findViewById(R.id.playListCount);
 //        playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함 + setText는 charsequance 자료형임
-        TextView playListName = (TextView) findViewById(R.id.playListName);
+        TextView playListName = findViewById(R.id.playListName);
 
         playlistViewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
-        playListEditViewModel.getPlayList(pid).observe(this, new Observer<PlayList>() {
-            @Override
-            public void onChanged(PlayList playList) {
-                String pname = playList.getpName();
-                playListName.setText(pname);
-            }
+        playListEditViewModel.getPlayList(pid).observe(this, playList -> {
+            String pname = playList.getpName();
+            playListName.setText(pname);
         });
 
-        vCount = findViewById(R.id.video_count);
-        mCount = findViewById(R.id.mark_count);
+        TextView vCount = findViewById(R.id.video_count);
+        TextView mCount = findViewById(R.id.mark_count);
 /*
         playListEditViewModel.getVideoRowCount(pid).observe(this, new Observer<Integer>() {
             @Override
@@ -114,43 +107,34 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     }
 
     public void setFab(){
-        fab_main = findViewById(R.id.fab_main);
+        FloatingActionButton fab_main = findViewById(R.id.fab_main);
         fab_video = findViewById(R.id.fab_video);
         fab_mark = findViewById(R.id.fab_mark);
 
-        fab_main.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!IS_OPEN) {
-                    fab_video.setVisibility(View.VISIBLE);
-                    fab_mark.setVisibility(View.VISIBLE);
-                    IS_OPEN = true;
-                } else {
-                    fab_video.setVisibility(View.GONE);
-                    fab_mark.setVisibility(View.GONE);
-                    IS_OPEN = false;
-                }
+        fab_main.setOnClickListener(view -> {
+            if(!IS_OPEN) {
+                fab_video.setVisibility(View.VISIBLE);
+                fab_mark.setVisibility(View.VISIBLE);
+                IS_OPEN = true;
+            } else {
+                fab_video.setVisibility(View.GONE);
+                fab_mark.setVisibility(View.GONE);
+                IS_OPEN = false;
             }
         });
 
-        fab_video.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent videoIntent = new Intent(PlayListEditActivity.this, SelectActivity.class);
-                videoIntent.putExtra("pid", pid);
-                videoIntent.putExtra("VIEW_TYPE", 2001);
-                startActivityForResult(videoIntent, SELECT_VIDEO_REQUEST_CODE);
-            }
+        fab_video.setOnClickListener(view -> {
+            Intent videoIntent = new Intent(PlayListEditActivity.this, SelectActivity.class);
+            videoIntent.putExtra("pid", pid);
+            videoIntent.putExtra("VIEW_TYPE", 2001);
+            startActivityForResult(videoIntent, SELECT_VIDEO_REQUEST_CODE);
         });
 
-        fab_mark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent markIntent = new Intent(PlayListEditActivity.this, SelectActivity.class);
-                markIntent.putExtra("pid", pid);
-                markIntent.putExtra("VIEW_TYPE", 2002);
-                startActivityForResult(markIntent, SELECT_MARK_REQUEST_CODE);
-            }
+        fab_mark.setOnClickListener(view -> {
+            Intent markIntent = new Intent(PlayListEditActivity.this, SelectActivity.class);
+            markIntent.putExtra("pid", pid);
+            markIntent.putExtra("VIEW_TYPE", 2002);
+            startActivityForResult(markIntent, SELECT_MARK_REQUEST_CODE);
         });
     }
 
@@ -164,41 +148,38 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         //vCount = findViewById(R.id.video_count);
 
-        playListEditViewModel.findVideoInPlayList(pid).observe(this, new Observer<List<PlRelVideo>>() {
-            @Override
-            public void onChanged(List<PlRelVideo> plRels) {
-                adapter_video.setPlRelv(plRels);
-                //vCount.setText(""+plRels.size());
+        playListEditViewModel.findVideoInPlayList(pid).observe(this, plRels -> {
+            adapter_video.setPlRelv(plRels);
+            //vCount.setText(""+plRels.size());
 /*
-                resultList = getStringArrayList(""+pid);
+            resultList = getStringArrayList(""+pid);
 
-                if(resultList == null) {
-                    setStringArrayList(""+pid, plRels);
-                    adapter.setPlRels(plRels);
-                } else {
-                    if(resultList.size() < plRels.size()) {
-                        for(int i = 0; i < plRels.size(); i++) {
-                            if (!resultList.contains(plRels.get(i))) {
-                                resultList.add(plRels.get(i));
-                                setStringArrayList(""+pid, resultList);
-                                adapter.setPlRels(resultList);
-                            }
+            if(resultList == null) {
+                setStringArrayList(""+pid, plRels);
+                adapter.setPlRels(plRels);
+            } else {
+                if(resultList.size() < plRels.size()) {
+                    for(int i = 0; i < plRels.size(); i++) {
+                        if (!resultList.contains(plRels.get(i))) {
+                            resultList.add(plRels.get(i));
+                            setStringArrayList(""+pid, resultList);
+                            adapter.setPlRels(resultList);
                         }
-                    } else if(resultList.size() > plRels.size()){
-                        for(int i = 0; i < resultList.size(); i++) {
-                            if (!plRels.contains(resultList.get(i))) {
-                                resultList.remove(i);
-                                setStringArrayList(""+pid, resultList);
-                                adapter.setPlRels(resultList);
-                            }
-                        }
-                    } else {
-                        setStringArrayList(""+pid, resultList);
-                        adapter.setPlRels(resultList);
                     }
+                } else if(resultList.size() > plRels.size()){
+                    for(int i = 0; i < resultList.size(); i++) {
+                        if (!plRels.contains(resultList.get(i))) {
+                            resultList.remove(i);
+                            setStringArrayList(""+pid, resultList);
+                            adapter.setPlRels(resultList);
+                        }
+                    }
+                } else {
+                    setStringArrayList(""+pid, resultList);
+                    adapter.setPlRels(resultList);
                 }
- */
             }
+*/
         });
 
         recyclerView_video.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -212,12 +193,9 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         //mCount = findViewById(R.id.mark_count);
 
-        playListEditViewModel.findMarkInPlayList(pid).observe(this, new Observer<List<PlRelMark>>() {
-            @Override
-            public void onChanged(List<PlRelMark> plRelMarks) {
-                adapter_mark.setPlRelm(plRelMarks);
-                //mCount.setText(""+plRelMarks.size());
-            }
+        playListEditViewModel.findMarkInPlayList(pid).observe(this, plRelMarks -> {
+            adapter_mark.setPlRelm(plRelMarks);
+            //mCount.setText(""+plRelMarks.size());
         });
         recyclerView_mark.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView_mark.setAdapter(adapter_mark);
@@ -229,7 +207,9 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         if(resultCode == RESULT_OK) {
             if(requestCode == SELECT_VIDEO_REQUEST_CODE) {
+                assert data != null;
                 ArrayList<Integer> selectedVidList = data.getIntegerArrayListExtra("vidlist");
+                assert selectedVidList != null;
                 playlistViewModel.updateVideoCount(pid, selectedVidList.size());
                 for(int i=0; i<selectedVidList.size(); i++) {
                     PlRel plRel = new PlRel();
@@ -238,7 +218,9 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
                     playListEditViewModel.insertPlRelation(plRel);
                 }
             } else if(requestCode == SELECT_MARK_REQUEST_CODE) {
+                assert data != null;
                 ArrayList<Integer> selectedMidList = data.getIntegerArrayListExtra("midlist");
+                assert selectedMidList != null;
                 playlistViewModel.updateMarkCount(pid, selectedMidList.size());
                 for(int i=0; i<selectedMidList.size(); i++) {
                     PlRel plRel = new PlRel();
@@ -267,16 +249,11 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup_playlist_video, menu);
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case(R.id.popup_delete_playlist):
-                        playListEditViewModel.deleteVideoInPlaylist(id);
-                        break;
-                }
-                return false;
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.popup_delete_playlist) {
+                playListEditViewModel.deleteVideoInPlaylist(id);
             }
+            return false;
         });
         popupMenu.show();
     }
@@ -298,16 +275,11 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup_playlist_mark, menu);
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case(R.id.popup_delete_playlist):
-                        playListEditViewModel.deleteMarkInPlaylist(id);
-                        break;
-                }
-                return false;
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.popup_delete_playlist) {
+                playListEditViewModel.deleteMarkInPlaylist(id);
             }
+            return false;
         });
         popupMenu.show();
     }
@@ -345,7 +317,6 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         String json = pref.getString(key, null);
         Type type = new TypeToken<List<PlRelVideo>>() {
         }.getType();
-        List<PlRelVideo> items = gson.fromJson(json, type);
-        return items;
+        return gson.fromJson(json, type);
     }
 }

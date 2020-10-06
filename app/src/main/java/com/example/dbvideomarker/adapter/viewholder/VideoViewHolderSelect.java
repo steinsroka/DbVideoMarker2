@@ -1,6 +1,5 @@
 package com.example.dbvideomarker.adapter.viewholder;
 
-import android.view.SurfaceControl;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

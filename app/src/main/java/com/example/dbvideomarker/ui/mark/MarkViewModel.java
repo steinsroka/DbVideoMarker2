@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.dbvideomarker.database.entitiy.Mark;
-import com.example.dbvideomarker.database.entitiy.PlRelMark;
 import com.example.dbvideomarker.repository.MarkRepository;
 import com.example.dbvideomarker.repository.PlayListEditRepository;
 

@@ -12,6 +12,7 @@ import com.example.dbvideomarker.database.entitiy.PlayList;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class PlayListRepository {
     private static final String TAG = PlayListRepository.class.getSimpleName();
 

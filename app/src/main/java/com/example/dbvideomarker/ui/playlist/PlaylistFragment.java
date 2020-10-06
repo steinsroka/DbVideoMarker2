@@ -2,49 +2,38 @@ package com.example.dbvideomarker.ui.playlist;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.activity.InfoActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
-import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnPlaylistClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.ui.home.HomeViewModel;
-import com.example.dbvideomarker.util.MediaStoreLoader;
-
-import java.util.List;
 
 public class PlaylistFragment extends Fragment implements OnPlaylistClickListener, OnItemSelectedListener, OnItemClickListener {
 
@@ -57,41 +46,28 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
 
         RecyclerView recyclerView = rv.findViewById(R.id.rv_Playlist);
         PlayListAdapter adapter = new PlayListAdapter(context, ViewCase.NORMAL, this, this);
-        playlistViewModel = new ViewModelProvider(getActivity()).get(PlaylistViewModel.class);
-        playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), new Observer<List<PlayList>>() {
-            @Override
-            public void onChanged(List<PlayList> playList) {
-                adapter.setPlayLists(playList);
-            }
-        });
+        playlistViewModel = new ViewModelProvider(requireActivity()).get(PlaylistViewModel.class);
+        playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), adapter::setPlayLists);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-        rv.findViewById(R.id.btn_addPlayList).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText et = rv.findViewById(R.id.et_PlayListName);
-                if (et.getText().toString().trim().length() != 0) {
-                    String name = et.getText().toString().trim();
-                    PlayList playList = new PlayList();
-                    playList.setpName(name);
-                    playList.setVcount(0);
-                    playList.setMcount(0);
-                    playlistViewModel.insertPlayList(playList);
-                }
-
+        rv.findViewById(R.id.btn_addPlayList).setOnClickListener(view -> {
+            EditText et = rv.findViewById(R.id.et_PlayListName);
+            if (et.getText().toString().trim().length() != 0) {
+                String name = et.getText().toString().trim();
+                PlayList playList = new PlayList();
+                playList.setpName(name);
+                playList.setVcount(0);
+                playList.setMcount(0);
+                playlistViewModel.insertPlayList(playList);
             }
+
         });
 
         RecyclerView recentView = rv.findViewById(R.id.rv_recentView);
         VideoAdapter recentAdapter = new VideoAdapter(context, ViewCase.RECENT, this, this);
-        homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
-        homeViewModel.findRecentViewVideo().observe(getViewLifecycleOwner(), new Observer<List<Video>>() {
-            @Override
-            public void onChanged(List<Video> videos) {
-                recentAdapter.setVideos(videos);
-            }
-        });
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        homeViewModel.findRecentViewVideo().observe(getViewLifecycleOwner(), recentAdapter::setVideos);
         recentView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         recentView.setAdapter(recentAdapter);
 
@@ -134,7 +110,7 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
     public void clickPlaylist(int id) {
         Intent intent = new Intent(getContext(), PlayListEditActivity.class);
         intent.putExtra("재생목록 번호", id);
-        getContext().startActivity(intent);
+        requireContext().startActivity(intent);
     }
 
     @Override
@@ -144,35 +120,29 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup_playlist, menu);
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.modifyPlayList:
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        EditText et = new EditText(getActivity());
-                        builder.setView(et);
-                        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (et.getText().toString().trim().length() != 0) {
-                                    PlayList playList = new PlayList();
-                                    playList.setpName(et.getText().toString());
-                                    playList.setPid(id);
-                                    playlistViewModel.update(playList);
-                                }
-                            }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                        break;
-                    case(R.id.deletePlayList):
-                        playlistViewModel.deleteWithPlayList(id);
-                        playlistViewModel.deletePlayList(id);
-                        break;
-                }
-                return false;
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.modifyPlayList:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    EditText et = new EditText(getActivity());
+                    builder.setView(et);
+                    builder.setPositiveButton("확인", (dialogInterface, i) -> {
+                        if (et.getText().toString().trim().length() != 0) {
+                            PlayList playList = new PlayList();
+                            playList.setpName(et.getText().toString());
+                            playList.setPid(id);
+                            playlistViewModel.update(playList);
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    break;
+                case(R.id.deletePlayList):
+                    playlistViewModel.deleteWithPlayList(id);
+                    playlistViewModel.deletePlayList(id);
+                    break;
             }
+            return false;
         });
         popupMenu.show();
     }
@@ -188,7 +158,7 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
         //update
         homeViewModel.updateRecentVideo(id, System.currentTimeMillis());
 
-        getContext().startActivity(playerIntent);
+        requireContext().startActivity(playerIntent);
     }
 
     @Override

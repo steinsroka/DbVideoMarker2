@@ -1,7 +1,5 @@
 package com.example.dbvideomarker.database.entitiy;
 
-import android.widget.ImageView;
-
 public class SearchItemList {
     private int thumb;
     private String vDur;

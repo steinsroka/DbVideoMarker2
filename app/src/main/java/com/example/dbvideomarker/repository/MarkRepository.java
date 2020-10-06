@@ -12,6 +12,7 @@ import com.example.dbvideomarker.database.entitiy.Mark;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class MarkRepository {
 
     private String TAG = MarkRepository.class.getSimpleName();

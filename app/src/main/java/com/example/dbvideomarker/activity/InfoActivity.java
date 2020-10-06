@@ -4,11 +4,13 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dbvideomarker.R;
@@ -16,37 +18,35 @@ import com.example.dbvideomarker.util.MediaStoreLoader;
 
 public class InfoActivity extends AppCompatActivity {
 
-    private int ID;
-    private Uri URI;
-
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
         Intent intent = getIntent();
-        ID = intent.getIntExtra("ContentID", -1);
-        URI = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(ID));
+        int ID = intent.getIntExtra("ContentID", -1);
+        Uri URI = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(ID));
         getVideoInfo(URI);
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     public void getVideoInfo(Uri uri) {
 
-        ImageView iv1 = (ImageView) findViewById(R.id.info_thumb);
-        TextView tv1 = (TextView) findViewById(R.id.info_name);
-        TextView tv2 = (TextView) findViewById(R.id.info_dur);
-        TextView tv3 = (TextView) findViewById(R.id.info_size);
-        TextView tv4 = (TextView) findViewById(R.id.info_mime);
-        TextView tv5 = (TextView) findViewById(R.id.info_resol);
-        TextView tv6 = (TextView) findViewById(R.id.info_added);
-        TextView tv7 = (TextView) findViewById(R.id.info_path);
+        ImageView iv1 = findViewById(R.id.info_thumb);
+        TextView tv1 = findViewById(R.id.info_name);
+        TextView tv2 = findViewById(R.id.info_dur);
+        TextView tv3 = findViewById(R.id.info_size);
+        TextView tv4 = findViewById(R.id.info_mime);
+        TextView tv5 = findViewById(R.id.info_resol);
+        TextView tv6 = findViewById(R.id.info_added);
+        TextView tv7 = findViewById(R.id.info_path);
 
         MediaStoreLoader loader = new MediaStoreLoader();
         ContentResolver resolver = getApplicationContext().getContentResolver();
 
-        Uri contentUri = uri;
-        String projections[] = {
+        String[] projections = {
                 MediaStore.Video.Media.DISPLAY_NAME,
                 MediaStore.Video.Media.DURATION,
                 MediaStore.Video.Media.SIZE,
@@ -56,7 +56,7 @@ public class InfoActivity extends AppCompatActivity {
                 MediaStore.Video.Media.DATA
         };
 
-        Cursor c = resolver.query(contentUri, projections, null, null, null);
+        Cursor c = resolver.query(uri, projections, null, null, null);
 
         if (c != null) {
             while (c.moveToNext()) {
@@ -98,6 +98,7 @@ public class InfoActivity extends AppCompatActivity {
                 tv7.setText(path);
             }
         }
+        assert c != null;
         c.close();
     }
 }
