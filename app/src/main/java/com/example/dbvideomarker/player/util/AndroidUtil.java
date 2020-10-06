@@ -10,15 +10,15 @@ public class AndroidUtil {
 
 
     public static boolean isJellyBeanMR1OrLater() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
+        return true;
     }
 
     public static boolean isJellyBeanMR2OrLater() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
+        return true;
     }
 
     public static boolean isKitKatOrLater() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        return true;
     }
 
     public static boolean isLolliPopOrLater() {

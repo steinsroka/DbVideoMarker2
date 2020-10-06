@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorBG">
+    android:background="@color/colorBG"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/btn_add"
@@ -12,10 +12,10 @@
         android:text="추가" />
 
     <FrameLayout
+        android:id="@+id/video_select_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/video_select_view">
+        android:visibility="gone">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_select_video"
@@ -24,10 +24,10 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/mark_select_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/mark_select_view">
+        android:visibility="gone">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_select_mark"
@@ -36,10 +36,10 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/playlist_select_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/playlist_select_view">
+        android:visibility="gone">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_select_playlist"

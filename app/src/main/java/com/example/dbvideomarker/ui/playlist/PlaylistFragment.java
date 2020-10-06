@@ -115,7 +115,7 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
 
     @Override
     public void clickLongPlaylist(View v, int id) {
-        PopupMenu popupMenu = new PopupMenu(getContext(),v);
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         Menu menu = popupMenu.getMenu();
         inflater.inflate(R.menu.menu_popup_playlist, menu);
@@ -137,7 +137,7 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
                     AlertDialog dialog = builder.create();
                     dialog.show();
                     break;
-                case(R.id.deletePlayList):
+                case (R.id.deletePlayList):
                     playlistViewModel.deleteWithPlayList(id);
                     playlistViewModel.deletePlayList(id);
                     break;

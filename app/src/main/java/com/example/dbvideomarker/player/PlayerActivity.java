@@ -100,7 +100,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     @SuppressLint("ClickableViewAccessibility")
     public void mDoubleTap() {
         final GestureDetector gestureDetector = new GestureDetector(context,
-                new GestureDetector.SimpleOnGestureListener(){
+                new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
                         addMark(videoView.getCurrentPosition());

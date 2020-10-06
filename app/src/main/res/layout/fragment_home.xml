@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBG"
     android:orientation="vertical"
-    tools:context=".ui.home.HomeFragment"
-    android:background="@color/colorBG">
+    tools:context=".ui.home.HomeFragment">
 
 
     <Button
@@ -57,9 +57,9 @@
         android:layout_height="60dp"
         android:background="@color/colorBGIF"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" >
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
             android:id="@+id/video_bottom_add_playlist"
@@ -68,8 +68,8 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/ic_baseline_playlist_add_24"
-            android:contentDescription="@string/StringValue" />
+            android:contentDescription="@string/StringValue"
+            android:src="@drawable/ic_baseline_playlist_add_24" />
 
         <ImageButton
             android:id="@+id/video_bottom_info"
@@ -79,9 +79,9 @@
             android:layout_weight="1"
             android:background="@null"
             android:clickable="true"
-            android:src="@drawable/ic_baseline_info_24"
+            android:contentDescription="@string/StringValue"
             android:focusable="true"
-            android:contentDescription="@string/StringValue" />
+            android:src="@drawable/ic_baseline_info_24" />
 
         <ImageButton
             android:id="@+id/video_bottom_delete"
@@ -90,8 +90,8 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/ic_baseline_delete_outline_24"
-            android:contentDescription="@string/StringValue" />
+            android:contentDescription="@string/StringValue"
+            android:src="@drawable/ic_baseline_delete_outline_24" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

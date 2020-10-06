@@ -47,16 +47,16 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         View playlistSelectView = findViewById(R.id.playlist_select_view);
 
         mGlideRequestManager = Glide.with(this);
-        Intent getIntent= getIntent();
+        Intent getIntent = getIntent();
         int pid = Objects.requireNonNull(getIntent.getExtras()).getInt("pid");
         VIEW_TYPE = getIntent.getExtras().getInt("VIEW_TYPE");
 
-        if(VIEW_TYPE == 2001) {
+        if (VIEW_TYPE == 2001) {
             setVideoSelectView();
             videoSelectView.setVisibility(View.VISIBLE);
             markSelectView.setVisibility(View.GONE);
             playlistSelectView.setVisibility(View.GONE);
-        } else if(VIEW_TYPE == 2002) {
+        } else if (VIEW_TYPE == 2002) {
             setMarkSelectView();
             markSelectView.setVisibility(View.VISIBLE);
             videoSelectView.setVisibility(View.GONE);
@@ -91,23 +91,24 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         MarkViewModel markViewModel = new ViewModelProvider(this).get(MarkViewModel.class);
         markViewModel.getAllMark().observe(this, adapter::setMarks);
     }
-/*
-    public void setPlaylistSelectView() {
-        RecyclerView recyclerView = findViewById(R.id.rv_select_playlist);
-        PlayListAdapter adapter = new PlayListAdapter(this, ViewCase.SELECT, this, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
 
-        playlistViewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
-        playlistViewModel.findAllPlayList().observe(this, new Observer<List<PlayList>>() {
-            @Override
-            public void onChanged(List<PlayList> playLists) {
-                adapter.setPlayLists(playLists);
-            }
-        });
+    /*
+        public void setPlaylistSelectView() {
+            RecyclerView recyclerView = findViewById(R.id.rv_select_playlist);
+            PlayListAdapter adapter = new PlayListAdapter(this, ViewCase.SELECT, this, this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            recyclerView.setAdapter(adapter);
 
-    }
-*/
+            playlistViewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
+            playlistViewModel.findAllPlayList().observe(this, new Observer<List<PlayList>>() {
+                @Override
+                public void onChanged(List<PlayList> playLists) {
+                    adapter.setPlayLists(playLists);
+                }
+            });
+
+        }
+    */
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
         Button btnSelection;
@@ -125,9 +126,9 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 setResult(RESULT_OK, resultIntent);
                 finish();
             });
-        } else if(VIEW_TYPE == 2002) {
+        } else if (VIEW_TYPE == 2002) {
             ArrayList<Integer> idList = new ArrayList<>();
-            for(int i=0; i<sparseBooleanArray.size(); i++) {
+            for (int i = 0; i < sparseBooleanArray.size(); i++) {
                 idList.add(sparseBooleanArray.keyAt(i));
             }
 
@@ -158,16 +159,20 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
     }
 
     @Override
-    public void clickItem(int id, String path) {}
+    public void clickItem(int id, String path) {
+    }
 
     @Override
-    public void clickLongItem(View v, int id, String path) {}
+    public void clickLongItem(View v, int id, String path) {
+    }
 
     @Override
-    public void clickMark(int id, long start, String path) {}
+    public void clickMark(int id, long start, String path) {
+    }
 
     @Override
-    public void clickLongMark(View v, int id, String path) {}
+    public void clickLongMark(View v, int id, String path) {
+    }
 
     @Override
     public void onBackPressed() {

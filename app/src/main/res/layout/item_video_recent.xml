@@ -3,36 +3,36 @@
     android:layout_width="160dp"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:orientation="vertical"
-    android:background="@color/colorBG">
+    android:background="@color/colorBG"
+    android:orientation="vertical">
 
-        <FrameLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:id="@+id/thumb_recent"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:contentDescription="@string/StringValue" />
 
-            <ImageView
-                android:id="@+id/thumb_recent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#000000"
-                android:contentDescription="@string/StringValue"/>
-
-            <TextView
-                android:id="@+id/dur_recent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:textColor="@color/colorBasicText"
-                android:text="TextView" />
-        </FrameLayout>
+        <TextView
+            android:id="@+id/dur_recent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:text="TextView"
+            android:textColor="@color/colorBasicText" />
+    </FrameLayout>
 
     <TextView
+        android:id="@+id/name_recent"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="videonamevideonamevideonamevideonamevideonamevideonamevideoname"
-        android:textColor="@color/colorBasicText"
-        android:maxLines="2"
         android:ellipsize="end"
-        android:id="@+id/name_recent"/>
+        android:maxLines="2"
+        android:text="videonamevideonamevideonamevideonamevideonamevideonamevideoname"
+        android:textColor="@color/colorBasicText" />
 
 </LinearLayout>

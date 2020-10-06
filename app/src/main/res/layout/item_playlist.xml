@@ -2,66 +2,70 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/colorBG">
+    android:background="@color/colorBG"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/pId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorBasicText"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="@color/colorBasicText" />
 
     <TextView
         android:id="@+id/pName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorBasicText"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="@color/colorBasicText" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBasicText"
-            android:text="동영상 " />
+            android:text="동영상 "
+            android:textColor="@color/colorBasicText" />
 
         <TextView
             android:id="@+id/pvcount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBasicText"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="@color/colorBasicText" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBasicText"
-            android:text="개" />
+            android:text="개"
+            android:textColor="@color/colorBasicText" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBasicText"
-            android:text="북마크 " />
+            android:text="북마크 "
+            android:textColor="@color/colorBasicText" />
 
         <TextView
             android:id="@+id/pmcount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBasicText"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="@color/colorBasicText" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBasicText"
-            android:text="개" />
+            android:text="개"
+            android:textColor="@color/colorBasicText" />
     </LinearLayout>
 </LinearLayout>

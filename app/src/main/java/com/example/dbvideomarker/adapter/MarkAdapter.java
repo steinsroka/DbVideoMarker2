@@ -93,7 +93,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                     markViewHolderSelect._view.setBackgroundColor(Color.parseColor("#373737"));
                 }
                 markViewHolderSelect._view.setOnClickListener(view -> {
-                    if(mSelectedItems.get(position, false)) {
+                    if (mSelectedItems.get(position, false)) {
                         mSelectedItems.delete(position);
                         mSelectedItemIds.delete(current.getmid());
                         notifyItemChanged(position);
@@ -102,7 +102,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                         mSelectedItemIds.put(current.getmid(), true);
                         notifyItemChanged(position);
                     }
-                    Log.d("MarkAdaper.class", ""+mSelectedItemIds);
+                    Log.d("MarkAdaper.class", "" + mSelectedItemIds);
 
                     onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                 });

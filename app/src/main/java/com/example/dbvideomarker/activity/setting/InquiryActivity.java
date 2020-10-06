@@ -13,10 +13,11 @@ import com.example.dbvideomarker.R;
 
 public class InquiryActivity extends AppCompatActivity {
 
-    public String getDeviceModel(){
+    public String getDeviceModel() {
         return Build.MODEL;
     }
-    public String getOsVersion(){
+
+    public String getOsVersion() {
         return Build.VERSION.RELEASE;
     }
 
@@ -26,7 +27,7 @@ public class InquiryActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_inquiry);
         setTitle("1:1 고객 문의");
         ActionBar actionBar = this.getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
 
             TextView email = findViewById(R.id.btnemail);
@@ -37,8 +38,8 @@ public class InquiryActivity extends AppCompatActivity {
                 email1.putExtra(Intent.EXTRA_EMAIL, address);
                 email1.putExtra(Intent.EXTRA_SUBJECT, "VideoMarker 문의");
                 email1.putExtra(Intent.EXTRA_TEXT, "앱 버전 (AppVersion):" + getString(R.string.appVersion) +
-                        "\n기기명 (Device):"+(getDeviceModel())+"\n안드로이드 OS (Android OS):" +
-                        (getOsVersion())+"\n내용 (Content):\n");
+                        "\n기기명 (Device):" + (getDeviceModel()) + "\n안드로이드 OS (Android OS):" +
+                        (getOsVersion()) + "\n내용 (Content):\n");
                 startActivity(email1);
             });
         }

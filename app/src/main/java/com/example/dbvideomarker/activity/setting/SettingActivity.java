@@ -3,6 +3,7 @@ package com.example.dbvideomarker.activity.setting;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +17,7 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         setTitle("환경설정");
         ActionBar actionBar = this.getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }

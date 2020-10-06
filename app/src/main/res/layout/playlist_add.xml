@@ -11,7 +11,7 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:text="새 재생목록"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
 
@@ -21,9 +21,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:textSize="16dp"
         android:importantForAutofill="no"
         android:inputType="text"
+        android:textSize="16sp"
         tools:ignore="LabelFor" />
 
 
@@ -40,11 +40,11 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="취소"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:focusable="true" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/btn_ok"
@@ -52,11 +52,11 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="확인"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:focusable="true" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </LinearLayout>

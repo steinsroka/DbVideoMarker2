@@ -99,7 +99,7 @@ public class MediaStoreLoader {
     public String getReadableDuration(long millis) {
         String dur;
         int MS_ONE_HOUR = 3600000;
-        if(millis > MS_ONE_HOUR) {
+        if (millis > MS_ONE_HOUR) {
             dur = String.format("%02d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(millis),
                     TimeUnit.MILLISECONDS.toMinutes(millis) -
@@ -155,7 +155,7 @@ public class MediaStoreLoader {
     //TODO: 30이상에서 문제가 발생할 수 있음
     public void deleteFile(Context context, int id) {
         String mSelection = MediaStore.Video.Media._ID + "=?";
-        String[] mSelectionsArgs = new String[] {String.valueOf(id)};
+        String[] mSelectionsArgs = new String[]{String.valueOf(id)};
         Uri contentUri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
 
         ContentResolver contentResolver = context.getContentResolver();

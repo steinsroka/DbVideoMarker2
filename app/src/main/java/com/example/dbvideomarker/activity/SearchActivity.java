@@ -57,11 +57,11 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(videoRepository.getSearchVideo(editable.toString()) != null) {
+                if (videoRepository.getSearchVideo(editable.toString()) != null) {
                     videoRepository.getSearchVideo(editable.toString()).observe(SearchActivity.this, videos -> videoAdapter.setVideos(videos));
                 }
 
-                if(markRepository.getSearchMark(editable.toString()) != null) {
+                if (markRepository.getSearchMark(editable.toString()) != null) {
                     markRepository.getSearchMark(editable.toString()).observe(SearchActivity.this, marks -> markAdapter.setMarks(marks));
                 }
             }
@@ -134,9 +134,10 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         expandableListView.expandGroup(1);
  */
 
-            setMarkSearchResult();
-            setVideoSearchResult();
+        setMarkSearchResult();
+        setVideoSearchResult();
     }
+
     public void setVideoSearchResult() {
         RecyclerView searchVideo = findViewById(R.id.search_Video_Result);
 
@@ -155,16 +156,20 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
     }
 
     @Override
-    public void clickItem(int id, String path) {}
+    public void clickItem(int id, String path) {
+    }
 
     @Override
-    public void clickLongItem(View v, int id, String path) {}
+    public void clickLongItem(View v, int id, String path) {
+    }
 
     @Override
-    public void clickMark(int id, long start, String path) {}
+    public void clickMark(int id, long start, String path) {
+    }
 
     @Override
-    public void clickLongMark(View v, int id, String path) {}
+    public void clickLongMark(View v, int id, String path) {
+    }
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {

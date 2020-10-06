@@ -19,7 +19,7 @@ public class SearchAdapter extends BaseExpandableListAdapter {
     private Context context;
     private ArrayList<SearchGroupList> searchGroupListArrayList;
 
-    public SearchAdapter (Context context, ArrayList<SearchGroupList> arrayList) {
+    public SearchAdapter(Context context, ArrayList<SearchGroupList> arrayList) {
         this.context = context;
 
         this.searchGroupListArrayList = new ArrayList<>();
@@ -66,7 +66,7 @@ public class SearchAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         SearchGroupList searchGroupList = searchGroupListArrayList.get(i);
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.search_group_view,viewGroup,false);
+            view = LayoutInflater.from(context).inflate(R.layout.search_group_view, viewGroup, false);
         }
         TextView groupTitle = view.findViewById(R.id.category);
         TextView groupCount = view.findViewById(R.id.count);
@@ -79,7 +79,7 @@ public class SearchAdapter extends BaseExpandableListAdapter {
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         SearchItemList searchItemList = searchGroupListArrayList.get(i).getSearchItemLists().get(i1);
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_video,viewGroup,false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_video, viewGroup, false);
         }
         ImageView thumb = view.findViewById(R.id.thumb);
         TextView vDur = view.findViewById(R.id.vDur);

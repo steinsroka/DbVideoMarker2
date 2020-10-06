@@ -1,9 +1,11 @@
 package com.example.dbvideomarker.player.ui;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.media.AudioManager;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -43,7 +45,10 @@ import java.util.List;
 
 import static android.content.Context.AUDIO_SERVICE;
 
+
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControlView.VideoViewAccessor, OnItemClickListener, OnItemSelectedListener {
+
 
     private static final int SURFACE_TYPE_NONE = 0;
     private static final int SURFACE_TYPE_SURFACE_VIEW = 1;
@@ -468,8 +473,8 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
         SimpleExoPlayer.Builder builder = new SimpleExoPlayer.Builder(getContext(), renderersFactory);
         TrackSelection.Factory adaptiveTrackSelectionFactory =
                 new AdaptiveTrackSelection.Factory();
-        DefaultTrackSelector trackSelector = new DefaultTrackSelector(getContext(),new AdaptiveTrackSelection.Factory());
-        builder.setTrackSelector(new DefaultTrackSelector(getContext(),adaptiveTrackSelectionFactory));
+        DefaultTrackSelector trackSelector = new DefaultTrackSelector(getContext(), new AdaptiveTrackSelection.Factory());
+        builder.setTrackSelector(new DefaultTrackSelector(getContext(), adaptiveTrackSelectionFactory));
         builder.setTrackSelector(trackSelector);
         builder.setBandwidthMeter(new DefaultBandwidthMeter.Builder(getContext()).build());
         SimpleExoPlayer internalPlayer = builder.build();
@@ -544,20 +549,24 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
     }
 
     @Override
-    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {}
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+    }
 
     @Override
-    public void clickItem(int id, String path) {}
+    public void clickItem(int id, String path) {
+    }
 
     @Override
-    public void clickLongItem(View v, int id, String path) {}
+    public void clickLongItem(View v, int id, String path) {
+    }
 
 
     private final class ComponentListener implements TextOutput, Player.EventListener,
             com.google.android.exoplayer2.video.VideoListener {
 
         @Override
-        public void onCues(@NonNull List<Cue> cues) {}
+        public void onCues(@NonNull List<Cue> cues) {
+        }
 
         @Override
         public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,

@@ -31,13 +31,13 @@ public class PlayList_MarkAdapter extends RecyclerView.Adapter<PlayList_MarkAdap
     @NonNull
     @Override
     public PlayList_MarkAdapter.PLMViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = minflater.inflate(R.layout.item_mark_playlist,parent,false);
+        View view = minflater.inflate(R.layout.item_mark_playlist, parent, false);
         return new PLMViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PlayList_MarkAdapter.PLMViewHolder holder, int position) {
-        if(plRelMarkList !=null) {
+        if (plRelMarkList != null) {
             PlRelMark current = plRelMarkList.get(position);
             holder.id.setText(String.valueOf(current.getPm_mid()));
             holder.name.setText(current.getPm_mmemo());
@@ -52,7 +52,7 @@ public class PlayList_MarkAdapter extends RecyclerView.Adapter<PlayList_MarkAdap
 
     @Override
     public int getItemCount() {
-        if(plRelMarkList!= null)
+        if (plRelMarkList != null)
             return plRelMarkList.size();
         else return 0;
     }
@@ -67,6 +67,7 @@ public class PlayList_MarkAdapter extends RecyclerView.Adapter<PlayList_MarkAdap
         private TextView id;
         private TextView name;
         private TextView start;
+
         public PLMViewHolder(@NonNull View itemView) {
             super(itemView);
             this.view = itemView;

@@ -1,5 +1,6 @@
 package com.example.dbvideomarker.player.media;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
@@ -26,6 +27,7 @@ import com.google.android.exoplayer2.util.Util;
 
 public class MediaSourceCreator {
 
+    @SuppressLint("StaticFieldLeak")
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
 
     private Context context;

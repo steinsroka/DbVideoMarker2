@@ -148,7 +148,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         });
 
         btn_add_playlist_mark.setOnTouchListener((v, event) -> {
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_red_24);
                 return false;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -167,7 +167,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         });
 
         btn_delete_mark.setOnTouchListener((v, event) -> {
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_red_24);
                 return false;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {

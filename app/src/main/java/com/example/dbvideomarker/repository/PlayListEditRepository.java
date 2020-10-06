@@ -55,7 +55,7 @@ public class PlayListEditRepository {
         new AsyncTask<PlRel, Void, Long>() {
             @Override
             protected Long doInBackground(PlRel... plRels) {
-                if(plRelDao == null)
+                if (plRelDao == null)
                     return -1L;
                 return plRelDao.insertPlRel(plRels[0]);
             }
@@ -106,7 +106,7 @@ public class PlayListEditRepository {
         new AsyncTask<Integer, Void, Integer>() {
             @Override
             protected Integer doInBackground(Integer... integers) {
-                if(plRelDao == null)
+                if (plRelDao == null)
                     return -1;
                 return plRelDao.deleteWithPlayList(integers[0]);
             }

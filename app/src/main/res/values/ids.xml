@@ -32,8 +32,8 @@
     <item name="exo_player_controller_placeholder" type="id" />
     <item name="exo_player_controller" type="id" />
     <item name="exo_player_pause" type="id" />
-    <item name="exo_player_mute" type="id"/>
-    <item name="exo_player_unmute" type="id"/>
+    <item name="exo_player_mute" type="id" />
+    <item name="exo_player_unmute" type="id" />
 
     <item name="exo_player_play_wrapper_landscape" type="id" />
     <item name="exo_player_current_quality_landscape" type="id" />
@@ -44,13 +44,13 @@
     <item name="exo_player_controller_top_custom_view_landscape" type="id" />
     <item name="exo_player_center_error" type="id" />
 
-    <item name="exo_player_controller_back" type="id"/>
-    <item name="exo_player_controller_back_landscape" type="id"/>
+    <item name="exo_player_controller_back" type="id" />
+    <item name="exo_player_controller_back_landscape" type="id" />
 
-    <item name="exo_player_controller_add_playlist" type="id"/>
-    <item name="exo_player_controller_add_playlist_landscape" type="id"/>
-    <item name="exo_player_controller_mark_landscape" type="id"/>
+    <item name="exo_player_controller_add_playlist" type="id" />
+    <item name="exo_player_controller_add_playlist_landscape" type="id" />
+    <item name="exo_player_controller_mark_landscape" type="id" />
 
-    <item name="exo_player_mark_container" type="id"/>
+    <item name="exo_player_mark_container" type="id" />
 
 </resources>

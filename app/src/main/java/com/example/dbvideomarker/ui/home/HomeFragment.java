@@ -108,13 +108,13 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         //최초실행 확인 + 최초실행시 Room에 데이터 추가
         SharedPreferences pref = requireActivity().getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
         boolean first = pref.getBoolean("isFirst", false);
-        if(!first){
+        if (!first) {
             Log.d("Is first Time?", "first");
             SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("isFirst",true);
-            editor.commit();
+            editor.putBoolean("isFirst", true);
+            editor.apply();
             addMediaDataToRoom();
-        }else{
+        } else {
             Log.d("Is first Time?", "not first");
         }
 
@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         btn_add_playlist.setOnClickListener(view -> {
             BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
             Bundle args = new Bundle();
-            args.putIntegerArrayList("idList",idList);
+            args.putIntegerArrayList("idList", idList);
             playerBottomSheetDialog.setArguments(args);
             playerBottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
 
@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         });
 
         btn_add_playlist.setOnTouchListener((v, event) -> {
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 btn_add_playlist.setImageResource(R.drawable.ic_baseline_playlist_add_red_24);
                 return false;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -178,7 +178,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         });
 
         btn_delete.setOnClickListener(view -> {
-            for(int i = 0; i<idList.size(); i++) {
+            for (int i = 0; i < idList.size(); i++) {
                 deleteVideo(idList.get(i));
                 Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
                 setVideoNormalView();
@@ -186,7 +186,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         });
 
         btn_delete.setOnTouchListener((v, event) -> {
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 btn_delete.setImageResource(R.drawable.ic_baseline_delete_outline_red_24);
                 return false;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -201,14 +201,14 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             int SELECT_PLAYLIST_REQUEST_CODE = 1003;
-            if(requestCode == SELECT_PLAYLIST_REQUEST_CODE) {
+            if (requestCode == SELECT_PLAYLIST_REQUEST_CODE) {
                 assert data != null;
                 ArrayList<Integer> selectedPidList = data.getIntegerArrayListExtra("pidlist");
                 assert selectedPidList != null;
-                for(int i = 0; i<selectedPidList.size(); i++) {
-                    for(int j=0; j<idList.size(); j++) {
+                for (int i = 0; i < selectedPidList.size(); i++) {
+                    for (int j = 0; j < idList.size(); j++) {
                         PlRel plRel = new PlRel();
                         plRel.setPid(selectedPidList.get(i));
                         plRel.setVid(idList.get(j));
@@ -337,7 +337,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                     builder.setTitle("동영상 제목 수정");
                     builder.setPositiveButton("확인", (dialogInterface, i) -> {
                         if (afterName.getText().toString().trim().length() != 0) {
-                            Video video =  new Video();
+                            Video video = new Video();
                             video.setVname(afterName.getText().toString());
 
                             MediaStoreLoader loader = new MediaStoreLoader();
@@ -387,6 +387,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }
         }
     }
+
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -411,12 +412,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             setVideoNormalView();
         }
     };
-
-
-
-
-
-
 
 
 //    class SortRunnable implements Runnable {

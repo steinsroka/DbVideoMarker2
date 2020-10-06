@@ -24,7 +24,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAdapter.PLEViewHolder> implements Callback.OnItemMoveListener{
+public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAdapter.PLEViewHolder> implements Callback.OnItemMoveListener {
 
     private final OnStartDragListener onStartDragListener;
     private OnItemClickListener onItemClickListener;
@@ -54,7 +54,7 @@ public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAd
     @Override
     public void onBindViewHolder(@NonNull PLEViewHolder holder, int position) {
         MediaStoreLoader loader = new MediaStoreLoader();
-        if(plRelList != null) {
+        if (plRelList != null) {
             PlRelVideo current = plRelList.get(position);
             holder.name.setText(String.valueOf(current.getPv_vname()));
             holder.vid.setText(String.valueOf(current.getPv_vid()));
@@ -71,7 +71,7 @@ public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAd
 
             //이미지 터치하면 드래그시작
             holder.imageView.setOnTouchListener((v, event) -> {
-                if(event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                     onStartDragListener.onStartDrag(holder);
                 }
                 return false;
@@ -81,7 +81,7 @@ public class PlayList_VideoAdapter extends RecyclerView.Adapter<PlayList_VideoAd
 
     @Override
     public int getItemCount() {
-        if(plRelList != null)
+        if (plRelList != null)
             return plRelList.size();
         else return 0;
     }

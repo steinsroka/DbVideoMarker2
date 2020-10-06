@@ -113,14 +113,14 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                         mSelectedItemIds.put(current.getContentId(), true);
                         notifyItemChanged(position);
                     }
-                    Log.d("test", "parsed"+ mSelectedItemIds.size());
+                    Log.d("test", "parsed" + mSelectedItemIds.size());
 
                     onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                 });
             }
         } else if (holder instanceof VideoViewHolderRecent) {
             VideoViewHolderRecent videoViewHolderRecent = (VideoViewHolderRecent) holder;
-            if(videoList != null) {
+            if (videoList != null) {
                 Video current = videoList.get(position);
                 videoViewHolderRecent.rName.setText(current.getVname());
                 videoViewHolderRecent.rDur.setText(String.valueOf(loader.getReadableDuration(current.getVdur())));

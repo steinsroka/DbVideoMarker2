@@ -52,7 +52,7 @@ public interface PlRelDao {
     @Query("DELETE FROM plrel WHERE plrel_vid = :vid")
     int deleteVideoInPlaylist(int vid);
 
-    @Query("DELETE FROM plrel WHERE plrel_mid = :mid" )
+    @Query("DELETE FROM plrel WHERE plrel_mid = :mid")
     int deleteMarkInPlaylist(int mid);
 
     @Query("DELETE FROM plrel WHERE plrel_pid = :pid")

@@ -21,8 +21,11 @@ public abstract class AppDatabase extends RoomDatabase {
 
     //데이터베이스와 연결되는 DAO, DAO는 abstract로 getter 제공
     public abstract VideoDao videoDao();
+
     public abstract PlayListDao playListDao();
+
     public abstract MarkDao markDao();
+
     public abstract PlRelDao plRelDao();
 
     private static AppDatabase INSTANCE;

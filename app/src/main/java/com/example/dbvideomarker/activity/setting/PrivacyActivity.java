@@ -3,6 +3,7 @@ package com.example.dbvideomarker.activity.setting;
 import android.os.Bundle;
 
 import android.view.MenuItem;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +18,7 @@ public class PrivacyActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_privacy);
         setTitle("개인 정보 처리 방침");
         ActionBar actionBar = this.getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }

@@ -59,7 +59,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyItemView holder, int position) {
-        if(holder instanceof PlaylistViewHolderNormal) {
+        if (holder instanceof PlaylistViewHolderNormal) {
             PlaylistViewHolderNormal playlistViewHolderNormal = (PlaylistViewHolderNormal) holder;
             if (playListList != null) {
                 PlayList current = playListList.get(position);
@@ -80,7 +80,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
 
 
             }
-        } else if(holder instanceof PlaylistViewHolderSelect) {
+        } else if (holder instanceof PlaylistViewHolderSelect) {
             PlaylistViewHolderSelect playlistViewHolderSelect = (PlaylistViewHolderSelect) holder;
             if (playListList != null) {
                 PlayList current = playListList.get(position);
@@ -89,7 +89,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
                 playlistViewHolderSelect._pvCount.setText(String.valueOf(current.getVcount()));
                 playlistViewHolderSelect._pmCount.setText(String.valueOf(current.getMcount()));
 
-                if(mSelectedItems.get(position, false)) {
+                if (mSelectedItems.get(position, false)) {
                     playlistViewHolderSelect._view.setBackgroundColor(Color.parseColor("#A6A6A6"));
                 } else {
                     playlistViewHolderSelect._view.setBackgroundColor(Color.parseColor("#5C5C5C"));
@@ -107,20 +107,20 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
                         mSelectedItemIds.put(current.getPid(), true);
                         notifyItemChanged(position);
                     }
-                    Log.d("test", "parsed"+ mSelectedItemIds.size());
+                    Log.d("test", "parsed" + mSelectedItemIds.size());
 
                     onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                 });
 
 
             }
-        } else if(holder instanceof PlaylistViewHolderBottom) {
+        } else if (holder instanceof PlaylistViewHolderBottom) {
             PlaylistViewHolderBottom playlistViewHolderBottom = (PlaylistViewHolderBottom) holder;
             if (playListList != null) {
                 PlayList current = playListList.get(position);
                 playlistViewHolderBottom.pname.setText(current.getpName());
 
-                if(mSelectedItems.get(position, false)) {
+                if (mSelectedItems.get(position, false)) {
                     playlistViewHolderBottom.view.setBackgroundColor(Color.GRAY);
                 } else {
                     playlistViewHolderBottom.view.setBackgroundColor(Color.WHITE);
@@ -138,7 +138,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
                         mSelectedItemIds.put(current.getPid(), true);
                         notifyItemChanged(position);
                     }
-                    Log.d("test", "parsed"+ mSelectedItemIds.size());
+                    Log.d("test", "parsed" + mSelectedItemIds.size());
 
                     onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                 });

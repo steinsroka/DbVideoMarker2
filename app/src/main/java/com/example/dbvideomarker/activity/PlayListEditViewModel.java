@@ -50,7 +50,6 @@ public class PlayListEditViewModel extends AndroidViewModel {
     }
 
 
-
     public LiveData<PlayList> getPlayList(int pid) {
         return playListRepository.getPlayList(pid);
     }

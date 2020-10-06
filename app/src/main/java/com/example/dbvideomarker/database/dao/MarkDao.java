@@ -13,8 +13,8 @@ import java.util.List;
 public interface MarkDao {
 
     @Query("SELECT * FROM Mark ORDER BY CASE WHEN :sort = 0 THEN mMemo END ASC, " +
-                                        "CASE WHEN :sort = 1 THEN mAdded END ASC, " +
-                                        "CASE WHEN :sort = 2 THEN mAdded END DESC")
+            "CASE WHEN :sort = 1 THEN mAdded END ASC, " +
+            "CASE WHEN :sort = 2 THEN mAdded END DESC")
     LiveData<List<Mark>> findAllMark(int sort);
 
     @Query("SELECT * FROM Mark ORDER BY mmemo")
