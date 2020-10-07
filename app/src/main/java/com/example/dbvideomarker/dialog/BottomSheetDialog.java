@@ -86,9 +86,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
             if (idList != null) {
                 for (int i = 0; i < pidList.size(); i++) {
                     getPlaylistVideoCount(pidList.get(i));
-                    playlistViewModel.updateVideoCount(pidList.get(i), getPlaylistVideoCount(pidList.get(i)));
+                    //playlistViewModel.updateVideoCount(pidList.get(i), getPlaylistVideoCount(pidList.get(i)));
+                    //playlistViewModel.updateVideoCount(pidList.get(i), 10);
+
+
+
                     Log.d("TESTESTESTES", "videoCount 값은 : " + getPlaylistVideoCount(pidList.get(i)));
-                    //playlistViewModel.updateVideoCount(pidList.get(i), idList.size());
+                    playlistViewModel.updateVideoCount(pidList.get(i), idList.size());
                     for (int j = 0; j < idList.size(); j++) {
                         PlRel plrel = new PlRel();
                         plrel.setPid((pidList.get(i)));
@@ -102,7 +106,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
 
                 for (int i = 0; i < pidList.size(); i++) {
                     getPlaylistVideoCount(pidList.get(i));
-                    playlistViewModel.updateVideoCount(pidList.get(i), VIDEO_COUNT);
+                    playlistViewModel.updateVideoCount(pidList.get(i), 1);
 
                     PlRel plrel = new PlRel();
                     plrel.setPid((pidList.get(i)));

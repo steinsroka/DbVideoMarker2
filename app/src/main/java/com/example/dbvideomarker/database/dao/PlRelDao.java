@@ -13,6 +13,7 @@ import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 import java.util.List;
 
 import static androidx.room.OnConflictStrategy.IGNORE;
+import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
 public interface PlRelDao {
@@ -36,14 +37,14 @@ public interface PlRelDao {
     LiveData<List<PlRelMark>> findMarkInPlayList(int pid);
 
 
-    @Query("SELECT COUNT(plrel_mid) FROM plrel WHERE plrel_pid =:pid and plrel_mid == -1 ")
+    @Query("SELECT COUNT(DISTINCT plrel_vid) FROM plrel WHERE plrel_pid =:pid and plrel_mid == -1 ")
     LiveData<Integer> getVideoRowCount(int pid);
 
-    @Query("SELECT COUNT(plrel_mid) FROM plrel WHERE plrel_pid =:pid and plrel_mid != -1")
+    @Query("SELECT COUNT(DISTINCT plrel_mid) FROM plrel WHERE plrel_pid =:pid and plrel_mid != -1")
     LiveData<Integer> getMarkRowCount(int pid);
 
 
-    @Insert(onConflict = IGNORE)
+    @Insert(onConflict = REPLACE)
     long insertPlRel(PlRel plRel);
 
     @Update

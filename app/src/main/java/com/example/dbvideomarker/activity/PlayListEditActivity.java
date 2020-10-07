@@ -92,10 +92,12 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         playListEditViewModel.getVideoRowCount(pid).observe(this, integer -> {
             VIDEO_COUNT = integer;
             vCount.setText(String.valueOf(integer));
+            playlistViewModel.updateVideoCount(pid, VIDEO_COUNT);
         });
         playListEditViewModel.getMarkRowCount(pid).observe(this, integers -> {
             MARK_COUNT = integers;
             mCount.setText(String.valueOf(integers));
+            playlistViewModel.updateMarkCount(pid, MARK_COUNT);
         });
         setVideoInPlaylist();
         setMarkInPlaylist();
