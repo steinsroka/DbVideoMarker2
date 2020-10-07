@@ -391,9 +391,9 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
                 || keyCode == KeyEvent.KEYCODE_DPAD_CENTER;
     }
 
-    public void play(ExoMediaSource mediaSource, boolean playWhenReady) {
-        play(mediaSource, playWhenReady, C.TIME_UNSET);
-    }
+    //public void play(ExoMediaSource mediaSource, boolean playWhenReady) {
+    //    play(mediaSource, playWhenReady, C.TIME_UNSET);
+    //}
 
     public void play(ExoMediaSource mediaSource, boolean playWhenReady, long where) {
         releasePlayer();
@@ -452,15 +452,13 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
     }
 
     private void playInternal(ExoMediaSource mediaSource, boolean playWhenReady, long where, MediaSourceCreator creator) {
+        Log.d("TESTESTESTEST", "WHERE = "+ where);
         MediaSource tmp = creator.buildMediaSource(mediaSource.uri(), mediaSource.extension());
-        player.prepare(tmp);
-        if (where == C.TIME_UNSET) {
-            player.seekTo(0L);
-        } else {
-            player.seekTo(where);
-        }
+        player.prepare(tmp, false, true);
+
 
         player.setPlayWhenReady(requestAudioFocus() && playWhenReady);
+        player.seekTo(where);
     }
 
     private void createExoPlayer(MediaSourceCreator creator) {

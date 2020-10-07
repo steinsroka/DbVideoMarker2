@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -97,6 +98,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         });
     }
 
+    /*
     @SuppressLint("ClickableViewAccessibility")
     public void mDoubleTap() {
         final GestureDetector gestureDetector = new GestureDetector(context,
@@ -109,7 +111,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                 });
         centerInfoWrapper.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
     }
-
+*/
 
     public void addMark(long position) {
         Log.d("DOUBLETAP", "DOUBLETAPTIME : " + videoView.getCurrentPosition());
@@ -155,11 +157,11 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         //SimpleMediaSource mediaSource = new SimpleMediaSource("http://vfx.mtime.cn/Video/2019/03/12/mp4/190312083533415853.mp4"); //동영상 URI
         Uri uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
         SimpleMediaSource mediaSource = new SimpleMediaSource(uri);
-        mediaSource.setDisplayName("Apple HLS"); // 동영상 제목 설정
+        mediaSource.setDisplayName("A"); // 동영상 제목 설정
 
         videoView.setControllerDisplayMode(ExoVideoPlaybackControlView.CONTROLLER_MODE_ALL);
-        videoView.play(mediaSource, false, CONTENT_START);
-        mDoubleTap();
+        videoView.play(mediaSource, true, CONTENT_START);
+        //mDoubleTap();
     }
 
 
@@ -257,6 +259,10 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+    }
+
+    public void moveTo(long time) {
+        videoView.seekTo(time);
     }
 }
 
