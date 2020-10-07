@@ -246,6 +246,9 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
         }
     }
 
+
+
+
     @Override
     public void setVisibility(int visibility) {
         super.setVisibility(visibility);
@@ -404,6 +407,7 @@ public class ExoVideoView extends FrameLayout implements ExoVideoPlaybackControl
         }
         playInternal(mediaSource, playWhenReady, where, creator);
     }
+
 
     //TODO: 이거 북마크에서만 고장남 왜인지 이유불명
     public void seekTo(long positionMs) {

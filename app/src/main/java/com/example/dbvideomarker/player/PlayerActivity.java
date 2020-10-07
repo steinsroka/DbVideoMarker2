@@ -45,27 +45,22 @@ import java.util.Objects;
 import static com.example.dbvideomarker.player.orientation.OnOrientationChangedListener.SENSOR_LANDSCAPE;
 import static com.example.dbvideomarker.player.orientation.OnOrientationChangedListener.SENSOR_PORTRAIT;
 
-public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, OnItemSelectedListener {
+public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, OnItemSelectedListener, ExoVideoPlaybackControlView.MarkAddlistener {
 
     private ExoVideoView videoView;
     private View wrapper;
-    private View centerInfoWrapper;
-    private Context context;
     private PlayerViewModel playerViewModel;
     private RequestManager mGlideRequestManager;
-    private Mark mark;
     public static int CONTENT_ID;
     private long CONTENT_START;
     private String CONTENT_PATH;
+    private ExoVideoPlaybackControlView.MarkAddlistener markAddlistener = PlayerActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_video_view);
         wrapper = findViewById(R.id.wrapper);
-        centerInfoWrapper = findViewById(R.id.exo_player_center_info_wrapper);
-        context = this;
-        mark = new Mark();
         FloatingActionButton fab = findViewById(R.id.fab_add_mark);
         fab.setOnClickListener(view -> addMark(videoView.getCurrentPosition()));
         Intent intent = getIntent();
@@ -77,7 +72,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         Log.d("TAG", "start =" + CONTENT_START + "//" + CONTENT_ID);
         initBottomView();
     }
-
 
     private void initBottomView() {
         RecyclerView recyclerView = findViewById(R.id.rv_getMark);
@@ -98,29 +92,16 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         });
     }
 
-    /*
-    @SuppressLint("ClickableViewAccessibility")
-    public void mDoubleTap() {
-        final GestureDetector gestureDetector = new GestureDetector(context,
-                new GestureDetector.SimpleOnGestureListener() {
-                    @Override
-                    public boolean onDoubleTap(MotionEvent e) {
-                        addMark(videoView.getCurrentPosition());
-                        return true;
-                    }
-                });
-        centerInfoWrapper.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
-    }
-*/
 
     public void addMark(long position) {
-        Log.d("DOUBLETAP", "DOUBLETAPTIME : " + videoView.getCurrentPosition());
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        EditText mMemo = new EditText(context);
+        //Log.d("DOUBLETAP", "DOUBLETAPTIME : " + videoView.getCurrentPosition());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        EditText mMemo = new EditText(this);
         builder.setView(mMemo);
         builder.setTitle("북마크 추가");
         builder.setPositiveButton("확인", (dialogInterface, i) -> {
             if (mMemo.getText().toString().trim().length() != 0) {
+                Mark mark = new Mark();
                 mark.setvid(CONTENT_ID);
                 mark.setmMemo(mMemo.getText().toString());
                 mark.setmStart(position);
@@ -261,8 +242,10 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
     }
 
-    public void moveTo(long time) {
-        videoView.seekTo(time);
+    @Override
+    public void markAddListener(long t) {
+        Log.d("QQQQQQQQQQ","t = " + t);
+        addMark(videoView.getCurrentPosition());
     }
 }
 

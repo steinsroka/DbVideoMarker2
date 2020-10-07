@@ -32,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.player.gesture.OnVideoGestureChangeListener;
 import com.example.dbvideomarker.player.gesture.VideoGesture;
@@ -81,6 +82,10 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
 
     public interface OrientationListener {
         void onOrientationChanged(@OnOrientationChangedListener.SensorOrientationType int orientation);
+    }
+
+    public interface MarkAddlistener {
+        void markAddListener(long t);
     }
 
     public static final int DEFAULT_FAST_FORWARD_MS = 5000;
@@ -179,7 +184,6 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
     private boolean portrait = true;
 
     private SensorOrientation sensorOrientation;
-    private PlayerActivity playerActivity;
     private OrientationListener orientationListener;
     private ExoClickListener backListener;
 
@@ -188,6 +192,10 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
     private int displayMode = CONTROLLER_MODE_ALL;
 
     private VideoViewAccessor videoViewAccessor;
+
+    private MarkAddlistener markAddlistener;
+
+
 
     public ExoVideoPlaybackControlView(Context context) {
         this(context, null);
@@ -1278,7 +1286,9 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
                             changeOrientation(SENSOR_PORTRAIT);
                         }
                     }
-                }  //playOrPause();
+                } else if (centerInfoWrapper == view) {
+                    playOrPause();
+                }
 
             }
             hideAfterTimeout();
@@ -1293,11 +1303,10 @@ public class ExoVideoPlaybackControlView extends FrameLayout {
 
             if (500 > (SystemClock.uptimeMillis() - mHits[0])) {
                 controlDispatcher.dispatchSetPlayWhenReady(player, !player.getPlayWhenReady());
-                Log.d("TESTESTESTES", "TESTESTESTES");
-                new PlayerActivity();
-                //pa.addMark(getContext());
-
+                markAddlistener.markAddListener(player.getCurrentPosition());
             }
         }
+
     }
+
 }
