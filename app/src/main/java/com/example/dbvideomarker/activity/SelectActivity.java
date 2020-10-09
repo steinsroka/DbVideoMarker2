@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,6 +20,7 @@ import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
+import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.adapter.util.ViewCase;
@@ -30,7 +32,7 @@ import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, OnMarkClickListener, OnItemClickListener {
+public class SelectActivity extends AppCompatActivity implements OnItemSelectedListener, OnMarkClickListener, OnItemClickListener, VideoAdapter.OnStartDragListener {
 
     private PlaylistViewModel playlistViewModel;
     public RequestManager mGlideRequestManager;
@@ -74,7 +76,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
 
     public void setVideoSelectView() {
         RecyclerView recyclerView = findViewById(R.id.rv_select_video);
-        VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this);
+        VideoAdapter adapter = new VideoAdapter(this, ViewCase.SELECT, this, this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
@@ -84,7 +86,7 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
 
     public void setMarkSelectView() {
         RecyclerView recyclerView = findViewById(R.id.rv_select_mark);
-        MarkAdapter adapter = new MarkAdapter(this, ViewCase.SELECT, this, this, mGlideRequestManager);
+        MarkAdapter adapter = new MarkAdapter(this, ViewCase.SELECT, this, this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapter);
 
@@ -178,5 +180,10 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    public void onStartDrag(VideoViewHolderDrag mHolder) {
+
     }
 }

@@ -37,6 +37,10 @@ public class HomeViewModel extends AndroidViewModel {
     public LiveData<List<Video>> findRecentViewVideo() {
         return videoRepository.findRecentViewVideo();
     }
+
+    public LiveData<List<Video>> getVideoByPid(int pid) {
+        return videoRepository.getVideoByPid(pid);
+    }
 //    public LiveData<List<Video>> selectVideo(int pid) {
 //        return videoRepository.selectVideo(pid);
 //    }

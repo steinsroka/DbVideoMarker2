@@ -33,13 +33,11 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
     private OnItemSelectedListener onItemSelectedListener;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
-    private RequestManager mRequestManager;
     private List<Mark> markList;
     private ViewCase sel_type;
 
-    public MarkAdapter(Context context, ViewCase sel_type, OnMarkClickListener onMarkClickListener, OnItemSelectedListener onItemSelectedListener, RequestManager requestManager) {
+    public MarkAdapter(Context context, ViewCase sel_type, OnMarkClickListener onMarkClickListener, OnItemSelectedListener onItemSelectedListener) {
         LayoutInflater mInflater = LayoutInflater.from(context);
-        mRequestManager = Glide.with(context);
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
         this.onMarkClickListener = onMarkClickListener;

@@ -50,22 +50,6 @@
             android:text="TextView"
             android:textColor="@color/colorBasicText" />
 
-        <TextView
-            android:id="@+id/plrel_vid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="TextView"
-            android:textColor="@color/colorBasicText" />
-
-        <TextView
-            android:id="@+id/plrel_pid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="TextView"
-            android:textColor="@color/colorBasicText" />
-
     </LinearLayout>
 </LinearLayout>
 

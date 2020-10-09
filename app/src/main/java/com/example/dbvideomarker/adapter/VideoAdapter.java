@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.adapter.util.Callback;
+import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderRecent;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
@@ -26,10 +29,16 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.util.MediaStoreLoader;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
-public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
+public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Callback.OnItemMoveListener{
 
+    public interface OnStartDragListener {
+        void onStartDrag(VideoViewHolderDrag mHolder);
+    }
+
+    private final OnStartDragListener onStartDragListener;
     private List<Video> videoList; //cached copy of words
     private ViewCase sel_type;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
@@ -38,13 +47,16 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
     private OnItemClickListener onItemClickListener;
     private RequestManager mRequestManager;
 
-    public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener) {
+
+    public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener, OnStartDragListener onStartDragListener) {
         LayoutInflater mInflater = LayoutInflater.from(context);
         mRequestManager = Glide.with(context);
+        this.onStartDragListener = onStartDragListener;
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
         this.onItemClickListener = onItemClickListener;
     }
+
 
     @NonNull
     @Override
@@ -58,6 +70,9 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         } else if (sel_type == ViewCase.RECENT) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_recent, parent, false);
             return new VideoViewHolderRecent(view);
+        } else if (sel_type == ViewCase.DRAG) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_playlist, parent, false);
+            return new VideoViewHolderDrag(view);
         }
         return null;
     }
@@ -127,6 +142,25 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(videoViewHolderRecent.rThumb);
                 videoViewHolderRecent.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
             }
+        } else if (holder instanceof VideoViewHolderDrag) {
+            VideoViewHolderDrag videoViewHolderDrag = (VideoViewHolderDrag) holder;
+            if (videoList != null) {
+                Video current = videoList.get(position);
+                videoViewHolderDrag.vName.setText(current.getVname());
+                videoViewHolderDrag.vDur.setText(String.valueOf(loader.getReadableDuration(current.getVdur())));
+                mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(videoViewHolderDrag.vThumb);
+                videoViewHolderDrag.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
+                videoViewHolderDrag.view.setOnLongClickListener(view -> {
+                    onItemClickListener.clickLongItem(view, current.getContentId(), current.getVpath());
+                    return false;
+                });
+                videoViewHolderDrag.iv_drag.setOnTouchListener((v, event) -> {
+                    if(event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                        onStartDragListener.onStartDrag(videoViewHolderDrag);
+                    }
+                    return false;
+                });
+            }
         }
     }
 
@@ -140,5 +174,11 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> {
         if (videoList != null) {
             return videoList.size();
         } else return 0;
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(videoList, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
 }

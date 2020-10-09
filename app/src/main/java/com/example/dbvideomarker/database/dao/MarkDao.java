@@ -26,6 +26,11 @@ public interface MarkDao {
     @Query("SELECT * FROM mark WHERE vid = :id")
     LiveData<List<Mark>> getMarkByVideoId(int id);
 
+    @Query("SELECT * FROM mark " +
+            "INNER JOIN plrel on plrel.plrel_mid = mark.mid " +
+            "WHERE plrel_pid = :pid")
+    LiveData<List<Mark>> getMarkByPid(int pid);
+
     @Query("SELECT * FROM Mark WHERE mid = :mid")
     Mark findMark(int mid);
 

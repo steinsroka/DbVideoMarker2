@@ -45,6 +45,7 @@ import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.activity.setting.SettingActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
 import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.Video;
@@ -57,7 +58,7 @@ import com.example.dbvideomarker.player.PlayerActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnItemSelectedListener, OnItemClickListener {
+public class HomeFragment extends Fragment implements OnItemSelectedListener, OnItemClickListener, VideoAdapter.OnStartDragListener {
 
     private String TAG = HomeFragment.class.getSimpleName();
     private HomeViewModel homeViewModel;
@@ -244,7 +245,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         bottomMenu.setVisibility(View.GONE);
         normalView.setVisibility(View.VISIBLE);
 
-        videoAdapter = new VideoAdapter(getActivity(), ViewCase.NORMAL, this, this);
+        videoAdapter = new VideoAdapter(getActivity(), ViewCase.NORMAL, this, this, this);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(videoAdapter);
@@ -258,7 +259,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         selectView.setVisibility(View.VISIBLE);
         bottomMenu.setVisibility(View.VISIBLE);
 
-        VideoAdapter adapter = new VideoAdapter(getActivity(), ViewCase.SELECT, this, this);
+        VideoAdapter adapter = new VideoAdapter(getActivity(), ViewCase.SELECT, this, this, this);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home_select);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
@@ -412,6 +413,11 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             setVideoNormalView();
         }
     };
+
+    @Override
+    public void onStartDrag(VideoViewHolderDrag mHolder) {
+
+    }
 
 
 //    class SortRunnable implements Runnable {

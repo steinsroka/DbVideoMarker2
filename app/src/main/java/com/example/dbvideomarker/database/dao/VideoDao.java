@@ -47,6 +47,11 @@ public interface VideoDao {
     @Query("SELECT * FROM video ORDER BY vRecent DESC")
     LiveData<List<Video>> findRecentViewVideo();
 
+    @Query("SELECT * FROM video " +
+            "INNER JOIN plrel ON plrel.plrel_vid = video.contentId " +
+            "WHERE plrel_pid = :pid")
+    LiveData<List<Video>> getVideoByPid(int pid);
+
 //    @Query("SELECT Video.* " +
 //            "FROM VIDEO LEFT JOIN plrel on Video.contentId = plrel.plrel_vid " +
 //            "WHERE NOT plrel.plrel_pid = :pid OR plrel.plrel_pid is null")

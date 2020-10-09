@@ -46,6 +46,10 @@ public class VideoRepository {
         return videoDao.searchVideo(vName);
     }
 
+    public LiveData<List<Video>> getVideoByPid(int pid) {
+        return videoDao.getVideoByPid(pid);
+    }
+
     public void insertVideo(Video video) {
         new AsyncTask<Video, Void, Long>() {
             @Override

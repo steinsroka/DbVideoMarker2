@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -21,30 +22,36 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.adapter.PlayList_MarkAdapter;
-import com.example.dbvideomarker.adapter.PlayList_VideoAdapter;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
-import com.example.dbvideomarker.listener.OnItemClickListener;
+import com.example.dbvideomarker.adapter.MarkAdapter;
+import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.Callback;
+import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
 import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.listener.OnItemClickListener;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.ui.home.HomeViewModel;
+import com.example.dbvideomarker.ui.mark.MarkViewModel;
 import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayListEditActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, PlayList_VideoAdapter.OnStartDragListener {
+public class PlayListEditActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, OnItemSelectedListener, VideoAdapter.OnStartDragListener {
 
     private PlayListEditViewModel playListEditViewModel;
     private HomeViewModel homeViewModel;
+    private MarkViewModel markViewModel;
     private PlaylistViewModel playlistViewModel;
-    private List<PlRelVideo> resultList = new ArrayList<>();
+    private List<Video> resultList = new ArrayList<>();
     public int SELECT_VIDEO_REQUEST_CODE = 1001;
     public int SELECT_MARK_REQUEST_CODE = 1002;
 
@@ -55,8 +62,8 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     private FloatingActionButton fab_video;
     private FloatingActionButton fab_mark;
     private TextView vCount, mCount;
-    private PlayList_VideoAdapter adapter_video;
-    private PlayList_MarkAdapter adapter_mark;
+    private VideoAdapter adapter_video;
+    private MarkAdapter adapter_mark;
 
     private int VIDEO_COUNT;
     private int MARK_COUNT;
@@ -80,6 +87,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         playlistViewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        markViewModel = new ViewModelProvider(this).get(MarkViewModel.class);
         playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
         playListEditViewModel.getPlayList(pid).observe(this, playList -> {
             String pname = playList.getpName();
@@ -139,17 +147,21 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     public void setVideoInPlaylist() {
         RecyclerView recyclerView_video = findViewById(R.id.rv_PlaylistEdit_video);
 
-        adapter_video = new PlayList_VideoAdapter(this, this, this, _mGlideRequestManager);
+        adapter_video = new VideoAdapter(this, ViewCase.NORMAL, this, this, this);
+        homeViewModel.getVideoByPid(pid).observe(this, videos -> adapter_video.setVideos(videos));
+
+        recyclerView_video.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView_video.setAdapter(adapter_video);
+
         Callback callback = new Callback(adapter_video);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView_video);
 
-        //vCount = findViewById(R.id.video_count);
-
+/*
         playListEditViewModel.findVideoInPlayList(pid).observe(this, plRels -> {
             adapter_video.setPlRelv(plRels);
             //vCount.setText(""+plRels.size());
-/*
+
             resultList = getStringArrayList(""+pid);
 
             if(resultList == null) {
@@ -177,26 +189,21 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
                     adapter.setPlRels(resultList);
                 }
             }
-*/
-        });
 
-        recyclerView_video.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView_video.setAdapter(adapter_video);
+        });
+*/
+
     }
 
 
     public void setMarkInPlaylist() {
         RecyclerView recyclerView_mark = findViewById(R.id.rv_PlaylistEdit_mark);
-        adapter_mark = new PlayList_MarkAdapter(this, this, _mGlideRequestManager);
+        adapter_mark = new MarkAdapter(this, ViewCase.NORMAL, this, this);
 
-        //mCount = findViewById(R.id.mark_count);
-
-        playListEditViewModel.findMarkInPlayList(pid).observe(this, plRelMarks -> {
-            adapter_mark.setPlRelm(plRelMarks);
-            //mCount.setText(""+plRelMarks.size());
-        });
+        markViewModel.getMarkByPid(pid).observe(this, marks -> adapter_mark.setMarks(marks));
         recyclerView_mark.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView_mark.setAdapter(adapter_mark);
+
     }
 
     @Override
@@ -283,23 +290,19 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         popupMenu.show();
     }
 
-    @Override
-    public void onStartDrag(PlayList_VideoAdapter.PLEViewHolder holder) {
-        itemTouchHelper.startDrag(holder);
-    }
 
     @Override
     protected void onPause() {
         super.onPause();
-        setStringArrayList("" + pid, adapter_video.plRelList);
+        //setStringArrayList("" + pid, adapter_video.videoList);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        setStringArrayList("" + pid, adapter_video.plRelList);
+        //setStringArrayList("" + pid, adapter_video.plRelList);
     }
-
+/*
     public void setStringArrayList(String key, List<PlRelVideo> valueList) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = pref.edit();
@@ -317,5 +320,15 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         Type type = new TypeToken<List<PlRelVideo>>() {
         }.getType();
         return gson.fromJson(json, type);
+    }
+*/
+    @Override
+    public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+
+    }
+
+    @Override
+    public void onStartDrag(VideoViewHolderDrag mHolder) {
+        itemTouchHelper.startDrag(mHolder);
     }
 }

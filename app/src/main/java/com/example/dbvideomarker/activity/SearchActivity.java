@@ -18,13 +18,14 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.repository.MarkRepository;
 import com.example.dbvideomarker.repository.VideoRepository;
 
-public class SearchActivity extends AppCompatActivity implements OnItemClickListener, OnItemSelectedListener, OnMarkClickListener {
+public class SearchActivity extends AppCompatActivity implements OnItemClickListener, OnItemSelectedListener, OnMarkClickListener, VideoAdapter.OnStartDragListener {
 
     private RequestManager _mGlideRequestManager;
     VideoAdapter videoAdapter;
@@ -37,8 +38,8 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_search);
 
-        videoAdapter = new VideoAdapter(this, ViewCase.NORMAL, this, this);
-        markAdapter = new MarkAdapter(this, ViewCase.NORMAL, this, this, _mGlideRequestManager);
+        videoAdapter = new VideoAdapter(this, ViewCase.NORMAL, this, this, this);
+        markAdapter = new MarkAdapter(this, ViewCase.NORMAL, this, this);
 
         videoRepository = new VideoRepository(getApplication());
         markRepository = new MarkRepository(getApplication());
@@ -173,6 +174,11 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+
+    }
+
+    @Override
+    public void onStartDrag(VideoViewHolderDrag mHolder) {
 
     }
 }

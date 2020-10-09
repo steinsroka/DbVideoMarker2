@@ -7,12 +7,9 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.dbvideomarker.database.entitiy.PlRel;
-import com.example.dbvideomarker.database.entitiy.PlRelMark;
-import com.example.dbvideomarker.database.entitiy.PlRelVideo;
 
 import java.util.List;
 
-import static androidx.room.OnConflictStrategy.IGNORE;
 import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
@@ -20,7 +17,7 @@ public interface PlRelDao {
 
     @Query("SELECT * FROM plrel ORDER BY plrel_id")
     LiveData<List<PlRel>> findAllPlayListRelation();
-
+/*
     @Query("SELECT DISTINCT video.contentId as video_id, video.vname as video_name , video.vdur as video_dur , video.vpath as video_path, " +
             "plrel.plrel_pid as playlist_id FROM plrel " +
             "INNER JOIN video ON video.contentId = plrel.plrel_vid " +
@@ -35,7 +32,7 @@ public interface PlRelDao {
             //"INNER JOIN playlist ON playlist.pid = plrel.plrel_pid " +
             "WHERE plrel_pid = :pid")
     LiveData<List<PlRelMark>> findMarkInPlayList(int pid);
-
+*/
 
     @Query("SELECT COUNT(DISTINCT plrel_vid) FROM plrel WHERE plrel_pid =:pid and plrel_mid == -1 ")
     LiveData<Integer> getVideoRowCount(int pid);

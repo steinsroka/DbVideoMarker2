@@ -42,6 +42,10 @@ public class MarkRepository {
         return markDao.getMarkByVideoId(id);
     }
 
+    public LiveData<List<Mark>> getMarkByPid(int pid) {
+        return markDao.getMarkByPid(pid);
+    }
+
     public void insertMark(Mark mark) {
         new AsyncTask<Mark, Void, Long>() {
             @Override

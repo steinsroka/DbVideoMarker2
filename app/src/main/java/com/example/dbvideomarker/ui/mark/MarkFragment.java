@@ -110,7 +110,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         selectMarkView.setVisibility(View.GONE);
         bottomMarkMenu.setVisibility(View.GONE);
 
-        markAdapter = new MarkAdapter(getActivity(), ViewCase.NORMAL, this, this, mGlideRequestManager);
+        markAdapter = new MarkAdapter(getActivity(), ViewCase.NORMAL, this, this);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Mark);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setAdapter(markAdapter);
@@ -127,7 +127,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         selectMarkView.setVisibility(View.VISIBLE);
         bottomMarkMenu.setVisibility(View.VISIBLE);
 
-        MarkAdapter markAdapter = new MarkAdapter(getActivity(), ViewCase.SELECT, this, this, mGlideRequestManager);
+        MarkAdapter markAdapter = new MarkAdapter(getActivity(), ViewCase.SELECT, this, this);
         RecyclerView recyclerView = v.findViewById(R.id.rv_Mark_select);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setAdapter(markAdapter);

@@ -75,7 +75,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     private void initBottomView() {
         RecyclerView recyclerView = findViewById(R.id.rv_getMark);
-        MarkAdapter markAdapter = new MarkAdapter(this, ViewCase.NORMAL, this, this, mGlideRequestManager);
+        MarkAdapter markAdapter = new MarkAdapter(this, ViewCase.NORMAL, this, this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(markAdapter);
 

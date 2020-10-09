@@ -32,6 +32,10 @@ public class MarkViewModel extends AndroidViewModel {
         return allMark;
     }
 
+    public LiveData<List<Mark>> getMarkByPid(int pid) {
+        return markRepository.getMarkByPid(pid);
+    }
+
     public void deleteMark(int id) {
         markRepository.deleteMark(id);
     }
@@ -39,4 +43,6 @@ public class MarkViewModel extends AndroidViewModel {
     public void updateMark(int id, String name) {
         markRepository.updateMark(id, name);
     }
+
+
 }

@@ -28,6 +28,7 @@ import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
@@ -35,7 +36,7 @@ import com.example.dbvideomarker.listener.OnPlaylistClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.ui.home.HomeViewModel;
 
-public class PlaylistFragment extends Fragment implements OnPlaylistClickListener, OnItemSelectedListener, OnItemClickListener {
+public class PlaylistFragment extends Fragment implements OnPlaylistClickListener, OnItemSelectedListener, OnItemClickListener, VideoAdapter.OnStartDragListener {
 
     private PlaylistViewModel playlistViewModel;
     private HomeViewModel homeViewModel;
@@ -65,7 +66,7 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
         });
 
         RecyclerView recentView = rv.findViewById(R.id.rv_recentView);
-        VideoAdapter recentAdapter = new VideoAdapter(context, ViewCase.RECENT, this, this);
+        VideoAdapter recentAdapter = new VideoAdapter(context, ViewCase.RECENT, this, this, this);
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         homeViewModel.findRecentViewVideo().observe(getViewLifecycleOwner(), recentAdapter::setVideos);
         recentView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
@@ -164,5 +165,10 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
     @Override
     public void clickLongItem(View v, int id, String path) {
         //Do Nothing
+    }
+
+    @Override
+    public void onStartDrag(VideoViewHolderDrag mHolder) {
+
     }
 }
