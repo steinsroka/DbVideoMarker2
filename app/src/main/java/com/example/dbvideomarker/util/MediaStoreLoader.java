@@ -146,7 +146,7 @@ public class MediaStoreLoader {
 
         retriever.setDataSource(path);
 
-        bitmap = retriever.getFrameAtTime(where, MediaMetadataRetriever.OPTION_NEXT_SYNC);
+        bitmap = retriever.getFrameAtTime(where*1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
         Log.d("Thumb", "thmbnail picked at" + where);
         retriever.release();
         return bitmap;
