@@ -16,7 +16,6 @@
         android:contentDescription="@string/StringValue"
         app:srcCompat="@drawable/ic_baseline_menu_24" />
 
-
     <FrameLayout
         android:layout_width="160dp"
         android:layout_height="match_parent">

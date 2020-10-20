@@ -70,9 +70,9 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 //mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getMpath()))).frame(current.getmStart()).into(markViewHolderNormal.mthumb);
                 markViewHolderNormal.mthumb.setImageBitmap(loader.getThumbnail(current.getMpath(), current.getmStart()));
                 markViewHolderNormal.view.setOnClickListener(view -> onMarkClickListener.clickMark(current.getvid(), current.getmStart(), current.getMpath()));
-                markViewHolderNormal.view.setOnLongClickListener(view -> {
+                markViewHolderNormal.moreImage.setOnClickListener(view -> {
                     onMarkClickListener.clickLongMark(view, current.getmid(), current.getMpath());
-                    return false;
+                    return;
                 });
             } else {
                 Log.d("MarkAdapter.class", "No Data");
