@@ -92,9 +92,9 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderNormal.vThumb);
                 //viewHolderNormal.vThumb.setImageBitmap(loader.getThumbnail(current.vpath, current.getVdur()/3));
                 viewHolderNormal.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
-                viewHolderNormal.view.setOnLongClickListener(v -> {
+                viewHolderNormal.moreImage.setOnClickListener(v -> {
                     onItemClickListener.clickLongItem(v, current.getContentId(), current.getVpath());
-                    return false;
+                    return;
                 });
             } else {
                 viewHolderNormal.vName.setText("No Data");
