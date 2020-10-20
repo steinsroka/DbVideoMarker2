@@ -18,6 +18,8 @@ import com.example.dbvideomarker.util.MediaStoreLoader;
 
 public class InfoActivity extends AppCompatActivity {
 
+    int id;
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +27,8 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
 
         Intent intent = getIntent();
-        int ID = intent.getIntExtra("ContentID", -1);
-        Uri URI = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(ID));
+        id = intent.getIntExtra("ContentID", -1);
+        Uri URI = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
         getVideoInfo(URI);
     }
 
@@ -88,7 +90,7 @@ public class InfoActivity extends AppCompatActivity {
                 String changedSize = loader.getReadableFileSize(size);
 
                 //Glide.with(this).asBitmap().load(uri).into(iv1);
-                iv1.setImageBitmap(loader.getThumbnail(path, 20000));
+                iv1.setImageBitmap(loader.getThumbnail(id, 20000,this));
                 tv1.setText(name);
                 tv2.setText(changedTime);
                 tv3.setText(changedSize);

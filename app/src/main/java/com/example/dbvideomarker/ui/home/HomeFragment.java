@@ -341,6 +341,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                             Video video = new Video();
                             video.setVname(afterName.getText().toString());
 
+//                            String newPath = video.getVpath().substring(video.getVpath().lastIndexOf("/")+1);
+//                            newPath = newPath +
+
+
                             MediaStoreLoader loader = new MediaStoreLoader();
                             loader.updateFile(requireActivity(), id, afterName.getText().toString());
                             homeViewModel.updateVideo(id, afterName.getText().toString());

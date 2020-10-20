@@ -35,9 +35,11 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
     private List<Mark> markList;
     private ViewCase sel_type;
+    private Context context;
 
     public MarkAdapter(Context context, ViewCase sel_type, OnMarkClickListener onMarkClickListener, OnItemSelectedListener onItemSelectedListener) {
         LayoutInflater mInflater = LayoutInflater.from(context);
+        this.context = context;
         this.sel_type = sel_type;
         this.onItemSelectedListener = onItemSelectedListener;
         this.onMarkClickListener = onMarkClickListener;
@@ -68,7 +70,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 markViewHolderNormal.mMemo.setText(current.getmMemo());
                 markViewHolderNormal.mStart.setText(loader.getReadableDuration(current.getmStart()));
                 //mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getMpath()))).frame(current.getmStart()).into(markViewHolderNormal.mthumb);
-                markViewHolderNormal.mthumb.setImageBitmap(loader.getThumbnail(current.getMpath(), current.getmStart()));
+                markViewHolderNormal.mthumb.setImageBitmap(loader.getThumbnail(current.getvid(), current.getmStart(), context));
                 markViewHolderNormal.view.setOnClickListener(view -> onMarkClickListener.clickMark(current.getvid(), current.getmStart(), current.getMpath()));
                 markViewHolderNormal.moreImage.setOnClickListener(view -> {
                     onMarkClickListener.clickLongMark(view, current.getmid(), current.getMpath());
@@ -84,7 +86,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 markViewHolderSelect._mid.setText(String.valueOf(current.getmid()));
                 markViewHolderSelect._mMemo.setText(current.getmMemo());
                 markViewHolderSelect._mStart.setText(loader.getReadableDuration(current.getmStart()));
-                markViewHolderSelect._mThumb.setImageBitmap(loader.getThumbnail(current.getMpath(), current.getmStart()));
+                markViewHolderSelect._mThumb.setImageBitmap(loader.getThumbnail(current.getvid(), current.getmStart(), context));
                 if (mSelectedItems.get(position, false)) {
                     markViewHolderSelect._view.setBackgroundColor(Color.parseColor("#A6A6A6"));
                 } else {

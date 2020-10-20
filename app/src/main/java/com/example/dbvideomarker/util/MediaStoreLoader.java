@@ -1,6 +1,7 @@
 package com.example.dbvideomarker.util;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class MediaStoreLoader {
 
     private static ArrayList<Integer> mediaIdList = new ArrayList<>();
+    private String path;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public static List<Media> getContent(Context context) {
@@ -95,6 +97,14 @@ public class MediaStoreLoader {
         return mediaList;
     }
 
+    private String getPathById(int id) {
+        String path = null;
+
+
+
+        return path;
+    }
+
     @SuppressLint("DefaultLocale")
     public String getReadableDuration(long millis) {
         String dur;
@@ -139,23 +149,34 @@ public class MediaStoreLoader {
         return dec.format(fileSize) + suffix;
     }
 
-    public Bitmap getThumbnail(String path, long where) {
-        String oldPath = path;
+    public Bitmap getThumbnail(int contentId, long where, Context context) {
 
-        if(oldPath.equals(path)) {
+        Bitmap bitmap;
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
-            Bitmap bitmap;
-            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        ContentResolver cr = context.getContentResolver();
+        String[] projections = {
+                MediaStore.Video.Media.DATA
+        };
 
-            retriever.setDataSource(path);
-
-            bitmap = retriever.getFrameAtTime(where*1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-            Log.d("Thumb", "thmbnail picked at" + where);
-            retriever.release();
-            return bitmap;
-        } else {
-            return null;
+        Cursor c = cr.query(Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(contentId)), projections, null,null,null);
+        if(c != null) {
+            while (c.moveToNext()) {
+                int index = c.getColumnIndex(projections[0]);
+                path = c.getString(index);
+            }
         }
+        assert c != null;
+        c.close();
+
+
+
+        retriever.setDataSource(path);
+
+        bitmap = retriever.getFrameAtTime(where * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+        Log.d("Thumb", "thmbnail picked at" + where);
+        retriever.release();
+        return bitmap;
     }
 
     //TODO: 30이상에서 문제가 발생할 수 있음
