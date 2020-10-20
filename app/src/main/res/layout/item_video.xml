@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -33,7 +34,7 @@
         </FrameLayout>
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -53,7 +54,20 @@
                 android:text="TextView"
                 android:textColor="@color/colorBasicText" />
 
-
         </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center">
+
+            <ImageView
+                android:id="@+id/moreImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/StringValue"
+                app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+
+            </FrameLayout>
     </LinearLayout>
 </LinearLayout>

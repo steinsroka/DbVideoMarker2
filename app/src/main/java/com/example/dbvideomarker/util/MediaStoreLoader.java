@@ -140,16 +140,22 @@ public class MediaStoreLoader {
     }
 
     public Bitmap getThumbnail(String path, long where) {
+        String oldPath = path;
 
-        Bitmap bitmap;
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        if(oldPath.equals(path)) {
 
-        retriever.setDataSource(path);
+            Bitmap bitmap;
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
-        bitmap = retriever.getFrameAtTime(where*1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-        Log.d("Thumb", "thmbnail picked at" + where);
-        retriever.release();
-        return bitmap;
+            retriever.setDataSource(path);
+
+            bitmap = retriever.getFrameAtTime(where*1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+            Log.d("Thumb", "thmbnail picked at" + where);
+            retriever.release();
+            return bitmap;
+        } else {
+            return null;
+        }
     }
 
     //TODO: 30이상에서 문제가 발생할 수 있음

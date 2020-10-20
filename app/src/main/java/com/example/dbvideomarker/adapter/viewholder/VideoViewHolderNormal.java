@@ -12,7 +12,7 @@ public class VideoViewHolderNormal extends MyItemView {
     public TextView vId;
     public TextView vName;
     public TextView vDur;
-    public ImageView vThumb;
+    public ImageView vThumb, moreImage;
 
     public VideoViewHolderNormal(View view) {
         super(view);
@@ -21,6 +21,7 @@ public class VideoViewHolderNormal extends MyItemView {
         vName = view.findViewById(R.id.vName);
         vDur = view.findViewById(R.id.vDur);
         vThumb = view.findViewById(R.id.thumb);
+        moreImage = view.findViewById(R.id.moreImage);
     }
 }
 
