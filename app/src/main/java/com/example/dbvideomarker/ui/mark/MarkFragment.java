@@ -29,8 +29,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.activity.SearchActivity;
@@ -49,7 +47,6 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
     private MarkViewModel markViewModel;
     private PlayListEditViewModel playListEditViewModel;
-    private RequestManager mGlideRequestManager;
     public int selectedSort;
     private int SELECT_PLAYLIST_REQUEST_CODE = 1003;
     private MarkAdapter markAdapter;
@@ -67,8 +64,6 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_mark, container, false);
-
-        mGlideRequestManager = Glide.with(requireActivity());
 
         normalMarkView = v.findViewById(R.id.mark_normal_wrapper);
         selectMarkView = v.findViewById(R.id.mark_select_wrapper);
@@ -208,6 +203,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -238,6 +234,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         requireContext().startActivity(playerIntent);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void clickLongMark(View v, int id, String path) {
         PopupMenu popupMenu = new PopupMenu(getContext(), v);

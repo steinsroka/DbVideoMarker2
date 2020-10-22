@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#454141"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +29,8 @@
             android:text="문의 하기"
             android:textColor="@color/colorBasicText"
             android:textSize="40sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 
@@ -43,7 +45,8 @@
             android:layout_margin="10dp"
             android:text="버튼을 클릭해서 이메일로 문의가 가능합니다."
             android:textColor="@color/colorBasicText"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 
 </LinearLayout>

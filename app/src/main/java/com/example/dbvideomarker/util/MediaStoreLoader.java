@@ -1,7 +1,6 @@
 package com.example.dbvideomarker.util;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -97,14 +96,6 @@ public class MediaStoreLoader {
         return mediaList;
     }
 
-    private String getPathById(int id) {
-        String path = null;
-
-
-
-        return path;
-    }
-
     @SuppressLint("DefaultLocale")
     public String getReadableDuration(long millis) {
         String dur;
@@ -135,7 +126,7 @@ public class MediaStoreLoader {
         String suffix = KILOBYTES;
 
         if (size > BYTES_IN_KILOBYTES) {
-            fileSize = size / BYTES_IN_KILOBYTES;
+            fileSize = (float) size / BYTES_IN_KILOBYTES;
             if (fileSize > BYTES_IN_KILOBYTES) {
                 fileSize = fileSize / BYTES_IN_KILOBYTES;
                 if (fileSize > BYTES_IN_KILOBYTES) {

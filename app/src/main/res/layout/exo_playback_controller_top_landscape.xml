@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_playback_background">
+    android:background="@color/default_playback_background"
+    tools:ignore="Overdraw">
 
     <ImageButton
         android:id="@id/exo_player_controller_back_landscape"
@@ -16,7 +18,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+        app:srcCompat="@drawable/ic_arrow_back_white_24dp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@id/exo_player_video_name_landscape"
@@ -46,14 +49,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_bookmark_border_24" />
+        app:srcCompat="@drawable/ic_baseline_bookmark_border_24"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.50" />
+        app:layout_constraintGuide_percent="0.50"
+        tools:ignore="DuplicateIncludedIds" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

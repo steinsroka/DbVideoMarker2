@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@color/colorBG"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:ignore="Overdraw">
 
     <ImageView
         android:id="@+id/dragImage"
@@ -33,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:text="TextView"
-            android:textColor="@color/colorBasicText" />
+            android:textColor="@color/colorBasicText"
+            tools:ignore="HardcodedText,RtlHardcoded" />
     </FrameLayout>
 
     <LinearLayout
@@ -47,7 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="TextView"
-            android:textColor="@color/colorBasicText" />
+            android:textColor="@color/colorBasicText"
+            tools:ignore="HardcodedText,RtlHardcoded" />
 
     </LinearLayout>
 </LinearLayout>

@@ -6,7 +6,8 @@
     android:layout_height="55dp"
     android:background="@color/default_playback_background"
     android:paddingTop="0dp"
-    android:paddingBottom="5dp">
+    android:paddingBottom="5dp"
+    tools:ignore="Overdraw">
 
     <!--<ImageButton-->
     <!--android:id="@id/exo_player_play_landscape"-->
@@ -109,7 +110,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/exo_player_play_wrapper_landscape"
         app:layout_constraintStart_toEndOf="@id/exo_player_next_landscape"
         app:layout_constraintTop_toTopOf="@+id/exo_player_play_wrapper_landscape"
-        tools:text="00:04/06:09" />
+        tools:text="00:04/06:09"
+        tools:ignore="HardcodedText" />
 
     <com.google.android.exoplayer2.ui.DefaultTimeBar
         android:id="@+id/exo_player_progress_landscape"

@@ -1,5 +1,6 @@
 package com.example.dbvideomarker.dialog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-        Button btnSelection = (Button) v.findViewById(R.id.parse_pid);
+        Button btnSelection = v.findViewById(R.id.parse_pid);
         btnSelection.setOnClickListener(view -> { //선택모드에서 재생목록에 추가
             if (idList != null) {
                 for (int i = 0; i < pidList.size(); i++) {

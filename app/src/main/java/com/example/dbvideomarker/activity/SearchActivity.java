@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
@@ -27,7 +25,7 @@ import com.example.dbvideomarker.repository.VideoRepository;
 
 public class SearchActivity extends AppCompatActivity implements OnItemClickListener, OnItemSelectedListener, OnMarkClickListener, VideoAdapter.OnStartDragListener {
 
-    private RequestManager _mGlideRequestManager;
+
     VideoAdapter videoAdapter;
     MarkAdapter markAdapter;
     VideoRepository videoRepository;
@@ -44,7 +42,6 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         videoRepository = new VideoRepository(getApplication());
         markRepository = new MarkRepository(getApplication());
 
-        _mGlideRequestManager = Glide.with(this);
         EditText editText = findViewById(R.id.editText);
         editText.addTextChangedListener(new TextWatcher() {
             @Override

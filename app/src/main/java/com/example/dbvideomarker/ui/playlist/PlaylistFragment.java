@@ -1,5 +1,6 @@
 package com.example.dbvideomarker.ui.playlist;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -81,6 +82,7 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -114,6 +116,7 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
         requireContext().startActivity(intent);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void clickLongPlaylist(View v, int id) {
         PopupMenu popupMenu = new PopupMenu(getContext(), v);

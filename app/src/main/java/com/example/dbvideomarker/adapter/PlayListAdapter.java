@@ -41,7 +41,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
         this.onPlaylistClickListener = onPlaylistClickListener;
     }
 
-    @NonNull
+
     @Override
     public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (sel_type == ViewCase.NORMAL) {

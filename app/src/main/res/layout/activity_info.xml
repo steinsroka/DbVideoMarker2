@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBGIF"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
 
 
     <ImageView
@@ -35,7 +36,7 @@
                 android:gravity="center_vertical"
                 android:text="파일명"
                 android:textColor="@color/colorBasicText"
-                tools:ignore="NestedWeights" />
+                tools:ignore="HardcodedText,NestedWeights" />
 
             <TextView
                 android:id="@+id/info_name"
@@ -44,7 +45,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
 
@@ -61,7 +63,7 @@
                 android:gravity="center_vertical"
                 android:text="재생 시간"
                 android:textColor="@color/colorBasicText"
-                tools:ignore="NestedWeights" />
+                tools:ignore="HardcodedText,NestedWeights" />
 
             <TextView
                 android:id="@+id/info_dur"
@@ -70,7 +72,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -86,7 +89,7 @@
                 android:gravity="center_vertical"
                 android:text="파일 크기"
                 android:textColor="@color/colorBasicText"
-                tools:ignore="NestedWeights" />
+                tools:ignore="HardcodedText,NestedWeights" />
 
             <TextView
                 android:id="@+id/info_size"
@@ -95,7 +98,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,7 +115,7 @@
                 android:gravity="center_vertical"
                 android:text="파일 형식"
                 android:textColor="@color/colorBasicText"
-                tools:ignore="NestedWeights" />
+                tools:ignore="HardcodedText,NestedWeights" />
 
             <TextView
                 android:id="@+id/info_mime"
@@ -120,7 +124,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -136,7 +141,7 @@
                 android:gravity="center_vertical"
                 android:text="해상도"
                 android:textColor="@color/colorBasicText"
-                tools:ignore="NestedWeights" />
+                tools:ignore="HardcodedText,NestedWeights" />
 
             <TextView
                 android:id="@+id/info_resol"
@@ -145,7 +150,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -161,7 +167,7 @@
                 android:gravity="center_vertical"
                 android:text="추가된 날짜"
                 android:textColor="@color/colorBasicText"
-                tools:ignore="NestedWeights" />
+                tools:ignore="HardcodedText,NestedWeights" />
 
             <TextView
                 android:id="@+id/info_added"
@@ -170,7 +176,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <LinearLayout
@@ -186,7 +193,7 @@
                 android:gravity="center_vertical"
                 android:text="파일 경로"
                 android:textColor="@color/colorBasicText"
-                tools:ignore="NestedWeights" />
+                tools:ignore="HardcodedText,NestedWeights" />
 
             <TextView
                 android:id="@+id/info_path"
@@ -195,7 +202,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
     </LinearLayout>
 

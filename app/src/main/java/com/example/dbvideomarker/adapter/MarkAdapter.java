@@ -2,7 +2,6 @@ package com.example.dbvideomarker.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -12,19 +11,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.util.MyItemView;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderSelect;
-import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.util.MediaStoreLoader;
 
-import java.io.File;
 import java.util.List;
 
 public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
@@ -45,7 +41,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
         this.onMarkClickListener = onMarkClickListener;
     }
 
-    @NonNull
+
     @Override
     public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (sel_type == ViewCase.NORMAL) {
@@ -72,10 +68,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                 //mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getMpath()))).frame(current.getmStart()).into(markViewHolderNormal.mthumb);
                 markViewHolderNormal.mthumb.setImageBitmap(loader.getThumbnail(current.getvid(), current.getmStart(), context));
                 markViewHolderNormal.view.setOnClickListener(view -> onMarkClickListener.clickMark(current.getvid(), current.getmStart(), current.getMpath()));
-                markViewHolderNormal.moreImage.setOnClickListener(view -> {
-                    onMarkClickListener.clickLongMark(view, current.getmid(), current.getMpath());
-                    return;
-                });
+                markViewHolderNormal.moreImage.setOnClickListener(view -> onMarkClickListener.clickLongMark(view, current.getmid(), current.getMpath()));
             } else {
                 Log.d("MarkAdapter.class", "No Data");
             }

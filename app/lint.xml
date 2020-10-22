@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconLocation">
+        <ignore path="src/main/res/drawable/ic_brightness_1_white_36dp.png" />
+        <ignore path="src/main/res/drawable/ic_brightness_6_white_36dp.png" />
+        <ignore path="src/main/res/drawable/ic_brightness_6_white_36dp.png" />
+        <ignore path="src/main/res/drawable/ic_brightness_6_white_36dp.png" />
+        <ignore path="src/main/res/drawable/ic_skip_next_white_36dp.png" />
+    </issue>
+</lint>

@@ -1,5 +1,6 @@
 package com.example.dbvideomarker.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -58,7 +59,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
     }
 
 
-    @NonNull
+
     @Override
     public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (sel_type == ViewCase.NORMAL) {
@@ -78,6 +79,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
     }
 
 
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull final MyItemView holder, int position) {
         MediaStoreLoader loader = new MediaStoreLoader();
@@ -92,10 +94,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderNormal.vThumb);
                 //viewHolderNormal.vThumb.setImageBitmap(loader.getThumbnail(current.vpath, current.getVdur()/3));
                 viewHolderNormal.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
-                viewHolderNormal.moreImage.setOnClickListener(v -> {
-                    onItemClickListener.clickLongItem(v, current.getContentId(), current.getVpath());
-                    return;
-                });
+                viewHolderNormal.moreImage.setOnClickListener(v -> onItemClickListener.clickLongItem(v, current.getContentId(), current.getVpath()));
             } else {
                 viewHolderNormal.vName.setText("No Data");
             }

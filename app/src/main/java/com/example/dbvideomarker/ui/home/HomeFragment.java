@@ -281,6 +281,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -318,6 +319,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         return selectedSort;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void clickLongItem(View v, int id, String path) {
         PopupMenu popupMenu = new PopupMenu(getContext(), v);

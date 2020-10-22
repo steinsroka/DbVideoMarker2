@@ -27,7 +27,6 @@ import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.player.media.ExoMediaSource;
 import com.example.dbvideomarker.player.media.MediaSourceCreator;
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;

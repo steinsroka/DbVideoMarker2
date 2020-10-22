@@ -1,9 +1,7 @@
 package com.example.dbvideomarker.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,8 +17,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
@@ -37,11 +33,7 @@ import com.example.dbvideomarker.ui.home.HomeViewModel;
 import com.example.dbvideomarker.ui.mark.MarkViewModel;
 import com.example.dbvideomarker.ui.playlist.PlaylistViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +50,6 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     private int pid;
 
     private ItemTouchHelper itemTouchHelper;
-    private RequestManager _mGlideRequestManager;
     private FloatingActionButton fab_video;
     private FloatingActionButton fab_mark;
     private TextView vCount, mCount;
@@ -75,7 +66,6 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_playlistedit);
 
-        _mGlideRequestManager = Glide.with(this);
         Intent intent = getIntent();
 
         pid = intent.getIntExtra("재생목록 번호", -1);
@@ -83,7 +73,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 //        String pname = intent.getStringExtra("재생목록 이름");
 //        TextView playListCount = (TextView) findViewById(R.id.playListCount);
 //        playListId.setText(""+pid); //setText 에서 int형 파라미터는 리소스 id 값이지 그냥 int값이 아님. String 형태로 바꿔서 출력해야함 + setText는 charsequance 자료형임
-        TextView playListName = (TextView) findViewById(R.id.playListName);
+        TextView playListName = findViewById(R.id.playListName);
 
         playlistViewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);

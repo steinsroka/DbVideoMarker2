@@ -1,7 +1,6 @@
 package com.example.dbvideomarker.activity.setting;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -14,11 +13,11 @@ import com.example.dbvideomarker.R;
 public class InquiryActivity extends AppCompatActivity {
 
     public String getDeviceModel() {
-        return Build.MODEL;
+        return android.os.Build.MODEL;
     }
 
     public String getOsVersion() {
-        return Build.VERSION.RELEASE;
+        return android.os.Build.VERSION.RELEASE;
     }
 
     @Override

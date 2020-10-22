@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBG"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -22,14 +23,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="재생목록 이름: "
-                    android:textColor="@color/colorBasicText" />
+                    android:textColor="@color/colorBasicText"
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/playListName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"
-                    android:textColor="@color/colorBasicText" />
+                    android:textColor="@color/colorBasicText"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
@@ -38,7 +41,8 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:ignore="ScrollViewSize">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,20 +58,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="동영상: "
-                            android:textColor="@color/colorBasicText" />
+                            android:textColor="@color/colorBasicText"
+                            tools:ignore="HardcodedText" />
 
                         <TextView
                             android:id="@+id/video_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="n"
-                            android:textColor="@color/colorBasicText" />
+                            android:textColor="@color/colorBasicText"
+                            tools:ignore="HardcodedText" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" 개"
-                            android:textColor="@color/colorBasicText" />
+                            android:textColor="@color/colorBasicText"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
 
@@ -86,20 +93,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="북마크: "
-                            android:textColor="@color/colorBasicText" />
+                            android:textColor="@color/colorBasicText"
+                            tools:ignore="HardcodedText" />
 
                         <TextView
                             android:id="@+id/mark_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="n"
-                            android:textColor="@color/colorBasicText" />
+                            android:textColor="@color/colorBasicText"
+                            tools:ignore="HardcodedText" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" 개"
-                            android:textColor="@color/colorBasicText" />
+                            android:textColor="@color/colorBasicText"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
 
@@ -119,7 +129,8 @@
                 android:layout_gravity="right|bottom"
                 android:layout_margin="16dp"
                 android:focusable="true"
-                android:src="@drawable/ic_baseline_add_24" />
+                android:src="@drawable/ic_baseline_add_24"
+                tools:ignore="ContentDescription,RtlHardcoded" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_video"
@@ -130,7 +141,8 @@
                 android:layout_marginBottom="80dp"
                 android:focusable="true"
                 android:src="@drawable/ic_baseline_play_circle_outline_24"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="ContentDescription,RtlHardcoded" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_mark"
@@ -141,7 +153,8 @@
                 android:layout_marginBottom="144dp"
                 android:focusable="true"
                 android:src="@drawable/ic_baseline_bookmarks_24"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:ignore="ContentDescription,RtlHardcoded" />
 
 
     </FrameLayout>

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorBG"
     android:orientation="vertical"
-    tools:context="activity.SearchActivity">
+    tools:context="activity.SearchActivity"
+    tools:ignore="Overdraw">
 
     <EditText
         android:id="@+id/editText"
@@ -16,7 +17,8 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText" />
+        android:textColorHint="@color/colorText"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
 
     <TextView
@@ -25,7 +27,8 @@
         android:layout_height="30dp"
         android:gravity="center_vertical"
         android:text="동영상"
-        android:textColor="@color/colorBasicText" />
+        android:textColor="@color/colorBasicText"
+        tools:ignore="HardcodedText" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_Video_Result"
@@ -41,7 +44,8 @@
         android:layout_height="30dp"
         android:gravity="center_vertical"
         android:text="북마크"
-        android:textColor="@color/colorBasicText" />
+        android:textColor="@color/colorBasicText"
+        tools:ignore="HardcodedText" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_Mark_Result"

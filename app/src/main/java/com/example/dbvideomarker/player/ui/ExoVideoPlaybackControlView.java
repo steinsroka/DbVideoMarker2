@@ -14,7 +14,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,8 +31,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.database.entitiy.Mark;
-import com.example.dbvideomarker.player.PlayerActivity;
 import com.example.dbvideomarker.player.gesture.OnVideoGestureChangeListener;
 import com.example.dbvideomarker.player.gesture.VideoGesture;
 import com.example.dbvideomarker.player.media.ExoMediaSource;

@@ -30,7 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText,RtlHardcoded" />
         </FrameLayout>
 
         <LinearLayout
@@ -44,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText,RtlHardcoded" />
 
             <TextView
                 android:id="@+id/vId"
@@ -52,14 +54,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="TextView"
-                android:textColor="@color/colorBasicText" />
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText,RtlHardcoded" />
 
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="right|center">
+            android:layout_gravity="right|center"
+            tools:ignore="RtlHardcoded">
 
             <ImageView
                 android:id="@+id/moreImage"
