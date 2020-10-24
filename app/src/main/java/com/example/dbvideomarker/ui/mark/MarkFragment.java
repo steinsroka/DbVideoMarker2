@@ -35,13 +35,16 @@ import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
+import com.example.dbvideomarker.callbacks.Toolbar_ActionMode;
 import com.example.dbvideomarker.database.entitiy.PlRel;
+import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MarkFragment extends Fragment implements OnMarkClickListener, OnItemSelectedListener {
 
@@ -51,6 +54,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
     private int SELECT_PLAYLIST_REQUEST_CODE = 1003;
     private MarkAdapter markAdapter;
     private ActionMode mActionMode;
+    private List<Mark> markList;
 
     private View v;
     private View normalMarkView;
@@ -210,7 +214,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
             case R.id.select:
                 setMarkSelectView();
-                mActionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(mActionModeCallback);
+                mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(), null, markAdapter, null, markList, false));
                 break;
             case R.id.setting:
 //                Intent intent = new Intent(this, SettingActivity.class);
@@ -265,29 +269,9 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         });
         popupMenu.show();
     }
-
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.menu_action_toolbar, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            mode.setTitle(idList + " selected");
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
+    public void setNullToActionMode() {
+        if (mActionMode != null)
             mActionMode = null;
-            setMarkNormalView();
-        }
-    };
+        setMarkNormalView();
+    }
 }

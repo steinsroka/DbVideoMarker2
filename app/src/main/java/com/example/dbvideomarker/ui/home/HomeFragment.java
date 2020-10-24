@@ -46,12 +46,15 @@ import com.example.dbvideomarker.activity.setting.SettingActivity;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
+import com.example.dbvideomarker.callbacks.Toolbar_ActionMode;
 import com.example.dbvideomarker.database.entitiy.Media;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
+import com.example.dbvideomarker.listener.RecyclerClick_Listener;
+import com.example.dbvideomarker.listener.RecyclerTouchListener;
 import com.example.dbvideomarker.util.MediaStoreLoader;
 import com.example.dbvideomarker.player.PlayerActivity;
 
@@ -71,13 +74,17 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     private View bottomMenu;
     private ImageButton btn_add_playlist, btn_info, btn_delete;
     private ArrayList<Integer> idList;
+    private List<Video> videoList;
     private ActionMode mActionMode;
+    private static RecyclerView recyclerView;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_home, container, false);
 //        Context context = v.getContext();
         RequestManager mGlideRequestManager = Glide.with(requireActivity());
+        populateRecyclerView();
+        implementRecyclerViewClickListeners();
 
         normalView = v.findViewById(R.id.video_normal_wrapper);
         selectView = v.findViewById(R.id.video_select_wrapper);
@@ -122,24 +129,30 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         Button buttonSortDialog = v.findViewById(R.id.video_sort);
         buttonSortDialog.setOnClickListener(v -> {
             selectedSort = sort();
-//                SortRunnable runnable = new SortRunnable();
-//                Thread thread = new Thread(runnable);
-//                thread.setDaemon(true);
-//                thread.start();
-
         });
         return v;
     }
 
-//    public void addToPlaylist(int pid) {
-//       Toast.makeText(getActivity(), "재생목록: "+pid+" 리스트 크기"+idList.size(), Toast.LENGTH_SHORT).show();
-//        for(int j=0; j<idList.size(); j++) {
-//            PlRel plRel = new PlRel();
-//            plRel.setPid(pid);
-//            plRel.setVid(idList.get(j));
-//            playListEditViewModel.insertPlRelation(plRel);
-//        }
-//    }
+    private void populateRecyclerView() {
+        recyclerView = (RecyclerView) v.findViewById(R.id.rv_Home);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void implementRecyclerViewClickListeners() {
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new RecyclerClick_Listener() {
+
+            @Override
+            public void onClick(View view, int position) {
+                if (mActionMode != null)
+                    onListItemSelect(position);
+            }
+            @Override
+            public void onLongClick(View view, int position) {
+                onListItemSelect(position);
+            }
+        }));
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     public void setBottomMenu() {
@@ -289,7 +302,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
             case R.id.select:
                 setVideoSelectView();
-                mActionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(mActionModeCallback);
+                mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(),  videoAdapter, null, videoList, null, true));
                 break;
             case R.id.setting:
                 Intent intent = new Intent(getActivity(), SettingActivity.class);
@@ -395,57 +408,33 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         }
     }
 
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.menu_action_toolbar, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            mode.setTitle(idList + " selected");
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-            setVideoNormalView();
-        }
-    };
-
     @Override
     public void onStartDrag(VideoViewHolderDrag mHolder) {
+    }
 
+    private void onListItemSelect(int position) {
+        videoAdapter.toggleSelection(position);//Toggle the selection
+
+        boolean hasCheckedItems = videoAdapter.getSelectedCount() > 0;//Check if any items are already selected or not
+
+
+        if (hasCheckedItems && mActionMode == null)
+            // there are some selected items, start the actionMode
+            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(),  videoAdapter, null, videoList, null, true));
+        else if (!hasCheckedItems && mActionMode != null)
+            // there no selected items, finish the actionMode
+            mActionMode.finish();
+
+        if (mActionMode != null)
+            //set action mode title on item selection
+            mActionMode.setTitle(String.valueOf(videoAdapter
+                    .getSelectedCount()) + " selected");
     }
 
 
-//    class SortRunnable implements Runnable {
-//        public List<Video> videoList;
-//
-//        @Override
-//        public void run() {
-//            homeViewModel.getAllVideo(selectedSort).observe(getActivity(), new Observer<List<Video>>() {
-//                @Override
-//                public void onChanged(List<Video> videos) {
-//                    videoList = videos;
-//                    handler.sendEmptyMessage(0);
-//                }
-//            });
-//
-//        }
-//
-//        Handler handler = new Handler() {
-//            public void handleMessage(Message msg) {
-//                if(msg.what == 0)
-//                    videoAdapter.setVideos(videoList);
-//            }
-//        };
-//    }
+    public void setNullToActionMode() {
+        if (mActionMode != null)
+            mActionMode = null;
+        setVideoNormalView();
+    }
 }
