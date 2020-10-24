@@ -140,6 +140,24 @@ public class MediaStoreLoader {
         return dec.format(fileSize) + suffix;
     }
 
+    public String getPathById(Context context, int id) {
+        ContentResolver resolver = context.getContentResolver();
+
+        Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        String[] projections = {
+                MediaStore.Video.Media.DATA
+        };
+        Cursor c = resolver.query(uri, projections, null, null, null);
+
+        if (c != null) {
+            while (c.moveToNext()) {
+                int index = c.getColumnIndex(projections[0]);
+                String path = c.getString(index);
+            }
+        }
+        return path;
+    }
+
     public Bitmap getThumbnail(int contentId, long where, Context context) {
 
         Bitmap bitmap;

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="player.PlayerActivity">
+
+    <FrameLayout
+        android:id="@+id/playerView_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/exo_playerView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="#000000"
+            app:controller_layout_id="@layout/exo_custom_controller"
+            app:use_controller="true" />
+        <TextView
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:id="@+id/exo_center_wrapper_data"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:text="tesdsdt"
+            android:textColor="#FFF"/>
+
+        <ImageButton
+            android:id="@+id/btn_unlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_outline_lock_open_32"
+            android:layout_margin="16dp"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@color/colorBG">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="동영상 상세정보들어갈 공간임"
+                        android:textColor="@color/colorBasicText"
+                        tools:ignore="HardcodedText" />
+
+
+                    <Button
+                        android:id="@+id/bottom_sheet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="재생목록에 추가"
+                        tools:ignore="HardcodedText" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_getMark"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+
+            </ScrollView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_add_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_margin="16dp"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_add_24"
+                tools:ignore="ContentDescription,RtlHardcoded" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

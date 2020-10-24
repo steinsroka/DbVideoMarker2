@@ -2,6 +2,7 @@ package com.example.dbvideomarker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -44,6 +46,8 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     private MarkViewModel markViewModel;
     private PlaylistViewModel playlistViewModel;
     private List<Video> resultList = new ArrayList<>();
+    private ArrayList<Integer> numList = new ArrayList<>();
+
     public int SELECT_VIDEO_REQUEST_CODE = 1001;
     public int SELECT_MARK_REQUEST_CODE = 1002;
 
@@ -139,6 +143,19 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         adapter_video = new VideoAdapter(this, ViewCase.NORMAL, this, this, this);
         homeViewModel.getVideoByPid(pid).observe(this, videos -> adapter_video.setVideos(videos));
+        homeViewModel.getVideoByPid(pid).observe(this, new Observer<List<Video>>() {
+            @Override
+            public void onChanged(List<Video> videoList) {
+                adapter_video.setVideos(videoList);
+                numList = new ArrayList<>();
+                for(int i=0; i<videoList.size(); i++){
+                    Video cur = videoList.get(i);
+                    numList.add(cur.getContentId());
+                }
+                Log.d("TAG", "onChanged: " + numList);
+
+            }
+        });
 
         recyclerView_video.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView_video.setAdapter(adapter_video);
@@ -146,6 +163,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         Callback callback = new Callback(adapter_video);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView_video);
+
 
 /*
         playListEditViewModel.findVideoInPlayList(pid).observe(this, plRels -> {
@@ -231,8 +249,8 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     @Override
     public void clickItem(int id, String path) {
         Intent playerIntent = new Intent(this, PlayerActivity.class);
-        playerIntent.putExtra("ContentID", id);
-        playerIntent.putExtra("Path", path);
+        playerIntent.putExtra("numList", numList);
+        playerIntent.putExtra("index", numList.indexOf(id));
         playerIntent.putExtra("Start", 0L);
         homeViewModel.updateRecentVideo(id, System.currentTimeMillis());
         startActivity(playerIntent);

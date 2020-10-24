@@ -52,12 +52,6 @@ public interface VideoDao {
             "WHERE plrel_pid = :pid")
     LiveData<List<Video>> getVideoByPid(int pid);
 
-//    @Query("SELECT Video.* " +
-//            "FROM VIDEO LEFT JOIN plrel on Video.contentId = plrel.plrel_vid " +
-//            "WHERE NOT plrel.plrel_pid = :pid OR plrel.plrel_pid is null")
-//    LiveData<List<Video>> selectVideo(int pid);
-
-
     @Insert(onConflict = IGNORE)
     long insertVideo(Video video);
 
