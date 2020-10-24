@@ -26,7 +26,6 @@ public class Video {
     @ColumnInfo(name = "vrecent")
     public long vrecent;
 
-
     public int getContentId() {
         return contentId;
     }

@@ -40,7 +40,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
     }
 
     private final OnStartDragListener onStartDragListener;
-    private List<Video> videoList; //cached copy of words
+    private List<Video> videoList;
     private ViewCase sel_type;
     private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
@@ -175,9 +175,33 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
         } else return 0;
     }
 
+    public void removeSelection(boolean isActionModeMenuClicked) {
+        mSelectedItemIds = new SparseBooleanArray(0);
+        if (!isActionModeMenuClicked) {
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         Collections.swap(videoList, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public int getSelectedCount() {
+        return mSelectedItemIds.size();
+    }
+
+    public void toggleSelection(int position) {
+        selectView(position, !mSelectedItemIds.get(position));
+    }
+
+    public void selectView(int position, boolean value) {
+        if (value)
+            mSelectedItemIds.put(position, value);
+        else
+            mSelectedItemIds.delete(position);
+
+        notifyDataSetChanged();
     }
 }

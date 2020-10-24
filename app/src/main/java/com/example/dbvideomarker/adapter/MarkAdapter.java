@@ -108,6 +108,14 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
         notifyDataSetChanged();
     }
 
+    public void removeSelection(boolean isActionModeMenuClicked) {
+        mSelectedItemIds = new SparseBooleanArray(0);
+        if (!isActionModeMenuClicked) {
+            notifyDataSetChanged();
+        }
+    }
+
+
     @Override
     public int getItemCount() {
         if (markList != null)
@@ -115,5 +123,12 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
         else return 0;
     }
 
+    public int getSelectedCount() {
+        return mSelectedItemIds.size();
+    }
 
+    //Return all selected ids
+    public SparseBooleanArray getSelectedIds() {
+        return mSelectedItemIds;
+    }
 }
