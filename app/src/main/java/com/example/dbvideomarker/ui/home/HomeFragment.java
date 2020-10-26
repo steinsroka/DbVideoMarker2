@@ -235,7 +235,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         Toast.makeText(getActivity(), "재생목록에 추가됨", Toast.LENGTH_SHORT).show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+    //@RequiresApi(api = Build.VERSION_CODES.Q)
     public void addMediaDataToRoom() {
         List<Media> mediaList = MediaStoreLoader.getContent(requireActivity());
         for (int i = 0; i < mediaList.size(); i++) {
@@ -295,7 +295,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
     @SuppressLint("NonConstantResourceId")
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+    //@RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

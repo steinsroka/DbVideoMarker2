@@ -26,7 +26,7 @@ public class MediaStoreLoader {
     private static ArrayList<Integer> mediaIdList = new ArrayList<>();
     private String path;
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+    //@RequiresApi(api = Build.VERSION_CODES.Q)
     public static List<Media> getContent(Context context) {
         List<Media> mediaList = new ArrayList<>();
 

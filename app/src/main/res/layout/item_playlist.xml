@@ -2,41 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:background="@color/colorBG"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:ignore="Overdraw">
 
-    <TextView
-        android:id="@+id/pId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/colorBasicText"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/pName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/colorBasicText"
-        tools:ignore="HardcodedText" />
+    <ImageView
+        android:src="@drawable/ic_baseline_playlist_add_check_24"
+        android:layout_margin="12dp"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="동영상 "
-            android:textColor="@color/colorBasicText"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/pvcount"
+            android:id="@+id/pId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
@@ -44,38 +27,78 @@
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="개"
-            android:textColor="@color/colorBasicText"
-            tools:ignore="HardcodedText" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="북마크 "
-            android:textColor="@color/colorBasicText"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/pmcount"
+            android:id="@+id/pName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textColor="@color/colorBasicText"
             tools:ignore="HardcodedText" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="개"
-            android:textColor="@color/colorBasicText"
-            tools:ignore="HardcodedText" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="동영상 "
+                android:textColor="@color/colorBasicText"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/pvcount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@color/colorBasicText"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="개"
+                android:textColor="@color/colorBasicText"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" · "
+                android:textSize="12sp"
+                android:textColor="@color/colorBasicText"
+                tools:ignore="HardcodedText" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="북마크 "
+                android:textColor="@color/colorBasicText"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/pmcount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@color/colorBasicText"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="개"
+                android:textColor="@color/colorBasicText"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>

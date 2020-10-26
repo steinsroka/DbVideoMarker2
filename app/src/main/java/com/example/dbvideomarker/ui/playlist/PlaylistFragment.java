@@ -3,6 +3,7 @@ package com.example.dbvideomarker.ui.playlist;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
+import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.adapter.PlayListAdapter;
@@ -41,39 +43,59 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
 
     private PlaylistViewModel playlistViewModel;
     private HomeViewModel homeViewModel;
+    private View rv;
+    private Context context;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rv = inflater.inflate(R.layout.fragment_playlist, container, false);
-        Context context = rv.getContext();
+        rv = inflater.inflate(R.layout.fragment_playlist, container, false);
+        context = rv.getContext();
 
+        rv.findViewById(R.id.btn_addPlayList).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                EditText plName = new EditText(getActivity());
+                mBuilder.setView(plName);
+                mBuilder.setTitle("재생목록 추가");
+                mBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(plName.getText().toString().trim().length() != 0) {
+                            PlayList playList = new PlayList();
+                            playList.setpName(plName.getText().toString());
+                            playList.setVcount(0);
+                            playList.setMcount(0);
+                            playlistViewModel.insertPlayList(playList);
+                        }
+                    }
+                });
+                AlertDialog dialog = mBuilder.create();
+                dialog.show();
+            }
+        });
+
+        setPlaylistView();
+        setRecentView();
+
+        return rv;
+    }
+
+    public void setPlaylistView() {
         RecyclerView recyclerView = rv.findViewById(R.id.rv_Playlist);
         PlayListAdapter adapter = new PlayListAdapter(context, ViewCase.NORMAL, this, this);
         playlistViewModel = new ViewModelProvider(requireActivity()).get(PlaylistViewModel.class);
         playlistViewModel.findAllPlayList().observe(getViewLifecycleOwner(), adapter::setPlayLists);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+    }
 
-        rv.findViewById(R.id.btn_addPlayList).setOnClickListener(view -> {
-            EditText et = rv.findViewById(R.id.et_PlayListName);
-            if (et.getText().toString().trim().length() != 0) {
-                String name = et.getText().toString().trim();
-                PlayList playList = new PlayList();
-                playList.setpName(name);
-                playList.setVcount(0);
-                playList.setMcount(0);
-                playlistViewModel.insertPlayList(playList);
-            }
-
-        });
-
+    public void setRecentView() {
         RecyclerView recentView = rv.findViewById(R.id.rv_recentView);
         VideoAdapter recentAdapter = new VideoAdapter(context, ViewCase.RECENT, this, this, this);
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         homeViewModel.findRecentViewVideo().observe(getViewLifecycleOwner(), recentAdapter::setVideos);
         recentView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         recentView.setAdapter(recentAdapter);
-
-        return rv;
     }
 
     @Override
