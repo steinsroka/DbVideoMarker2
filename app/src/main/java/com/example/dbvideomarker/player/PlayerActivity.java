@@ -239,7 +239,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         EditText mMemo = new EditText(this);
         builder.setView(mMemo);
-        builder.setTitle("북마크 추가");
+        builder.setTitle(mediaStoreLoader.getReadableDuration(position) + "에 북마크 추가");
         builder.setPositiveButton("확인", (dialogInterface, i) -> {
             if (mMemo.getText().toString().trim().length() != 0) {
                 Mark mark = new Mark();
