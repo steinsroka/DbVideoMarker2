@@ -33,6 +33,7 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.activity.SelectActivity;
+import com.example.dbvideomarker.activity.setting.SettingActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.callbacks.Toolbar_ActionMode;
@@ -217,9 +218,8 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                 mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(), null, markAdapter, null, markList, false));
                 break;
             case R.id.setting:
-//                Intent intent = new Intent(this, SettingActivity.class);
-//                //액티비티 시작!
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.menu_search:
                 Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
