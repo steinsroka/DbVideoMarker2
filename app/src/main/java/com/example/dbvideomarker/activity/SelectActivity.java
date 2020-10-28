@@ -21,6 +21,7 @@ import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
+import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
@@ -165,6 +166,11 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
 
     @Override
     public void clickLongItem(View v, int id, String path) {
+    }
+
+    @Override
+    public void onClickListener(Video video, View view, int typeClick) {
+
     }
 
     @Override

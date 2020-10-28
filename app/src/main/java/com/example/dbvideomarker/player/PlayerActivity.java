@@ -34,6 +34,7 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
@@ -484,7 +485,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                     } else {
                         data = "" + data1;
                     }
-                    gesture_info.setText(data + "[" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getCurrentPosition()) + "/" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getDuration()) + "]");
+                    gesture_info.setText(mediaStoreLoader.getReadableDuration(Long.parseLong(data)) + "[" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getCurrentPosition()) + "/" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getDuration()) + "]");
             }
         }
     }
@@ -776,6 +777,11 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void clickLongItem(View v, int id, String path) {
+    }
+
+    @Override
+    public void onClickListener(Video video, View view, int typeClick) {
+
     }
 
     @Override
