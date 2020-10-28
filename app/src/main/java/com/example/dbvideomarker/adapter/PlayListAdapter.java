@@ -117,11 +117,11 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
             if (playListList != null) {
                 PlayList current = playListList.get(position);
                 playlistViewHolderBottom.pname.setText(current.getpName());
-
+                playlistViewHolderBottom.pname.setTextColor(Color.parseColor("#FFFFFF"));
                 if (mSelectedItems.get(position, false)) {
-                    playlistViewHolderBottom.view.setBackgroundColor(Color.GRAY);
+                    playlistViewHolderBottom.view.setBackgroundColor(Color.parseColor("#737373"));
                 } else {
-                    playlistViewHolderBottom.view.setBackgroundColor(Color.WHITE);
+                    playlistViewHolderBottom.view.setBackgroundColor(Color.parseColor("#5C5C5C"));
                 }
 
                 playlistViewHolderBottom.view.setOnClickListener(view -> {
