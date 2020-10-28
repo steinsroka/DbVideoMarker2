@@ -87,7 +87,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
             VideoViewHolderNormal viewHolderNormal = (VideoViewHolderNormal) holder;
             if (videoList != null) {
                 Video current = videoList.get(position);
-                viewHolderNormal.vId.setText(String.valueOf(current.getContentId()));
                 viewHolderNormal.vName.setText(String.valueOf(current.getVname()));
                 viewHolderNormal.vDur.setText(loader.getReadableDuration(current.getVdur()));
                 //viewHolderNormal.vThumb.setImage
@@ -104,7 +103,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
             VideoViewHolderSelect viewHolderSelect = (VideoViewHolderSelect) holder;
             if (videoList != null) {
                 Video current = videoList.get(position);
-                viewHolderSelect.selectedId.setText(String.valueOf(current.getContentId()));
                 viewHolderSelect.selectedName.setText(String.valueOf(current.getVname()));
                 viewHolderSelect.selectedDur.setText(String.valueOf(loader.getReadableDuration(current.getVdur())));
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(viewHolderSelect.selectedThumb);

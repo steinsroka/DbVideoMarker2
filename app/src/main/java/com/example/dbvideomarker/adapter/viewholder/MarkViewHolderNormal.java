@@ -13,7 +13,6 @@ import com.example.dbvideomarker.adapter.util.MyItemView;
 public class MarkViewHolderNormal extends MyItemView {
     public View view;
     public ImageView mthumb, moreImage;
-    public TextView mid;
     public TextView mMemo;
     public TextView mStart;
 
@@ -22,7 +21,6 @@ public class MarkViewHolderNormal extends MyItemView {
         this.view = view;
         mthumb = view.findViewById(R.id.mthumb);
         moreImage = view.findViewById(R.id.moreImage);
-        mid = view.findViewById(R.id.mid);
         mMemo = view.findViewById(R.id.mMemo);
         mStart = view.findViewById(R.id.mstart);
     }

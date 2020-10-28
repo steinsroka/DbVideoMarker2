@@ -63,7 +63,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
             PlaylistViewHolderNormal playlistViewHolderNormal = (PlaylistViewHolderNormal) holder;
             if (playListList != null) {
                 PlayList current = playListList.get(position);
-                playlistViewHolderNormal.pId.setText(String.valueOf(current.getPid()));
                 playlistViewHolderNormal.pName.setText(current.getpName());
                 playlistViewHolderNormal.pvCount.setText(String.valueOf(current.getVcount()));
                 playlistViewHolderNormal.pmCount.setText(String.valueOf(current.getMcount()));
@@ -84,7 +83,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
             PlaylistViewHolderSelect playlistViewHolderSelect = (PlaylistViewHolderSelect) holder;
             if (playListList != null) {
                 PlayList current = playListList.get(position);
-                playlistViewHolderSelect._pId.setText(String.valueOf(current.getPid()));
                 playlistViewHolderSelect._pName.setText(current.getpName());
                 playlistViewHolderSelect._pvCount.setText(String.valueOf(current.getVcount()));
                 playlistViewHolderSelect._pmCount.setText(String.valueOf(current.getMcount()));

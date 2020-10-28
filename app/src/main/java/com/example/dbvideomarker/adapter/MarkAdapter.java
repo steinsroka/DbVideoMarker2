@@ -65,7 +65,6 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
             MarkViewHolderNormal markViewHolderNormal = (MarkViewHolderNormal) holder;
             if (markList != null) {
                 Mark current = markList.get(position);
-                markViewHolderNormal.mid.setText(String.valueOf(current.getmid()));
                 markViewHolderNormal.mMemo.setText(current.getmMemo());
                 markViewHolderNormal.mStart.setText(loader.getReadableDuration(current.getmStart()));
                 //mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getMpath()))).frame(current.getmStart()).into(markViewHolderNormal.mthumb);
@@ -79,7 +78,6 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
             MarkViewHolderSelect markViewHolderSelect = (MarkViewHolderSelect) holder;
             if (markList != null) {
                 Mark current = markList.get(position);
-                markViewHolderSelect._mid.setText(String.valueOf(current.getmid()));
                 markViewHolderSelect._mMemo.setText(current.getmMemo());
                 markViewHolderSelect._mStart.setText(loader.getReadableDuration(current.getmStart()));
                 markViewHolderSelect._mThumb.setImageBitmap(loader.getThumbnail(current.getvid(), current.getmStart(), context));

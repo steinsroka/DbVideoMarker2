@@ -46,16 +46,6 @@
                 android:textColor="@color/colorBasicText"
                 tools:ignore="HardcodedText,RtlHardcoded" />
 
-            <TextView
-                android:id="@+id/selectedId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="TextView"
-                android:textColor="@color/colorBasicText"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

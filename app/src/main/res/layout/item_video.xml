@@ -48,39 +48,14 @@
                 android:textColor="@color/colorBasicText"
                 tools:ignore="HardcodedText,RtlHardcoded" />
 
-            <TextView
-                android:id="@+id/vId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="TextView"
-                android:textColor="@color/colorBasicText"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/moreImage"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="right|center"
-            tools:ignore="RtlHardcoded">
+            android:contentDescription="@string/StringValue"
+            app:srcCompat="@drawable/ic_baseline_more_vert_24" />
 
-            <ImageView
-                android:id="@+id/moreImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/StringValue"
-                app:srcCompat="@drawable/ic_baseline_more_vert_24" />
-
-        </FrameLayout>
     </LinearLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="100dp"
-        android:layout_width="match_parent"
-        android:background="@color/colorBG">
-        <include
-            android:id="@+id/id"
-            layout="@layout/layout_progress"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

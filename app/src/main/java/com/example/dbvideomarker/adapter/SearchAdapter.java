@@ -84,12 +84,10 @@ public class SearchAdapter extends BaseExpandableListAdapter {
         ImageView thumb = view.findViewById(R.id.thumb);
         TextView vDur = view.findViewById(R.id.vDur);
         TextView vName = view.findViewById(R.id.vName);
-        TextView vId = view.findViewById(R.id.vId);
 
         thumb.setImageResource(searchItemList.getThumb());
         vDur.setText(searchItemList.getvDur());
         vName.setText(searchItemList.getvName());
-        vId.setText(searchItemList.getvId());
         return view;
     }
 
