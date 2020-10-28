@@ -63,7 +63,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
 
         TextView tv1 = v.findViewById(R.id.textview);
         if (idList != null) {
-            tv1.setText("" + idList.size());
+            tv1.setText("동영상 " + idList.size() + " 개를 선택");
         }
 
         RecyclerView recyclerView = v.findViewById(R.id.rv_playlist_bottom);

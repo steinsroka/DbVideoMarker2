@@ -188,7 +188,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         btn_delete.setOnClickListener(view -> {
             for (int i = 0; i < idList.size(); i++) {
                 deleteVideo(idList.get(i));
-                Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
                 setVideoNormalView();
             }
         });
@@ -411,7 +411,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
         boolean hasCheckedItems = videoAdapter.getSelectedCount() > 0;//Check if any items are already selected or not
 
-
         if (hasCheckedItems && mActionMode == null)
             // there are some selected items, start the actionMode
             mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(),  videoAdapter, null, videoList, null, true));
@@ -424,7 +423,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             mActionMode.setTitle(String.valueOf(videoAdapter
                     .getSelectedCount()) + " selected");
     }
-
 
     public void setNullToActionMode() {
         if (mActionMode != null)
