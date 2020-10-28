@@ -18,14 +18,14 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/thumb"
+                android:id="@+id/mThumb_ver"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#000000"
                 android:contentDescription="@string/StringValue" />
 
             <TextView
-                android:id="@+id/vDur"
+                android:id="@+id/mStart_ver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
@@ -40,7 +40,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/vName"
+                android:id="@+id/mMemo_ver"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -48,14 +48,6 @@
                 android:textColor="@color/colorBasicText"
                 tools:ignore="HardcodedText,RtlHardcoded" />
 
-            <TextView
-                android:id="@+id/vId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="TextView"
-                android:textColor="@color/colorBasicText"
-                tools:ignore="HardcodedText,RtlHardcoded" />
 
         </LinearLayout>
 
@@ -74,13 +66,4 @@
 
         </FrameLayout>
     </LinearLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="100dp"
-        android:layout_width="match_parent"
-        android:background="@color/colorBG">
-        <include
-            android:id="@+id/id"
-            layout="@layout/layout_progress"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="120dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@color/colorBG"
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/mThumb_mini"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:contentDescription="@string/StringValue" />
+
+        <TextView
+            android:id="@+id/mStart_mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:text="TextView"
+            android:textColor="@color/colorBasicText"
+            tools:ignore="HardcodedText,RtlHardcoded" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/mName_mini"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="videonamevideonamevideonamevideonamevideonamevideonamevideoname"
+        android:textColor="@color/colorBasicText"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>

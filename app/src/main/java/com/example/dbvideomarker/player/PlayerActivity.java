@@ -27,6 +27,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
@@ -58,6 +59,8 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     private long CONTENT_START;
     private String CONTENT_PATH;
 
+    private boolean isVer = false;
+
     private final String TAG = "PlayerActivity";
     private PlayerView playerView;
     private SimpleExoPlayer simpleExoPlayer;
@@ -65,6 +68,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     private AudioManager mAudioManager;
     private FrameLayout playerViewLayout;
     private TextView gesture_info;
+    private TextView video_name_top;
     private TextView video_name;
     private GestureDetector gestureDetector;
 
@@ -152,6 +156,9 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
             CONTENT_PATH = mediaStoreLoader.getPathById(this, CONTENT_ID);
         }
 
+        if(CONTENT_PATH != null) {
+            String videoName = CONTENT_PATH.substring(CONTENT_PATH.lastIndexOf("/") +1);
+        }
 
         //wake lock(화면안꺼짐)
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -160,8 +167,8 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         componentListener = new ComponentListener();
         mAudioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
-
-        video_name = findViewById(R.id.exo_tv_name);
+        video_name = findViewById(R.id.video_name);
+        video_name_top = findViewById(R.id.exo_tv_name);
         gesture_info = findViewById(R.id.exo_center_wrapper_data);
         playerViewLayout = findViewById(R.id.playerView_layout);
         playerView = findViewById(R.id.exo_playerView);
@@ -178,6 +185,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         btn_prev.setOnClickListener(this);
         btn_lock.setOnClickListener(this);
         btn_unlock.setOnClickListener(this);
+        video_name.setText(CONTENT_PATH+"");
     }
 
     private void initBottomView(int id) {
@@ -186,8 +194,17 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(markAdapter);
 
+        RecyclerView recyclerViewVer = findViewById(R.id.rv_getMarkVer);
+        MarkAdapter markAdapterVer = new MarkAdapter(this, ViewCase.VERTICAL, this, this);
+        recyclerViewVer.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        recyclerViewVer.setAdapter(markAdapterVer);
+
+        recyclerView.setVisibility(View.VISIBLE);
+        recyclerViewVer.setVisibility(View.GONE);
+
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         playerViewModel.getMarkByVideoId(id).observe(this, markAdapter::setMarks);
+        playerViewModel.getMarkByVideoId(id).observe(this, markAdapterVer::setMarks);
 
         Button button = findViewById(R.id.bottom_sheet);
         button.setOnClickListener(view -> {
@@ -197,6 +214,23 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
             playerBottomSheetDialog.setArguments(args);
             playerBottomSheetDialog.show(getSupportFragmentManager(), "bottomSheetDialog");
         });
+
+        Button changeView = findViewById(R.id.change_view);
+        changeView.setOnClickListener(view -> {
+            if(!isVer) {
+                //isVer = false  그리드뷰이면, 버티컬뷰로 바꿈
+                isVer = true;
+                recyclerView.setVisibility(View.GONE);
+                recyclerViewVer.setVisibility(View.VISIBLE);
+            } else {
+                //isVer = true  리니어뷰이면, 그리드뷰로 바꿈
+                isVer = false;
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerViewVer.setVisibility(View.GONE);
+            }
+
+        });
+
     }
 
 

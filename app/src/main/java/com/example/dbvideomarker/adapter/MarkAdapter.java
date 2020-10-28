@@ -16,6 +16,7 @@ import com.example.dbvideomarker.adapter.util.MyItemView;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderNormal;
 import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderSelect;
+import com.example.dbvideomarker.adapter.viewholder.MarkViewHolderVertical;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
@@ -50,6 +51,9 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
         } else if (sel_type == ViewCase.SELECT) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mark_select, parent, false);
             return new MarkViewHolderSelect(view);
+        } else if (sel_type == ViewCase.VERTICAL) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mark_vertical, parent, false);
+            return new MarkViewHolderVertical(view);
         }
         return null;
     }
@@ -60,7 +64,6 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
         if (holder instanceof MarkViewHolderNormal) {
             MarkViewHolderNormal markViewHolderNormal = (MarkViewHolderNormal) holder;
             if (markList != null) {
-
                 Mark current = markList.get(position);
                 markViewHolderNormal.mid.setText(String.valueOf(current.getmid()));
                 markViewHolderNormal.mMemo.setText(current.getmMemo());
@@ -99,6 +102,16 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
 
                     onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                 });
+            }
+        } else if (holder instanceof  MarkViewHolderVertical) {
+            MarkViewHolderVertical markViewHolderVertical = (MarkViewHolderVertical) holder;
+            if (markList != null) {
+                Mark current = markList.get(position);
+                markViewHolderVertical.mMemo.setText(current.getmMemo());
+                markViewHolderVertical.mStart.setText(loader.getReadableDuration(current.getmStart()));
+                markViewHolderVertical.mthumb.setImageBitmap(loader.getThumbnail(current.getvid(), current.getmStart(), context));
+                markViewHolderVertical.view.setOnClickListener(view -> onMarkClickListener.clickMark(current.getvid(), current.getmStart(), current.getMpath()));
+                markViewHolderVertical.moreImage.setOnClickListener(view -> onMarkClickListener.clickLongMark(view, current.getmid(), current.getMpath()));
             }
         }
     }

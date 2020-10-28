@@ -64,6 +64,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/video_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="동영상 상세정보들어갈 공간임"
@@ -77,14 +78,23 @@
                         android:layout_height="wrap_content"
                         android:text="재생목록에 추가"
                         tools:ignore="HardcodedText" />
+                    <Button
+                        android:id="@+id/change_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="view 변경"/>
 
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_getMark"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"/>
 
-                    </androidx.recyclerview.widget.RecyclerView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_getMarkVer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
                 </LinearLayout>
 
             </ScrollView>
