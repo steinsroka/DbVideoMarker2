@@ -146,10 +146,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
                 videoViewHolderDrag.vDur.setText(String.valueOf(loader.getReadableDuration(current.getVdur())));
                 mRequestManager.asBitmap().load(Uri.fromFile(new File(current.getVpath()))).into(videoViewHolderDrag.vThumb);
                 videoViewHolderDrag.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
-                videoViewHolderDrag.view.setOnLongClickListener(view -> {
-                    onItemClickListener.clickLongItem(view, current.getContentId(), current.getVpath());
-                    return false;
-                });
                 videoViewHolderDrag.iv_drag.setOnTouchListener((v, event) -> {
                     if(event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                         onStartDragListener.onStartDrag(videoViewHolderDrag);

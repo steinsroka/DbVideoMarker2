@@ -22,7 +22,8 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="165dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="10"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -44,6 +45,7 @@
         <ImageView
             android:id="@+id/moreImage"
             android:layout_width="wrap_content"
+            android:layout_weight="0.5"
             android:layout_height="match_parent"
             android:contentDescription="@string/StringValue"
             app:srcCompat="@drawable/ic_baseline_more_vert_24" />
