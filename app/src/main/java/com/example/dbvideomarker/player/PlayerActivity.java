@@ -34,6 +34,7 @@ import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.database.entitiy.Mark;
+import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
@@ -75,6 +76,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     private ArrayList<Integer> numList = null;
     private Uri uri;
 
+    private Button change_view;
     private ImageButton btn_next, btn_prev, btn_back, btn_full, btn_lock, btn_unlock;
     private int index;
 
@@ -231,7 +233,22 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
         });
 
+        change_view = findViewById(R.id.change_view);
+        change_view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if(!isVer) {
+                    change_view.setBackgroundResource(R.drawable.ic_baseline_view_module_24);
+                } else {
+                    change_view.setBackgroundResource(R.drawable.ic_baseline_view_list_24);
+                }
+
+                return false;
+            }
+        });
     }
+
 
 
     public void addMark(long position) {
@@ -468,7 +485,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                     } else {
                         data = "" + data1;
                     }
-                    gesture_info.setText(data + "[" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getCurrentPosition()) + "/" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getDuration()) + "]");
+                    gesture_info.setText(mediaStoreLoader.getReadableDuration(Long.parseLong(data)) + "[" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getCurrentPosition()) + "/" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getDuration()) + "]");
             }
         }
     }
@@ -760,6 +777,11 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void clickLongItem(View v, int id, String path) {
+    }
+
+    @Override
+    public void onClickListener(Video video, View view, int typeClick) {
+
     }
 
     @Override

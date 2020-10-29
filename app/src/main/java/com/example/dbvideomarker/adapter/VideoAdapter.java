@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -48,7 +49,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
     private OnItemClickListener onItemClickListener;
     private RequestManager mRequestManager;
 
-
     public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener, OnStartDragListener onStartDragListener) {
         LayoutInflater mInflater = LayoutInflater.from(context);
         mRequestManager = Glide.with(context);
@@ -57,8 +57,6 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
         this.onItemSelectedListener = onItemSelectedListener;
         this.onItemClickListener = onItemClickListener;
     }
-
-
 
     @Override
     public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -94,6 +92,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
                 //viewHolderNormal.vThumb.setImageBitmap(loader.getThumbnail(current.vpath, current.getVdur()/3));
                 viewHolderNormal.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
                 viewHolderNormal.moreImage.setOnClickListener(v -> onItemClickListener.clickLongItem(v, current.getContentId(), current.getVpath()));
+
             } else {
                 viewHolderNormal.vName.setText("No Data");
             }
@@ -113,16 +112,16 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
                     viewHolderSelect.view.setBackgroundColor(Color.parseColor("#373737"));
                 }
                 viewHolderSelect.view.setOnClickListener(view -> {
-//                        toggleItemSelected(position);
                     if (mSelectedItems.get(position, false)) {
-                        //GRAY
                         mSelectedItems.delete(position);
                         mSelectedItemIds.delete(current.getContentId());
+                        onItemClickListener.onClickListener(current, view, 0);
                         notifyItemChanged(position);
+
                     } else {
-                        //WHITE
                         mSelectedItems.put(position, true);
                         mSelectedItemIds.put(current.getContentId(), true);
+                        onItemClickListener.onClickListener(current, view, 1);
                         notifyItemChanged(position);
                     }
                     Log.d("test", "parsed" + mSelectedItemIds.size());

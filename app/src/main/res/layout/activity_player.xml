@@ -21,22 +21,23 @@
             android:background="#000000"
             app:controller_layout_id="@layout/exo_custom_controller"
             app:use_controller="true" />
+
         <TextView
-            android:layout_gravity="center_horizontal|center_vertical"
             android:id="@+id/exo_center_wrapper_data"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
             android:text="tesdsdt"
-            android:textColor="#FFF"/>
+            android:textColor="#FFF"
+            android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/btn_unlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_outline_lock_open_32"
             android:layout_margin="16dp"
-            android:visibility="gone"/>
+            android:src="@drawable/ic_outline_lock_open_32"
+            android:visibility="gone" />
 
     </FrameLayout>
 
@@ -71,24 +72,35 @@
                         android:textColor="@color/colorBasicText"
                         tools:ignore="HardcodedText" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/bottom_sheet"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="재생목록에 추가"
-                        tools:ignore="HardcodedText" />
-                    <Button
-                        android:id="@+id/change_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="view 변경"/>
+                        <Button
+                            android:id="@+id/bottom_sheet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="#00FF0000"
+                            android:drawableLeft="@drawable/ic_baseline_playlist_add_24"
+                            android:text=" 재생목록에 추가"
+                            android:textColor="#FFF"
+                            tools:ignore="HardcodedText" />
 
+                        <Button
+                            android:id="@+id/change_view"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/ic_baseline_view_list_24"
+                            android:layout_marginLeft="230dp" />
+
+                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_getMark"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_getMarkVer"

@@ -272,6 +272,11 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
         popupMenu.show();
     }
 
+    @Override
+    public void onClickListener(Video video, View view, int typeClick) {
+
+    }
+
 
     @Override
     public void clickMark(int id, long start, String path) {

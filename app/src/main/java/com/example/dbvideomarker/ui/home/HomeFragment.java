@@ -53,8 +53,6 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.listener.RecyclerClick_Listener;
-import com.example.dbvideomarker.listener.RecyclerTouchListener;
 import com.example.dbvideomarker.util.MediaStoreLoader;
 import com.example.dbvideomarker.player.PlayerActivity;
 
@@ -81,10 +79,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_home, container, false);
-//        Context context = v.getContext();
         RequestManager mGlideRequestManager = Glide.with(requireActivity());
-        populateRecyclerView();
-        implementRecyclerViewClickListeners();
 
         normalView = v.findViewById(R.id.video_normal_wrapper);
         selectView = v.findViewById(R.id.video_select_wrapper);
@@ -104,6 +99,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }  //Toast.makeText(this, "권한 승인되었음", Toast.LENGTH_SHORT).show();
 
         }
+        populateRecyclerView();
         setBottomMenu();
         setVideoNormalView();
 
@@ -134,24 +130,22 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
     private void populateRecyclerView() {
-        recyclerView = (RecyclerView) v.findViewById(R.id.rv_Home);
+        recyclerView = v.findViewById(R.id.rv_Home);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void implementRecyclerViewClickListeners() {
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new RecyclerClick_Listener() {
-
-            @Override
-            public void onClick(View view, int position) {
+    public void onClickListener(Video video, View view, int typeClick) {
+        int position = recyclerView.getChildAdapterPosition(view);
+        switch (typeClick) {
+            case 0:
                 if (mActionMode != null)
                     onListItemSelect(position);
-            }
-            @Override
-            public void onLongClick(View view, int position) {
+                break;
+            case 1:
                 onListItemSelect(position);
-            }
-        }));
+                break;
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -194,7 +188,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         btn_delete.setOnClickListener(view -> {
             for (int i = 0; i < idList.size(); i++) {
                 deleteVideo(idList.get(i));
-                Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
                 setVideoNormalView();
             }
         });
@@ -417,7 +411,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
         boolean hasCheckedItems = videoAdapter.getSelectedCount() > 0;//Check if any items are already selected or not
 
-
         if (hasCheckedItems && mActionMode == null)
             // there are some selected items, start the actionMode
             mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(),  videoAdapter, null, videoList, null, true));
@@ -430,7 +423,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             mActionMode.setTitle(String.valueOf(videoAdapter
                     .getSelectedCount()) + " selected");
     }
-
 
     public void setNullToActionMode() {
         if (mActionMode != null)
