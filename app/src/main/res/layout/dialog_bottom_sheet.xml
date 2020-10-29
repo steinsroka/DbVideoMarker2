@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:ignore="Overdraw">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -16,27 +16,28 @@
             android:id="@+id/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
             android:text="재생목록 리스트"
             android:textColor="@color/colorBasicText"
-            android:layout_marginLeft="10dp"
             tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/parse_pid"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="230dp"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="10dp"
             android:background="#00FF0000"
             android:drawableLeft="@drawable/ic_baseline_check_24"
             android:text="확인"
-            android:textAlignment="textStart"
             android:textColor="#ffffff"
             tools:ignore="HardcodedText" />
-    </LinearLayout>
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_margin="10dp"
         android:id="@+id/rv_playlist_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
 </LinearLayout>

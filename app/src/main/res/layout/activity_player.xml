@@ -72,15 +72,15 @@
                         android:textColor="@color/colorBasicText"
                         tools:ignore="HardcodedText" />
 
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content">
 
                         <Button
                             android:id="@+id/bottom_sheet"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
                             android:layout_marginLeft="10dp"
                             android:background="#00FF0000"
                             android:drawableLeft="@drawable/ic_baseline_playlist_add_24"
@@ -92,10 +92,11 @@
                             android:id="@+id/change_view"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:background="@drawable/ic_baseline_view_list_24"
-                            android:layout_marginLeft="230dp" />
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/ic_baseline_view_list_24" />
 
-                    </LinearLayout>
+                    </FrameLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_getMark"
