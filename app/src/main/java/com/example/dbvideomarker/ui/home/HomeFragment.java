@@ -158,6 +158,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
             Bundle args = new Bundle();
             args.putIntegerArrayList("idList", idList);
+            args.putInt("code", 1100);
             playerBottomSheetDialog.setArguments(args);
             playerBottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
 
@@ -409,7 +410,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     private void onListItemSelect(int position) {
         videoAdapter.toggleSelection(position);//Toggle the selection
 
-        boolean hasCheckedItems = videoAdapter.getSelectedCount() > 0;//Check if any items are already selected or not
+        boolean hasCheckedItems = videoAdapter.getSelectedCount() > 0;
 
         if (hasCheckedItems && mActionMode == null)
             // there are some selected items, start the actionMode

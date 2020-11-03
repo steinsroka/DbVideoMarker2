@@ -90,10 +90,12 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                     if (mSelectedItems.get(position, false)) {
                         mSelectedItems.delete(position);
                         mSelectedItemIds.delete(current.getmid());
+                        onMarkClickListener.onMarkClickListener(current, view, 0);
                         notifyItemChanged(position);
                     } else {
                         mSelectedItems.put(position, true);
                         mSelectedItemIds.put(current.getmid(), true);
+                        onMarkClickListener.onMarkClickListener(current, view, 1);
                         notifyItemChanged(position);
                     }
                     Log.d("MarkAdaper.class", "" + mSelectedItemIds);
@@ -101,7 +103,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
                     onItemSelectedListener.onItemSelected(view, mSelectedItemIds);
                 });
             }
-        } else if (holder instanceof  MarkViewHolderVertical) {
+        } else if (holder instanceof MarkViewHolderVertical) {
             MarkViewHolderVertical markViewHolderVertical = (MarkViewHolderVertical) holder;
             if (markList != null) {
                 Mark current = markList.get(position);
@@ -126,7 +128,6 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
         }
     }
 
-
     @Override
     public int getItemCount() {
         if (markList != null)
@@ -141,5 +142,18 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
     //Return all selected ids
     public SparseBooleanArray getSelectedIds() {
         return mSelectedItemIds;
+    }
+
+    public void toggleSelection(int position) {
+        selectView(position, !mSelectedItemIds.get(position));
+    }
+
+    public void selectView(int position, boolean value) {
+        if (value)
+            mSelectedItemIds.put(position, value);
+        else
+            mSelectedItemIds.delete(position);
+
+        notifyDataSetChanged();
     }
 }

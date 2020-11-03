@@ -18,4 +18,10 @@
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
+    <style name="PreferenceScreen" parent="Theme.AppCompat">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="colorAccent">#D5355F</item>
+    </style>
+
 </resources>

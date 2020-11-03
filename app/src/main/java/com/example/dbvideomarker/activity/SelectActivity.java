@@ -21,6 +21,7 @@ import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
+import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
@@ -64,14 +65,14 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
             videoSelectView.setVisibility(View.GONE);
             playlistSelectView.setVisibility(View.GONE);
         }
-        /*
-        else if(VIEW_TYPE == 2003) {
+
+       /* else if(VIEW_TYPE == 2003) {
             setPlaylistSelectView();
             markSelectView.setVisibility(View.GONE);
             videoSelectView.setVisibility(View.GONE);
             playlistSelectView.setVisibility(View.VISIBLE);
-        }
-         */
+        }*/
+
     }
 
     public void setVideoSelectView() {
@@ -179,6 +180,11 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
 
     @Override
     public void clickLongMark(View v, int id, String path) {
+    }
+
+    @Override
+    public void onMarkClickListener(Mark mark, View view, int typeClick) {
+
     }
 
     @Override
