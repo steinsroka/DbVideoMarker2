@@ -794,6 +794,11 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     }
 
     @Override
+    public void onMarkClickListener(Mark mark, View view, int typeClick) {
+
+    }
+
+    @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
     }
 

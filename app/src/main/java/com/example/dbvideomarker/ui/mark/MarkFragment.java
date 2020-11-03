@@ -27,6 +27,7 @@ import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
@@ -39,6 +40,7 @@ import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.callbacks.Toolbar_ActionMode;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.Video;
+import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
@@ -56,7 +58,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
     private MarkAdapter markAdapter;
     private ActionMode mActionMode;
     private List<Mark> markList;
-
+    private static RecyclerView recyclerView;
     private View v;
     private View normalMarkView;
     private View selectMarkView;
@@ -76,9 +78,35 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
         setMarkNormalView();
         setBottomMarkMenu();
+        populateRecyclerView();
         playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
 
         return v;
+    }
+
+    private void populateRecyclerView() {
+        recyclerView = v.findViewById(R.id.rv_Mark_select);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+
+    private void onListItemSelect(int position) {
+        markAdapter.toggleSelection(position);//Toggle the selection
+
+        boolean hasCheckedItems = markAdapter.getSelectedCount() > 0;//Check if any items are already selected or not
+
+        if (hasCheckedItems && mActionMode == null)
+            // there are some selected items, start the actionMode
+            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(), null, markAdapter, null, markList, true));
+        else if (!hasCheckedItems && mActionMode != null)
+            // there no selected items, finish the actionMode
+            mActionMode.finish();
+
+        if (mActionMode != null)
+            //set action mode title on item selection
+            mActionMode.setTitle(String.valueOf(markAdapter
+                    .getSelectedCount()) + " selected");
     }
 
     @Override
@@ -141,11 +169,15 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         btn_delete_mark = v.findViewById(R.id.mark_bottom_delete);
 
         btn_add_playlist_mark.setOnClickListener(view -> {
-            Intent playlistIntent = new Intent(getContext(), SelectActivity.class);
-            playlistIntent.putExtra("pid", "");
-            playlistIntent.putExtra("VIEW_TYPE", 2003);
-            startActivityForResult(playlistIntent, SELECT_PLAYLIST_REQUEST_CODE);
+            BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
+            Bundle args = new Bundle();
+            args.putIntegerArrayList("idList", idList);
+            args.putInt("code", 1101);
+            playerBottomSheetDialog.setArguments(args);
+            playerBottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
+            mActionMode.finish();
         });
+
 
         btn_add_playlist_mark.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -269,9 +301,40 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         });
         popupMenu.show();
     }
+
+    @Override
+    public void onMarkClickListener(Mark mark, View view, int typeClick) {
+        int position = recyclerView.getChildAdapterPosition(view);
+        switch (typeClick) {
+            case 0:
+                if (mActionMode != null)
+                    onListItemSelect(position);
+                break;
+            case 1:
+                onListItemSelect(position);
+                break;
+        }
+    }
+
     public void setNullToActionMode() {
         if (mActionMode != null)
             mActionMode = null;
         setMarkNormalView();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mActionMode != null) {
+            mActionMode.finish();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (mActionMode != null && !isVisibleToUser) {
+            mActionMode.finish();
+        }
     }
 }

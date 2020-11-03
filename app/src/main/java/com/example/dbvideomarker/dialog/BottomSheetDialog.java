@@ -37,6 +37,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
     private PlayListEditViewModel playListEditViewModel;
     private int vid;
     private int VIDEO_COUNT;
+    private int CODE;
     private int MARK_COUNT;
 
     private ArrayList<Integer> idList;
@@ -48,6 +49,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             idList = getArguments().getIntegerArrayList("idList");
+            CODE = getArguments().getInt("code");
             vid = getArguments().getInt("vid");
 
         }
@@ -85,15 +87,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
 
         Button btnSelection = v.findViewById(R.id.parse_pid);
         btnSelection.setOnClickListener(view -> { //선택모드에서 재생목록에 추가
-            if (idList != null) {
+            if (idList != null && CODE == 1100) {
                 for (int i = 0; i < pidList.size(); i++) {
                     getPlaylistVideoCount(pidList.get(i));
                     //playlistViewModel.updateVideoCount(pidList.get(i), getPlaylistVideoCount(pidList.get(i)));
                     //playlistViewModel.updateVideoCount(pidList.get(i), 10);
-
-
-
-                    Log.d("TESTESTESTES", "videoCount 값은 : " + getPlaylistVideoCount(pidList.get(i)));
                     playlistViewModel.updateVideoCount(pidList.get(i), idList.size());
                     for (int j = 0; j < idList.size(); j++) {
                         PlRel plrel = new PlRel();
@@ -103,7 +101,21 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
                         playListEditViewModel.insertPlRelation(plrel);
                     }
                 }
+            } else if (idList != null && CODE == 1101) {
+                for (int i = 0; i < pidList.size(); i++) {
+                    getPlaylistMarkCount(pidList.get(i));
+                    //playlistViewModel.updateVideoCount(pidList.get(i), getPlaylistVideoCount(pidList.get(i)));
+                    //playlistViewModel.updateVideoCount(pidList.get(i), 10);
+                    playlistViewModel.updateMarkCount(pidList.get(i), idList.size());
+                    for (int j = 0; j < idList.size(); j++) {
+                        PlRel plrel = new PlRel();
+                        plrel.setPid((pidList.get(i)));
+                        plrel.setMid(idList.get(j));
+                        playListEditViewModel.insertPlRelation(plrel);
+                    }
+                }
             } else { //플레이어에서 재생목록에 추가
+
 
 
                 for (int i = 0; i < pidList.size(); i++) {

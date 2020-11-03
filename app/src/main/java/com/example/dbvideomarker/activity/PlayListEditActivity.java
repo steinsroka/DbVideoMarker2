@@ -25,6 +25,7 @@ import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.Callback;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
+import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.PlRel;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
@@ -301,6 +302,11 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
             return false;
         });
         popupMenu.show();
+    }
+
+    @Override
+    public void onMarkClickListener(Mark mark, View view, int typeClick) {
+
     }
 
 

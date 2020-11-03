@@ -36,7 +36,8 @@
 
         <activity android:name=".activity.PlayListEditActivity" />
         <activity android:name=".activity.InfoActivity" />
-        <activity android:name=".activity.setting.SettingActivity" />
+        <activity android:name=".activity.setting.SettingActivity"
+            android:theme="@style/PreferenceScreen"/>
         <activity android:name=".activity.setting.PrivacyActivity" />
         <activity android:name=".activity.setting.LicenseActivity" />
         <activity android:name=".activity.SelectActivity" />

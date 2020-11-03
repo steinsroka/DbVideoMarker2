@@ -17,6 +17,7 @@ import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
+import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
@@ -173,6 +174,11 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void clickLongMark(View v, int id, String path) {
+    }
+
+    @Override
+    public void onMarkClickListener(Mark mark, View view, int typeClick) {
+
     }
 
     @Override
