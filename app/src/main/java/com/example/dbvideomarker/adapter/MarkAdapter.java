@@ -42,7 +42,6 @@ public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
         this.onMarkClickListener = onMarkClickListener;
     }
 
-
     @Override
     public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (sel_type == ViewCase.NORMAL) {

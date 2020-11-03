@@ -79,9 +79,9 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     private static RecyclerView recyclerView;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_home, container, false);
-        RequestManager mGlideRequestManager = Glide.with(requireActivity());
 
         normalView = v.findViewById(R.id.video_normal_wrapper);
         selectView = v.findViewById(R.id.video_select_wrapper);
@@ -101,6 +101,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             }  //Toast.makeText(this, "권한 승인되었음", Toast.LENGTH_SHORT).show();
 
         }
+
         populateRecyclerView();
         setBottomMenu();
         setVideoNormalView();
@@ -108,7 +109,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         normalView.setVisibility(View.VISIBLE);
         selectView.setVisibility(View.GONE);
         bottomMenu.setVisibility(View.GONE);
-
 
         playListEditViewModel = new ViewModelProvider(this).get(PlayListEditViewModel.class);
         //최초실행 확인 + 최초실행시 Room에 데이터 추가
@@ -148,9 +148,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 onListItemSelect(position);
                 break;
         }
-
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     public void setBottomMenu() {
@@ -251,9 +249,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             homeViewModel.insertVideo(video);
         }
     }
-
-
-
 
     public void setVideoNormalView() {
 
