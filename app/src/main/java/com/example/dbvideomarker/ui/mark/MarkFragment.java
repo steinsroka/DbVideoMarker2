@@ -51,22 +51,20 @@ import java.util.List;
 
 public class MarkFragment extends Fragment implements OnMarkClickListener, OnItemSelectedListener {
 
+    private int SELECT_PLAYLIST_REQUEST_CODE = 1003;
     private MarkViewModel markViewModel;
     private PlayListEditViewModel playListEditViewModel;
-    public int selectedSort;
-    private int SELECT_PLAYLIST_REQUEST_CODE = 1003;
     private MarkAdapter markAdapter;
-    private ActionMode mActionMode;
-    private List<Mark> markList;
-    private static RecyclerView recyclerView;
+    public int selectedSort;
     private View v;
     private View normalMarkView;
     private View selectMarkView;
     private View bottomMarkMenu;
-
     private ImageButton btn_add_playlist_mark, btn_delete_mark;
-
     private ArrayList<Integer> idList;
+    private List<Mark> markList;
+    private ActionMode mActionMode;
+    private static RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -90,23 +88,65 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
+    @Override
+    public void onMarkClickListener(Mark mark, View view, int typeClick) {
+        int position = recyclerView.getChildAdapterPosition(view);
+        switch (typeClick) {
+            case 0:
+                if (mActionMode != null)
+                    onListItemSelect(position);
+                break;
+            case 1:
+                onListItemSelect(position);
+                break;
+        }
+    }
 
-    private void onListItemSelect(int position) {
-        markAdapter.toggleSelection(position);//Toggle the selection
+    @SuppressLint("ClickableViewAccessibility")
+    public void setBottomMarkMenu() {
+        btn_add_playlist_mark = v.findViewById(R.id.mark_bottom_add_playlist);
+        btn_delete_mark = v.findViewById(R.id.mark_bottom_delete);
 
-        boolean hasCheckedItems = markAdapter.getSelectedCount() > 0;//Check if any items are already selected or not
-
-        if (hasCheckedItems && mActionMode == null)
-            // there are some selected items, start the actionMode
-            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(), null, markAdapter, null, markList, true));
-        else if (!hasCheckedItems && mActionMode != null)
-            // there no selected items, finish the actionMode
+        btn_add_playlist_mark.setOnClickListener(view -> {
+            BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
+            Bundle args = new Bundle();
+            args.putIntegerArrayList("idList", idList);
+            args.putInt("code", 1101);
+            playerBottomSheetDialog.setArguments(args);
+            playerBottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
             mActionMode.finish();
+        });
 
-        if (mActionMode != null)
-            //set action mode title on item selection
-            mActionMode.setTitle(String.valueOf(markAdapter
-                    .getSelectedCount()) + " selected");
+
+        btn_add_playlist_mark.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_red_24);
+                return false;
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_24);
+                return false;
+            }
+            return false;
+        });
+
+        btn_delete_mark.setOnClickListener(view -> {
+            for (int i = 0; i < idList.size(); i++) {
+                markViewModel.deleteMark(idList.get(i));
+                Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
+                setMarkNormalView();
+            }
+        });
+
+        btn_delete_mark.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_red_24);
+                return false;
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_24);
+                return false;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -163,51 +203,22 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         markViewModel.getAllMark().observe(requireActivity(), markAdapter::setMarks);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    public void setBottomMarkMenu() {
-        btn_add_playlist_mark = v.findViewById(R.id.mark_bottom_add_playlist);
-        btn_delete_mark = v.findViewById(R.id.mark_bottom_delete);
+    private void onListItemSelect(int position) {
+        markAdapter.toggleSelection(position);//Toggle the selection
 
-        btn_add_playlist_mark.setOnClickListener(view -> {
-            BottomSheetDialog playerBottomSheetDialog = new BottomSheetDialog();
-            Bundle args = new Bundle();
-            args.putIntegerArrayList("idList", idList);
-            args.putInt("code", 1101);
-            playerBottomSheetDialog.setArguments(args);
-            playerBottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
+        boolean hasCheckedItems = markAdapter.getSelectedCount() > 0;//Check if any items are already selected or not
+
+        if (hasCheckedItems && mActionMode == null)
+            // there are some selected items, start the actionMode
+            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(), null, markAdapter, null, markList, true));
+        else if (!hasCheckedItems && mActionMode != null)
+            // there no selected items, finish the actionMode
             mActionMode.finish();
-        });
 
-
-        btn_add_playlist_mark.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_red_24);
-                return false;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                btn_add_playlist_mark.setImageResource(R.drawable.ic_baseline_playlist_add_24);
-                return false;
-            }
-            return false;
-        });
-
-        btn_delete_mark.setOnClickListener(view -> {
-            for (int i = 0; i < idList.size(); i++) {
-                markViewModel.deleteMark(idList.get(i));
-                Toast.makeText(getActivity(), idList.get(i) + "Deleted", Toast.LENGTH_SHORT).show();
-                setMarkNormalView();
-            }
-        });
-
-        btn_delete_mark.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_red_24);
-                return false;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                btn_delete_mark.setImageResource(R.drawable.ic_baseline_delete_outline_24);
-                return false;
-            }
-            return false;
-        });
+        if (mActionMode != null)
+            //set action mode title on item selection
+            mActionMode.setTitle(String.valueOf(markAdapter
+                    .getSelectedCount()) + " selected");
     }
 
     public int sort() {
@@ -300,20 +311,6 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
             return false;
         });
         popupMenu.show();
-    }
-
-    @Override
-    public void onMarkClickListener(Mark mark, View view, int typeClick) {
-        int position = recyclerView.getChildAdapterPosition(view);
-        switch (typeClick) {
-            case 0:
-                if (mActionMode != null)
-                    onListItemSelect(position);
-                break;
-            case 1:
-                onListItemSelect(position);
-                break;
-        }
     }
 
     public void setNullToActionMode() {

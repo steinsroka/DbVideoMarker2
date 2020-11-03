@@ -32,7 +32,6 @@ public class InfoActivity extends AppCompatActivity {
         getVideoInfo(URI);
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void getVideoInfo(Uri uri) {
 
