@@ -175,6 +175,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
             args.putInt("code", 1101);
             playerBottomSheetDialog.setArguments(args);
             playerBottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
+            mActionMode.finish();
         });
 
 
@@ -319,5 +320,21 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         if (mActionMode != null)
             mActionMode = null;
         setMarkNormalView();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mActionMode != null) {
+            mActionMode.finish();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (mActionMode != null && !isVisibleToUser) {
+            mActionMode.finish();
+        }
     }
 }

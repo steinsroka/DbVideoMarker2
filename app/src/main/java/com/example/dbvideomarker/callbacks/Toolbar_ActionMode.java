@@ -5,6 +5,7 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +39,7 @@ public class Toolbar_ActionMode implements ActionMode.Callback {
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        mode.getMenuInflater().inflate(R.menu.menu_action_toolbar, menu);//Inflate the menu over action mode
+        mode.getMenuInflater().inflate(R.menu.menu_action_toolbar, menu);
         return true;
     }
 
@@ -67,4 +68,5 @@ public class Toolbar_ActionMode implements ActionMode.Callback {
                 ((MarkFragment) MarkrecyclerFragment).setNullToActionMode();//Set action mode null
         }
     }
+
 }

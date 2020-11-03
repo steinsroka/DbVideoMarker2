@@ -32,6 +32,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -146,7 +148,9 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 onListItemSelect(position);
                 break;
         }
+
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     public void setBottomMenu() {
@@ -161,6 +165,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             args.putInt("code", 1100);
             playerBottomSheetDialog.setArguments(args);
             playerBottomSheetDialog.show(getChildFragmentManager(), "bottomSheetDialog");
+            mActionMode.finish();
 
 //                Intent playlistIntent = new Intent(getContext(), SelectActivity.class);
 //                playlistIntent.putExtra("pid", "");
@@ -184,6 +189,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             Intent infoIntent = new Intent(getContext(), InfoActivity.class);
             infoIntent.putExtra("ContentID", idList.get(0));
             requireContext().startActivity(infoIntent);
+            mActionMode.finish();
         });
 
         btn_delete.setOnClickListener(view -> {
@@ -247,6 +253,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
     }
 
 
+
+
     public void setVideoNormalView() {
 
         selectView.setVisibility(View.GONE);
@@ -297,7 +305,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
             case R.id.select:
                 setVideoSelectView();
-                mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(),  videoAdapter, null, videoList, null, true));
+                mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(), videoAdapter, null, videoList, null, true));
                 break;
             case R.id.setting:
                 Intent intent = new Intent(getActivity(), SettingActivity.class);
@@ -414,7 +422,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
         if (hasCheckedItems && mActionMode == null)
             // there are some selected items, start the actionMode
-            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(),  videoAdapter, null, videoList, null, true));
+            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode(getActivity(), videoAdapter, null, videoList, null, true));
         else if (!hasCheckedItems && mActionMode != null)
             // there no selected items, finish the actionMode
             mActionMode.finish();
@@ -429,5 +437,21 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         if (mActionMode != null)
             mActionMode = null;
         setVideoNormalView();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mActionMode != null) {
+            mActionMode.finish();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (mActionMode != null && !isVisibleToUser) {
+            mActionMode.finish();
+        }
     }
 }
