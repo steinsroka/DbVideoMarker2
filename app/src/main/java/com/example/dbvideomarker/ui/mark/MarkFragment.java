@@ -305,7 +305,15 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                     dialog.show();
                     break;
                 case (R.id.popup_delete):
-                    markViewModel.deleteMark(id);
+                    AlertDialog.Builder deletebuilder = new AlertDialog.Builder(getActivity());
+                    deletebuilder.setMessage("북마크를 삭제하시겠습니까?");
+                    deletebuilder.setPositiveButton("확인", (dialogInterface, i) -> {
+                        markViewModel.deleteMark(id);
+                    });
+                    deletebuilder.setNegativeButton("취소", (dialogInterface, i) -> {
+                    });
+                    AlertDialog deletedialog = deletebuilder.create();
+                    deletedialog.show();
                     break;
             }
             return false;

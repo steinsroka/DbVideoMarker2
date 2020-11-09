@@ -368,7 +368,16 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
                     break;
                 case (R.id.popup_delete):
-                    deleteVideo(id);
+                    AlertDialog.Builder deletebuilder = new AlertDialog.Builder(getActivity());
+                    deletebuilder.setMessage("동영상을 삭제하시겠습니까?");
+                    deletebuilder.setPositiveButton("확인", (dialogInterface, i) -> {
+                        deleteVideo(id);
+                    });
+                    deletebuilder.setNegativeButton("취소", (dialogInterface, i) -> {
+                    });
+                    AlertDialog deletedialog = deletebuilder.create();
+                    deletedialog.show();
+
                     break;
             }
             return false;
