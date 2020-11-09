@@ -369,7 +369,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                     break;
                 case (R.id.popup_delete):
                     AlertDialog.Builder deletebuilder = new AlertDialog.Builder(getActivity());
-                    deletebuilder.setMessage("동영상 파일을 삭제하시겠습니까?");
+                    deletebuilder.setMessage("동영상을 삭제하시겠습니까?");
                     deletebuilder.setPositiveButton("확인", (dialogInterface, i) -> {
                         deleteVideo(id);
                     });
