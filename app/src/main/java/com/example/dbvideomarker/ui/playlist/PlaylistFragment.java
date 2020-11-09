@@ -62,7 +62,7 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
                 mBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(plName.getText().toString().trim().length() != 0) {
+                        if (plName.getText().toString().trim().length() != 0) {
                             PlayList playList = new PlayList();
                             playList.setpName(plName.getText().toString());
                             playList.setVcount(0);
@@ -165,8 +165,16 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
                     dialog.show();
                     break;
                 case (R.id.deletePlayList):
-                    playlistViewModel.deleteWithPlayList(id);
-                    playlistViewModel.deletePlayList(id);
+                    AlertDialog.Builder deletebuilder = new AlertDialog.Builder(getActivity());
+                    deletebuilder.setMessage("재생목록을 삭제하시겠습니까?");
+                    deletebuilder.setPositiveButton("확인", (dialogInterface, i) -> {
+                        playlistViewModel.deleteWithPlayList(id);
+                        playlistViewModel.deletePlayList(id);
+                    });
+                    deletebuilder.setNegativeButton("취소", (dialogInterface, i) -> {
+                    });
+                    AlertDialog deletedialog = deletebuilder.create();
+                    deletedialog.show();
                     break;
             }
             return false;
