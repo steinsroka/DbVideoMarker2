@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.exoplayer2.ui.DefaultTimeBar
-            app:bar_height="10dp"
+            app:bar_height="5dp"
             app:scrubber_enabled_size="10dp"
             app:scrubber_drawable="@null"
             android:id="@+id/exo_progress"
@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toStartOf="@+id/exo_duration"
             app:layout_constraintStart_toEndOf="@+id/exo_position"
             app:layout_constraintTop_toTopOf="parent"
-            app:played_color="#bff"
+            app:played_color="#D5355F"
             app:unplayed_color="#aaa" />
 
         <TextView

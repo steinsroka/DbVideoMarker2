@@ -1,9 +1,11 @@
 package com.example.dbvideomarker.util;
 
 import android.annotation.SuppressLint;
+import android.app.RecoverableSecurityException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.IntentSender;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
@@ -20,6 +22,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static androidx.core.app.ActivityCompat.startIntentSenderForResult;
 
 public class MediaStoreLoader {
 
@@ -168,8 +172,8 @@ public class MediaStoreLoader {
                 MediaStore.Video.Media.DATA
         };
 
-        Cursor c = cr.query(Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(contentId)), projections, null,null,null);
-        if(c != null) {
+        Cursor c = cr.query(Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(contentId)), projections, null, null, null);
+        if (c != null) {
             while (c.moveToNext()) {
                 int index = c.getColumnIndex(projections[0]);
                 path = c.getString(index);
@@ -177,7 +181,6 @@ public class MediaStoreLoader {
         }
         assert c != null;
         c.close();
-
 
 
         retriever.setDataSource(path);
@@ -188,6 +191,13 @@ public class MediaStoreLoader {
         return bitmap;
     }
 
+
+
+    /**
+     * https://stackoverflow.com/questions/60516401/android-q-recoverablesecurityexception-not-granting-access
+     * SAF를 활용하여 해결해야함. RecoverableSecurityException을 케치 하더라도, 프로세스의 life-cycle에 따라 permission의 허용여부가 달라지기때문에 Activity에서 permission의 생존상태에 대해 모든 생명주기에 따라 관리해야함
+     */
+
     //TODO: 30이상에서 문제가 발생할 수 있음
     public void deleteFile(Context context, int id) {
         String mSelection = MediaStore.Video.Media._ID + "=?";
@@ -197,6 +207,7 @@ public class MediaStoreLoader {
         ContentResolver contentResolver = context.getContentResolver();
         contentResolver.delete(contentUri, mSelection, mSelectionsArgs);
     }
+
 
     //TODO: 30이상에서 문제가 발생할 수 있음
     public void updateFile(Context context, int id, String text) {
