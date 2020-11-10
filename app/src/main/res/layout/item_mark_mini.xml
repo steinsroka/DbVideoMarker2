@@ -6,6 +6,7 @@
     android:layout_margin="8dp"
     android:background="@color/colorBG"
     android:orientation="vertical"
+    android:id="@+id/mini"
     tools:ignore="Overdraw">
 
     <FrameLayout

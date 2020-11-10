@@ -93,18 +93,17 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     Toast.makeText(getContext(), "외부 저장소 사용을 위해 읽기/쓰기 필요", Toast.LENGTH_SHORT).show();
                 }
-
                 requestPermissions(new String[]
                                 {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
                         2);  //마지막 인자는 체크해야될 권한 갯수
-
-            }  //Toast.makeText(this, "권한 승인되었음", Toast.LENGTH_SHORT).show();
+            }
 
         }
 
         populateRecyclerView();
         setBottomMenu();
         setVideoNormalView();
+        addMediaDataToRoom();
 
         normalView.setVisibility(View.VISIBLE);
         selectView.setVisibility(View.GONE);
@@ -119,7 +118,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean("isFirst", true);
             editor.apply();
-            addMediaDataToRoom();
         } else {
             Log.d("Is first Time?", "not first");
         }
@@ -260,6 +258,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         RecyclerView recyclerView = v.findViewById(R.id.rv_Home);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(videoAdapter);
+
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         homeViewModel.getAllVideo(selectedSort).observe(requireActivity(), videos -> videoAdapter.setVideos(videos));
     }
