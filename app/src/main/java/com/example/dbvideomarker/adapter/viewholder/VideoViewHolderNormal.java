@@ -23,7 +23,6 @@ public class VideoViewHolderNormal extends MyItemView {
         vDur = view.findViewById(R.id.vDur);
         vThumb = view.findViewById(R.id.thumb);
         moreImage = view.findViewById(R.id.moreImage);
-        ivIndicator = view.findViewById(R.id.ivIndicator);
         vMark = view.findViewById(R.id.vMark);
     }
 }

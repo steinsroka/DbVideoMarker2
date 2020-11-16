@@ -93,29 +93,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
                 //viewHolderNormal.vThumb.setImageBitmap(loader.getThumbnail(current.vpath, current.getVdur()/3));
                 viewHolderNormal.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
                 viewHolderNormal.moreImage.setOnClickListener(v -> onItemClickListener.clickLongItem(v, current.getContentId(), current.getVpath()));
-                viewHolderNormal.ivIndicator.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (isVer) {
-                            isVer = false;
-                            viewHolderNormal.vMark.setVisibility(View.GONE);
-                        } else {
-                            isVer = true;
-                            viewHolderNormal.vMark.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                viewHolderNormal.ivIndicator.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (!isVer) {
-                            viewHolderNormal.ivIndicator.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-                        } else {
-                            viewHolderNormal.ivIndicator.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                        }
-                        return false;
-                    }
-                });
+
 
             } else {
                 viewHolderNormal.vName.setText("No Data");
