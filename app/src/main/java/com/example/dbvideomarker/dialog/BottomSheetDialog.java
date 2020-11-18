@@ -141,8 +141,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
         return VIDEO_COUNT;
     }
 
-    public void getPlaylistMarkCount(int pid) {
+    public int getPlaylistMarkCount(int pid) {
         playListEditViewModel.getMarkRowCount(pid).observe(this, integers -> MARK_COUNT = integers);
+        return MARK_COUNT;
     }
 
 
@@ -162,9 +163,11 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements OnPl
 
     @Override
     public void clickPlaylist(int id) {
+        //do nothing
     }
 
     @Override
     public void clickLongPlaylist(View view, int id) {
+        //do nothing
     }
 }

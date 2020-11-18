@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -46,7 +45,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
     private HomeViewModel homeViewModel;
     private MarkViewModel markViewModel;
     private PlaylistViewModel playlistViewModel;
-    private List<Video> resultList = new ArrayList<>();
+    private final List<Video> resultList = new ArrayList<>();
     private ArrayList<Integer> numList = new ArrayList<>();
 
     public int SELECT_VIDEO_REQUEST_CODE = 1001;
@@ -144,18 +143,15 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
         adapter_video = new VideoAdapter(this, ViewCase.NORMAL, this, this, this);
         homeViewModel.getVideoByPid(pid).observe(this, videos -> adapter_video.setVideos(videos));
-        homeViewModel.getVideoByPid(pid).observe(this, new Observer<List<Video>>() {
-            @Override
-            public void onChanged(List<Video> videoList) {
-                adapter_video.setVideos(videoList);
-                numList = new ArrayList<>();
-                for(int i=0; i<videoList.size(); i++){
-                    Video cur = videoList.get(i);
-                    numList.add(cur.getContentId());
-                }
-                Log.d("TAG", "onChanged: " + numList);
-
+        homeViewModel.getVideoByPid(pid).observe(this, videoList -> {
+            adapter_video.setVideos(videoList);
+            numList = new ArrayList<>();
+            for(int i=0; i<videoList.size(); i++){
+                Video cur = videoList.get(i);
+                numList.add(cur.getContentId());
             }
+            Log.d("TAG", "onChanged: " + numList);
+
         });
 
         recyclerView_video.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -275,7 +271,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
     @Override
     public void onClickListener(Video video, View view, int typeClick) {
-
+        //do nothing
     }
 
 
@@ -306,22 +302,11 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 
     @Override
     public void onMarkClickListener(Mark mark, View view, int typeClick) {
-
+        //do nothing
     }
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //setStringArrayList("" + pid, adapter_video.videoList);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //setStringArrayList("" + pid, adapter_video.plRelList);
-    }
-/*
+    /*
     public void setStringArrayList(String key, List<PlRelVideo> valueList) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = pref.edit();
@@ -343,7 +328,7 @@ public class PlayListEditActivity extends AppCompatActivity implements OnItemCli
 */
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
-
+        //do nothing
     }
 
     @Override

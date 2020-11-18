@@ -1,20 +1,15 @@
 package com.example.dbvideomarker.util;
 
 import android.annotation.SuppressLint;
-import android.app.RecoverableSecurityException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.IntentSender;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import com.example.dbvideomarker.database.entitiy.Media;
 
@@ -23,11 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static androidx.core.app.ActivityCompat.startIntentSenderForResult;
-
 public class MediaStoreLoader {
 
-    private static ArrayList<Integer> mediaIdList = new ArrayList<>();
+    private static final ArrayList<Integer> mediaIdList = new ArrayList<>();
     private String path;
 
     //@RequiresApi(api = Build.VERSION_CODES.Q)

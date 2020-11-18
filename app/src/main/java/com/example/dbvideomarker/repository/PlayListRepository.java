@@ -79,7 +79,7 @@ public class PlayListRepository {
             @Override
             protected void onPostExecute(Integer integer) {
                 super.onPostExecute(integer);
-                Log.d(TAG, "update : " + integer);
+                //Log.d(TAG, "update : " + integer);
             }
         }.execute(playList);
     }

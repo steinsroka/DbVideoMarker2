@@ -41,13 +41,13 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
 
     private final OnStartDragListener onStartDragListener;
     private List<Video> videoList;
-    private ViewCase sel_type;
-    private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
+    private final ViewCase sel_type;
+    private final SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
-    private OnItemSelectedListener onItemSelectedListener;
-    private OnItemClickListener onItemClickListener;
-    private RequestManager mRequestManager;
-    private boolean isVer = false;
+    private final OnItemSelectedListener onItemSelectedListener;
+    private final OnItemClickListener onItemClickListener;
+    private final RequestManager mRequestManager;
+    private final boolean isVer = false;
 
     public VideoAdapter(Context context, ViewCase sel_type, OnItemSelectedListener onItemSelectedListener, OnItemClickListener onItemClickListener, OnStartDragListener onStartDragListener) {
         LayoutInflater mInflater = LayoutInflater.from(context);
@@ -93,29 +93,7 @@ public class VideoAdapter extends RecyclerView.Adapter<MyItemView> implements Ca
                 //viewHolderNormal.vThumb.setImageBitmap(loader.getThumbnail(current.vpath, current.getVdur()/3));
                 viewHolderNormal.view.setOnClickListener(view -> onItemClickListener.clickItem(current.getContentId(), current.getVpath()));
                 viewHolderNormal.moreImage.setOnClickListener(v -> onItemClickListener.clickLongItem(v, current.getContentId(), current.getVpath()));
-                viewHolderNormal.ivIndicator.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (isVer) {
-                            isVer = false;
-                            viewHolderNormal.vMark.setVisibility(View.GONE);
-                        } else {
-                            isVer = true;
-                            viewHolderNormal.vMark.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                viewHolderNormal.ivIndicator.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (!isVer) {
-                            viewHolderNormal.ivIndicator.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-                        } else {
-                            viewHolderNormal.ivIndicator.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                        }
-                        return false;
-                    }
-                });
+
 
             } else {
                 viewHolderNormal.vName.setText("No Data");

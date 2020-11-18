@@ -14,9 +14,9 @@ import java.util.List;
 
 public class PlaylistViewModel extends AndroidViewModel {
 
-    private PlayListRepository playListRepository;
-    private PlayListEditRepository playListEditRepository;
-    private LiveData<List<PlayList>> allPlayList;
+    private final PlayListRepository playListRepository;
+    private final PlayListEditRepository playListEditRepository;
+    private final LiveData<List<PlayList>> allPlayList;
 
     public PlaylistViewModel(@NonNull Application application) {
         super(application);

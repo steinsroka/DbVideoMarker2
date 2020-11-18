@@ -15,8 +15,8 @@ import java.util.List;
 
 public class PlayListEditViewModel extends AndroidViewModel {
 
-    private PlayListEditRepository playListEditRepository;
-    private PlayListRepository playListRepository;
+    private final PlayListEditRepository playListEditRepository;
+    private final PlayListRepository playListRepository;
 
     public PlayListEditViewModel(@NonNull Application application) {
         super(application);

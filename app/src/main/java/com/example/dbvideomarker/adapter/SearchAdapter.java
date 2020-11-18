@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class SearchAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
-    private ArrayList<SearchGroupList> searchGroupListArrayList;
+    private final Context context;
+    private final ArrayList<SearchGroupList> searchGroupListArrayList;
 
     public SearchAdapter(Context context, ArrayList<SearchGroupList> arrayList) {
         this.context = context;

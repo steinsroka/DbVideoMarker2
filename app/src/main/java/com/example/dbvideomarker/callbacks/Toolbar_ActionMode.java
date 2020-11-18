@@ -1,17 +1,11 @@
 package com.example.dbvideomarker.callbacks;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.MainActivity;
@@ -25,13 +19,11 @@ import com.example.dbvideomarker.ui.mark.MarkFragment;
 import java.util.List;
 
 public class Toolbar_ActionMode implements ActionMode.Callback {
-    private Context context;
-    private VideoAdapter videoAdapter;
-    private MarkAdapter markAdapter;
-    private boolean isHomeFragment;
+    private final VideoAdapter videoAdapter;
+    private final MarkAdapter markAdapter;
+    private final boolean isHomeFragment;
 
     public Toolbar_ActionMode(Context context, VideoAdapter videoAdapter, MarkAdapter markAdapter, List<Video> videoList, List<Mark> markList, boolean isHomeFragment) {
-        this.context = context;
         this.videoAdapter = videoAdapter;
         this.markAdapter = markAdapter;
         this.isHomeFragment = isHomeFragment;

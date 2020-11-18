@@ -3,7 +3,6 @@ package com.example.dbvideomarker.listener;
 import android.view.View;
 
 import com.example.dbvideomarker.database.entitiy.Mark;
-import com.example.dbvideomarker.database.entitiy.Video;
 
 public interface OnMarkClickListener {
     void clickMark(int id, long start, String path);

@@ -2,7 +2,6 @@ package com.example.dbvideomarker.player;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -39,7 +38,6 @@ import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
-import com.example.dbvideomarker.ui.home.HomeViewModel;
 import com.example.dbvideomarker.util.MediaStoreLoader;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
@@ -49,7 +47,6 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class PlayerActivity extends AppCompatActivity implements OnItemClickListener, OnMarkClickListener, OnItemSelectedListener, View.OnClickListener {
 
@@ -57,7 +54,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     private MediaStoreLoader mediaStoreLoader;
 
     private int CONTENT_ID;
-    private long CONTENT_START;
     private String CONTENT_PATH;
 
     private boolean isVer = false;
@@ -69,20 +65,19 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     private AudioManager mAudioManager;
     private FrameLayout playerViewLayout;
     private TextView gesture_info;
-    private TextView video_name_top;
-    private TextView video_name;
     private GestureDetector gestureDetector;
 
     private ArrayList<Integer> numList = null;
-    private Uri uri;
 
     private Button change_view;
-    private ImageButton btn_next, btn_prev, btn_back, btn_full, btn_lock, btn_unlock;
+    private ImageButton btn_next;
+    private ImageButton btn_prev;
+    private ImageButton btn_unlock;
     private int index;
 
     private float initX, initY, changedX, changedY, diffX, diffY;
     private int widthOfScreen;
-    private boolean isLock = false;
+    private final boolean isLock = false;
     private boolean fullscreen = false;
     private boolean unLockIsGone = false;
 
@@ -110,20 +105,19 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                     switch (focusChange) {
                         case AudioManager.AUDIOFOCUS_GAIN:
                             if (simpleExoPlayer != null)
-                                //  player.getPlayer().setPlayWhenReady(true);
-                                break;
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            // Audio focus was lost, but it's possible to duck (i.e.: play quietly)
-                            if (simpleExoPlayer != null)
-                                simpleExoPlayer.setPlayWhenReady(false);
+                                simpleExoPlayer.setPlayWhenReady(true);
                             break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         case AudioManager.AUDIOFOCUS_LOSS:
                             // Lost audio focus, probably "permanently"
                             // Lost audio focus, but will gain it back (shortly), so note whether
                             // playback should resume
+                            // Audio focus was lost, but it's possible to duck (i.e.: play quietly)
                             if (simpleExoPlayer != null)
                                 simpleExoPlayer.setPlayWhenReady(false);
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -152,7 +146,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
             index = -1;
             CONTENT_ID = vid;
             CONTENT_PATH = vpath;
-            CONTENT_START = vstart;
         } else {
             CONTENT_ID = numList.get(index);
             CONTENT_PATH = mediaStoreLoader.getPathById(this, CONTENT_ID);
@@ -169,16 +162,16 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         componentListener = new ComponentListener();
         mAudioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
-        video_name = findViewById(R.id.video_name);
-        video_name_top = findViewById(R.id.exo_tv_name);
+        TextView video_name = findViewById(R.id.video_name);
+        TextView video_name_top = findViewById(R.id.exo_tv_name);
         gesture_info = findViewById(R.id.exo_center_wrapper_data);
         playerViewLayout = findViewById(R.id.playerView_layout);
         playerView = findViewById(R.id.exo_playerView);
-        btn_back = findViewById(R.id.exo_back);
-        btn_full = findViewById(R.id.btn_full);
+        ImageButton btn_back = findViewById(R.id.exo_back);
+        ImageButton btn_full = findViewById(R.id.btn_full);
         btn_next = findViewById(R.id.btn_next);
         btn_prev = findViewById(R.id.btn_prev);
-        btn_lock = findViewById(R.id.btn_lock);
+        ImageButton btn_lock = findViewById(R.id.btn_lock);
         btn_unlock = findViewById(R.id.btn_unlock);
 
         btn_back.setOnClickListener(this);
@@ -234,18 +227,15 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         });
 
         change_view = findViewById(R.id.change_view);
-        change_view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+        change_view.setOnTouchListener((view, motionEvent) -> {
 
-                if(!isVer) {
-                    change_view.setBackgroundResource(R.drawable.ic_baseline_view_module_24);
-                } else {
-                    change_view.setBackgroundResource(R.drawable.ic_baseline_view_list_24);
-                }
-
-                return false;
+            if(!isVer) {
+                change_view.setBackgroundResource(R.drawable.ic_baseline_view_module_24);
+            } else {
+                change_view.setBackgroundResource(R.drawable.ic_baseline_view_list_24);
             }
+
+            return false;
         });
     }
 
@@ -288,7 +278,7 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
     private void initializePlayer(String id) {
         simpleExoPlayer = new SimpleExoPlayer.Builder(this).build();
 
-        uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
+        Uri uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
 
         MediaItem item = MediaItem.fromUri(uri);
 
@@ -383,80 +373,75 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         }
 
         if (!isLock) {
-            playerView.setOnTouchListener(new View.OnTouchListener() {
+            playerView.setOnTouchListener((view, motionEvent) -> {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC); //터치 시작시점의 볼륨
+                        mBrightness = getWindow().getAttributes().screenBrightness;
 
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC); //터치 시작시점의 볼륨
-                            mBrightness = getWindow().getAttributes().screenBrightness;
+                        WindowManager wm1 = (WindowManager) PlayerActivity.this.getSystemService(Context.WINDOW_SERVICE);
+                        DisplayMetrics metrics = new DisplayMetrics();
+                        wm1.getDefaultDisplay().getMetrics(metrics);
+                        widthOfScreen = metrics.widthPixels;
 
-                            WindowManager wm = (WindowManager) PlayerActivity.this.getSystemService(Context.WINDOW_SERVICE);
-                            DisplayMetrics metrics = new DisplayMetrics();
-                            wm.getDefaultDisplay().getMetrics(metrics);
-                            widthOfScreen = metrics.widthPixels;
+                        initX = motionEvent.getRawX();
+                        initY = motionEvent.getRawY();
+                        break;
 
-                            initX = motionEvent.getRawX();
-                            initY = motionEvent.getRawY();
-                            break;
+                    case MotionEvent.ACTION_MOVE:
+                        mTouchAction = TOUCH_NONE;
+                        changedX = motionEvent.getRawX();
+                        changedY = motionEvent.getRawY();
 
-                        case MotionEvent.ACTION_MOVE:
-                            mTouchAction = TOUCH_NONE;
-                            changedX = motionEvent.getRawX();
-                            changedY = motionEvent.getRawY();
-
-                            diffX = (int) (initX - changedX);
-                            diffY = (int) (initY - changedY);
-                            if (Math.abs(diffX + diffY) > 100) {
-                                //움직인 좌표의 Y값을 X값 으로 나눴을때, 2이상(Y가 많이 움직임) 이면 볼륨, 밝기
-                                if (diffX != 0 && diffY != 0) {
-                                    if (Math.abs(diffY / diffX) > 2 && mTouchAction != TOUCH_SEEK) {
-                                        //볼륨, 밝기 증가+,감소-
-                                        //최초 터치 지점이 스크린 크기의 절반 이하 부분에서 발생했을때
-                                        if ((int) initX < widthOfScreen / 2) {
-                                            mTouchAction = TOUCH_BRI;
-                                            Log.d(TAG, "onTouch: " + initX + "<" + widthOfScreen / 2);
-                                            doBrightnessTouch(diffY);
-                                        }
-                                        if ((int) initX > widthOfScreen / 2) {
-                                            mTouchAction = TOUCH_VOL;
-                                            //볼륨 diffY값 볼륨줄임: 음수, 볼륨높임 양수
-                                            //gesture_info.setText("화면 높이: " + heightOfScreen + " 볼륨이" + initY + "에서" + changedY + "까지 변함 | 화면 백분율 기준" + diffY/heightOfScreen*100);
-                                            Log.d(TAG, "onTouch: " + initX + ">" + widthOfScreen / 2);
-                                            doVolumeTouch(diffY);
-                                        }
-
-                                    } else {
-                                        //do seek
-                                        mTouchAction = TOUCH_SEEK;
-                                        doSeekTouch(diffY, diffX, false);
+                        diffX = (int) (initX - changedX);
+                        diffY = (int) (initY - changedY);
+                        if (Math.abs(diffX + diffY) > 100) {
+                            //움직인 좌표의 Y값을 X값 으로 나눴을때, 2이상(Y가 많이 움직임) 이면 볼륨, 밝기
+                            if (diffX != 0 && diffY != 0) {
+                                if (Math.abs(diffY / diffX) > 2 && mTouchAction != TOUCH_SEEK) {
+                                    //볼륨, 밝기 증가+,감소-
+                                    //최초 터치 지점이 스크린 크기의 절반 이하 부분에서 발생했을때
+                                    if ((int) initX < widthOfScreen / 2) {
+                                        mTouchAction = TOUCH_BRI;
+                                        Log.d(TAG, "onTouch: " + initX + "<" + widthOfScreen / 2);
+                                        doBrightnessTouch(diffY);
                                     }
+                                    if ((int) initX > widthOfScreen / 2) {
+                                        mTouchAction = TOUCH_VOL;
+                                        //볼륨 diffY값 볼륨줄임: 음수, 볼륨높임 양수
+                                        //gesture_info.setText("화면 높이: " + heightOfScreen + " 볼륨이" + initY + "에서" + changedY + "까지 변함 | 화면 백분율 기준" + diffY/heightOfScreen*100);
+                                        Log.d(TAG, "onTouch: " + initX + ">" + widthOfScreen / 2);
+                                        doVolumeTouch(diffY);
+                                    }
+
+                                } else {
+                                    //do seek
+                                    mTouchAction = TOUCH_SEEK;
+                                    doSeekTouch(diffY, diffX, false);
                                 }
                             }
-                            break;
+                        }
+                        break;
 
-                        case MotionEvent.ACTION_UP:
-                            if (mTouchAction == TOUCH_SEEK) {
-                                //gesture_info.setText("화면 넓이: " + widthOfScreen + "|" + initX + "에서" + changedX + "까지 변함 | 화면 백분율 기준" + diffX/widthOfScreen*100);
-                                //앞으로 -, 뒤로 +
-                                Log.d(TAG, "onTouch: 앞뒤이동 " + initX + "|" + initY + "시작 /////" + changedX + "|" + changedY + "종료 /////" + "diffY 값 : " + diffX);
-                                doSeekTouch(diffY, diffX, true);
-                            }
-                            if (mTouchAction != TOUCH_NONE) {
-                                noGesture();
-                            }
+                    case MotionEvent.ACTION_UP:
+                        if (mTouchAction == TOUCH_SEEK) {
+                            //gesture_info.setText("화면 넓이: " + widthOfScreen + "|" + initX + "에서" + changedX + "까지 변함 | 화면 백분율 기준" + diffX/widthOfScreen*100);
+                            //앞으로 -, 뒤로 +
+                            Log.d(TAG, "onTouch: 앞뒤이동 " + initX + "|" + initY + "시작 /////" + changedX + "|" + changedY + "종료 /////" + "diffY 값 : " + diffX);
+                            doSeekTouch(diffY, diffX, true);
+                        }
+                        if (mTouchAction != TOUCH_NONE) {
+                            noGesture();
+                        }
 
-                            //diffx값 앞으로: 음수, 뒤로: 양수
+                        //diffx값 앞으로: 음수, 뒤로: 양수
 
-                            break;
-                        default:
-                            break;
-                    }
-                    gestureDetector.onTouchEvent(motionEvent);
-                    return mTouchAction != TOUCH_NONE;
-
+                        break;
+                    default:
+                        break;
                 }
+                gestureDetector.onTouchEvent(motionEvent);
+                return mTouchAction != TOUCH_NONE;
 
             });
         }
@@ -486,6 +471,9 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
                         data = "" + data1;
                     }
                     gesture_info.setText(mediaStoreLoader.getReadableDuration(Long.parseLong(data)) + "[" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getCurrentPosition()) + "/" + mediaStoreLoader.getReadableDuration(simpleExoPlayer.getDuration()) + "]");
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -589,16 +577,13 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
             btn_unlock.setVisibility(View.VISIBLE);
 
             playerViewLayout.setClickable(true);
-            playerViewLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (unLockIsGone) {
-                        btn_unlock.setVisibility(View.VISIBLE);
-                        unLockIsGone = false;
-                    } else {
-                        btn_unlock.setVisibility(View.GONE);
-                        unLockIsGone = true;
-                    }
+            playerViewLayout.setOnClickListener(view -> {
+                if (unLockIsGone) {
+                    btn_unlock.setVisibility(View.VISIBLE);
+                    unLockIsGone = false;
+                } else {
+                    btn_unlock.setVisibility(View.GONE);
+                    unLockIsGone = true;
                 }
             });
             return;
@@ -726,7 +711,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
             }
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) playerView.getLayoutParams();
-            //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) playerView.getLayoutParams();
             params.width = params.MATCH_PARENT;
             params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
             playerView.setLayoutParams(params);
@@ -754,12 +738,6 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
         @Override
         public void onPlaybackStateChanged(int state) {
             switch (state) {
-                case Player.STATE_IDLE:
-                    break;
-                case Player.STATE_BUFFERING:
-                    break;
-                case Player.STATE_READY:
-                    break;
                 case Player.STATE_ENDED:
                     if (index != -1) {
                         setNextVideo();
@@ -773,15 +751,17 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void clickItem(int id, String path) {
+        //do nothing
     }
 
     @Override
     public void clickLongItem(View v, int id, String path) {
+        //do nothing
     }
 
     @Override
     public void onClickListener(Video video, View view, int typeClick) {
-
+        //do nothing
     }
 
     @Override
@@ -791,15 +771,17 @@ public class PlayerActivity extends AppCompatActivity implements OnItemClickList
 
     @Override
     public void clickLongMark(View v, int id, String path) {
+        //do nothing
     }
 
     @Override
     public void onMarkClickListener(Mark mark, View view, int typeClick) {
-
+        //do nothing
     }
 
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
+        //do nothing
     }
 
 }

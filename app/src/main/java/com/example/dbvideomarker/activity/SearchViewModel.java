@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SearchViewModel extends AndroidViewModel {
 
-    private MarkRepository markRepository;
+    private final MarkRepository markRepository;
 
 
     public SearchViewModel(@NonNull Application application) {

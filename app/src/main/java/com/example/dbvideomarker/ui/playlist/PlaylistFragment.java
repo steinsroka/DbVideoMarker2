@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dbvideomarker.R;
-import com.example.dbvideomarker.activity.MainActivity;
 import com.example.dbvideomarker.activity.PlayListEditActivity;
 import com.example.dbvideomarker.activity.SearchActivity;
 import com.example.dbvideomarker.activity.setting.SettingActivity;
@@ -33,9 +32,9 @@ import com.example.dbvideomarker.adapter.PlayListAdapter;
 import com.example.dbvideomarker.adapter.VideoAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.adapter.viewholder.VideoViewHolderDrag;
+import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.listener.OnItemClickListener;
-import com.example.dbvideomarker.database.entitiy.PlayList;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
 import com.example.dbvideomarker.listener.OnPlaylistClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
@@ -52,28 +51,22 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
         rv = inflater.inflate(R.layout.fragment_playlist, container, false);
         context = rv.getContext();
 
-        rv.findViewById(R.id.btn_addPlayList).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                EditText plName = new EditText(getActivity());
-                mBuilder.setView(plName);
-                mBuilder.setTitle("재생목록 추가");
-                mBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (plName.getText().toString().trim().length() != 0) {
-                            PlayList playList = new PlayList();
-                            playList.setpName(plName.getText().toString());
-                            playList.setVcount(0);
-                            playList.setMcount(0);
-                            playlistViewModel.insertPlayList(playList);
-                        }
-                    }
-                });
-                AlertDialog dialog = mBuilder.create();
-                dialog.show();
-            }
+        rv.findViewById(R.id.btn_addPlayList).setOnClickListener(v -> {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+            EditText plName = new EditText(getActivity());
+            mBuilder.setView(plName);
+            mBuilder.setTitle("재생목록 추가");
+            mBuilder.setPositiveButton("확인", (dialog, which) -> {
+                if (plName.getText().toString().trim().length() != 0) {
+                    PlayList playList = new PlayList();
+                    playList.setpName(plName.getText().toString());
+                    playList.setVcount(0);
+                    playList.setMcount(0);
+                    playlistViewModel.insertPlayList(playList);
+                }
+            });
+            AlertDialog dialog = mBuilder.create();
+            dialog.show();
         });
 
         setPlaylistView();
@@ -121,6 +114,8 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
             case R.id.menu_search:
                 Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intentSearch);
+                break;
+            default:
                 break;
         }
         return true;
@@ -175,6 +170,8 @@ public class PlaylistFragment extends Fragment implements OnPlaylistClickListene
                     });
                     AlertDialog deletedialog = deletebuilder.create();
                     deletedialog.show();
+                    break;
+                default:
                     break;
             }
             return false;

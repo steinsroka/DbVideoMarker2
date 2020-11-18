@@ -61,22 +61,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:contentDescription="@string/StringValue"
-                app:layout_constraintBottom_toTopOf="@+id/ivIndicator"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/vName"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_more_vert_24" />
 
-            <ImageView
-                android:id="@+id/ivIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_baseline_keyboard_arrow_down_24"
-                android:contentDescription="@string/StringValue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/vName"
-                app:layout_constraintTop_toBottomOf="@+id/moreImage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

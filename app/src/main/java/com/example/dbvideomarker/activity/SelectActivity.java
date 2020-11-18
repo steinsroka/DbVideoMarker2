@@ -163,28 +163,32 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
 
     @Override
     public void clickItem(int id, String path) {
+        //Do nothing
     }
 
     @Override
     public void clickLongItem(View v, int id, String path) {
+        //Do nothing
     }
 
     @Override
     public void onClickListener(Video video, View view, int typeClick) {
-
+        //Do nothing
     }
 
     @Override
     public void clickMark(int id, long start, String path) {
+        //Do nothing
     }
 
     @Override
     public void clickLongMark(View v, int id, String path) {
+        //Do nothing
     }
 
     @Override
     public void onMarkClickListener(Mark mark, View view, int typeClick) {
-
+        //Do nothing
     }
 
     @Override
@@ -195,6 +199,6 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
 
     @Override
     public void onStartDrag(VideoViewHolderDrag mHolder) {
-
+        //Do nothing
     }
 }

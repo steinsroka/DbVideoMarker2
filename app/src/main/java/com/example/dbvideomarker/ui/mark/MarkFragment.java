@@ -33,16 +33,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.PlayListEditViewModel;
 import com.example.dbvideomarker.activity.SearchActivity;
-import com.example.dbvideomarker.activity.SelectActivity;
 import com.example.dbvideomarker.activity.setting.SettingActivity;
 import com.example.dbvideomarker.adapter.MarkAdapter;
 import com.example.dbvideomarker.adapter.util.ViewCase;
 import com.example.dbvideomarker.callbacks.Toolbar_ActionMode;
+import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.database.entitiy.PlRel;
-import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.database.entitiy.Mark;
 import com.example.dbvideomarker.listener.OnMarkClickListener;
 import com.example.dbvideomarker.player.PlayerActivity;
 
@@ -51,7 +49,6 @@ import java.util.List;
 
 public class MarkFragment extends Fragment implements OnMarkClickListener, OnItemSelectedListener {
 
-    private int SELECT_PLAYLIST_REQUEST_CODE = 1003;
     private MarkViewModel markViewModel;
     private PlayListEditViewModel playListEditViewModel;
     private MarkAdapter markAdapter;
@@ -98,6 +95,8 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                 break;
             case 1:
                 onListItemSelect(position);
+                break;
+            default:
                 break;
         }
     }
@@ -154,6 +153,7 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
+            int SELECT_PLAYLIST_REQUEST_CODE = 1003;
             if (requestCode == SELECT_PLAYLIST_REQUEST_CODE) {
                 assert data != null;
                 ArrayList<Integer> selectedPidList = data.getIntegerArrayListExtra("pidlist");
@@ -217,8 +217,8 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
 
         if (mActionMode != null)
             //set action mode title on item selection
-            mActionMode.setTitle(String.valueOf(markAdapter
-                    .getSelectedCount()) + " selected");
+            mActionMode.setTitle(markAdapter
+                    .getSelectedCount() + " selected");
     }
 
     public int sort() {
@@ -268,6 +268,8 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                 Intent intentSearch = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intentSearch);
                 break;
+            default:
+                break;
         }
         return true;
     }
@@ -307,13 +309,13 @@ public class MarkFragment extends Fragment implements OnMarkClickListener, OnIte
                 case (R.id.popup_delete):
                     AlertDialog.Builder deletebuilder = new AlertDialog.Builder(getActivity());
                     deletebuilder.setMessage("북마크를 삭제하시겠습니까?");
-                    deletebuilder.setPositiveButton("확인", (dialogInterface, i) -> {
-                        markViewModel.deleteMark(id);
-                    });
+                    deletebuilder.setPositiveButton("확인", (dialogInterface, i) -> markViewModel.deleteMark(id));
                     deletebuilder.setNegativeButton("취소", (dialogInterface, i) -> {
                     });
                     AlertDialog deletedialog = deletebuilder.create();
                     deletedialog.show();
+                    break;
+                default:
                     break;
             }
             return false;

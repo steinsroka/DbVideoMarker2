@@ -19,7 +19,7 @@ import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static ViewPagerAdapter adapter;
+    ViewPagerAdapter adapter;
     MarkFragment markFragment;
     HomeFragment homeFragment;
     PlaylistFragment playlistFragment;

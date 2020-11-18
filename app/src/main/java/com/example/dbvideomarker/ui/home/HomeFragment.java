@@ -24,7 +24,6 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -32,14 +31,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.example.dbvideomarker.R;
 import com.example.dbvideomarker.activity.InfoActivity;
 import com.example.dbvideomarker.activity.PlayListEditViewModel;
@@ -55,15 +50,14 @@ import com.example.dbvideomarker.database.entitiy.Video;
 import com.example.dbvideomarker.dialog.BottomSheetDialog;
 import com.example.dbvideomarker.listener.OnItemClickListener;
 import com.example.dbvideomarker.listener.OnItemSelectedListener;
-import com.example.dbvideomarker.util.MediaStoreLoader;
 import com.example.dbvideomarker.player.PlayerActivity;
+import com.example.dbvideomarker.util.MediaStoreLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OnItemSelectedListener, OnItemClickListener, VideoAdapter.OnStartDragListener {
 
-    private String TAG = HomeFragment.class.getSimpleName();
     private HomeViewModel homeViewModel;
     private PlayListEditViewModel playListEditViewModel;
     private VideoAdapter videoAdapter;
@@ -123,9 +117,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
         }
 
         Button buttonSortDialog = v.findViewById(R.id.video_sort);
-        buttonSortDialog.setOnClickListener(v -> {
-            selectedSort = sort();
-        });
+        buttonSortDialog.setOnClickListener(v -> selectedSort = sort());
         return v;
     }
 
@@ -144,6 +136,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 break;
             case 1:
                 onListItemSelect(position);
+                break;
+            default:
                 break;
         }
     }
@@ -312,6 +306,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
             case R.id.menu_scan:
                 addMediaDataToRoom();
                 break;
+            default:
+                break;
         }
         return true;
     }
@@ -369,14 +365,14 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
                 case (R.id.popup_delete):
                     AlertDialog.Builder deletebuilder = new AlertDialog.Builder(getActivity());
                     deletebuilder.setMessage("동영상을 삭제하시겠습니까?");
-                    deletebuilder.setPositiveButton("확인", (dialogInterface, i) -> {
-                        deleteVideo(id);
-                    });
+                    deletebuilder.setPositiveButton("확인", (dialogInterface, i) -> deleteVideo(id));
                     deletebuilder.setNegativeButton("취소", (dialogInterface, i) -> {
                     });
                     AlertDialog deletedialog = deletebuilder.create();
                     deletedialog.show();
 
+                    break;
+                default:
                     break;
             }
             return false;
@@ -432,8 +428,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener, On
 
         if (mActionMode != null)
             //set action mode title on item selection
-            mActionMode.setTitle(String.valueOf(videoAdapter
-                    .getSelectedCount()) + " selected");
+            mActionMode.setTitle(videoAdapter
+                    .getSelectedCount() + " selected");
     }
 
     public void setNullToActionMode() {

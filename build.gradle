@@ -8,11 +8,13 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath files("C:/Users/TREEM/AppData/Local/Suresofttech/STATIC Toolbox/apps/STATIC Client for Java v1.2.2/build-tools/static-gradle-plugin/static-gradle-plugin-1.0-SNAPSHOT.jar")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
+apply plugin: 'static'
 
 allprojects {
     repositories {

@@ -7,12 +7,19 @@
     android:orientation="vertical"
     tools:ignore="Overdraw">
 
+
     <Button
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="추가"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginLeft="10dp"
+        android:background="#00FF0000"
+        android:drawableLeft="@drawable/ic_baseline_playlist_add_24"
+        android:text=" 재생목록에 추가"
+        android:textColor="#FFF"
         tools:ignore="HardcodedText" />
+
 
     <FrameLayout
         android:id="@+id/video_select_view"

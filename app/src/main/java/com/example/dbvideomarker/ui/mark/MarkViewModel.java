@@ -14,9 +14,9 @@ import java.util.List;
 
 public class MarkViewModel extends AndroidViewModel {
 
-    private MarkRepository markRepository;
+    private final MarkRepository markRepository;
     private PlayListEditRepository playListEditRepository;
-    private LiveData<List<Mark>> allMark;
+    private final LiveData<List<Mark>> allMark;
 
     public MarkViewModel(@NonNull Application application) {
         super(application);

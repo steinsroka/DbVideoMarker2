@@ -26,12 +26,12 @@ import java.util.List;
 
 public class PlayListAdapter extends RecyclerView.Adapter<MyItemView> {
 
-    private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
-    private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
-    private OnItemSelectedListener onItemSelectedListener;
-    private OnPlaylistClickListener onPlaylistClickListener;
+    private final SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
+    private final SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
+    private final OnItemSelectedListener onItemSelectedListener;
+    private final OnPlaylistClickListener onPlaylistClickListener;
     private List<PlayList> playListList;
-    private ViewCase sel_type;
+    private final ViewCase sel_type;
     private PlayListEditViewModel playListEditViewModel;
 
     public PlayListAdapter(Context context, ViewCase sel_type, OnPlaylistClickListener onPlaylistClickListener, OnItemSelectedListener onItemSelectedListener) {

@@ -15,9 +15,9 @@ import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
 
-    private MarkRepository markRepository;
-    private VideoRepository videoRepository;
-    private LiveData<List<Video>> allVideo;
+    private final MarkRepository markRepository;
+    private final VideoRepository videoRepository;
+    private final LiveData<List<Video>> allVideo;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);

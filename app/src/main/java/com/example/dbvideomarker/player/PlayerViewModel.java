@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PlayerViewModel extends AndroidViewModel {
 
-    private MarkRepository markRepository;
+    private final MarkRepository markRepository;
 
     public PlayerViewModel(@NonNull Application application) {
         super(application);

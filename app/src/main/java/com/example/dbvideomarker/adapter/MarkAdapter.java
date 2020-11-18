@@ -26,13 +26,13 @@ import java.util.List;
 
 public class MarkAdapter extends RecyclerView.Adapter<MyItemView> {
 
-    private OnMarkClickListener onMarkClickListener;
-    private OnItemSelectedListener onItemSelectedListener;
-    private SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
+    private final OnMarkClickListener onMarkClickListener;
+    private final OnItemSelectedListener onItemSelectedListener;
+    private final SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
     private SparseBooleanArray mSelectedItemIds = new SparseBooleanArray(0);
     private List<Mark> markList;
-    private ViewCase sel_type;
-    private Context context;
+    private final ViewCase sel_type;
+    private final Context context;
 
     public MarkAdapter(Context context, ViewCase sel_type, OnMarkClickListener onMarkClickListener, OnItemSelectedListener onItemSelectedListener) {
         LayoutInflater mInflater = LayoutInflater.from(context);
