@@ -24,10 +24,6 @@ public class SearchViewModel extends AndroidViewModel {
         markRepository = new MarkRepository(application);
     }
 
-//    public LiveData<List<Video>> getSearchVideo(String vname) {
-//        return videoRepository.getSearchVideo(vname);
-//    }
-
     public LiveData<List<Mark>> getSearchMark(String mmemo) {
         return markRepository.getSearchMark(mmemo);
     }

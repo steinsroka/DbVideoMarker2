@@ -8,5 +8,8 @@
     <color name="colorToolbarEx">#212121</color>
     <color name="colorText">#3F51B5</color>
     <color name="colorBasicText">#ffffff</color>
+    <color name="colorBasicTextOpacity">#80ffffff</color>
+    <color name="colorCursor">#D5355F</color>
+    <color name="colorCursorOpacity">#80D5355F</color>
     <color name="default_playback_background">#3D000000</color>
 </resources>

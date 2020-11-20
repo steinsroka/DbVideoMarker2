@@ -1,7 +1,6 @@
 <resources>
-    <!-- Base application theme. -->
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="windowActionModeOverlay">true</item>
         <item name="colorPrimary">@color/colorToolbar</item>
         <item name="colorPrimaryDark">@color/colorToolbarEx</item>
@@ -19,9 +18,17 @@
     </style>
 
     <style name="PreferenceScreen" parent="Theme.AppCompat">
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textColorPrimary">#ffffff</item>
-        <item name="colorAccent">#D5355F</item>
+        <item name="android:textColor">@color/colorBasicText</item>
+        <item name="android:textColorPrimary">@color/colorBasicText</item>
+        <item name="colorAccent">@color/colorCursor</item>
+        <item name="colorPrimary">@color/colorToolbar</item>
+        <item name="colorPrimaryDark">@color/colorToolbarEx</item>
     </style>
 
+    <style name="EditText" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/colorBasicText</item>
+        <item name="android:textColorHint">@color/colorBasicTextOpacity</item>
+        <item name="colorControlNormal">@color/colorCursorOpacity</item>
+        <item name="colorControlActivated">@color/colorCursor</item>
+    </style>
 </resources>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -44,6 +45,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
         videoRepository = new VideoRepository(getApplication());
         markRepository = new MarkRepository(getApplication());
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         EditText editText = findViewById(R.id.editText);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -67,75 +69,17 @@ public class SearchActivity extends AppCompatActivity implements OnItemClickList
             }
         });
 
-            /*
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                videoRepository = new VideoRepository(getApplication());
-                markRepository = new MarkRepository(getApplication());
-                listVideo = new ArrayList<>();
-                listMark = new ArrayList<>();
-                ArrayList<SearchGroupList> list = new ArrayList<>();
-                list.add(null);
-                list.add(null);
-
-                if (videoRepository.searchVideo(s.toString()) != null) {
-                    videoLiveData = videoRepository.searchVideo(s.toString());
-                }
-                if (markRepository.getSearchMark(s.toString()) != null) {
-                    markLiveData = markRepository.getSearchMark(s.toString());
-                }
-
-                videoLiveData.observe(SearchActivity.this, new Observer<List<Video>>() {
-                    @Override
-                    public void onChanged(List<Video> videos) {
-                        listVideo.addAll(videos);
-                        for (int i = 0; i < listVideo.size(); i++)
-                            Log.d("asd", "onChanged : " + listVideo.get(i).getVname());
-                        Log.d("asd", "listVideo.size : " + String.valueOf(listVideo.size()));
-                        for (int i = 0; i < listVideo.size(); i++) {
-                            videoGroup.add(new SearchItemList(R.drawable.ic_baseline_search_24, listVideo.get(i).vdur, listVideo.get(i).getVname(), String.valueOf(listVideo.get(i).getContentId())));
-                            Log.d("asd", "add : " + videoGroup.get(i).getvName());
-                        }
-                        videoGroupList.setSearchItemLists(videoGroup);
-                        list.set(0, videoGroupList);
-                        if (listVideo.size() == 0)
-                            searchAdapter.setList(null);
-                        else
-                            searchAdapter.setList(list);
-                        Log.d("asd", "child : " + searchAdapter.getChild(0, 0));
-                        expandableListView.setAdapter(searchAdapter);
-                        expandableListView.expandGroup(0);
-                    }
-                });
-
-                markLiveData.observe(SearchActivity.this, new Observer<List<Mark>>() {
-                    @Override
-                    public void onChanged(List<Mark> marks) {
-                        listMark.addAll(marks);
-                        for (int i = 0; i < listMark.size(); i++)
-                            markGroup.add(new SearchItemList(R.drawable.ic_baseline_search_24, String.valueOf(listMark.get(i).getmStart()), listVideo.get(i).getVname() + " / " + listMark.get(i).getmMemo(), String.valueOf(listMark.get(i).getmid())));
-                        markGroupList.setSearchItemLists(markGroup);
-                        list.set(1, markGroupList);
-                        if (listMark.size() == 0)
-                            searchAdapter.setList(null);
-                        else
-                            searchAdapter.setList(list);
-                        expandableListView.setAdapter(searchAdapter);
-                        expandableListView.expandGroup(1);
-                    }
-                });
-            }
-        });
-
-        expandableListView.setAdapter(searchAdapter);
-
-        expandableListView.expandGroup(0);
-        expandableListView.expandGroup(1);
- */
-
         setMarkSearchResult();
         setVideoSearchResult();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void setVideoSearchResult() {
