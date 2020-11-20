@@ -65,14 +65,6 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
             videoSelectView.setVisibility(View.GONE);
             playlistSelectView.setVisibility(View.GONE);
         }
-
-       /* else if(VIEW_TYPE == 2003) {
-            setPlaylistSelectView();
-            markSelectView.setVisibility(View.GONE);
-            videoSelectView.setVisibility(View.GONE);
-            playlistSelectView.setVisibility(View.VISIBLE);
-        }*/
-
     }
 
     public void setVideoSelectView() {
@@ -95,23 +87,6 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
         markViewModel.getAllMark().observe(this, adapter::setMarks);
     }
 
-    /*
-        public void setPlaylistSelectView() {
-            RecyclerView recyclerView = findViewById(R.id.rv_select_playlist);
-            PlayListAdapter adapter = new PlayListAdapter(this, ViewCase.SELECT, this, this);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            recyclerView.setAdapter(adapter);
-
-            playlistViewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
-            playlistViewModel.findAllPlayList().observe(this, new Observer<List<PlayList>>() {
-                @Override
-                public void onChanged(List<PlayList> playLists) {
-                    adapter.setPlayLists(playLists);
-                }
-            });
-
-        }
-    */
     @Override
     public void onItemSelected(View v, SparseBooleanArray sparseBooleanArray) {
         Button btnSelection;
@@ -143,22 +118,6 @@ public class SelectActivity extends AppCompatActivity implements OnItemSelectedL
                 finish();
             });
         }
-        /*
-        else if(VIEW_TYPE == 2003) {
-            ArrayList<Integer> idList = new ArrayList<>();
-            for(int i=0; i<sparseBooleanArray.size(); i++) {
-                idList.add(sparseBooleanArray.keyAt(i));
-            }
-
-            btnSelection = findViewById(R.id.btn_add);
-            btnSelection.setOnClickListener(view -> {
-                Intent resultIntent = new Intent();
-                resultIntent.putIntegerArrayListExtra("pidlist", idList);
-                setResult(RESULT_OK, resultIntent);
-                finish();
-            });
-        }
-        */
     }
 
     @Override
