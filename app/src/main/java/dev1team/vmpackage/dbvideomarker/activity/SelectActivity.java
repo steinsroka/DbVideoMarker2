@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 import dev1team.vmpackage.dbvideomarker.adapter.MarkAdapter;
 import dev1team.vmpackage.dbvideomarker.adapter.VideoAdapter;
 import dev1team.vmpackage.dbvideomarker.adapter.util.ViewCase;

@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 import dev1team.vmpackage.dbvideomarker.adapter.MarkAdapter;
 import dev1team.vmpackage.dbvideomarker.adapter.util.ViewCase;
 import dev1team.vmpackage.dbvideomarker.database.entitiy.Mark;

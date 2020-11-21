@@ -36,7 +36,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 import dev1team.vmpackage.dbvideomarker.activity.InfoActivity;
 import dev1team.vmpackage.dbvideomarker.activity.PlayListEditViewModel;
 import dev1team.vmpackage.dbvideomarker.activity.SearchActivity;

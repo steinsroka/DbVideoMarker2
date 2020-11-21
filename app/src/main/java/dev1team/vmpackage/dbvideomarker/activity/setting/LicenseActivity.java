@@ -7,8 +7,7 @@ import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dbvideomarker.R;
-
+import dev1team.vmpackage.dbvideomarker.R;
 
 public class LicenseActivity extends AppCompatActivity {
 

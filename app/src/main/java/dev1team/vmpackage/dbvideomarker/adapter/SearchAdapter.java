@@ -8,7 +8,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 import dev1team.vmpackage.dbvideomarker.database.entitiy.SearchGroupList;
 import dev1team.vmpackage.dbvideomarker.database.entitiy.SearchItemList;
 

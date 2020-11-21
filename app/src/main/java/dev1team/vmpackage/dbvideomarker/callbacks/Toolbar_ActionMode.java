@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
 
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 import dev1team.vmpackage.dbvideomarker.activity.MainActivity;
 import dev1team.vmpackage.dbvideomarker.adapter.MarkAdapter;
 import dev1team.vmpackage.dbvideomarker.adapter.VideoAdapter;

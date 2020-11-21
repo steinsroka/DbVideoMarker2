@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.example.dbvideomarker"
+        applicationId "dev1team.vmpackage.dbvideomarker"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

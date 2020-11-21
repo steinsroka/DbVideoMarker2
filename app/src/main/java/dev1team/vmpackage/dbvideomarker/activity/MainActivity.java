@@ -10,7 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 import dev1team.vmpackage.dbvideomarker.adapter.ViewPagerAdapter;
 import dev1team.vmpackage.dbvideomarker.ui.home.HomeFragment;
 import dev1team.vmpackage.dbvideomarker.ui.mark.MarkFragment;

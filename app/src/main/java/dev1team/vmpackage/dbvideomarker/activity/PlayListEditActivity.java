@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 import dev1team.vmpackage.dbvideomarker.adapter.MarkAdapter;
 import dev1team.vmpackage.dbvideomarker.adapter.VideoAdapter;
 import dev1team.vmpackage.dbvideomarker.adapter.util.Callback;

@@ -8,8 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.dbvideomarker.R;
-
+import dev1team.vmpackage.dbvideomarker.R;
 public class InquiryActivity extends AppCompatActivity {
 
     public String getDeviceModel() {

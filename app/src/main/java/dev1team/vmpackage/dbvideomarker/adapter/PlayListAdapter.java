@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 import dev1team.vmpackage.dbvideomarker.activity.PlayListEditViewModel;
 import dev1team.vmpackage.dbvideomarker.adapter.util.MyItemView;
 import dev1team.vmpackage.dbvideomarker.adapter.util.ViewCase;

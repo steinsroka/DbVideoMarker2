@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 import dev1team.vmpackage.dbvideomarker.activity.PlayListEditViewModel;
 import dev1team.vmpackage.dbvideomarker.adapter.PlayListAdapter;
 import dev1team.vmpackage.dbvideomarker.adapter.util.ViewCase;

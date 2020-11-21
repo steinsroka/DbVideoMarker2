@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.example.dbvideomarker.R;
+import dev1team.vmpackage.dbvideomarker.R;
 
 public class SettingFragment extends PreferenceFragmentCompat {
 
