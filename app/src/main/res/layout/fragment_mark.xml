@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.mark.MarkFragment">
+    tools:context="dev1team.vmpackage.dbvideomarker.ui.mark.MarkFragment">
 
 
     <Button

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="player.PlayerActivity">
+    tools:context="dev1team.vmpackage.dbvideomarker.player.PlayerActivity">
 
     <FrameLayout
         android:id="@+id/playerView_layout"

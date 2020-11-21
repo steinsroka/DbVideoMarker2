@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBG"
     android:orientation="vertical"
-    tools:context=".ui.home.HomeFragment"
+    tools:context="dev1team.vmpackage.dbvideomarker.ui.home.HomeFragment"
     tools:ignore="Overdraw">
 
     <Button

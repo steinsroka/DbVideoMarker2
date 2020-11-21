@@ -22,9 +22,28 @@ android {
         }
     }
 
-    compileOptions {           
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        checkAllWarnings false
+        warningsAsErrors true
+        disable 'TypographyFractions', 'TypographyQuotes'
+        enable 'RtlHardcoded', 'RtlCompat', 'RtlEnabled'
+        noLines true
+        showAll true
+        lintConfig file("default-lint.xml")
+        textReport true
+        textOutput 'stdout'
+        xmlReport true
+        xmlOutput file("lint-report.xml")
+        htmlReport false
+        htmlOutput file("lint-report.html")
     }
 }
 

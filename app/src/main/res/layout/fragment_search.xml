@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBG"
     android:orientation="vertical"
-    tools:context="activity.SearchActivity"
+    tools:context="dev1team.vmpackage.dbvideomarker.activity.SearchActivity"
     tools:ignore="Overdraw">
 
     <EditText
