@@ -15,16 +15,16 @@
             android:key="inquiry"
             android:title="1:1 고객 문의">
             <intent
-                android:targetClass="com.example.dbvideomarker.activity.setting.InquiryActivity"
-                android:targetPackage="com.example.dbvideomarker" />
+                android:targetClass="dev1team.vmpackage.dbvideomarker.activity.setting.InquiryActivity"
+                android:targetPackage="dev1team.vmpackage.dbvideomarker" />
         </PreferenceScreen>
 
         <PreferenceScreen
             android:key="privacy"
             android:title="개인 정보 처리 방침">
             <intent
-                android:targetClass="com.example.dbvideomarker.activity.setting.PrivacyActivity"
-                android:targetPackage="com.example.dbvideomarker" />
+                android:targetClass="dev1team.vmpackage.dbvideomarker.activity.setting.PrivacyActivity"
+                android:targetPackage="dev1team.vmpackage.dbvideomarker" />
 
         </PreferenceScreen>
 
@@ -32,8 +32,8 @@
             android:key="open_licence"
             android:title="오픈 라이센스 정보">
             <intent
-                android:targetClass="com.example.dbvideomarker.activity.setting.LicenseActivity"
-                android:targetPackage="com.example.dbvideomarker" />
+                android:targetClass="dev1team.vmpackage.dbvideomarker.activity.setting.LicenseActivity"
+                android:targetPackage="dev1team.vmpackage.dbvideomarker" />
         </PreferenceScreen>
 
         <PreferenceScreen

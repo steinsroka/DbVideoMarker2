@@ -2,7 +2,7 @@
 <androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_settings"
-    android:name="com.example.dbvideomarker.activity.setting.SettingFragment"
+    android:name="dev1team.vmpackage.dbvideomarker.activity.setting.SettingFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="-40dp"

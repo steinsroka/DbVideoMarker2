@@ -1,7 +1,6 @@
 package dev1team.vmpackage.dbvideomarker.activity.setting;
 
 import android.os.Bundle;
-
 import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
