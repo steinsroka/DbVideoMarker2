@@ -27,3 +27,6 @@
 ### 결과물
 <img width="756" alt="스크린샷 2023-04-09 오후 4 00 34" src="https://user-images.githubusercontent.com/62500287/230759165-e3eb2b40-2fd0-46ee-a5c5-f19de8d1e389.png">
 
+### 정적 테스트
+Suresoft사의 정적 테스트를 이용한 테스트 결과
+[https://github.com/steinsroka/DbVideoMarker2/tree/master/%E1%84%90%E1%85%A6%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3%20%E1%84%80%E1%85%A7%E1%86%AF%E1%84%80%E1%85%AA]
